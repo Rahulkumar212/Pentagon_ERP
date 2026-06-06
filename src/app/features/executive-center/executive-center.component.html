@@ -1,0 +1,171 @@
+<div class="space-y-6">
+
+  <!-- Header -->
+  <div class="border-b border-gray-200 pb-4">
+
+    <p class="uppercase tracking-[0.15em] text-red-800 text-xs font-bold">
+      Pentagon Business Console
+    </p>
+
+    <h1 class="text-3xl font-bold text-gray-900 mt-1">
+      Welcome, Sales Executive
+    </h1>
+
+    <p class="text-sm text-gray-500 mt-2">
+      Code:
+      <span class="font-semibold">SME001</span>
+      |
+      Department:
+      <span class="font-semibold">Sales and Marketing</span>
+      |
+      Location:
+      <span class="font-semibold">South India</span>
+    </p>
+
+  </div>
+
+  <!-- KPI Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+
+    @for(card of cards; track card.title){
+
+    <div
+      class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition"
+    >
+      <p
+        class="text-[11px] uppercase tracking-wider font-semibold text-gray-500"
+      >
+        {{ card.title }}
+      </p>
+
+      <h2
+        class="text-2xl font-bold text-gray-900 mt-3"
+      >
+        {{ card.value }}
+      </h2>
+
+      <p
+        class="mt-2 text-xs font-medium"
+        [class]="card.color"
+      >
+        {{ card.description }}
+      </p>
+
+    </div>
+
+    }
+
+  </div>
+
+  <!-- CRM Lead Pipeline -->
+  <div
+    class="bg-white rounded-xl border border-gray-200 shadow-sm"
+  >
+
+    <div
+      class="px-5 py-4 border-b border-gray-200"
+    >
+      <h2
+        class="text-lg font-semibold text-gray-900"
+      >
+        CRM Lead Pipeline
+      </h2>
+    </div>
+
+    <div class="overflow-x-auto">
+
+      <table class="w-full">
+
+        <thead>
+
+          <tr
+            class="border-b border-gray-200 text-xs uppercase text-gray-500"
+          >
+            <th class="px-5 py-3 text-left">
+              Organization
+            </th>
+
+            <th class="px-5 py-3 text-left">
+              Contact
+            </th>
+
+            <th class="px-5 py-3 text-left">
+              Attempts
+            </th>
+
+            <th class="px-5 py-3 text-left">
+              Status
+            </th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for(lead of leads; track lead.id){
+
+          <tr
+            class="border-b border-gray-100 hover:bg-gray-50"
+          >
+
+            <td class="px-5 py-4">
+
+              <p
+                class="text-sm font-semibold text-gray-900"
+              >
+                {{ lead.organization }}
+              </p>
+
+              <p
+                class="text-xs text-gray-500"
+              >
+                {{ lead.source }}
+              </p>
+
+            </td>
+
+            <td class="px-5 py-4">
+
+              <p
+                class="text-sm font-medium"
+              >
+                {{ lead.contactPerson }}
+              </p>
+
+              <p
+                class="text-xs text-gray-500"
+              >
+                {{ lead.phone }}
+              </p>
+
+            </td>
+
+            <td
+              class="px-5 py-4 text-sm font-semibold"
+            >
+              {{ lead.attempts }}
+            </td>
+
+            <td class="px-5 py-4">
+
+              <span
+                class="px-3 py-1 text-xs font-semibold rounded-full bg-green-100 text-green-700"
+              >
+                {{ lead.status }}
+              </span>
+
+            </td>
+
+          </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+</div>
