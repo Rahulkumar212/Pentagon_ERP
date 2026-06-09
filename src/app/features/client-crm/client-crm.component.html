@@ -1,0 +1,73 @@
+<div
+  class="w-full min-w-0 overflow-x-hidden space-y-6"
+>
+
+  <!-- Header -->
+
+  <div class="border-b border-gray-200 pb-5">
+
+    <p
+      class="uppercase tracking-[0.2em] text-red-800 text-xs font-bold"
+    >
+      Sales And Marketing Operations
+    </p>
+
+    <h1
+      class="text-3xl font-bold text-gray-900 mt-1"
+    >
+      Client Accounts CRM
+    </h1>
+
+    <p
+      class="text-gray-500 mt-3 text-sm"
+    >
+      Interconnected CRM records mapping Client Accounts,
+      duplicate phone/email checkpoints and location-based
+      sales team allocations.
+    </p>
+
+  </div>
+
+  <!-- Action -->
+
+  <button
+    (click)="openOrganizationModal()"
+    class="bg-red-800 hover:bg-red-900 text-white px-6 py-3 rounded-lg font-semibold"
+  >
+    🏢 Add Client Organization
+  </button>
+
+  <!-- Organizations Table -->
+
+  <div class="w-full min-w-0">
+    <app-organization-table
+      [organizations]="organizations"
+    >
+    </app-organization-table>
+  </div>
+
+</div>
+
+<!-- Modal -->
+
+@if(showOrganizationModal){
+
+<div
+  class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
+>
+
+  <div
+    class="bg-white rounded-2xl w-full max-w-3xl max-h-[85vh] overflow-y-auto shadow-2xl"
+  >
+
+    <app-organization-form
+      (close)="closeOrganizationModal()"
+      (save)="saveOrganization($event)"
+    >
+    </app-organization-form>
+
+  </div>
+
+</div>
+
+}

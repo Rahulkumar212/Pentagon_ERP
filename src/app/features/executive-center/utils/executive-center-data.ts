@@ -34,7 +34,7 @@ export const EXECUTIVE_LEADS = [
     phone: '+91 7714455600',
     email: 'rksahu.igmh@cg.gov.in',
     attempts: '1 / 15',
-    status: 'CONVERTED'
+    status: 'ASSIGNED' as const
   },
   {
     id: 2,
@@ -44,7 +44,7 @@ export const EXECUTIVE_LEADS = [
     phone: '+91 9811054321',
     email: 'preeti.singh@sbicard.com',
     attempts: '5 / 15',
-    status: 'CONVERTED'
+    status: 'ASSIGNED' as const
   },
   {
     id: 3,
@@ -54,7 +54,7 @@ export const EXECUTIVE_LEADS = [
     phone: '+91 9910087654',
     email: 'sverma@gmrgroup.in',
     attempts: '2 / 15',
-    status: 'CONVERTED'
+    status: 'ASSIGNED' as const
   }
 ];
 

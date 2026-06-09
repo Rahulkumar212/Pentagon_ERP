@@ -5,9 +5,8 @@ import {
   Validators
 } from '@angular/forms';
 
-import { Router} from '@angular/router';
-
-import { LOGIN_CREDENTIALS } from '../../utils/auth-data';
+import { Router } from '@angular/router';
+import { AuthService } from '../../../../core/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -19,13 +18,28 @@ export class LoginComponent {
 
   private fb = inject(FormBuilder);
   private router = inject(Router);
+  private authService = inject(AuthService);
 
   errorMessage = '';
 
+  // 👇 Add this
+  showPassword = false;
+
   loginForm = this.fb.group({
-    employeeCode: ['', Validators.required],
-    password: ['', Validators.required],
+    employeeCode: [
+      '',
+      Validators.required
+    ],
+    password: [
+      '',
+      Validators.required
+    ],
   });
+
+  // 👇 Add this
+  togglePassword(): void {
+    this.showPassword = !this.showPassword;
+  }
 
   onSubmit(): void {
 
@@ -34,26 +48,27 @@ export class LoginComponent {
       return;
     }
 
-    const { employeeCode, password } =
-      this.loginForm.getRawValue();
+    const {
+      employeeCode,
+      password
+    } = this.loginForm.getRawValue();
 
-    const user = LOGIN_CREDENTIALS.find(
-      credential =>
-        credential.employeeCode === employeeCode &&
-        credential.password === password
-    );
+    const isLoggedIn =
+      this.authService.login(
+        employeeCode!,
+        password!
+      );
 
-    if (!user) {
+    if (!isLoggedIn) {
+
       this.errorMessage =
         'Invalid Employee Code or Password';
+
       return;
     }
 
-    localStorage.setItem(
-      'user',
-      JSON.stringify(user)
-    );
-
-    this.router.navigate(['/executive-center']);
+    this.router.navigate([
+      '/executive-center'
+    ]);
   }
 }

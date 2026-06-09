@@ -1,140 +1,98 @@
-<div
-  class="min-h-screen bg-gradient-to-br from-red-50 via-rose-50 to-red-100 flex items-center justify-center p-4"
->
-  <div
-    class="w-full max-w-lg bg-white rounded-2xl shadow-xl overflow-hidden border-t-4 border-red-800"
-  >
-    <div class="p-10">
+<div class="min-h-screen bg-gradient-to-br from-red-50 via-rose-50 to-red-100 flex items-center justify-center p-4">
+  <div class="w-full max-w-md min-h-130 bg-white rounded-xl shadow-lg overflow-hidden border-t-4 border-red-800">
+    <div class="p-8 w-full">
 
       <!-- Logo -->
       <div class="text-center">
-        <div class="flex items-center justify-center gap-4">
-          <div class="w-5 h-5 bg-red-800 rotate-45"></div>
+        <div class="flex items-center justify-center gap-3">
+          <div class="w-4 h-4 bg-red-800 rotate-45"></div>
 
-          <h1 class="text-5xl font-extrabold tracking-tight">
+          <h1 class="text-3xl font-extrabold tracking-tight">
             PENTAGON
           </h1>
         </div>
 
-        <h2
-          class="mt-6 text-red-800 text-xl font-medium tracking-[0.3em]"
-        >
+        <h2 class="mt-4 text-red-800 text-sm font-medium tracking-[0.2em]">
           TECH FUSION PVT. LTD.
         </h2>
 
-        <p class="mt-4 text-gray-500 text-2xl">
+
+        <p class="mt-3 text-gray-500 text-sm">
           Enterprise Business Operating System
         </p>
       </div>
 
       <!-- Form -->
-      <form
-        [formGroup]="loginForm"
-        (ngSubmit)="onSubmit()"
-        class="mt-14 space-y-8"
-      >
-
+      <form [formGroup]="loginForm" (ngSubmit)="onSubmit()" class="mt-10 space-y-6">
         <!-- Employee Code -->
         <div>
-          <label
-            class="block text-sm font-bold uppercase tracking-wider text-gray-800 mb-3"
-          >
+          <label class="block text-xs font-bold uppercase tracking-wider text-gray-800 mb-2">
             Employee Code
           </label>
 
-          <input
-            type="text"
-            formControlName="employeeCode"
-            placeholder="e.g. SA001"
-            class="w-full h-14 px-5 rounded-xl border border-gray-300 outline-none focus:ring-2 focus:ring-red-800"
-          />
+          <input type="text" formControlName="employeeCode" placeholder="e.g. SA001"
+            class="w-full h-11 px-4 rounded-lg border border-gray-300 outline-none focus:ring-2 focus:ring-red-800" />
 
-          @if(
-            loginForm.get('employeeCode')?.touched &&
-            loginForm.get('employeeCode')?.invalid
-          ){
-            <p class="text-red-600 text-sm mt-2">
-              Employee Code is required
-            </p>
+          @if(loginForm.get('employeeCode')?.touched &&
+          loginForm.get('employeeCode')?.invalid){
+          <p class="text-red-600 text-xs mt-1">
+            Employee Code is required
+          </p>
           }
         </div>
 
         <!-- Password -->
         <div>
-          <div class="flex justify-between items-center mb-3">
-            <label
-              class="text-sm font-bold uppercase tracking-wider text-gray-800"
-            >
+          <div class="flex justify-between items-center mb-2">
+            <label class="text-xs font-bold uppercase tracking-wider text-gray-800">
               Password
             </label>
 
-            <a
-              href="#"
-              class="text-red-800 font-medium hover:underline"
-            >
+            <a href="#" class="text-red-800 text-xs font-medium hover:underline">
               Forgot Password?
             </a>
           </div>
 
           <div class="relative">
-            <input
-              type="password"
-              formControlName="password"
-              placeholder="••••••••"
-              class="w-full h-14 px-5 rounded-xl border border-gray-300 outline-none focus:ring-2 focus:ring-red-800"
-            />
 
-            <button
-              type="button"
-              class="absolute right-4 top-1/2 -translate-y-1/2 text-gray-500"
-            >
-              👁
+            <input [type]="showPassword ? 'text' : 'password'" formControlName="password" placeholder="••••••••"
+              class="w-full h-11 px-4 pr-12 rounded-lg border border-gray-300 outline-none focus:ring-2 focus:ring-red-800" />
+
+            <button type="button" (click)="togglePassword()"
+              class="absolute right-3 top-1/2  text-xs -translate-y-1/2 text-gray-500 hover:text-red-800">
+              <i [class]="showPassword
+        ? 'fa-solid fa-eye-slash'
+        : 'fa-solid fa-eye'"></i>
             </button>
+
           </div>
 
-          @if(
-            loginForm.get('password')?.touched &&
-            loginForm.get('password')?.invalid
-          ){
-            <p class="text-red-600 text-sm mt-2">
-              Password is required
-            </p>
+          @if(loginForm.get('password')?.touched &&
+          loginForm.get('password')?.invalid){
+          <p class="text-red-600 text-xs mt-1">
+            Password is required
+          </p>
           }
         </div>
 
-        <!-- Remember -->
-        <div class="flex items-center gap-3">
-          <input
-            id="remember"
-            type="checkbox"
-            class="w-5 h-5 accent-red-800"
-          />
+        <div class="flex items-center gap-2">
+          <input id="remember" type="checkbox" class="w-4 h-4 accent-red-800" />
 
-          <label
-            for="remember"
-            class="text-gray-700"
-          >
+          <label for="remember" class="text-sm text-gray-700">
             Remember me
           </label>
         </div>
 
-        <!-- Login Error -->
         @if(errorMessage){
-          <div
-            class="bg-red-100 border border-red-300 text-red-700 p-3 rounded-lg"
-          >
-            {{ errorMessage }}
-          </div>
+        <div class="bg-red-100 border border-red-300 text-red-700 p-2 text-sm rounded-lg">
+          {{ errorMessage }}
+        </div>
         }
 
-        <!-- Button -->
-        <button
-          type="submit"
-          class="w-full h-14 bg-red-800 text-white text-xl font-bold rounded-xl shadow-lg hover:bg-red-900 transition-all"
-        >
-          Sign In →
+        <button type="submit"
+          class="w-full h-11 bg-red-800 text-white font-semibold rounded-lg shadow hover:bg-red-900 transition">
+          Sign In
         </button>
-
       </form>
 
     </div>
