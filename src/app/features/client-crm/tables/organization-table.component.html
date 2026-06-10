@@ -1,17 +1,13 @@
 <div
   class="bg-white border border-gray-200 rounded-xl shadow-sm mt-6 overflow-hidden w-full"
 >
-
   <div class="px-5 py-4 border-b border-gray-200">
     <h2 class="text-lg font-semibold">
       Client Organizations
     </h2>
   </div>
 
-  <!-- Only Table Scroll -->
-  <div
-    class="overflow-x-auto w-full"
-  >
+  <div class="overflow-x-auto w-full">
 
     <table
       class="min-w-max w-full whitespace-nowrap"
@@ -61,86 +57,75 @@
 
       </thead>
 
-      <tbody>
+    <tbody>
 
-        @for(org of organizations; track org.phoneNumber){
+  @for (org of organizations; track org.id) {
 
-        <tr
-          class="border-b hover:bg-gray-50 text-sm"
+    <tr class="border-b hover:bg-gray-50 text-sm">
+
+      <td class="px-4 py-3 font-medium">
+        {{ org.organization_name }}
+      </td>
+
+      <td class="px-4 py-3">
+        {{ org.name_of_poc }}
+      </td>
+
+      <td class="px-4 py-3">
+        {{ org.designation || '-' }}
+      </td>
+
+      <td class="px-4 py-3">
+        {{ org.phoneNumber }}
+      </td>
+
+      <td class="px-4 py-3">
+        {{ org.email }}
+      </td>
+
+      <td class="px-4 py-3">
+        {{ org.address || '-' }}
+      </td>
+
+      <td class="px-4 py-3">
+        {{ org.city || '-' }}
+      </td>
+
+      <td class="px-4 py-3">
+        {{ org.notes || '-' }}
+      </td>
+
+      <td class="px-4 py-3">
+
+        <span
+          class="px-2 py-1 rounded-full text-xs font-semibold"
+          [ngClass]="{
+            'bg-red-100 text-red-700': org.priority === 'HIGH',
+            'bg-yellow-100 text-yellow-700': org.priority === 'MEDIUM',
+            'bg-green-100 text-green-700': org.priority === 'LOW'
+          }"
         >
+          {{ org.priority }}
+        </span>
 
-          <td class="px-4 py-3 font-medium">
-            {{ org.organization_name }}
-          </td>
+      </td>
 
-          <td class="px-4 py-3">
-            {{ org.name_of_poc }}
-          </td>
+    </tr>
 
-          <td class="px-4 py-3">
-            {{ org.designation }}
-          </td>
+  } @empty {
 
-          <td class="px-4 py-3">
-            {{ org.phoneNumber }}
-          </td>
+    <tr>
+      <td
+        colspan="9"
+        class="text-center py-10 text-gray-500"
+      >
+        No Organization Found
+      </td>
+    </tr>
 
-          <td class="px-4 py-3">
-            {{ org.email }}
-          </td>
+  }
 
-          <td class="px-4 py-3">
-            {{ org.address }}
-          </td>
-
-          <td class="px-4 py-3">
-            {{ org.city }}
-          </td>
-
-          <td class="px-4 py-3">
-            {{ org.notes }}
-          </td>
-
-          <td class="px-4 py-3">
-
-            <span
-              class="px-2 py-1 rounded-full text-xs font-semibold"
-              [ngClass]="{
-                'bg-red-100 text-red-700':
-                  org.priority === 'HIGH',
-
-                'bg-yellow-100 text-yellow-700':
-                  org.priority === 'MEDIUM',
-
-                'bg-green-100 text-green-700':
-                  org.priority === 'LOW'
-              }"
-            >
-              {{ org.priority }}
-            </span>
-
-          </td>
-
-        </tr>
-
-        }
-
-        @if(organizations.length === 0){
-
-        <tr>
-
-          <td
-            colspan="9"
-            class="text-center py-10 text-gray-500"
-          >
-            No Organization Found
-          </td>
-
-        </tr>
-
-        }
-
-      </tbody>
+</tbody>
 
     </table>
 

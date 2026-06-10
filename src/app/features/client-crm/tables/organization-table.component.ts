@@ -1,6 +1,12 @@
-import { Component, Input } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnChanges,
+  SimpleChanges
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { Organization } from '../models/organization.model';
+import { Organization } from '../../../core/models/client-crm.type';
 
 @Component({
   selector: 'app-organization-table',
@@ -8,9 +14,23 @@ import { Organization } from '../models/organization.model';
   imports: [CommonModule],
   templateUrl: './organization-table.component.html'
 })
-export class OrganizationTableComponent {
+export class OrganizationTableComponent implements OnChanges {
 
-  @Input()
-  organizations: Organization[] = [];
+  @Input() organizations: Organization[] = [];
 
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if (changes['organizations']) {
+
+      console.log(
+        'Updated Organizations:',
+        changes['organizations'].currentValue
+      );
+
+      console.log(
+        'Length:',
+        this.organizations?.length
+      );
+    }
+  }
 }

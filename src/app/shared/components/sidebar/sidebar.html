@@ -1,28 +1,58 @@
 <aside
-  class="w-72 h-screen bg-[#111111] border-r border-white/10 flex flex-col text-white"
+  class="
+    fixed lg:static
+    top-0 left-0
+    z-50
+    w-72 h-screen
+    bg-[#111111]
+    border-r border-white/10
+    flex flex-col text-white
+    transform transition-transform duration-300 ease-in-out
+    lg:translate-x-0
+  "
+  [class.-translate-x-full]="!isOpen"
+  [class.translate-x-0]="isOpen"
 >
+
   <!-- Logo -->
 
   <div
-    class="h-20 px-6 border-b border-white/10 flex items-center"
+    class="h-20 px-6 border-b border-white/10 flex items-center justify-between"
   >
-    <div
-      class="w-8 h-8 bg-red-700 rotate-45 mr-4 shadow-lg shadow-red-900/50"
-    ></div>
 
-    <div>
-      <h2
-        class="text-xl font-extrabold tracking-tight text-white"
-      >
-        PENTAGON
-      </h2>
+    <div class="flex items-center">
 
-      <p
-        class="text-xs uppercase tracking-widest text-red-600 font-bold"
-      >
-        Tech Fusion
-      </p>
+      <div
+        class="w-8 h-8 bg-red-700 rotate-45 mr-4 shadow-lg shadow-red-900/50"
+      ></div>
+
+      <div>
+
+        <h2
+          class="text-xl font-extrabold tracking-tight text-white"
+        >
+          PENTAGON
+        </h2>
+
+        <p
+          class="text-xs uppercase tracking-widest text-red-600 font-bold"
+        >
+          Tech Fusion
+        </p>
+
+      </div>
+
     </div>
+
+    <!-- Mobile Close -->
+
+    <button
+      class="lg:hidden text-2xl text-white"
+      (click)="closeSidebar.emit()"
+    >
+      ✕
+    </button>
+
   </div>
 
   <!-- Navigation -->
@@ -35,8 +65,11 @@
       Main Console
     </p>
 
+    <!-- Executive -->
+
     <a
       routerLink="/executive-center"
+      (click)="closeSidebar.emit()"
       routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
       [routerLinkActiveOptions]="{ exact: true }"
       class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
@@ -49,6 +82,7 @@
 
     <a
       routerLink="/approvals"
+      (click)="closeSidebar.emit()"
       routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
       class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
     >
@@ -68,6 +102,7 @@
 
     <a
       routerLink="/employees"
+      (click)="closeSidebar.emit()"
       routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
       class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
     >
@@ -87,6 +122,7 @@
 
     <a
       routerLink="/crm"
+      (click)="closeSidebar.emit()"
       routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
       class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
     >
@@ -98,16 +134,18 @@
 
     @if(showTasks){
 
-<a
-  routerLink="/tasks"
-  routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-  class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
->
-  <span class="text-lg">▤</span>
-  Tasks & Collaboration
-</a>
+    <a
+      routerLink="/tasks"
+      (click)="closeSidebar.emit()"
+      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
+    >
+      <span class="text-lg">▤</span>
+      Tasks & Collaboration
+    </a>
 
-}
+    }
+
     @if(showGEM){
 
     <div
@@ -118,6 +156,7 @@
 
     <a
       routerLink="/gem"
+      (click)="closeSidebar.emit()"
       routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
       class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
     >
@@ -137,6 +176,7 @@
 
     <a
       routerLink="/supply-chain"
+      (click)="closeSidebar.emit()"
       routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
       class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
     >
@@ -156,6 +196,7 @@
 
     <a
       routerLink="/operations"
+      (click)="closeSidebar.emit()"
       routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
       class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
     >
@@ -175,6 +216,7 @@
 
     <a
       routerLink="/finance"
+      (click)="closeSidebar.emit()"
       routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
       class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
     >
@@ -188,15 +230,27 @@
 
   <!-- Footer -->
 
-  <div
-    class="border-t border-white/10 p-4"
-  >
+  <div class="border-t border-white/10 p-4">
+
     <button
-      (click)="logout()"
+      (click)="logout(); closeSidebar.emit()"
       class="w-full rounded-lg py-3 font-semibold bg-red-800 hover:bg-red-900 text-white transition-all duration-200"
     >
       Sign Out
     </button>
+
   </div>
 
 </aside>
+
+<!-- Mobile Overlay -->
+
+@if(isOpen){
+
+<div
+  class="fixed inset-0 bg-black/50 z-40 lg:hidden"
+  (click)="closeSidebar.emit()"
+></div>
+
+}
+

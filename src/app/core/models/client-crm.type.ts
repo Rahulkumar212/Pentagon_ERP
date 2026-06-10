@@ -5,6 +5,7 @@ export type PriorityType =
 
 export interface OrganizationPayload {
   organization_name: string;
+  industryName?: string;
   name_of_poc: string;
   designation: string;
   phoneNumber: string;
@@ -23,4 +24,10 @@ export interface Organization
   createdAt?: string;
 
   updatedAt?: string;
+}
+
+export interface LeadResponse {
+  success: boolean;
+  message: string;
+  data: Organization[];
 }

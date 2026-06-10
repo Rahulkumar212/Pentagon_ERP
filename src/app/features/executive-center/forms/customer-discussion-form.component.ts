@@ -2,17 +2,22 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
+  inject
 } from '@angular/core';
+
+import { CommonModule } from '@angular/common';
 
 import {
   FormBuilder,
-  FormGroup,
-  ReactiveFormsModule
+  ReactiveFormsModule,
+  Validators
 } from '@angular/forms';
 
-import { CommonModule } from '@angular/common';
-import { LeadDiscussion } from '../models/executive-center.type';
+import {
+  ExecutiveLead,
+  LeadDiscussion
+} from '../models/executive-center.type';
 
 @Component({
   selector: 'app-customer-discussion-form',
@@ -21,39 +26,72 @@ import { LeadDiscussion } from '../models/executive-center.type';
     CommonModule,
     ReactiveFormsModule
   ],
-  templateUrl:
-    './customer-discussion-form.component.html'
+  templateUrl: './customer-discussion-form.component.html'
 })
 export class CustomerDiscussionFormComponent {
 
-  @Input() lead: any;
+  @Input({ required: true })
+  lead!: ExecutiveLead;
 
-    @Output() close =
-  new EventEmitter<void>();
+  @Output()
+  close = new EventEmitter<void>();
 
-@Output() save =
-  new EventEmitter<LeadDiscussion>();
+  @Output()
+  save = new EventEmitter<LeadDiscussion>();
 
-  form!: FormGroup;
+  private readonly fb = inject(FormBuilder);
 
-  constructor(
-    private fb: FormBuilder
-  ) {}
+  form = this.fb.nonNullable.group({
 
-  ngOnInit() {
+    duration: [
+      120,
+      [
+        Validators.required,
+        Validators.min(1)
+      ]
+    ],
 
-    this.form = this.fb.group({
-      panelType: [''],
-      amount: [''],
-      remarks: ['']
-    });
+    callOutcome: [
+      '',
+      Validators.required
+    ],
+
+    remarks: [
+      ''
+    ]
+
+  });
+
+  submit(): void {
+
+    if (this.form.invalid) {
+
+      this.form.markAllAsTouched();
+
+      return;
+    }
+
+    const payload: LeadDiscussion = {
+      duration: this.form.controls.duration.value,
+      callOutcome: this.form.controls.callOutcome.value,
+      remarks: this.form.controls.remarks.value
+    };
+
+    this.save.emit(payload);
   }
 
-  submit() {
-
-    this.save.emit({
-      leadId: this.lead.id,
-      ...this.form.value
-    });
+  onClose(): void {
+    this.close.emit();
   }
+
+  resetForm(): void {
+
+    this.form.reset({
+      duration: 120,
+      callOutcome: '',
+      remarks: ''
+    });
+
+  }
+
 }

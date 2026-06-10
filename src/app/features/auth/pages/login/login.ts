@@ -4,9 +4,10 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
-
 import { Router } from '@angular/router';
+
 import { AuthService } from '../../../../core/services/auth.service';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-login',
@@ -19,10 +20,10 @@ export class LoginComponent {
   private fb = inject(FormBuilder);
   private router = inject(Router);
   private authService = inject(AuthService);
+  private toast = inject(ToastService);
 
   errorMessage = '';
 
-  // 👇 Add this
   showPassword = false;
 
   loginForm = this.fb.group({
@@ -33,10 +34,9 @@ export class LoginComponent {
     password: [
       '',
       Validators.required
-    ],
+    ]
   });
 
-  // 👇 Add this
   togglePassword(): void {
     this.showPassword = !this.showPassword;
   }
@@ -44,7 +44,13 @@ export class LoginComponent {
   onSubmit(): void {
 
     if (this.loginForm.invalid) {
+
       this.loginForm.markAllAsTouched();
+
+      this.toast.warning(
+        'Please fill all required fields'
+      );
+
       return;
     }
 
@@ -53,19 +59,26 @@ export class LoginComponent {
       password
     } = this.loginForm.getRawValue();
 
-    const isLoggedIn =
-      this.authService.login(
-        employeeCode!,
-        password!
-      );
+    const isLoggedIn = this.authService.login(
+      employeeCode!,
+      password!
+    );
 
     if (!isLoggedIn) {
 
       this.errorMessage =
         'Invalid Employee Code or Password';
 
+      this.toast.error(
+        'Invalid Employee Code or Password'
+      );
+
       return;
     }
+
+    this.toast.success(
+      'Login Successful'
+    );
 
     this.router.navigate([
       '/executive-center'
