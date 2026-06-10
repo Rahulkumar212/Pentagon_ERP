@@ -60,11 +60,10 @@
     class="bg-white rounded-2xl w-full max-w-3xl max-h-[85vh] overflow-y-auto shadow-2xl"
   >
 
-    <app-organization-form
-      (close)="closeOrganizationModal()"
-      (save)="saveOrganization($event)"
-    >
-    </app-organization-form>
+   <app-organization-form
+   (save)="saveOrganization($event)"
+  (close)="closeOrganizationModal()">
+</app-organization-form>
 
   </div>
 

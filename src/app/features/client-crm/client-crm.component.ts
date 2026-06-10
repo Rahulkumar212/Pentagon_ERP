@@ -1,10 +1,15 @@
-import { Component } from '@angular/core';
+import {
+  Component
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 
 import { OrganizationFormComponent } from './form/organization-form.component';
 import { OrganizationTableComponent } from './tables/organization-table.component';
 
-import { Organization } from './models/organization.model';
+import {
+  Organization
+} from '../../core/models/client-crm.type';
 
 @Component({
   selector: 'app-client-crm',
@@ -20,6 +25,7 @@ export class ClientCrmComponent {
 
   showOrganizationModal = false;
 
+  // Initially empty array
   organizations: Organization[] = [];
 
   openOrganizationModal(): void {
@@ -30,17 +36,17 @@ export class ClientCrmComponent {
     this.showOrganizationModal = false;
   }
 
-  saveOrganization(organization: Organization): void {
+  saveOrganization(
+    organization: Organization
+  ): void {
 
-    console.log('Organization Saved:', organization);
-
-    // add new record on top
+    // Naya organization sabse upar add hoga
     this.organizations = [
       organization,
       ...this.organizations
     ];
 
-    // close modal
     this.closeOrganizationModal();
   }
+
 }

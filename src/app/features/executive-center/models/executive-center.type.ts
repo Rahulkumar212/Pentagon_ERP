@@ -7,6 +7,8 @@ export interface ExecutiveCard {
 
 export interface LeadDiscussion {
   customerRequirement?: string;
+  duration: number;
+  callOutcome: string;
   panelType?: string;
   quantity?: number;
   amount?: number;
@@ -16,11 +18,12 @@ export interface LeadDiscussion {
 export interface ExecutiveLead {
   id: number;
   organization: string;
+  industryName?: string;
   source: string;
   contactPerson: string;
   phone: string;
   email: string;
-  attempts: string;
+  attempts: number;
   status: 'ASSIGNED' | 'IN_PROGRESS' | 'CONVERTED';
-  discussionData?: any;
+  discussionData?: LeadDiscussion;
 }

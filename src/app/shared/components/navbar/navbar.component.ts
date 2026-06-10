@@ -1,4 +1,6 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter,
+  Input,
+  Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -22,6 +24,11 @@ export class NavbarComponent {
   ];
 
   user: any;
+
+    @Input() showMenu = false;
+
+  @Output() menuClick =
+    new EventEmitter<void>();
 
   constructor(
     private router: Router,

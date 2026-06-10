@@ -6,7 +6,8 @@ import { environment } from '../../../environments/environment';
 
 import {
   Organization,
-  OrganizationPayload
+  OrganizationPayload,
+  LeadResponse
 } from '../models/client-crm.type';
 
 @Injectable({
@@ -32,12 +33,12 @@ export class OrganizationService {
   }
 
   getOrganizations():
-    Observable<Organization[]> {
+  Observable<LeadResponse> {
 
-    return this.http.get<Organization[]>(
-      `${this.API_URL}/fetchLeads`
-    );
-  }
+  return this.http.get<LeadResponse>(
+    `${this.API_URL}/fetchLeads`
+  );
+}
 
   getOrganizationById(
     id: number

@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, Output, OnInit,EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
@@ -14,7 +14,10 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
 })
 export class SidebarComponent implements OnInit {
 
-  @Input() isOpen = true;
+  @Input() isOpen = false;
+
+  @Output()
+  closeSidebar = new EventEmitter<void>();
 
   user = {
     roleName: '',
@@ -103,21 +106,21 @@ export class SidebarComponent implements OnInit {
   }
 
   get showTasks(): boolean {
-  return [
-    'SUPER_ADMIN',
-    'DIRECTOR',
-    'MANAGER',
-    'HR_MANAGER',
-    'HR_EXECUTIVE',
-    'SALES_MANAGER',
-    'GEM_MANAGER',
-    'SCM_MANAGER',
-    'OPERATIONS_MANAGER',
-    'FINANCE_MANAGER',
-    'ACCOUNTANT',
-    'EMPLOYEE'
-  ].includes(this.user.roleName);
-}
+    return [
+      'SUPER_ADMIN',
+      'DIRECTOR',
+      'MANAGER',
+      'HR_MANAGER',
+      'HR_EXECUTIVE',
+      'SALES_MANAGER',
+      'GEM_MANAGER',
+      'SCM_MANAGER',
+      'OPERATIONS_MANAGER',
+      'FINANCE_MANAGER',
+      'ACCOUNTANT',
+      'EMPLOYEE'
+    ].includes(this.user.roleName);
+  }
 
   get showFinance(): boolean {
     return [
