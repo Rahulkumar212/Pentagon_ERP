@@ -13,7 +13,6 @@ import { DashboardService } from '../../core/services/executive.service';
 import { OrganizationService } from '../../core/services/organization.service';
 import { CalendarWidgetComponent } from '../../shared/components/calendar/calendar-widget.component';
 import { NotificationWidgetComponent } from '../../shared/components/notification/notification-widget.component';
-import { NOTIFICATIONS } from '../../shared/components/notification/utils/notification.data';
 
 @Component({
   selector: 'app-executive-center',
@@ -29,7 +28,7 @@ import { NOTIFICATIONS } from '../../shared/components/notification/utils/notifi
 })
 export class ExecutiveCenterComponent
   implements OnInit {
-    notifications = [...NOTIFICATIONS];
+  notifications: any[] = [];
   trackByTitle(index: number, item: any) {
     return item.title;
   }
@@ -59,6 +58,7 @@ export class ExecutiveCenterComponent
   ngOnInit(): void {
     this.loadStats();
     this.loadOrganizations();
+    this.loadNotifications();
   }
 
   openLeadForm(
@@ -78,54 +78,100 @@ export class ExecutiveCenterComponent
     this.selectedLead = null;
   }
 
-  onDiscussionSaved(
-    formData: LeadDiscussion
-  ): void {
+  onDiscussionSaved(formData: LeadDiscussion): void {
 
-    if (!this.selectedLead) {
+    const lead = this.selectedLead;
+
+    if (!lead) {
       return;
     }
 
-    const index = this.leads.findIndex(
-      l => l.id === this.selectedLead?.id
-    );
+    this.dashboardService
+      .leadDiscussion(lead.id, formData)
+      .subscribe({
 
-    if (index !== -1) {
+        next: () => {
 
-      this.leads[index] = {
-        ...this.leads[index],
-        status: 'IN_PROGRESS',
-        discussionData: formData
-      };
+          const index = this.leads.findIndex(
+            l => l.id === lead.id
+          );
 
-      this.pipelineValue += Number(
-        formData.amount || 0
-      );
-    }
+          if (index !== -1) {
 
-    this.loadStats();
+            const status =
+              formData.outcome === 'Interested'
+                ? 'INTERESTED'
+                : 'IN_PROGRESS';
 
-    this.closeDiscussionForm();
+            this.leads[index] = {
+
+              ...this.leads[index],
+
+              status,
+
+              discussionData: formData
+
+            };
+
+          }
+
+          this.closeDiscussionForm();
+
+        },
+
+        error: err => {
+
+          console.error(err);
+
+        }
+
+      });
+
   }
 
-  convertLead(
-    lead: ExecutiveLead
-  ): void {
+  convertLead(lead: ExecutiveLead): void {
 
-    const index = this.leads.findIndex(
-      l => l.id === lead.id
-    );
+  this.dashboardService
+    .convertLead(lead.id)
+    .subscribe({
 
-    if (index !== -1) {
+      next: () => {
 
-      this.leads[index] = {
-        ...this.leads[index],
-        status: 'CONVERTED'
-      };
-    }
+        const index = this.leads.findIndex(
+          l => l.id === lead.id
+        );
 
-    this.loadStats();
-  }
+        if (index !== -1) {
+
+          this.leads[index] = {
+
+            ...this.leads[index],
+
+            status: 'CONVERTED'
+
+          };
+
+        }
+
+        // Executive table refresh
+        this.loadOrganizations();
+
+        // Stats refresh
+        this.loadStats();
+
+        this.cdr.detectChanges();
+
+      },
+
+      error: (err) => {
+
+        console.error(err);
+
+      }
+
+    });
+
+}
 
   loadOrganizations(): void {
 
@@ -135,25 +181,67 @@ export class ExecutiveCenterComponent
 
         const organizations = response.data ?? [];
 
-        this.leads = organizations.map((item: any): ExecutiveLead => ({
-          id: item.id,
-          organization: item.organization_name ?? '',
-          source: item.priority ?? 'DIRECT',
-          contactPerson: item.name_of_poc ?? '',
-          phone: item.phoneNumber ?? '',
-          email: item.email ?? '',
-          attempts: item.attempts ?? 0,
-          // status: (item.status ?? 'ASSIGNED') as
-          //   'ASSIGNED' | 'IN_PROGRESS' | 'CONVERTED',
-          status: 'ASSIGNED',
-          discussionData: undefined
-        }));
+        this.leads = organizations.map((item: any): ExecutiveLead => {
+
+          let status = 'RAW';
+
+          switch (item.status) {
+
+            case 'Interested':
+              status = 'INTERESTED';
+              break;
+
+            case 'Follow Up Required':
+            case 'No Answer':
+            case 'Busy':
+            case 'Wrong Number':
+            case 'Not Interested':
+              status = 'IN_PROGRESS';
+              break;
+
+            case 'Converted':
+              status = 'CONVERTED';
+              break;
+
+            case 'RAW':
+              status = 'RAW';
+              break;
+
+            default:
+              status = item.status ?? 'RAW';
+
+          }
+
+          return {
+
+            id: item.id,
+            organization: item.organization_name ?? '',
+            source: item.priority ?? '',
+            contactPerson: item.name_of_poc ?? '',
+            phone: item.phoneNumber ?? '',
+            email: item.email ?? '',
+            attempts: item.attemptsCount ?? 0,
+
+            status: status as
+              | 'RAW'
+              | 'IN_PROGRESS'
+              | 'INTERESTED'
+              | 'CONVERTED',
+
+            discussionData: undefined
+
+          };
+
+        });
 
         this.cdr.detectChanges();
+
       },
 
       error: (err) => {
-        console.error('Error loading organizations', err);
+
+        console.error(err);
+
       }
 
     });
@@ -199,5 +287,28 @@ export class ExecutiveCenterComponent
         console.error(err);
       }
     });
+  }
+
+  loadNotifications(): void {
+
+    this.dashboardService
+      .getNotifications()
+      .subscribe({
+
+        next: (response) => {
+
+          console.log('Notifications Response:', response);
+
+          this.notifications = response.data ?? [];
+
+          this.cdr.detectChanges();
+        },
+
+        error: (err) => {
+          console.error('Error loading notifications', err);
+        }
+
+      });
+
   }
 }

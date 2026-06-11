@@ -41,57 +41,42 @@ export class CustomerDiscussionFormComponent {
 
   private readonly fb = inject(FormBuilder);
 
-  form = this.fb.nonNullable.group({
+ form = this.fb.nonNullable.group({
+  duration: [120, Validators.required],
+  callOutcome: ['', Validators.required],
+  remarks: ['']
+});
 
-    duration: [
-      120,
-      [
-        Validators.required,
-        Validators.min(1)
-      ]
-    ],
+ submit(): void {
 
-    callOutcome: [
-      '',
-      Validators.required
-    ],
+  console.log('SUBMIT FIRED:', this.form.value);
 
-    remarks: [
-      ''
-    ]
-
-  });
-
-  submit(): void {
-
-    if (this.form.invalid) {
-
-      this.form.markAllAsTouched();
-
-      return;
-    }
-
-    const payload: LeadDiscussion = {
-      duration: this.form.controls.duration.value,
-      callOutcome: this.form.controls.callOutcome.value,
-      remarks: this.form.controls.remarks.value
-    };
-
-    this.save.emit(payload);
+  if (this.form.invalid) {
+    this.form.markAllAsTouched();
+    return;
   }
 
+  const payload: LeadDiscussion = {
+    durationSec: this.form.controls.duration.value,
+    outcome: this.form.controls.callOutcome.value,
+    remarks: this.form.controls.remarks.value
+  };
+
+  console.log('PAYLOAD:', payload);
+
+  this.save.emit(payload);
+}
+
+  // optional close handler
   onClose(): void {
     this.close.emit();
   }
 
-  resetForm(): void {
-
-    this.form.reset({
-      duration: 120,
-      callOutcome: '',
-      remarks: ''
-    });
-
-  }
-
+ resetForm(): void {
+  this.form.reset({
+    duration: 120,
+    callOutcome: '',
+    remarks: ''
+  });
+}
 }

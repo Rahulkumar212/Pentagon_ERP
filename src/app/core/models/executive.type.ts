@@ -11,3 +11,12 @@ export interface DashboardStatsResponse {
   message: string;
   data: DashboardStats;
 }
+
+export interface Notification {
+  id: number;
+  message: string;
+}
+
+export interface NotificationResponse {
+  data: Notification[];
+}

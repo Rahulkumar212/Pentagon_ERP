@@ -1,12 +1,13 @@
 import {
   Component,
-  Input,
-  OnChanges,
-  SimpleChanges
+  OnInit,
+  inject,
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
+
 import { Organization } from '../../../core/models/client-crm.type';
+import { ClientCrmService } from '../../../core/services/client-crm.service';
 
 @Component({
   selector: 'app-organization-table',
@@ -14,23 +15,51 @@ import { Organization } from '../../../core/models/client-crm.type';
   imports: [CommonModule],
   templateUrl: './organization-table.component.html'
 })
-export class OrganizationTableComponent implements OnChanges {
+export class OrganizationTableComponent
+  implements OnInit {
 
-  @Input() organizations: Organization[] = [];
+    
+  organizations: Organization[] = [];
 
-  ngOnChanges(changes: SimpleChanges): void {
+  private readonly clientCrmService =
+    inject(ClientCrmService);
 
-    if (changes['organizations']) {
+  ngOnInit(): void {
 
-      console.log(
-        'Updated Organizations:',
-        changes['organizations'].currentValue
-      );
+    this.loadConvertedLeads();
 
-      console.log(
-        'Length:',
-        this.organizations?.length
-      );
-    }
   }
+
+  loadConvertedLeads(): void {
+
+    this.clientCrmService
+      .getConvertedLeads()
+      .subscribe({
+
+        next: (response) => {
+
+          this.organizations =
+            response.data ?? [];
+
+          console.log(
+            'Organizations:',
+            this.organizations
+          );
+           console.log(this.organizations.length);
+
+        },
+
+        error: (err) => {
+
+          console.error(
+            'Error loading converted leads',
+            err
+          );
+
+        }
+
+      });
+
+  }
+
 }

@@ -3,9 +3,20 @@ export type PriorityType =
   | 'MEDIUM'
   | 'HIGH';
 
+export type LeadStatus =
+  | 'RAW'
+  | 'INTERESTED'
+  | 'IN_PROGRESS'
+  | 'CONVERTED'
+  | 'Follow Up Required'
+  | 'No Answer'
+  | 'Busy'
+  | 'Wrong Number'
+  | 'Not Interested';
+
 export interface OrganizationPayload {
   organization_name: string;
-  industryName?: string;
+  industry_sector?: string;
   name_of_poc: string;
   designation: string;
   phoneNumber: string;
