@@ -25,8 +25,6 @@ export class ClientCrmComponent {
 
   showOrganizationModal = false;
 
-  // Initially empty array
-  organizations: Organization[] = [];
 
   openOrganizationModal(): void {
     this.showOrganizationModal = true;
@@ -36,17 +34,14 @@ export class ClientCrmComponent {
     this.showOrganizationModal = false;
   }
 
-  saveOrganization(
-    organization: Organization
-  ): void {
+saveOrganization(
+  organization: Organization
+): void {
 
-    // Naya organization sabse upar add hoga
-    this.organizations = [
-      organization,
-      ...this.organizations
-    ];
+  console.log(organization);
 
-    this.closeOrganizationModal();
-  }
+  this.closeOrganizationModal();
+
+}
 
 }

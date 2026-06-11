@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+import { authGuard } from './core/guards/auth.guards';
 
 export const routes: Routes = [
 
@@ -28,12 +29,14 @@ export const routes: Routes = [
 
       {
         path: 'executive-center',
+        canActivate:[authGuard],
         loadComponent: () =>
           import('./features/executive-center/executive-center.component')
             .then(m => m.ExecutiveCenterComponent)
       },
        {
         path: 'crm',
+        canActivate:[authGuard],
         loadComponent: () =>
           import('./features/client-crm/client-crm.component')
             .then(m => m.ClientCrmComponent)

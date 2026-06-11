@@ -51,7 +51,7 @@ export class OrganizationFormComponent {
         '',
         Validators.required
       ],
-       industryName: ['',
+       industry_sector: ['',
         Validators.required
        ],
       name_of_poc: [
