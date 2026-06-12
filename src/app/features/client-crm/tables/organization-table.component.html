@@ -1,6 +1,4 @@
-<div
-  class="bg-white border border-gray-200 rounded-xl shadow-sm mt-6 overflow-hidden w-full"
->
+<div class="bg-white border border-gray-200 rounded-xl shadow-sm mt-6 overflow-hidden w-full">
   <div class="px-5 py-4 border-b border-gray-200">
     <h2 class="text-lg font-semibold">
       Client Organizations
@@ -9,15 +7,11 @@
 
   <div class="overflow-x-auto w-full">
 
-    <table
-      class="min-w-max w-full whitespace-nowrap"
-    >
+    <table class="min-w-max w-full whitespace-nowrap">
 
       <thead>
 
-        <tr
-          class="bg-gray-50 border-b text-xs uppercase text-gray-500"
-        >
+        <tr class="bg-gray-50 border-b text-xs uppercase text-gray-500">
           <th class="px-4 py-3 text-left">
             Organization
           </th>
@@ -53,82 +47,108 @@
           <th class="px-4 py-3 text-left">
             Priority
           </th>
+
+          <th class="px-4 py-3 text-center">
+            Actions
+          </th>
         </tr>
 
       </thead>
 
-    <tbody>
+      <tbody>
 
-  @for (org of organizations; track org.id) {
+        @for (org of organizations; track org.id) {
 
-    <tr class="border-b hover:bg-gray-50 text-sm">
-     
-      <td class="px-4 py-3 font-medium">
-        {{ org.organization_name }}
-      </td>
+        <tr class="border-b hover:bg-gray-50 text-sm">
 
-      <td class="px-4 py-3">
-        {{ org.name_of_poc }}
-      </td>
+          <td class="px-4 py-3 font-medium">
+            {{ org.organization_name }}
+          </td>
 
-      <td class="px-4 py-3">
-        {{ org.designation || '-' }}
-      </td>
+          <td class="px-4 py-3">
+            {{ org.name_of_poc }}
+          </td>
 
-      <td class="px-4 py-3">
-        {{ org.phoneNumber }}
-      </td>
+          <td class="px-4 py-3">
+            {{ org.designation || '-' }}
+          </td>
 
-      <td class="px-4 py-3">
-        {{ org.email }}
-      </td>
+          <td class="px-4 py-3">
+            {{ org.phoneNumber }}
+          </td>
 
-      <td class="px-4 py-3">
-        {{ org.address || '-' }}
-      </td>
+          <td class="px-4 py-3">
+            {{ org.email }}
+          </td>
 
-      <td class="px-4 py-3">
-        {{ org.city || '-' }}
-      </td>
+          <td class="px-4 py-3">
+            {{ org.address || '-' }}
+          </td>
 
-      <td class="px-4 py-3">
-        {{ org.notes || '-' }}
-      </td>
+          <td class="px-4 py-3">
+            {{ org.city || '-' }}
+          </td>
 
-      <td class="px-4 py-3">
+          <td class="px-4 py-3">
+            {{ org.notes || '-' }}
+          </td>
 
-        <span
-          class="px-2 py-1 rounded-full text-xs font-semibold"
-          [ngClass]="{
+          <td class="px-4 py-3">
+
+            <span class="px-2 py-1 rounded-full text-xs font-semibold" [ngClass]="{
             'bg-red-100 text-red-700': org.priority === 'HIGH',
             'bg-yellow-100 text-yellow-700': org.priority === 'MEDIUM',
             'bg-green-100 text-green-700': org.priority === 'LOW'
-          }"
-        >
-          {{ org.priority }}
-        </span>
+          }">
+              {{ org.priority }}
+            </span>
 
-      </td>
+          </td>
 
-    </tr>
+          <td class="px-4 py-3 text-center">
 
-  } @empty {
+            <button (click)="openCreateOrderModal(org)"
+              class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-2 rounded-lg text-xs font-medium transition">
 
-    <tr>
-      <td
-        colspan="9"
-        class="text-center py-10 text-gray-500"
-      >
-        No Organization Found
-      </td>
-    </tr>
+              📦 Create Order
 
-  }
+            </button>
 
-</tbody>
+          </td>
+
+        </tr>
+
+        } @empty {
+
+        <tr>
+          <td colspan="9" class="text-center py-10 text-gray-500">
+            No Organization Found
+          </td>
+        </tr>
+
+        }
+
+      </tbody>
 
     </table>
 
   </div>
+
+  @if(showCreateOrderModal && selectedOrganization){
+
+  <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+
+    <div class="bg-white rounded-2xl w-full max-w-lg shadow-xl">
+
+      <app-create-order-form [organization]="selectedOrganization" (close)="closeCreateOrderModal()"
+        (save)="saveOrder($event)">
+
+      </app-create-order-form>
+
+    </div>
+
+  </div>
+
+  }
 
 </div>

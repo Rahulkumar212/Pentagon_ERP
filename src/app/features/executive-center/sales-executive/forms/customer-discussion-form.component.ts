@@ -17,7 +17,7 @@ import {
 import {
   ExecutiveLead,
   LeadDiscussion
-} from '../models/executive-center.type';
+} from '../models/sales-executive.type';
 
 @Component({
   selector: 'app-customer-discussion-form',

@@ -108,5 +108,5 @@ export const LOGIN_CREDENTIALS: LoginCredential[] = [
     password: '123456',
     role: 'OPERATIONS_EXECUTIVE',
     name: 'Pooja Arora'
-  }
+  },
 ];

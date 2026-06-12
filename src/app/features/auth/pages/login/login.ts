@@ -80,8 +80,93 @@ export class LoginComponent {
       'Login Successful'
     );
 
-    this.router.navigate([
-      '/executive-center'
-    ]);
+    // Get logged in user
+    const user = JSON.parse(
+      localStorage.getItem('user') || '{}'
+    );
+
+    switch (user.role) {
+
+      // -------------------------
+      // Sales
+      // -------------------------
+      case 'SALES_MANAGER':
+      case 'SALES_EXECUTIVE':
+        this.router.navigate([
+          '/sales-executive'
+        ]);
+        break;
+
+      // -------------------------
+      // Supply Chain
+      // -------------------------
+      case 'SCM_MANAGER':
+      case 'SCM_EXECUTIVE':
+      case 'SUPPLY_CHAIN_EXECUTIVE':
+        this.router.navigate([
+          '/scm-executive'
+        ]);
+        break;
+
+      // -------------------------
+      // HR
+      // -------------------------
+      case 'HR_MANAGER':
+      case 'HR_EXECUTIVE':
+        this.router.navigate([
+          '/employees'
+        ]);
+        break;
+
+      // -------------------------
+      // Finance
+      // -------------------------
+      case 'FINANCE_MANAGER':
+      case 'ACCOUNTANT':
+        this.router.navigate([
+          '/finance'
+        ]);
+        break;
+
+      // -------------------------
+      // GEM
+      // -------------------------
+      case 'GEM_MANAGER':
+      case 'GEM_EXECUTIVE':
+        this.router.navigate([
+          '/gem'
+        ]);
+        break;
+
+      // -------------------------
+      // Operations
+      // -------------------------
+      case 'OPERATIONS_MANAGER':
+      case 'OPERATIONS_EXECUTIVE':
+        this.router.navigate([
+          '/operations'
+        ]);
+        break;
+
+      // -------------------------
+      // Admin
+      // -------------------------
+      case 'SUPER_ADMIN':
+      case 'DIRECTOR':
+      case 'MANAGER':
+        this.router.navigate([
+          '/executive-center'
+        ]);
+        break;
+
+      // -------------------------
+      // Default
+      // -------------------------
+      default:
+        this.router.navigate([
+          '/executive-center'
+        ]);
+        break;
+    }
   }
 }
