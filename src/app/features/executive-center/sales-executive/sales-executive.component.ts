@@ -5,28 +5,26 @@ import {
   ExecutiveCard,
   ExecutiveLead,
   LeadDiscussion
-} from './models/executive-center.type';
+} from './models/sales-executive.type';
 
 import { CustomerDiscussionFormComponent }
   from './forms/customer-discussion-form.component';
-import { DashboardService } from '../../core/services/executive.service';
-import { OrganizationService } from '../../core/services/organization.service';
-import { CalendarWidgetComponent } from '../../shared/components/calendar/calendar-widget.component';
-import { NotificationWidgetComponent } from '../../shared/components/notification/notification-widget.component';
+import { DashboardService } from '../../../core/services/executive.service';
+import { OrganizationService } from '../../../core/services/organization.service';
+import { ExecutiveLayoutComponent } from '../../../layouts/executive-layout/executive-layout.component';
 
 @Component({
-  selector: 'app-executive-center',
+  selector: 'app-sales-executive',
   standalone: true,
   imports: [
     CommonModule,
     CustomerDiscussionFormComponent,
-    CalendarWidgetComponent,
-    NotificationWidgetComponent
+    ExecutiveLayoutComponent
   ],
   templateUrl:
-    './executive-center.component.html'
+    './sales-executive.component.html'
 })
-export class ExecutiveCenterComponent
+export class SalesExecutiveComponent
   implements OnInit {
   notifications: any[] = [];
   trackByTitle(index: number, item: any) {

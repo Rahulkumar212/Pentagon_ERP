@@ -1,0 +1,126 @@
+<div class="bg-white rounded-2xl shadow-xl">
+
+  <!-- Header -->
+
+  <div class="px-6 py-5 border-b">
+
+    <div class="flex justify-between items-center">
+
+      <h2 class="text-xl font-bold">
+        Create Purchase Order
+      </h2>
+
+      <button
+        (click)="close.emit()"
+        class="text-2xl text-gray-500 hover:text-red-700"
+      >
+        ✕
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Form -->
+
+  <form
+    [formGroup]="form"
+    (ngSubmit)="submit()"
+    class="p-6 space-y-5"
+  >
+
+    <!-- Purchase Mode -->
+
+    <div>
+
+      <label class="block text-sm font-semibold mb-2">
+        Purchase Mode
+      </label>
+
+      <select
+        formControlName="purchaseMode"
+        class="w-full border rounded-lg px-4 py-3"
+      >
+
+        <option value="">
+          Select Purchase Mode
+        </option>
+
+        <option value="Direct Purchase">
+          Direct Purchase
+        </option>
+
+        <option value="Tender">
+          Tender
+        </option>
+
+        <option value="GeM">
+          GeM
+        </option>
+
+        <option value="Quotation">
+          Quotation
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- Order Amount -->
+
+    <div>
+
+      <label class="block text-sm font-semibold mb-2">
+        Order Amount
+      </label>
+
+      <input
+        type="number"
+        formControlName="orderAmount"
+        placeholder="Enter Amount"
+        class="w-full border rounded-lg px-4 py-3"
+      />
+
+    </div>
+
+    <!-- Proposal -->
+
+    <div>
+
+      <label class="block text-sm font-semibold mb-2">
+        Proposal
+      </label>
+
+      <textarea
+        rows="5"
+        formControlName="proposal"
+        placeholder="Write Proposal..."
+        class="w-full border rounded-lg px-4 py-3 resize-none"
+      ></textarea>
+
+    </div>
+
+    <!-- Footer -->
+
+    <div class="flex justify-end gap-3 pt-3">
+
+      <button
+        type="button"
+        (click)="close.emit()"
+        class="px-5 py-2 border rounded-lg"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="submit"
+        class="px-6 py-2 bg-red-800 hover:bg-red-900 text-white rounded-lg"
+      >
+        Create Order
+      </button>
+
+    </div>
+
+  </form>
+
+</div>

@@ -102,6 +102,7 @@ export class SidebarComponent implements OnInit {
       'DIRECTOR',
       'OPERATIONS_MANAGER',
       'OPERATIONS_EXECUTIVE',
+      'SCM_EXECUTIVE'
     ].includes(this.user.roleName);
   }
 
@@ -115,6 +116,7 @@ export class SidebarComponent implements OnInit {
       'SALES_MANAGER',
       'GEM_MANAGER',
       'SCM_MANAGER',
+      'SCM_EXECUTIVE',
       'OPERATIONS_MANAGER',
       'FINANCE_MANAGER',
       'ACCOUNTANT',

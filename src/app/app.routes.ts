@@ -5,14 +5,14 @@ import { authGuard } from './core/guards/auth.guards';
 
 export const routes: Routes = [
 
-  // Default Route -> Login
+  // Default Route
   {
     path: '',
     redirectTo: 'login',
     pathMatch: 'full'
   },
 
-  // Login Page
+  // Login
   {
     path: 'login',
     loadComponent: () =>
@@ -20,23 +20,46 @@ export const routes: Routes = [
         .then(m => m.LoginComponent)
   },
 
-  // Layout Routes
+  // Main Layout
   {
     path: '',
     component: MainLayoutComponent,
 
     children: [
 
+      // Sales Executive Dashboard
+      {
+        path: 'sales-executive',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import(
+            './features/executive-center/sales-executive/sales-executive.component'
+          ).then(m => m.SalesExecutiveComponent)
+      },
+
       {
         path: 'executive-center',
-        canActivate:[authGuard],
+        canActivate: [authGuard],
         loadComponent: () =>
-          import('./features/executive-center/executive-center.component')
-            .then(m => m.ExecutiveCenterComponent)
+          import(
+            './features/executive-center/pages/executive-center.component'
+          ).then(m => m.ExecutiveCenterComponent)
       },
-       {
+
+      // SCM Executive Dashboard
+      {
+        path: 'scm-executive',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import(
+            './features/executive-center/scm-executive/scm-executive.component'
+          ).then(m => m.ScmExecutiveComponent)
+      },
+
+      // Client CRM
+      {
         path: 'crm',
-        canActivate:[authGuard],
+        canActivate: [authGuard],
         loadComponent: () =>
           import('./features/client-crm/client-crm.component')
             .then(m => m.ClientCrmComponent)
