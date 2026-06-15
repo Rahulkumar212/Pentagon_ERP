@@ -4,7 +4,7 @@ import { Component, EventEmitter,
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
-import { AuthService } from '../../../features/auth/auth.services';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-navbar',
@@ -34,16 +34,16 @@ export class NavbarComponent {
     private router: Router,
     private auth: AuthService
   ) {
-    this.user = this.auth.getUser();
+    this.user = this.auth.getCurrentUser();
   }
 
   get role(): string {
-    return this.user?.role;
-  }
+  return this.user?.role ?? '';
+}
 
-  get name(): string {
-    return this.user?.name;
-  }
+get name(): string {
+  return this.user?.name ?? '';
+}
 
   getInitials(name: string): string {
   if (!name) return '';

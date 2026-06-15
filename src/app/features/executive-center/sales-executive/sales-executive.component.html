@@ -29,11 +29,9 @@
 
     @for(card of cards; track card.title){
 
-    <div
-      class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition">
+    <div class="bg-white border border-gray-200 rounded-xl p-5 shadow-sm hover:shadow-md transition">
 
-      <p
-        class="text-[11px] uppercase tracking-wider font-semibold text-gray-500">
+      <p class="text-[11px] uppercase tracking-wider font-semibold text-gray-500">
         {{ card.title }}
       </p>
 
@@ -41,9 +39,7 @@
         {{ card.value }}
       </h2>
 
-      <p
-        class="mt-2 text-xs font-medium"
-        [class]="card.color">
+      <p class="mt-2 text-xs font-medium" [class]="card.color">
         {{ card.description }}
       </p>
 
@@ -55,8 +51,7 @@
 
   <!-- CRM TABLE -->
 
-  <div
-    class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+  <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
 
     <div class="px-4 sm:px-5 py-4 border-b border-gray-200">
 
@@ -68,135 +63,134 @@
 
     <div class="overflow-x-auto">
 
-      <table class="min-w-[700px] w-full">
+      <div class="max-h-[360px] overflow-y-auto">
 
-        <thead>
+        <table class="min-w-[700px] w-full">
 
-          <tr
-            class="border-b border-gray-200 text-xs uppercase text-gray-500">
+          <thead class="sticky top-0 bg-white z-10">
 
-            <th class="px-3 sm:px-5 py-3 text-left">
-              Organization
-            </th>
 
-            <th class="px-3 sm:px-5 py-3 text-left">
-              Contact
-            </th>
+            <tr class="border-b border-gray-200 text-xs uppercase text-gray-500">
 
-            <th class="px-3 sm:px-5 py-3 text-left">
-              Attempts
-            </th>
+              <th class="px-3 sm:px-5 py-3 text-left">
+                Organization
+              </th>
 
-            <th class="px-3 sm:px-5 py-3 text-left">
-              Status
-            </th>
+              <th class="px-3 sm:px-5 py-3 text-left">
+                Contact
+              </th>
 
-            <th class="px-3 sm:px-5 py-3 text-left">
-              Action
-            </th>
+              <th class="px-3 sm:px-5 py-3 text-left">
+                Attempts
+              </th>
 
-          </tr>
+              <th class="px-3 sm:px-5 py-3 text-left">
+                Status
+              </th>
 
-        </thead>
+              <th class="px-3 sm:px-5 py-3 text-left">
+                Action
+              </th>
 
-        <tbody>
+            </tr>
 
-          @for(lead of leads; track lead.id){
+          </thead>
 
-          <tr class="border-b border-gray-100 hover:bg-gray-50">
+          <tbody>
 
-            <td class="px-3 sm:px-5 py-4">
+            @for(lead of leads; track lead.id){
 
-              <p class="text-sm font-semibold text-gray-900">
-                {{ lead.organization }}
-              </p>
+            <tr class="border-b border-gray-100 hover:bg-gray-50">
 
-              <p class="text-xs text-gray-500">
-                {{ lead.source }}
-              </p>
+              <td class="px-3 sm:px-5 py-4">
 
-            </td>
+                <p class="text-sm font-semibold text-gray-900">
+                  {{ lead.organization }}
+                </p>
 
-            <td class="px-3 sm:px-5 py-4">
+                <p class="text-xs text-gray-500">
+                  {{ lead.source }}
+                </p>
 
-              <p class="text-sm font-medium">
-                {{ lead.contactPerson }}
-              </p>
+              </td>
 
-              <p class="text-xs text-gray-500">
-                {{ lead.phone }}
-              </p>
+              <td class="px-3 sm:px-5 py-4">
 
-            </td>
+                <p class="text-sm font-medium">
+                  {{ lead.contactPerson }}
+                </p>
 
-            <td class="px-3 sm:px-5 py-4 text-sm font-semibold">
-              {{ lead.attempts }}
-            </td>
+                <p class="text-xs text-gray-500">
+                  {{ lead.phone }}
+                </p>
 
-            <td class="px-3 sm:px-5 py-4">
+              </td>
 
-              <span
-                class="px-3 py-1 text-xs font-semibold rounded-full"
-                [ngClass]="{
+              <td class="px-3 sm:px-5 py-4 text-sm font-semibold">
+                {{ lead.attempts }}
+              </td>
+
+              <td class="px-3 sm:px-5 py-4">
+
+                <span class="px-3 py-1 text-xs font-semibold rounded-full" [ngClass]="{
                   'bg-gray-100 text-gray-700': lead.status === 'RAW',
                   'bg-orange-100 text-orange-700': lead.status === 'IN_PROGRESS',
                   'bg-blue-100 text-blue-700': lead.status === 'INTERESTED',
                   'bg-green-100 text-green-700': lead.status === 'CONVERTED'
                 }">
 
-                {{ lead.status }}
+                  {{ lead.status }}
 
-              </span>
+                </span>
 
-            </td>
+              </td>
 
-            <td class="px-3 sm:px-5 py-4">
+              <td class="px-3 sm:px-5 py-4">
 
-              @if(
+                @if(
                 lead.status === 'RAW' ||
                 lead.status === 'IN_PROGRESS'
-              ){
+                ){
 
-              <button
-                (click)="openLeadForm(lead)"
-                class="px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium hover:bg-blue-700">
+                <button (click)="openLeadForm(lead)"
+                  class="px-3 sm:px-4 py-2 bg-blue-600 text-white rounded-lg text-xs font-medium hover:bg-blue-700">
 
-                📞 Call
+                  📞 Call
 
-              </button>
+                </button>
 
-              }
+                }
 
-              @else if(lead.status === 'INTERESTED'){
+                @else if(lead.status === 'INTERESTED'){
 
-              <button
-                (click)="convertLead(lead)"
-                class="px-3 sm:px-4 py-2 bg-green-600 text-white rounded-lg text-xs font-medium hover:bg-green-700">
+                <button (click)="convertLead(lead)"
+                  class="px-3 sm:px-4 py-2 bg-green-600 text-white rounded-lg text-xs font-medium hover:bg-green-700">
 
-                ✅ Convert
+                  ✅ Convert
 
-              </button>
+                </button>
 
-              }
+                }
 
-              @else if(lead.status === 'CONVERTED'){
+                @else if(lead.status === 'CONVERTED'){
 
-              <span class="text-green-600 text-xs font-semibold">
-                Converted
-              </span>
+                <span class="text-green-600 text-xs font-semibold">
+                  Converted
+                </span>
 
-              }
+                }
 
-            </td>
+              </td>
 
-          </tr>
+            </tr>
 
-          }
+            }
 
-        </tbody>
+          </tbody>
 
-      </table>
+        </table>
 
+      </div>
     </div>
 
   </div>
@@ -207,14 +201,11 @@
 
 @if(showDiscussionForm && selectedLead){
 
-<div
-  class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+<div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
 
   <div class="w-full max-w-lg">
 
-    <app-customer-discussion-form
-      [lead]="selectedLead"
-      (close)="closeDiscussionForm()"
+    <app-customer-discussion-form [lead]="selectedLead" (close)="closeDiscussionForm()"
       (save)="onDiscussionSaved($event)">
     </app-customer-discussion-form>
 

@@ -121,8 +121,8 @@ export class OrganizationFormComponent {
             email: '',
             city: '',
             address: '',
-            notes: '',
-            priority: 'MEDIUM'
+            // notes: '',
+            // priority: 'MEDIUM'
           });
 
           this.isSubmitting = false;

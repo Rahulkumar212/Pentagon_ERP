@@ -18,7 +18,7 @@ export class ClientCrmService {
   getConvertedLeads(): Observable<LeadResponse> {
 
     return this.http.get<LeadResponse>(
-      `${this.API_URL}/convertedLeads`
+      `${this.API_URL}/account`
     );
 
   }
