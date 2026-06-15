@@ -26,7 +26,7 @@ import { Organization } from '../../../core/models/client-crm.type';
 })
 export class CreateOrderFormComponent {
 
-    @Input()
+  @Input()
   organization: Organization | null = null;
 
   @Output()
@@ -40,6 +40,10 @@ export class CreateOrderFormComponent {
   form = this.fb.group({
 
     purchaseMode: [
+      '',
+      Validators.required
+    ],
+    shippingAddress: [
       '',
       Validators.required
     ],

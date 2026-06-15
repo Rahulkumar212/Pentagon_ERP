@@ -1,57 +1,86 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
 import { Router } from '@angular/router';
+import { Observable, tap } from 'rxjs';
 
-import { LOGIN_CREDENTIALS } from '../../features/auth/utils/auth-data';
+import { environment } from '../../../environments/environment.development';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthService {
 
-  constructor(
-    private router: Router
-  ) {}
+  private readonly http = inject(HttpClient);
+  private readonly router = inject(Router);
+
+  private readonly API_URL = environment.apiUrl;
 
   login(
-    employeeCode: string,
-    password: string
-  ): boolean {
+  empcode: string,
+  password: string
+): Observable<any> {
 
-    const user = LOGIN_CREDENTIALS.find(
-      credential =>
-        credential.employeeCode === employeeCode &&
-        credential.password === password
-    );
-
-    if (!user) {
-      return false;
+  return this.http.post<any>(
+    `${this.API_URL}/login`,
+    {
+      empcode,
+      password
+    },
+    {
+      withCredentials: true
     }
+  ).pipe(
+
+    tap((response) => {
+
+  const role = response.user?.roles?.[0];
+console.log("roles",role);
+
+  if (role) {
 
     localStorage.setItem(
-      'user',
-      JSON.stringify(user)
+      'role',
+      role
     );
 
-    return true;
   }
 
-  logout(): void {
+})
 
-    localStorage.removeItem('user');
+  );
 
-    this.router.navigate(['/login']);
-  }
+}
+
+getRole(): string | null {
+  return localStorage.getItem('role');
+}
+
+isLoggedIn(): boolean {
+  return !!localStorage.getItem('role');
+}
+
+logout(): void {
+
+  localStorage.removeItem('role');
+
+  this.router.navigate(['/login']);
+
+}
 
   getCurrentUser() {
-    const user =
-      localStorage.getItem('user');
 
-    return user
-      ? JSON.parse(user)
-      : null;
+    const user = localStorage.getItem('role');
+console.log("user login",user);
+
+    return user 
+
   }
 
-  isLoggedIn(): boolean {
-    return !!localStorage.getItem('user');
+  getToken(): string | null {
+
+    return localStorage.getItem('token');
+
   }
+
+
 }

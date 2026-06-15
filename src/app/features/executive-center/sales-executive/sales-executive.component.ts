@@ -97,7 +97,7 @@ export class SalesExecutiveComponent
           if (index !== -1) {
 
             const status =
-              formData.outcome === 'Interested'
+              formData.outcome === 'INTERESTED'
                 ? 'INTERESTED'
                 : 'IN_PROGRESS';
 
