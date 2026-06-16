@@ -1,6 +1,7 @@
 import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
+import { AuthService } from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-sidebar',
@@ -9,6 +10,9 @@ import { RouterLink, RouterLinkActive } from '@angular/router';
   templateUrl: './sidebar.html',
 })
 export class SidebarComponent implements OnInit {
+  constructor(
+  private readonly auth: AuthService
+) {}
   @Input() isOpen = false;
 
   @Output()
@@ -29,22 +33,43 @@ export class SidebarComponent implements OnInit {
       name: localStorage.getItem('name') || '',
     };
   }
-  // ngOnInit(): void {
-  //   const userData = localStorage.getItem('role');
-  //   console.log('userdata', userData);
-  //   console.log('role from user', localStorage.getItem('role'));
+  
+  getDashboardRoute(): string {
 
-  //   if (userData) {
-  //     const loggedInUser = JSON.parse(userData);
-  //     // const loggedInUser = JSON.parse(userData);
+  const role = this.auth.getRole();
 
-  //     this.user = {
-  //       roleName: loggedInUser.role || '',
-  //       departmentName: loggedInUser.departmentName || '',
-  //       name: loggedInUser.name || '',
-  //     };
-  //   }
-  // }
+  switch (role) {
+
+    case 'SALES_EXECUTIVE':
+    case 'SALES_MANAGER':
+      return '/sales-executive';
+
+    case 'SCM_EXECUTIVE':
+    case 'SCM_MANAGER':
+    case 'SUPPLY_CHAIN_EXECUTIVE':
+      return '/scm-executive';
+
+    case 'HR_EXECUTIVE':
+    case 'HR_MANAGER':
+      return '/employees';
+
+    case 'FINANCE_MANAGER':
+    case 'ACCOUNTANT':
+      return '/finance';
+
+    case 'OPERATIONS_MANAGER':
+    case 'OPERATIONS_EXECUTIVE':
+      return '/operations';
+
+    case 'GEM_MANAGER':
+    case 'GEM_EXECUTIVE':
+      return '/gem';
+
+    default:
+      return '/sales-executive';
+  }
+
+}
 
   get isSuperAdmin(): boolean {
     return this.user.roleName === 'SUPER_ADMIN';
@@ -116,6 +141,6 @@ export class SidebarComponent implements OnInit {
 
   logout(): void {
     localStorage.clear();
-    window.location.href = '/login';
+    globalThis.location.href = '/login';
   }
 }

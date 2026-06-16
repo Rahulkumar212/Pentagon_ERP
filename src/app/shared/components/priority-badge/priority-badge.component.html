@@ -1,0 +1,12 @@
+<span
+  class="px-3 py-1 rounded-full text-xs font-semibold"
+  [ngClass]="{
+    'bg-red-100 text-red-700': priority === 'HIGH',
+    'bg-yellow-100 text-yellow-700': priority === 'MEDIUM',
+    'bg-green-100 text-green-700': priority === 'LOW',
+    'bg-blue-100 text-blue-700': priority === 'URGENT',
+    'bg-gray-100 text-gray-700': !priority
+  }"
+>
+  {{ priority || '-' }}
+</span>

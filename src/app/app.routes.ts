@@ -33,15 +33,6 @@ export const routes: Routes = [
           ),
       },
 
-      {
-        path: 'executive-center',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/executive-center/pages/executive-center.component').then(
-            (m) => m.ExecutiveCenterComponent,
-          ),
-      },
-
       // SCM Executive Dashboard
       {
         path: 'scm-executive',
@@ -64,6 +55,30 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () =>
           import('./features/orders/pages/orders.component').then((m) => m.OrdersComponent),
+      },
+      {
+        path: 'task-collaboration',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/task-collaboration/pages/task-collaboration.component').then(
+            (m) => m.TaskCollaborationComponent,
+          ),
+      },
+      {
+        path: 'supply-chain',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/scm-dashboard/pages/scm-dashboard.component').then(
+            (m) => m.ScmDashboardComponent,
+          ),
+      },
+      {
+        path: 'operations',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/operations/operations-dashboard.component').then(
+            (m) => m.OperationsDashboardComponent,
+          ),
       },
     ],
   },

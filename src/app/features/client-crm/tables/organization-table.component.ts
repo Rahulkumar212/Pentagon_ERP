@@ -96,38 +96,4 @@ export class OrganizationTableComponent implements OnInit {
 
     this.selectedOrganization = null;
   }
-
-  // ==========================
-  // Save Order
-  // ==========================
-
-  // saveOrder(orderData: any): void {
-  //   const payload = {
-  //     organizationId: this.selectedOrganization?.id,
-
-  //     organizationName: this.selectedOrganization?.organization_name,
-
-  //     purchaseMode: orderData.purchaseMode,
-
-  //     orderAmount: orderData.orderAmount,
-
-  //     proposal: orderData.proposal,
-  //   };
-
-  //   console.log(payload);
-
-  //   /*
-  //   this.clientCrmService
-  //     .createOrder(payload)
-  //     .subscribe({
-  //       next: () => {
-
-  //         this.closeCreateOrderModal();
-
-  //       }
-  //     });
-  //   */
-
-  //   this.closeCreateOrderModal();
-  // }
 }

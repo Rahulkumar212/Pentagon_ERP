@@ -22,21 +22,19 @@
 
   <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
     @for (card of cards; track card.title) {
-      <div
-        class="bg-white border border-gray-200 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow-md transition"
-      >
-        <p class="text-[11px] uppercase tracking-wider font-semibold text-gray-500">
-          {{ card.title }}
-        </p>
+    <div class="bg-white border border-gray-200 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow-md transition">
+      <p class="text-[11px] uppercase tracking-wider font-semibold text-gray-500">
+        {{ card.title }}
+      </p>
 
-        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mt-3">
-          {{ card.value }}
-        </h2>
+      <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mt-3">
+        {{ card.value }}
+      </h2>
 
-        <p class="mt-2 text-xs font-medium leading-5" [class]="card.color">
-          {{ card.description }}
-        </p>
-      </div>
+      <p class="mt-2 text-xs font-medium leading-5" [class]="card.color">
+        {{ card.description }}
+      </p>
+    </div>
     }
   </div>
 
@@ -46,15 +44,14 @@
     <!-- Header -->
 
     <div
-      class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 sm:px-6 py-5 border-b border-gray-200"
-    >
+      class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 sm:px-6 py-5 border-b border-gray-200">
       <h2 class="text-lg sm:text-xl font-bold text-gray-900">🛒 SCM Logistics & Orders Progress</h2>
 
-      <button
-        (click)="createPurchaseOrder()"
-        class="w-full sm:w-auto bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded-lg font-semibold transition"
-      >
+      <button (click)="createPurchaseOrder()"
+        class="w-full sm:w-auto bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded-lg font-semibold transition">
+
         + Create Purchase Order Request
+
       </button>
     </div>
 
@@ -62,72 +59,83 @@
 
     <div class="p-4 sm:p-5 space-y-4">
       @for (order of orders; track order.id) {
-        <div class="border border-gray-200 rounded-xl p-4 sm:p-5 hover:shadow-sm transition">
-          <!-- Top -->
+      <div class="border border-gray-200 rounded-xl p-4 sm:p-5 hover:shadow-sm transition">
+        <!-- Top -->
 
-          <div class="flex flex-col sm:flex-row sm:justify-between gap-2">
-            <div>
-              <h3 class="font-bold text-base sm:text-lg break-words text-gray-900">
-                {{ order.orderNo }}
+        <div class="flex flex-col sm:flex-row sm:justify-between gap-2">
+          <div>
+            <h3 class="font-bold text-base sm:text-lg break-words text-gray-900">
+              {{ order.orderNo }}
 
-                <span class="block sm:inline font-normal text-gray-500">
-                  - {{ order.customer }}
-                </span>
-              </h3>
-            </div>
-
-            <div class="font-bold text-red-700 text-sm sm:text-base">
-              {{ order.status }}
-            </div>
+              <span class="block sm:inline font-normal text-gray-500">
+                - {{ order.customer }}
+              </span>
+            </h3>
           </div>
 
-          <!-- Progress -->
-
-          <div class="w-full h-2 bg-gray-200 rounded mt-4 overflow-hidden">
-            <div
-              class="bg-green-500 h-2 rounded transition-all duration-500"
-              [style.width.%]="order.progress"
-            ></div>
-          </div>
-
-          <!-- Bottom -->
-
-          <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mt-4">
-            <p class="text-xs sm:text-sm text-gray-500 break-words">
-              Value:
-              <span class="font-semibold text-gray-900">
-                {{ order.value }}
-              </span>
-
-              <span class="hidden sm:inline"> | </span>
-
-              Logistics Lead:
-
-              <span class="font-semibold text-gray-900">
-                {{ order.logisticsLead }}
-              </span>
-            </p>
-
-            <!-- Buttons -->
-
-            <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-              <button
-                (click)="confirmVendor(order)"
-                class="w-full sm:w-auto border border-gray-300 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 transition"
-              >
-                Confirm Vendor
-              </button>
-
-              <button
-                (click)="markDelivered(order)"
-                class="w-full sm:w-auto border border-gray-300 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 transition"
-              >
-                Mark Delivered
-              </button>
-            </div>
+          <div class="font-bold text-red-700 text-sm sm:text-base">
+            {{ order.status }}
           </div>
         </div>
+
+        <!-- Progress -->
+
+        <div class="w-full h-2 bg-gray-200 rounded mt-4 overflow-hidden">
+          <div class="bg-green-500 h-2 rounded transition-all duration-500" [style.width.%]="order.progress"></div>
+        </div>
+
+        <!-- Bottom -->
+
+        <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mt-4">
+          <p class="text-xs sm:text-sm text-gray-500 break-words">
+            Value:
+            <span class="font-semibold text-gray-900">
+              {{ order.value }}
+            </span>
+
+            <span class="hidden sm:inline"> | </span>
+
+            Logistics Lead:
+
+            <span class="font-semibold text-gray-900">
+              {{ order.logisticsLead }}
+            </span>
+          </p>
+
+          <!-- Buttons -->
+
+          <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+            <button (click)="confirmVendor(order)"
+              class="w-full sm:w-auto border border-gray-300 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 transition">
+              Confirm Vendor
+            </button>
+
+            <button (click)="markDelivered(order)"
+              class="w-full sm:w-auto border border-gray-300 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 transition">
+              Mark Delivered
+            </button>
+          </div>
+        </div>
+      </div>
       }
     </div>
   </div>
+
+  @if (showPurchaseOrderModal) {
+
+<div
+  class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+
+  <div class="w-full max-w-4xl">
+
+    <app-purchase-order-request
+      (close)="closePurchaseOrderModal()"
+      (submitForm)="onPurchaseOrderSubmit($event)">
+    </app-purchase-order-request>
+
+  </div>
+
+</div>
+
+}
 </app-executive-layout>

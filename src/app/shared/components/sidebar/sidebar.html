@@ -1,8 +1,6 @@
 <aside
   class="fixed lg:static top-0 left-0 z-50 w-72 h-screen bg-[#111111] border-r border-white/10 flex flex-col text-white transform transition-transform duration-300 ease-in-out lg:translate-x-0"
-  [class.-translate-x-full]="!isOpen"
-  [class.translate-x-0]="isOpen"
->
+  [class.-translate-x-full]="!isOpen" [class.translate-x-0]="isOpen">
   <!-- Logo -->
 
   <div class="h-20 px-6 border-b border-white/10 flex items-center justify-between">
@@ -28,154 +26,122 @@
 
     <!-- Executive -->
 
-    <a
-      routerLink="/executive-center"
-      (click)="closeSidebar.emit()"
+    <a [routerLink]="getDashboardRoute()" (click)="closeSidebar.emit()"
       routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-      [routerLinkActiveOptions]="{ exact: true }"
-      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
-    >
+      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
       <span class="text-lg">⌘</span>
       Executive Center
     </a>
 
+
     @if (showApprovals) {
-      <a
-        routerLink="/approvals"
-        (click)="closeSidebar.emit()"
-        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
-      >
-        <span class="text-lg">❖</span>
-        Approval Center
-      </a>
+    <a routerLink="/approvals" (click)="closeSidebar.emit()"
+      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+      <span class="text-lg">❖</span>
+      Approval Center
+    </a>
     }
 
     @if (showHR) {
-      <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
-        HR & Attendance
-      </div>
+    <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
+      HR & Attendance
+    </div>
 
-      <a
-        routerLink="/employees"
-        (click)="closeSidebar.emit()"
-        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
-      >
-        <span class="text-lg">◫</span>
-        Employee Master
-      </a>
+    <a routerLink="/employees" (click)="closeSidebar.emit()"
+      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+      <span class="text-lg">◫</span>
+      Employee Master
+    </a>
     }
 
     @if (showCRM) {
-      <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
-        CRM & Sales
-      </div>
+    <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
+      CRM & Sales
+    </div>
 
-      <a
-        routerLink="/crm"
-        (click)="closeSidebar.emit()"
-        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
-      >
-        <span class="text-lg">⌗</span>
-        Client CRM
-      </a>
-      <a
-        routerLink="/orders"
-        (click)="closeSidebar.emit()"
-        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
-      >
-        <span class="text-lg">📦</span>
-        Orders Management
-      </a>
+    <a routerLink="/crm" (click)="closeSidebar.emit()"
+      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+      <span class="text-lg">⌗</span>
+      Client CRM
+    </a>
+    <a routerLink="/orders" (click)="closeSidebar.emit()"
+      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+      class="flex items-center gap-3 px-4 py-3 mt-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+      <span class="text-lg">📦</span>
+      Orders Management
+    </a>
     }
 
     @if (showTasks) {
-      <a
-        routerLink="/tasks"
-        (click)="closeSidebar.emit()"
-        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
-      >
-        <span class="text-lg">▤</span>
-        Tasks & Collaboration
-      </a>
+    <a routerLink="/task-collaboration" (click)="closeSidebar.emit()"
+      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+      <span class="text-lg">▤</span>
+      Tasks & Collaboration
+    </a>
     }
 
     @if (showGEM) {
-      <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
-        GEM Bids
-      </div>
+    <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
+      GEM Bids
+    </div>
 
-      <a
-        routerLink="/gem"
-        (click)="closeSidebar.emit()"
-        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
-      >
-        <span class="text-lg">⚙</span>
-        GEM Tenders
-      </a>
+    <a routerLink="/gem" (click)="closeSidebar.emit()"
+      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+      <span class="text-lg">⚙</span>
+      GEM Tenders
+    </a>
     }
 
     @if (showSCM) {
-      <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
-        Logistics & SCM
-      </div>
+    <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
+      Logistics & SCM
+    </div>
 
-      <a
-        routerLink="/supply-chain"
-        (click)="closeSidebar.emit()"
-        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
-      >
-        <span class="text-lg">⊞</span>
-        Supply Chain SCM
-      </a>
+    <a routerLink="/supply-chain" (click)="closeSidebar.emit()"
+      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+      <span class="text-lg">⊞</span>
+      Supply Chain SCM
+    </a>
     }
 
     @if (showOps) {
-      <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
-        Service & Operations
-      </div>
+    <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
+      Service & Operations
+    </div>
 
-      <a
-        routerLink="/operations"
-        (click)="closeSidebar.emit()"
-        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
-      >
-        <span class="text-lg">⎔</span>
-        Operations Desk
-      </a>
+    <a routerLink="/operations" (click)="closeSidebar.emit()"
+      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+      <span class="text-lg">⎔</span>
+      Operations Desk
+    </a>
     }
 
     @if (showFinance) {
-      <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
-        Finance
-      </div>
+    <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
+      Finance
+    </div>
 
-      <a
-        routerLink="/finance"
-        (click)="closeSidebar.emit()"
-        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200"
-      >
-        <span class="text-lg">⛃</span>
-        Finance Ledgers
-      </a>
+    <a routerLink="/finance" (click)="closeSidebar.emit()"
+      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+      <span class="text-lg">⛃</span>
+      Finance Ledgers
+    </a>
     }
   </div>
 
   <!-- Footer -->
 
   <div class="border-t border-white/10 p-4">
-    <button
-      (click)="logout(); closeSidebar.emit()"
-      class="w-full rounded-lg py-3 font-semibold bg-red-800 hover:bg-red-900 text-white transition-all duration-200"
-    >
+    <button (click)="logout(); closeSidebar.emit()"
+      class="w-full rounded-lg py-3 font-semibold bg-red-800 hover:bg-red-900 text-white transition-all duration-200">
       Sign Out
     </button>
   </div>
@@ -184,5 +150,5 @@
 <!-- Mobile Overlay -->
 
 @if (isOpen) {
-  <div class="fixed inset-0 bg-black/50 z-40 lg:hidden" (click)="closeSidebar.emit()"></div>
+<div class="fixed inset-0 bg-black/50 z-40 lg:hidden" (click)="closeSidebar.emit()"></div>
 }

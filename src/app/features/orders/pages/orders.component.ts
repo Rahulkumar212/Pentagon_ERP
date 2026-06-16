@@ -1,9 +1,8 @@
-import { Component, OnInit, inject } from '@angular/core';
-
+import { ChangeDetectorRef, Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
+import { ClientCrmService } from '../../../core/services/client-crm.service';
 import { Order } from '../models/order.type';
-import { OrderService } from '../../../core/services/order.service';
 
 @Component({
   selector: 'app-orders',
@@ -12,22 +11,37 @@ import { OrderService } from '../../../core/services/order.service';
   templateUrl: './orders.component.html',
 })
 export class OrdersComponent implements OnInit {
-  orders: Order[] = [];
 
-  private orderService = inject(OrderService);
+  orders: Order[] = [];
+  private cdr = inject(ChangeDetectorRef);
+
+  private readonly orderService =
+    inject(ClientCrmService);
 
   ngOnInit(): void {
     this.loadOrders();
   }
 
-  loadOrders() {
+  loadOrders(): void {
+
     this.orderService.getOrders().subscribe({
-      next: (res) => {
-        this.orders = res.data;
+
+      next: (response) => {
+
+        this.orders = response?.data ?? [];
+         this.cdr.detectChanges();
       },
+
       error: (err) => {
-        console.error(err);
-      },
+
+        console.error('Failed to load orders', err);
+
+        this.orders = [];
+
+      }
+
     });
+
   }
+
 }
