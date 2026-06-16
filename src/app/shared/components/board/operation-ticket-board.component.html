@@ -1,0 +1,121 @@
+<div class="bg-white rounded-2xl border shadow-sm mt-6">
+
+  <div class="p-6 border-b">
+
+    <h2 class="text-2xl font-bold">
+      🛠 Helpdesk Service Tickets & AMC
+    </h2>
+
+  </div>
+
+  <div class="overflow-x-auto max-h-[520px] overflow-y-auto">
+
+    <table class="min-w-full">
+
+      <thead class="sticky top-0 bg-white">
+
+        <tr class="text-xs uppercase text-gray-500 border-b">
+
+          <th class="px-5 py-4 text-left">
+            Ticket ID
+          </th>
+
+          <th class="px-5 py-4 text-left">
+            Client
+          </th>
+
+          <th class="px-5 py-4 text-left">
+            Issue
+          </th>
+
+          <th class="px-5 py-4 text-left">
+            AMC
+          </th>
+
+          <th class="px-5 py-4 text-left">
+            Engineer
+          </th>
+
+          <th class="px-5 py-4 text-left">
+            Priority
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        @for(ticket of tickets; track ticket.ticketId){
+
+        <tr class="border-b hover:bg-gray-50">
+
+          <td class="px-5 py-5 font-semibold">
+            {{ ticket.ticketId }}
+          </td>
+
+          <td class="px-5 py-5 font-medium">
+            {{ ticket.client }}
+          </td>
+
+          <td class="px-5 py-5">
+
+            <div class="font-semibold">
+
+              {{ ticket.issue }}
+
+            </div>
+
+            <div class="text-sm text-gray-500 mt-1">
+
+              {{ ticket.resolution }}
+
+            </div>
+
+          </td>
+
+          <td class="px-5 py-5">
+
+            <span
+              class="px-3 py-1 rounded text-xs font-semibold"
+              [ngClass]="{
+
+                'bg-green-100 text-green-700':
+                  ticket.amcStatus === 'AMC COVERED',
+
+                'bg-red-100 text-red-700':
+                  ticket.amcStatus === 'OUT OF AMC'
+
+              }">
+
+              {{ ticket.amcStatus }}
+
+            </span>
+
+          </td>
+
+          <td class="px-5 py-5">
+
+            {{ ticket.engineer }}
+
+          </td>
+
+          <td class="px-5 py-5">
+
+            <app-priority-badge
+              [priority]="ticket.priority">
+            </app-priority-badge>
+
+          </td>
+
+        </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

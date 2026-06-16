@@ -1,0 +1,33 @@
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-5">
+
+  @for(card of cards; track card.title){
+
+  <div
+    class="bg-white border border-gray-200 rounded-xl p-6 shadow-sm hover:shadow-md transition">
+
+    <p
+      class="uppercase text-xs tracking-widest font-semibold text-gray-500">
+
+      {{ card.title }}
+
+    </p>
+
+    <h2 class="text-4xl font-bold mt-3">
+
+      {{ card.value }}
+
+    </h2>
+
+    <p
+      class="text-sm mt-3"
+      [class]="card.color">
+
+      {{ card.description }}
+
+    </p>
+
+  </div>
+
+  }
+
+</div>

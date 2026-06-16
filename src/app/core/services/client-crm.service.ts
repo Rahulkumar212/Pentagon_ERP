@@ -4,10 +4,16 @@ import { Observable } from 'rxjs';
 
 import { environment } from '../../../environments/environment';
 
-import { LeadResponse } from '../models/client-crm.type';
+import {
+  LeadResponse
+} from '../models/client-crm.type';
+
+import {
+  OrderResponse
+} from '../../features/orders/models/order.type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClientCrmService {
 
@@ -15,12 +21,32 @@ export class ClientCrmService {
 
   private readonly API_URL = environment.apiUrl;
 
+  // Get Converted Client Accounts
   getConvertedLeads(): Observable<LeadResponse> {
-
     return this.http.get<LeadResponse>(
       `${this.API_URL}/account`
     );
+  }
 
+  // Create Order
+  createOrder(payload: any): Observable<any> {
+    return this.http.post(
+      `${this.API_URL}/createOrder`,
+      payload,
+      {
+        withCredentials: true,
+      }
+    );
+  }
+
+  // Get Orders
+  getOrders(): Observable<OrderResponse> {
+    return this.http.get<OrderResponse>(
+      `${this.API_URL}/fetchOrders`,
+      {
+        withCredentials: true,
+      }
+    );
   }
 
 }

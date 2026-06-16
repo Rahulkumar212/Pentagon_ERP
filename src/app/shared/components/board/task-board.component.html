@@ -1,0 +1,96 @@
+<div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
+
+    <div class="px-5 py-4 border-b">
+
+        <h2 class="text-xl font-semibold">
+
+            📋 Active Corporate Task Board
+
+        </h2>
+
+    </div>
+
+    <div class="overflow-x-auto">
+
+        <table class="w-full min-w-225">
+
+            <thead>
+
+                <tr class="border-b text-xs uppercase text-gray-500">
+
+                    <th class="px-5 py-4 text-left">Task</th>
+                    <th class="px-5 py-4 text-left">Created By</th>
+                    <th class="px-5 py-4 text-left">Assignee</th>
+                    <th class="px-5 py-4 text-left">Due Date</th>
+                    <th class="px-5 py-4 text-left">Progress</th>
+                    <th class="px-5 py-4 text-left">Priority</th>
+
+                </tr>
+
+            </thead>
+
+            <tbody>
+
+                @for(task of tasks; track task.id){
+
+                <tr class="border-b hover:bg-gray-50">
+
+                    <td class="px-5 py-4">
+
+                        <p class="font-semibold">
+
+                            {{ task.title }}
+
+                        </p>
+
+                        <p class="text-xs text-gray-500 mt-1">
+
+                            {{ task.description }}
+
+                        </p>
+
+                    </td>
+
+                    <td class="px-5 py-4">
+
+                        {{ task.createdBy }}
+
+                    </td>
+
+                    <td class="px-5 py-4">
+
+                        {{ task.assignee }}
+
+                    </td>
+
+                    <td class="px-5 py-4">
+
+                        {{ task.dueDate }}
+
+                    </td>
+
+                    <td class="px-5 py-4">
+
+                        <app-progress-bar [progress]="task.progress">
+                        </app-progress-bar>
+
+                    </td>
+
+                    <td class="px-5 py-4">
+
+                        <app-priority-badge [priority]="task.priority">
+                        </app-priority-badge>
+
+                    </td>
+
+                </tr>
+
+                }
+
+            </tbody>
+
+        </table>
+
+    </div>
+
+</div>

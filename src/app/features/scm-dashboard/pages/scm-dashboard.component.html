@@ -1,0 +1,33 @@
+<div class="flex flex-col gap-6">
+<!-- Header -->
+
+<div class="border-b pb-5">
+
+  <p class="uppercase tracking-[0.2em] text-red-800 text-xs font-bold">
+    Supply Chain, Inventory & Vendor Master
+  </p>
+
+  <h1 class="text-4xl font-bold mt-2">
+    Supply Chain SCM
+  </h1>
+
+  <p class="text-sm text-gray-500 mt-2">
+    Interconnected SCM console tracking order lifecycles,
+    warehouse inventory balances and vendor scorecards.
+  </p>
+
+</div>
+
+<!-- KPI Cards -->
+
+<app-task-cards
+  [cards]="cards">
+</app-task-cards>
+
+<!-- Order Tracking -->
+
+<app-scm-order-board
+  [orders]="orders">
+</app-scm-order-board>
+
+</div>

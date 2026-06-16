@@ -1,0 +1,34 @@
+<div class="flex flex-col gap-6">
+
+  <!-- Header -->
+
+  <div class="border-b border-gray-200 pb-6">
+
+    <p class="uppercase tracking-[0.2em] text-red-700 text-xs font-bold">
+      Field Operations, Training & AMC Service Desk
+    </p>
+
+    <h1 class="text-3xl md:text-4xl font-bold text-gray-900 mt-2">
+      Operations Desk
+    </h1>
+
+    <p class="text-sm md:text-base text-gray-500 mt-3 max-w-3xl leading-7">
+      Integrated operations console for managing engineer installations,
+      customer training sessions and AMC service tickets across projects.
+    </p>
+
+  </div>
+
+  <!-- Dashboard Cards -->
+
+  <app-task-cards
+    [cards]="cards">
+  </app-task-cards>
+
+  <!-- Operations Board -->
+
+  <app-operation-ticket-board
+    [tickets]="tickets">
+  </app-operation-ticket-board>
+
+</div>

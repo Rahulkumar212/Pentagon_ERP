@@ -1,0 +1,17 @@
+<div class="flex items-center gap-3">
+
+  <span class="text-xs font-semibold min-w-[40px]">
+    {{ progress }}%
+  </span>
+
+  <div class="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
+
+    <div
+      class="h-full rounded-full transition-all duration-300"
+      [class]="progressClass"
+      [style.width.%]="progress">
+    </div>
+
+  </div>
+
+</div>

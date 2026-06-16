@@ -21,7 +21,10 @@ export class DashboardService {
   // Dashboard Stats
   getStats(): Observable<DashboardStatsResponse> {
     return this.http.get<DashboardStatsResponse>(
-      `${this.API_URL}/dashboard/stats`
+      `${this.API_URL}/dashboard/stats`,
+      {
+        withCredentials: true,
+      }
     );
   }
 
