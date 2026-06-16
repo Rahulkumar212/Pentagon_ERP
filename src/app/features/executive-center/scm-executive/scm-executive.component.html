@@ -1,190 +1,133 @@
 <app-executive-layout [notifications]="notifications">
-
   <!-- Header -->
   <div class="border-b border-gray-200 pb-4">
-
     <p class="uppercase tracking-[0.15em] text-red-800 text-xs font-bold">
       Pentagon Business Console
     </p>
 
-    <h1 class="text-2xl sm:text-3xl font-bold mt-1">
-      Welcome, Supply Chain Executive
-    </h1>
+    <h1 class="text-2xl sm:text-3xl font-bold mt-1">Welcome, Supply Chain Executive</h1>
 
     <p class="text-xs sm:text-sm text-gray-500 mt-2 leading-6">
       Code:
       <span class="font-semibold">SCME001</span>
-      |
-      Department:
+      | Department:
       <span class="font-semibold">Supply Chain</span>
-      |
-      Location:
-      <span class="font-semibold">Chhattisgarh</span>
+      <!-- | -->
+      <!-- Location:
+      <span class="font-semibold">Chhattisgarh</span> -->
     </p>
-
   </div>
 
   <!-- KPI Cards -->
 
   <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+    @for (card of cards; track card.title) {
+      <div
+        class="bg-white border border-gray-200 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow-md transition"
+      >
+        <p class="text-[11px] uppercase tracking-wider font-semibold text-gray-500">
+          {{ card.title }}
+        </p>
 
-    @for(card of cards; track card.title){
+        <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mt-3">
+          {{ card.value }}
+        </h2>
 
-    <div
-      class="bg-white border border-gray-200 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow-md transition">
-
-      <p
-        class="text-[11px] uppercase tracking-wider font-semibold text-gray-500">
-        {{ card.title }}
-      </p>
-
-      <h2 class="text-xl sm:text-2xl font-bold text-gray-900 mt-3">
-        {{ card.value }}
-      </h2>
-
-      <p class="mt-2 text-xs font-medium leading-5" [class]="card.color">
-        {{ card.description }}
-      </p>
-
-    </div>
-
+        <p class="mt-2 text-xs font-medium leading-5" [class]="card.color">
+          {{ card.description }}
+        </p>
+      </div>
     }
-
   </div>
 
   <!-- Orders Section -->
 
-  <div
-    class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
-
+  <div class="bg-white rounded-xl border border-gray-200 shadow-sm overflow-hidden">
     <!-- Header -->
 
     <div
-      class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 sm:px-6 py-5 border-b border-gray-200">
-
-      <h2 class="text-lg sm:text-xl font-bold text-gray-900">
-        🛒 SCM Logistics & Orders Progress
-      </h2>
+      class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 px-4 sm:px-6 py-5 border-b border-gray-200"
+    >
+      <h2 class="text-lg sm:text-xl font-bold text-gray-900">🛒 SCM Logistics & Orders Progress</h2>
 
       <button
         (click)="createPurchaseOrder()"
-        class="w-full sm:w-auto bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded-lg font-semibold transition">
-
+        class="w-full sm:w-auto bg-red-800 hover:bg-red-900 text-white px-4 py-2 rounded-lg font-semibold transition"
+      >
         + Create Purchase Order Request
-
       </button>
-
     </div>
 
     <!-- Orders -->
 
     <div class="p-4 sm:p-5 space-y-4">
+      @for (order of orders; track order.id) {
+        <div class="border border-gray-200 rounded-xl p-4 sm:p-5 hover:shadow-sm transition">
+          <!-- Top -->
 
-      @for(order of orders; track order.id){
+          <div class="flex flex-col sm:flex-row sm:justify-between gap-2">
+            <div>
+              <h3 class="font-bold text-base sm:text-lg break-words text-gray-900">
+                {{ order.orderNo }}
 
-      <div
-        class="border border-gray-200 rounded-xl p-4 sm:p-5 hover:shadow-sm transition">
+                <span class="block sm:inline font-normal text-gray-500">
+                  - {{ order.customer }}
+                </span>
+              </h3>
+            </div>
 
-        <!-- Top -->
+            <div class="font-bold text-red-700 text-sm sm:text-base">
+              {{ order.status }}
+            </div>
+          </div>
 
-        <div
-          class="flex flex-col sm:flex-row sm:justify-between gap-2">
+          <!-- Progress -->
 
-          <div>
+          <div class="w-full h-2 bg-gray-200 rounded mt-4 overflow-hidden">
+            <div
+              class="bg-green-500 h-2 rounded transition-all duration-500"
+              [style.width.%]="order.progress"
+            ></div>
+          </div>
 
-            <h3
-              class="font-bold text-base sm:text-lg break-words text-gray-900">
+          <!-- Bottom -->
 
-              {{ order.orderNo }}
-
-              <span
-                class="block sm:inline font-normal text-gray-500">
-
-                - {{ order.customer }}
-
+          <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mt-4">
+            <p class="text-xs sm:text-sm text-gray-500 break-words">
+              Value:
+              <span class="font-semibold text-gray-900">
+                {{ order.value }}
               </span>
 
-            </h3>
+              <span class="hidden sm:inline"> | </span>
 
+              Logistics Lead:
+
+              <span class="font-semibold text-gray-900">
+                {{ order.logisticsLead }}
+              </span>
+            </p>
+
+            <!-- Buttons -->
+
+            <div class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
+              <button
+                (click)="confirmVendor(order)"
+                class="w-full sm:w-auto border border-gray-300 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 transition"
+              >
+                Confirm Vendor
+              </button>
+
+              <button
+                (click)="markDelivered(order)"
+                class="w-full sm:w-auto border border-gray-300 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 transition"
+              >
+                Mark Delivered
+              </button>
+            </div>
           </div>
-
-          <div
-            class="font-bold text-red-700 text-sm sm:text-base">
-
-            {{ order.status }}
-
-          </div>
-
         </div>
-
-        <!-- Progress -->
-
-        <div
-          class="w-full h-2 bg-gray-200 rounded mt-4 overflow-hidden">
-
-          <div
-            class="bg-green-500 h-2 rounded transition-all duration-500"
-            [style.width.%]="order.progress">
-          </div>
-
-        </div>
-
-        <!-- Bottom -->
-
-        <div
-          class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mt-4">
-
-          <p
-            class="text-xs sm:text-sm text-gray-500 break-words">
-
-            Value:
-            <span class="font-semibold text-gray-900">
-              {{ order.value }}
-            </span>
-
-            <span class="hidden sm:inline">
-              |
-            </span>
-
-            Logistics Lead:
-
-            <span class="font-semibold text-gray-900">
-              {{ order.logisticsLead }}
-            </span>
-
-          </p>
-
-          <!-- Buttons -->
-
-          <div
-            class="flex flex-col sm:flex-row gap-2 w-full sm:w-auto">
-
-            <button
-              (click)="confirmVendor(order)"
-              class="w-full sm:w-auto border border-gray-300 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 transition">
-
-              Confirm Vendor
-
-            </button>
-
-            <button
-              (click)="markDelivered(order)"
-              class="w-full sm:w-auto border border-gray-300 px-3 py-2 rounded-lg text-sm hover:bg-gray-100 transition">
-
-              Mark Delivered
-
-            </button>
-
-          </div>
-
-        </div>
-
-      </div>
-
       }
-
     </div>
-
   </div>
-
 </app-executive-layout>

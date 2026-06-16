@@ -7,20 +7,19 @@ import { environment } from '../../../environments/environment';
 import { LeadResponse } from '../models/client-crm.type';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ClientCrmService {
-
   private readonly http = inject(HttpClient);
 
   private readonly API_URL = environment.apiUrl;
 
   getConvertedLeads(): Observable<LeadResponse> {
-
-    return this.http.get<LeadResponse>(
-      `${this.API_URL}/account`
-    );
-
+    return this.http.get<LeadResponse>(`${this.API_URL}/account`);
   }
-
+  createOrder(payload: any) {
+    return this.http.post(`${this.API_URL}/createOrder`, payload, {
+      withCredentials: true,
+    });
+  }
 }

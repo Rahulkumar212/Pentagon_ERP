@@ -3,14 +3,8 @@
 >
   <!-- LEFT -->
   <div class="flex items-center gap-3 flex-1">
-
     <!-- Mobile Menu -->
-    <button
-      class="lg:hidden text-2xl shrink-0"
-      (click)="menuClick.emit()"
-    >
-      ☰
-    </button>
+    <button class="lg:hidden text-2xl shrink-0" (click)="menuClick.emit()">☰</button>
 
     <!-- Search -->
     <input
@@ -20,12 +14,10 @@
       placeholder="Search..."
       class="w-full sm:max-w-xs md:max-w-sm lg:max-w-md px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-red-300"
     />
-
   </div>
 
   <!-- RIGHT -->
   <div class="flex items-center gap-2 sm:gap-4 md:gap-6 relative">
-
     <!-- Avatar -->
     <div
       class="w-9 h-9 bg-red-800 text-white flex items-center justify-center rounded-full font-bold shrink-0"
@@ -35,7 +27,6 @@
 
     <!-- User Info -->
     <div class="hidden md:block text-right">
-
       <p class="text-sm font-semibold text-gray-800">
         {{ name }}
       </p>
@@ -43,26 +34,17 @@
       <p class="text-xs text-gray-500">
         {{ role }}
       </p>
-
     </div>
 
     <!-- Logout -->
-    <button
+    <!-- <button
       (click)="logout()"
       class="hidden sm:block bg-red-800 text-white px-3 md:px-4 py-2 rounded-xl hover:bg-red-900 text-sm"
     >
       Logout
-    </button>
+    </button> -->
 
     <!-- Mobile Logout -->
-    <button
-      (click)="logout()"
-      class="sm:hidden text-red-800 text-xl"
-      title="Logout"
-    >
-      ⎋
-    </button>
-
+    <button (click)="logout()" class="sm:hidden text-red-800 text-xl" title="Logout">⎋</button>
   </div>
-
 </div>

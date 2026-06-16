@@ -1,19 +1,14 @@
-import { Component, Input, Output, OnInit,EventEmitter } from '@angular/core';
+import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [
-    CommonModule,
-    RouterLink,
-    RouterLinkActive,
-  ],
+  imports: [CommonModule, RouterLink, RouterLinkActive],
   templateUrl: './sidebar.html',
 })
 export class SidebarComponent implements OnInit {
-
   @Input() isOpen = false;
 
   @Output()
@@ -26,19 +21,30 @@ export class SidebarComponent implements OnInit {
   };
 
   ngOnInit(): void {
-    const userData = localStorage.getItem('user');
+    console.log('role', localStorage.getItem('role'));
 
-    if (userData) {
-      const loggedInUser = JSON.parse(userData);
-
-      this.user = {
-        roleName: loggedInUser.role || '',
-        departmentName:
-          loggedInUser.departmentName || '',
-        name: loggedInUser.name || '',
-      };
-    }
+    this.user = {
+      roleName: localStorage.getItem('role') || '',
+      departmentName: localStorage.getItem('departmentName') || '',
+      name: localStorage.getItem('name') || '',
+    };
   }
+  // ngOnInit(): void {
+  //   const userData = localStorage.getItem('role');
+  //   console.log('userdata', userData);
+  //   console.log('role from user', localStorage.getItem('role'));
+
+  //   if (userData) {
+  //     const loggedInUser = JSON.parse(userData);
+  //     // const loggedInUser = JSON.parse(userData);
+
+  //     this.user = {
+  //       roleName: loggedInUser.role || '',
+  //       departmentName: loggedInUser.departmentName || '',
+  //       name: loggedInUser.name || '',
+  //     };
+  //   }
+  // }
 
   get isSuperAdmin(): boolean {
     return this.user.roleName === 'SUPER_ADMIN';
@@ -53,47 +59,25 @@ export class SidebarComponent implements OnInit {
   }
 
   get showApprovals(): boolean {
-    return [
-      'SUPER_ADMIN',
-      'DIRECTOR',
-      'MANAGER',
-    ].includes(this.user.roleName);
+    return ['SUPER_ADMIN', 'DIRECTOR', 'MANAGER'].includes(this.user.roleName);
   }
 
   get showHR(): boolean {
-    return [
-      'SUPER_ADMIN',
-      'DIRECTOR',
-      'HR_MANAGER',
-      'HR_EXECUTIVE',
-    ].includes(this.user.roleName);
+    return ['SUPER_ADMIN', 'DIRECTOR', 'HR_MANAGER', 'HR_EXECUTIVE'].includes(this.user.roleName);
   }
 
   get showCRM(): boolean {
-    return [
-      'SUPER_ADMIN',
-      'DIRECTOR',
-      'SALES_MANAGER',
-      'SALES_EXECUTIVE',
-    ].includes(this.user.roleName);
+    return ['SUPER_ADMIN', 'DIRECTOR', 'SALES_MANAGER', 'SALES_EXECUTIVE'].includes(
+      this.user.roleName,
+    );
   }
 
   get showGEM(): boolean {
-    return [
-      'SUPER_ADMIN',
-      'DIRECTOR',
-      'GEM_MANAGER',
-      'GEM_EXECUTIVE',
-    ].includes(this.user.roleName);
+    return ['SUPER_ADMIN', 'DIRECTOR', 'GEM_MANAGER', 'GEM_EXECUTIVE'].includes(this.user.roleName);
   }
 
   get showSCM(): boolean {
-    return [
-      'SUPER_ADMIN',
-      'DIRECTOR',
-      'SCM_MANAGER',
-      'SCM_EXECUTIVE',
-    ].includes(this.user.roleName);
+    return ['SUPER_ADMIN', 'DIRECTOR', 'SCM_MANAGER', 'SCM_EXECUTIVE'].includes(this.user.roleName);
   }
 
   get showOps(): boolean {
@@ -102,7 +86,7 @@ export class SidebarComponent implements OnInit {
       'DIRECTOR',
       'OPERATIONS_MANAGER',
       'OPERATIONS_EXECUTIVE',
-      'SCM_EXECUTIVE'
+      'SCM_EXECUTIVE',
     ].includes(this.user.roleName);
   }
 
@@ -120,17 +104,14 @@ export class SidebarComponent implements OnInit {
       'OPERATIONS_MANAGER',
       'FINANCE_MANAGER',
       'ACCOUNTANT',
-      'EMPLOYEE'
+      'EMPLOYEE',
     ].includes(this.user.roleName);
   }
 
   get showFinance(): boolean {
-    return [
-      'SUPER_ADMIN',
-      'DIRECTOR',
-      'FINANCE_MANAGER',
-      'ACCOUNTANT',
-    ].includes(this.user.roleName);
+    return ['SUPER_ADMIN', 'DIRECTOR', 'FINANCE_MANAGER', 'ACCOUNTANT'].includes(
+      this.user.roleName,
+    );
   }
 
   logout(): void {

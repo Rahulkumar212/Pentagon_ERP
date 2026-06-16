@@ -1,0 +1,62 @@
+<div class="bg-white rounded-xl shadow border mt-6">
+  <div class="flex justify-between items-center p-5 border-b">
+    <h2 class="text-xl font-semibold">📦 Orders Management</h2>
+
+    <span class="bg-blue-100 text-blue-700 px-3 py-1 rounded-full">
+      {{ orders.length }} Orders
+    </span>
+  </div>
+
+  <div class="overflow-x-auto">
+    <table class="w-full">
+      <thead class="bg-gray-100">
+        <tr>
+          <th class="text-left p-4">Order ID</th>
+          <th class="text-left p-4">Organization</th>
+          <th class="text-left p-4">Purchase Mode</th>
+          <th class="text-left p-4">PO Number</th>
+          <th class="text-left p-4">Amount</th>
+          <th class="text-left p-4">Status</th>
+          <th class="text-left p-4">Date</th>
+        </tr>
+      </thead>
+
+      <tbody>
+        @for (order of orders; track order.id) {
+          <tr class="border-b hover:bg-gray-50">
+            <td class="p-4">#{{ order.id }}</td>
+
+            <td class="p-4">
+              {{ order.clientAccount?.organization_name }}
+            </td>
+
+            <td class="p-4">
+              {{ order.purchaseMode }}
+            </td>
+
+            <td class="p-4">
+              {{ order.poNumber }}
+            </td>
+
+            <td class="p-4">₹{{ order.totalAmount }}</td>
+
+            <td class="p-4">
+              <span class="bg-yellow-100 text-yellow-700 px-2 py-1 rounded">
+                {{ order.status }}
+              </span>
+            </td>
+
+            <td class="p-4">
+              {{ order.orderDate | date: 'dd MMM yyyy' }}
+            </td>
+          </tr>
+        } @empty {
+          <tr>
+            <td colspan="7" class="text-center py-10 text-gray-500">No Orders Found</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  </div>
+</div>
+<h1>Orders Page</h1>
