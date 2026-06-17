@@ -6,14 +6,11 @@
     <!-- Mobile Menu -->
     <button class="lg:hidden text-2xl shrink-0" (click)="menuClick.emit()">☰</button>
 
-    <!-- Search -->
-    <input
-      type="text"
-      [(ngModel)]="searchText"
-      (keyup.enter)="onSearch()"
-      placeholder="Search..."
-      class="w-full sm:max-w-xs md:max-w-sm lg:max-w-md px-4 py-2 border rounded-xl focus:outline-none focus:ring-2 focus:ring-red-300"
-    />
+  <!-- Search -->
+<app-search-bar
+  (search)="onSearch($event)"
+  class="w-full sm:max-w-xs md:max-w-sm lg:max-w-md">
+</app-search-bar>
   </div>
 
   <!-- RIGHT -->
@@ -36,13 +33,13 @@
       </p>
     </div>
 
-    <!-- Logout -->
-    <!-- <button
+    
+    <button
       (click)="logout()"
       class="hidden sm:block bg-red-800 text-white px-3 md:px-4 py-2 rounded-xl hover:bg-red-900 text-sm"
     >
       Logout
-    </button> -->
+    </button> 
 
     <!-- Mobile Logout -->
     <button (click)="logout()" class="sm:hidden text-red-800 text-xl" title="Logout">⎋</button>

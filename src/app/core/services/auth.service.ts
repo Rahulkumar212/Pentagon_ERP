@@ -4,6 +4,7 @@ import { Router } from '@angular/router';
 import { Observable, tap } from 'rxjs';
 
 import { environment } from '../../../environments/environment.development';
+import { LogoutResponse } from '../models/login-request.model';
 
 @Injectable({
   providedIn: 'root'
@@ -16,63 +17,58 @@ export class AuthService {
   private readonly API_URL = environment.apiUrl;
 
   login(
-  empcode: string,
-  password: string
-): Observable<any> {
+    empcode: string,
+    password: string
+  ): Observable<any> {
 
-  return this.http.post<any>(
-    `${this.API_URL}/login`,
-    {
-      empcode,
-      password
-    },
-    {
-      withCredentials: true
-    }
-  ).pipe(
+    return this.http.post<any>(
+      `${this.API_URL}/login`,
+      {
+        empcode,
+        password
+      },
+    ).pipe(
 
-    tap((response) => {
+      tap((response) => {
 
-  const role = response.user?.roles?.[0];
-console.log("roles",role);
+        localStorage.setItem(
+          'role',
+          response.user.roles[0]
+        );
 
-  if (role) {
+        localStorage.setItem(
+          'userName',
+          response.user.name
+        );
 
-    localStorage.setItem(
-      'role',
-      role
+      })
+
     );
 
   }
 
-})
-
+ logout(): Observable<LogoutResponse> {
+  return this.http.post<LogoutResponse>(
+    `${this.API_URL}/logout`,
+    {}
   );
-
 }
 
-getRole(): string | null {
-  return localStorage.getItem('role');
-}
+  getRole(): string | null {
+    return localStorage.getItem('role');
+  }
 
-isLoggedIn(): boolean {
-  return !!localStorage.getItem('role');
-}
+  isLoggedIn(): boolean {
+    return !!localStorage.getItem('role');
+  }
 
-logout(): void {
-
-  localStorage.removeItem('role');
-
-  this.router.navigate(['/login']);
-
-}
 
   getCurrentUser() {
 
     const user = localStorage.getItem('role');
-console.log("user login",user);
+    console.log("user login", user);
 
-    return user 
+    return user
 
   }
 

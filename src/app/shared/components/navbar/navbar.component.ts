@@ -5,11 +5,12 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { AuthService } from '../../../core/services/auth.service';
+import { SearchBarComponent } from '../searchbar/search-bar.component';
 
 @Component({
   selector: 'app-navbar',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [CommonModule, FormsModule,SearchBarComponent],
   templateUrl: './navbar.component.html',
 })
 export class NavbarComponent {
@@ -37,13 +38,14 @@ export class NavbarComponent {
     this.user = this.auth.getCurrentUser();
   }
 
-  get role(): string {
-  return this.user?.role ?? '';
+ get role(): string {
+  return localStorage.getItem('role') ?? '';
 }
 
 get name(): string {
-  return this.user?.name ?? '';
+  return localStorage.getItem('userName') ?? '';
 }
+
 
   getInitials(name: string): string {
   if (!name) return '';
@@ -60,16 +62,32 @@ get name(): string {
   ).toUpperCase();
 }
 
-  onSearch() {
-    console.log('Searching:', this.searchText);
-  }
+ onSearch(
+  value: string
+): void {
+
+  console.log(
+    'Searching:',
+    value
+  );
+
+}
 
   toggleNotifications() {
     this.showNotifications = !this.showNotifications;
   }
 
-  logout() {
-    this.auth.logout();
-    this.router.navigate(['/login']);
-  }
+ logout() {
+
+  this.auth.logout().subscribe({
+    next: () => {
+
+      localStorage.clear();
+
+      this.router.navigate(['/login']);
+
+    }
+  });
+
+}
 }

@@ -34,29 +34,28 @@
     </a>
 
 
-    @if (showApprovals) {
-    <a routerLink="/approvals" (click)="closeSidebar.emit()"
+
+    <a *appHasRole="ROLES.APPROVALS" routerLink="/approvals" (click)="closeSidebar.emit()"
       routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
       class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
       <span class="text-lg">❖</span>
       Approval Center
     </a>
-    }
 
-    @if (showHR) {
-    <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
-      HR & Attendance
+
+    <div *appHasRole="ROLES.HR">
+
+      <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
+        HR & Attendance
+      </div>
+
+      <a routerLink="/employees">
+        Employee Master
+      </a>
+
     </div>
 
-    <a routerLink="/employees" (click)="closeSidebar.emit()"
-      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
-      <span class="text-lg">◫</span>
-      Employee Master
-    </a>
-    }
-
-    @if (showCRM) {
+    <div *appHasRole="ROLES.CRM">
     <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
       CRM & Sales
     </div>
@@ -67,24 +66,37 @@
       <span class="text-lg">⌗</span>
       Client CRM
     </a>
-    <a routerLink="/orders" (click)="closeSidebar.emit()"
-      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-      class="flex items-center gap-3 px-4 py-3 mt-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
-      <span class="text-lg">📦</span>
-      Orders Management
-    </a>
-    }
 
-    @if (showTasks) {
-    <a routerLink="/task-collaboration" (click)="closeSidebar.emit()"
+    </div>
+
+   <div *appHasRole="ROLES.ORDERS">
+
+  <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
+    Orders
+  </div>
+
+  <a
+    routerLink="/orders"
+    (click)="closeSidebar.emit()"
+    routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+    class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+
+    <span class="text-lg">📦</span>
+    Orders Management
+
+  </a>
+
+</div>
+
+    
+    <a *appHasRole="ROLES.TASKS" routerLink="/task-collaboration" (click)="closeSidebar.emit()"
       routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
       class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
       <span class="text-lg">▤</span>
       Tasks & Collaboration
     </a>
-    }
 
-    @if (showGEM) {
+   <div *appHasRole="ROLES.GEM">
     <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
       GEM Bids
     </div>
@@ -95,9 +107,9 @@
       <span class="text-lg">⚙</span>
       GEM Tenders
     </a>
-    }
+    </div>
 
-    @if (showSCM) {
+   <div *appHasRole="ROLES.SCM">
     <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
       Logistics & SCM
     </div>
@@ -108,9 +120,12 @@
       <span class="text-lg">⊞</span>
       Supply Chain SCM
     </a>
-    }
+    </div>
 
-    @if (showOps) {
+   
+
+
+   <div *appHasRole="ROLES.OPERATIONS">
     <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
       Service & Operations
     </div>
@@ -121,9 +136,9 @@
       <span class="text-lg">⎔</span>
       Operations Desk
     </a>
-    }
+    </div>
 
-    @if (showFinance) {
+    <div *appHasRole="ROLES.FINANCE">
     <div class="mt-6 mb-2 text-xs uppercase tracking-[0.1em] text-white/40 font-bold">
       Finance
     </div>
@@ -134,7 +149,7 @@
       <span class="text-lg">⛃</span>
       Finance Ledgers
     </a>
-    }
+    </div>
   </div>
 
   <!-- Footer -->
