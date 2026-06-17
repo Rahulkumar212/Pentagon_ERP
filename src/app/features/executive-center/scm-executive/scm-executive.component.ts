@@ -16,11 +16,12 @@ import {
 } from './utils/scm-data';
 import { ExecutiveLayoutComponent } from '../../../layouts/executive-layout/executive-layout.component';
 import { PurchaseOrderRequestComponent } from '../../../shared/components/purchase-order-request/purchase-order-request.component';
+import { ProgressBarComponent } from '../../../shared/components/progress-bar/progress-bar.component';
 
 @Component({
   selector: 'app-scm-executive',
   standalone: true,
-  imports: [CommonModule,ExecutiveLayoutComponent,PurchaseOrderRequestComponent],
+  imports: [CommonModule,ExecutiveLayoutComponent,PurchaseOrderRequestComponent,ProgressBarComponent],
   templateUrl: './scm-executive.component.html'
 })
 export class ScmExecutiveComponent

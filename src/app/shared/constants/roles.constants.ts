@@ -1,0 +1,79 @@
+export const ROLES = {
+
+  APPROVALS: [
+    'SUPER_ADMIN',
+    'DIRECTOR',
+    'MANAGER'
+  ],
+
+  HR: [
+    'SUPER_ADMIN',
+    'DIRECTOR',
+    'HR_MANAGER',
+    'HR_EXECUTIVE'
+  ],
+
+  CRM: [
+    'SUPER_ADMIN',
+    'DIRECTOR',
+    'SALES_MANAGER',
+    'SALES_EXECUTIVE'
+  ],
+
+  SCM: [
+    'SUPER_ADMIN',
+    'DIRECTOR',
+    'SCM_MANAGER',
+    'SCM_EXECUTIVE',
+    'SUPPLY_CHAIN_EXECUTIVE'
+  ],
+
+  // 👇 NEW
+  ORDERS: [
+    'SUPER_ADMIN',
+    'DIRECTOR',
+    'MANAGER',
+    'SALES_MANAGER',
+    'SALES_EXECUTIVE',
+    'SUPPLY_CHAIN_EXECUTIVE'
+  ],
+
+  FINANCE: [
+    'SUPER_ADMIN',
+    'DIRECTOR',
+    'FINANCE_MANAGER',
+    'ACCOUNTANT'
+  ],
+
+  OPERATIONS: [
+    'SUPER_ADMIN',
+    'DIRECTOR',
+    'OPERATIONS_MANAGER',
+    'OPERATIONS_EXECUTIVE',
+     'SCM_EXECUTIVE'
+  ],
+
+  GEM: [
+    'SUPER_ADMIN',
+    'DIRECTOR',
+    'GEM_MANAGER',
+    'GEM_EXECUTIVE'
+  ],
+
+  TASKS: [
+    'SUPER_ADMIN',
+    'DIRECTOR',
+    'MANAGER',
+    'HR_MANAGER',
+    'HR_EXECUTIVE',
+    'SALES_MANAGER',
+    'GEM_MANAGER',
+    'SCM_MANAGER',
+    'SCM_EXECUTIVE',
+    'OPERATIONS_MANAGER',
+    'FINANCE_MANAGER',
+    'ACCOUNTANT',
+    'EMPLOYEE'
+  ]
+
+};

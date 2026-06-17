@@ -1,19 +1,44 @@
-import { Component, Input, Output, OnInit, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  Output,
+  OnInit,
+  EventEmitter
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
-import { RouterLink, RouterLinkActive } from '@angular/router';
+import {
+  Router,
+  RouterLink,
+  RouterLinkActive
+} from '@angular/router';
+
 import { AuthService } from '../../../core/services/auth.service';
+import { ROLES } from '../../constants/roles.constants';
+import { HasRoleDirective } from '../../directives/has-role.directive';
 
 @Component({
   selector: 'app-sidebar',
   standalone: true,
-  imports: [CommonModule, RouterLink, RouterLinkActive],
+  imports: [
+    CommonModule,
+    RouterLink,
+    RouterLinkActive,
+    HasRoleDirective
+  ],
   templateUrl: './sidebar.html',
 })
 export class SidebarComponent implements OnInit {
+
+  readonly ROLES = ROLES;
+
   constructor(
-  private readonly auth: AuthService
-) {}
-  @Input() isOpen = false;
+     private readonly router: Router,
+    private readonly auth: AuthService
+  ) {}
+
+  @Input()
+  isOpen = false;
 
   @Output()
   closeSidebar = new EventEmitter<void>();
@@ -24,123 +49,66 @@ export class SidebarComponent implements OnInit {
     name: '',
   };
 
-  ngOnInit(): void {
-    console.log('role', localStorage.getItem('role'));
+  isScmOpen = false;
+  isOrdersOpen = false;
 
+  ngOnInit(): void {
     this.user = {
       roleName: localStorage.getItem('role') || '',
       departmentName: localStorage.getItem('departmentName') || '',
       name: localStorage.getItem('name') || '',
     };
   }
-  
-  getDashboardRoute(): string {
 
-  const role = this.auth.getRole();
-
-  switch (role) {
-
-    case 'SALES_EXECUTIVE':
-    case 'SALES_MANAGER':
-      return '/sales-executive';
-
-    case 'SCM_EXECUTIVE':
-    case 'SCM_MANAGER':
-    case 'SUPPLY_CHAIN_EXECUTIVE':
-      return '/scm-executive';
-
-    case 'HR_EXECUTIVE':
-    case 'HR_MANAGER':
-      return '/employees';
-
-    case 'FINANCE_MANAGER':
-    case 'ACCOUNTANT':
-      return '/finance';
-
-    case 'OPERATIONS_MANAGER':
-    case 'OPERATIONS_EXECUTIVE':
-      return '/operations';
-
-    case 'GEM_MANAGER':
-    case 'GEM_EXECUTIVE':
-      return '/gem';
-
-    default:
-      return '/sales-executive';
+  toggleScm(): void {
+    this.isScmOpen = !this.isScmOpen;
   }
+  getDashboardRoute(): string {
+    const role = this.auth.getRole();
+
+    switch (role) {
+
+      case 'SALES_EXECUTIVE':
+      case 'SALES_MANAGER':
+        return '/sales-executive';
+
+      case 'SCM_EXECUTIVE':
+      case 'SCM_MANAGER':
+      case 'SUPPLY_CHAIN_EXECUTIVE':
+        return '/scm-executive';
+
+      case 'HR_EXECUTIVE':
+      case 'HR_MANAGER':
+        return '/employees';
+
+      case 'FINANCE_MANAGER':
+      case 'ACCOUNTANT':
+        return '/finance';
+
+      case 'OPERATIONS_MANAGER':
+      case 'OPERATIONS_EXECUTIVE':
+        return '/operations';
+
+      case 'GEM_MANAGER':
+      case 'GEM_EXECUTIVE':
+        return '/gem';
+
+      default:
+        return '/sales-executive';
+    }
+  }
+
+  logout() {
+
+  this.auth.logout().subscribe({
+    next: () => {
+
+      localStorage.clear();
+
+      this.router.navigate(['/login']);
+
+    }
+  });
 
 }
-
-  get isSuperAdmin(): boolean {
-    return this.user.roleName === 'SUPER_ADMIN';
-  }
-
-  get isDirector(): boolean {
-    return this.user.roleName === 'DIRECTOR';
-  }
-
-  get isManager(): boolean {
-    return this.user.roleName === 'MANAGER';
-  }
-
-  get showApprovals(): boolean {
-    return ['SUPER_ADMIN', 'DIRECTOR', 'MANAGER'].includes(this.user.roleName);
-  }
-
-  get showHR(): boolean {
-    return ['SUPER_ADMIN', 'DIRECTOR', 'HR_MANAGER', 'HR_EXECUTIVE'].includes(this.user.roleName);
-  }
-
-  get showCRM(): boolean {
-    return ['SUPER_ADMIN', 'DIRECTOR', 'SALES_MANAGER', 'SALES_EXECUTIVE'].includes(
-      this.user.roleName,
-    );
-  }
-
-  get showGEM(): boolean {
-    return ['SUPER_ADMIN', 'DIRECTOR', 'GEM_MANAGER', 'GEM_EXECUTIVE'].includes(this.user.roleName);
-  }
-
-  get showSCM(): boolean {
-    return ['SUPER_ADMIN', 'DIRECTOR', 'SCM_MANAGER', 'SCM_EXECUTIVE'].includes(this.user.roleName);
-  }
-
-  get showOps(): boolean {
-    return [
-      'SUPER_ADMIN',
-      'DIRECTOR',
-      'OPERATIONS_MANAGER',
-      'OPERATIONS_EXECUTIVE',
-      'SCM_EXECUTIVE',
-    ].includes(this.user.roleName);
-  }
-
-  get showTasks(): boolean {
-    return [
-      'SUPER_ADMIN',
-      'DIRECTOR',
-      'MANAGER',
-      'HR_MANAGER',
-      'HR_EXECUTIVE',
-      'SALES_MANAGER',
-      'GEM_MANAGER',
-      'SCM_MANAGER',
-      'SCM_EXECUTIVE',
-      'OPERATIONS_MANAGER',
-      'FINANCE_MANAGER',
-      'ACCOUNTANT',
-      'EMPLOYEE',
-    ].includes(this.user.roleName);
-  }
-
-  get showFinance(): boolean {
-    return ['SUPER_ADMIN', 'DIRECTOR', 'FINANCE_MANAGER', 'ACCOUNTANT'].includes(
-      this.user.roleName,
-    );
-  }
-
-  logout(): void {
-    localStorage.clear();
-    globalThis.location.href = '/login';
-  }
 }

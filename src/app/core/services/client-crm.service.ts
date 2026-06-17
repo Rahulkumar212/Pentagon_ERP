@@ -32,20 +32,14 @@ export class ClientCrmService {
   createOrder(payload: any): Observable<any> {
     return this.http.post(
       `${this.API_URL}/createOrder`,
-      payload,
-      {
-        withCredentials: true,
-      }
+      payload
     );
   }
 
   // Get Orders
   getOrders(): Observable<OrderResponse> {
     return this.http.get<OrderResponse>(
-      `${this.API_URL}/fetchOrders`,
-      {
-        withCredentials: true,
-      }
+      `${this.API_URL}/fetchOrders`
     );
   }
 
