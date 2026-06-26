@@ -51,12 +51,6 @@ export const routes: Routes = [
           import('./features/client-crm/client-crm.component').then((m) => m.ClientCrmComponent),
       },
       {
-        path: 'orders',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/orders/pages/orders.component').then((m) => m.OrdersComponent),
-      },
-      {
         path: 'task-collaboration',
         canActivate: [authGuard],
         loadComponent: () =>

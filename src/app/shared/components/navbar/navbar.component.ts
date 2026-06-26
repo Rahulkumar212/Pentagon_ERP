@@ -32,8 +32,8 @@ export class NavbarComponent {
     new EventEmitter<void>();
 
   constructor(
-    private router: Router,
-    private auth: AuthService
+    private readonly router: Router,
+    private readonly auth: AuthService
   ) {
     this.user = this.auth.getCurrentUser();
   }

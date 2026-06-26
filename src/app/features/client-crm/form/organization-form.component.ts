@@ -7,19 +7,19 @@ import {
 
 import {
   FormBuilder,
-  Validators,
-  ReactiveFormsModule
+  ReactiveFormsModule,
+  Validators
 } from '@angular/forms';
 
 import { CommonModule } from '@angular/common';
 
-import { OrganizationService } from '../../../core/services/organization.service';
-
 import {
-  Organization,
-  OrganizationPayload,
-  PriorityType
+  SalesVisitPayload,
+  VisitType,
+  LeadType
 } from '../../../core/models/client-crm.type';
+
+import { OrganizationService } from '../../../core/services/organization.service';
 
 @Component({
   selector: 'app-organization-form',
@@ -32,41 +32,62 @@ import {
 })
 export class OrganizationFormComponent {
 
-  @Output()
-  close = new EventEmitter<void>();
+  private readonly fb = inject(FormBuilder);
 
-  @Output()
-  save = new EventEmitter<Organization>();
-
-  private fb = inject(FormBuilder);
-
-  private organizationService =
+  private readonly organizationService =
     inject(OrganizationService);
+
+  @Output()
+  save = new EventEmitter<SalesVisitPayload>();
+
+  showOrganizationModal = true;
 
   isSubmitting = false;
 
   organizationForm =
     this.fb.nonNullable.group({
-      organization_name: [
-        '',
-        Validators.required
-      ],
-       industry_sector: ['',
-        Validators.required
-       ],
-      name_of_poc: [
+
+      executive_name: [
         '',
         Validators.required
       ],
 
-      designation: [''],
-
-      phoneNumber: [
+      visit_date: [
         '',
         Validators.required
       ],
 
-      email: [
+      visit_type: [
+        '' as VisitType,
+        Validators.required
+      ],
+
+      lead_type: [
+        '' as LeadType,
+        Validators.required
+      ],
+
+      customer_name: [
+        '',
+        Validators.required
+      ],
+
+      customer_address: [
+        '',
+        Validators.required
+      ],
+
+      contact_person: [
+        '',
+        Validators.required
+      ],
+
+      contact_number: [
+        '',
+        Validators.required
+      ],
+
+      customer_email: [
         '',
         [
           Validators.required,
@@ -74,18 +95,28 @@ export class OrganizationFormComponent {
         ]
       ],
 
-      city: [''],
+      product_type: [
+        '',
+        Validators.required
+      ],
 
-      address: [''],
+      product_description: [
+        '',
+        Validators.required
+      ],
 
-      notes: [''],
+      quantity: [
+        1,
+        [
+          Validators.required,
+          Validators.min(1)
+        ]
+      ],
 
-      priority: [
-        'MEDIUM' as PriorityType
-      ]
+      remarks: ['']
     });
 
-  submit(): void {
+  onSubmit(): void {
 
     if (this.organizationForm.invalid) {
 
@@ -94,51 +125,117 @@ export class OrganizationFormComponent {
       return;
     }
 
-    this.isSubmitting = true;
-
-    const payload: OrganizationPayload =
+    const formValue =
       this.organizationForm.getRawValue();
 
+    const payload: SalesVisitPayload = {
+
+      executive_name:
+        formValue.executive_name.trim(),
+
+      visit_date:
+        formValue.visit_date,
+
+      visit_type:
+        formValue.visit_type as VisitType,
+
+      lead_type:
+        formValue.lead_type as LeadType,
+
+      customer_name:
+        formValue.customer_name.trim(),
+
+      customer_address:
+        formValue.customer_address.trim(),
+
+      contact_person:
+        formValue.contact_person.trim(),
+
+      contact_number:
+        formValue.contact_number.trim(),
+
+      customer_email:
+        formValue.customer_email.trim(),
+
+      product_type:
+        formValue.product_type.trim(),
+
+      product_description:
+        formValue.product_description.trim(),
+
+      quantity:
+        formValue.quantity,
+
+      remarks:
+        formValue.remarks?.trim() ?? ''
+    };
+
+    this.isSubmitting = true;
+
     this.organizationService
-      .createOrganization(payload)
+      .createSalesVisit(payload)
       .subscribe({
 
-        next: (response: Organization) => {
+        next: (response) => {
 
           console.log(
-            'Organization Created Successfully',
+            'Sales Visit Created',
             response
           );
 
-          // Parent component ko data bhejna
-          this.save.emit(response);
-
-          this.organizationForm.reset({
-            organization_name: '',
-            name_of_poc: '',
-            designation: '',
-            phoneNumber: '',
-            email: '',
-            city: '',
-            address: '',
-            // notes: '',
-            // priority: 'MEDIUM'
-          });
-
           this.isSubmitting = false;
 
-          this.close.emit();
+          this.save.emit(payload);
+
+          this.resetForm();
+
+          this.showOrganizationModal = false;
         },
 
         error: (error) => {
 
           console.error(
-            'Create Organization Error',
+            'Create Sales Visit Error',
             error
           );
 
           this.isSubmitting = false;
         }
       });
+  }
+
+  onCancel(): void {
+
+    this.resetForm();
+
+    this.showOrganizationModal = false;
+  }
+
+  private resetForm(): void {
+
+    this.organizationForm.reset({
+
+      executive_name: '',
+      visit_date: '',
+
+      visit_type:
+        '' as VisitType,
+
+      lead_type:
+        '' as LeadType,
+
+      customer_name: '',
+      customer_address: '',
+      contact_person: '',
+      contact_number: '',
+      customer_email: '',
+
+      product_type: '',
+      product_description: '',
+
+      quantity: 1,
+
+      remarks: ''
+    });
   }
 }

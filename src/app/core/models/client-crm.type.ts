@@ -1,44 +1,86 @@
-export type PriorityType =
-  | 'LOW'
-  | 'MEDIUM'
-  | 'HIGH';
+export type VisitType =
+  | 'COLD'
+  | 'REPEAT'
+  | 'TELECALL';
 
-export type LeadStatus =
-  | 'RAW'
-  | 'INTERESTED'
+  export type LeadType =
+  | 'HOT'
+  | 'WARM';
+
+export type VisitStatus =
+  | 'OPEN'
+  | 'PENDING'
   | 'IN_PROGRESS'
+  | 'NEGOTIATION'
+  | 'FOLLOW_UP'
   | 'CONVERTED'
-  | 'Follow Up Required'
-  | 'No Answer'
-  | 'Busy'
-  | 'Wrong Number'
-  | 'Not Interested';
+  | 'FAILED';
 
-export interface OrganizationPayload {
-  organization_name: string;
-  industry_sector?: string;
-  name_of_poc: string;
-  designation: string;
-  phoneNumber: string;
-  email: string;
-  address: string;
-  city: string;
-  notes: string;
-  priority: PriorityType;
+export interface SalesVisitPayload {
+
+  executive_name: string;
+
+  visit_date: string;
+
+  visit_type: VisitType;
+
+  customer_name: string;
+
+  customer_address: string;
+
+  contact_person: string;
+
+  contact_number: string;
+
+  customer_email: string;
+
+  product_type: string;
+
+  product_description: string;
+
+  quantity: number;
+
+  remarks: string;
+  lead_type: LeadType;
 }
 
-export interface Organization
-  extends OrganizationPayload {
+export interface SalesVisit
+  extends SalesVisitPayload {
 
   id: number;
+
+  status?: VisitStatus;
+
+  closure_date?: string;
+
+  basic_amount?: number;
 
   createdAt?: string;
 
   updatedAt?: string;
 }
 
-export interface LeadResponse {
+export interface SalesVisitResponse {
+
   success: boolean;
+
   message: string;
-  data: Organization[];
+
+  data: SalesVisit[];
+}
+
+export type LeadResponse =
+  SalesVisitResponse;
+
+
+  export interface UpdateSalesVisitPayload {
+
+   status: string;
+
+  closure_date: string;
+
+  basic_amount: number;
+
+  remarks: string;
+
 }

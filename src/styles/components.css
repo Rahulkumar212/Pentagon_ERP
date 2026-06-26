@@ -1,0 +1,95 @@
+@layer components {
+
+  .card {
+    @apply rounded-xl shadow-sm;
+
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-default);
+  }
+
+  .card-header {
+    padding-bottom: 1rem;
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .page-title {
+    @apply uppercase tracking-[0.15em] text-xs font-bold;
+
+    color: var(--brand-800);
+  }
+
+  .page-heading {
+    @apply text-2xl font-bold mt-1;
+
+    color: var(--text-primary);
+  }
+
+  .page-subtitle {
+    @apply text-xs mt-2 leading-6;
+
+    color: var(--text-secondary);
+  }
+
+  .table-card {
+    @apply rounded-xl shadow-sm overflow-hidden;
+
+    background-color: var(--bg-card);
+    border: 1px solid var(--border-default);
+  }
+
+  .table-header {
+    @apply px-4 py-4;
+
+    border-bottom: 1px solid var(--border-default);
+  }
+
+  .table-title {
+    @apply text-lg font-semibold;
+
+    color: var(--text-primary);
+  }
+
+  .btn-blue {
+    @apply px-3 py-2 rounded-lg text-xs font-medium text-white transition-colors;
+
+    background-color: var(--status-interested);
+  }
+
+  .btn-blue:hover {
+    background-color: var(--status-interested-hover);
+  }
+
+  .btn-green {
+    @apply px-3 py-2 rounded-lg text-xs font-medium text-white transition-colors;
+
+    background-color: var(--status-converted);
+  }
+
+  .btn-green:hover {
+    background-color: var(--status-converted-hover);
+  }
+
+  .badge {
+    @apply px-3 py-1 text-xs font-semibold rounded-3xl;
+  }
+
+  .badge-raw {
+    color: white;
+    background-color: var(--status-raw);
+  }
+
+  .badge-progress {
+    color: white;
+    background-color: var(--status-progress);
+  }
+
+  .badge-interested {
+    color: white;
+    background-color: var(--status-interested);
+  }
+
+  .badge-converted {
+    color: white;
+    background-color: var(--status-converted);
+  }
+}

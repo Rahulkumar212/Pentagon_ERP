@@ -5,42 +5,59 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 
 import {
-  LeadResponse
+  SalesVisit,
+  SalesVisitPayload,
+  SalesVisitResponse,
+  UpdateSalesVisitPayload
 } from '../models/client-crm.type';
 
-import {
-  OrderResponse
-} from '../../features/orders/models/order.type';
-
 @Injectable({
-  providedIn: 'root',
+  providedIn: 'root'
 })
 export class ClientCrmService {
 
   private readonly http = inject(HttpClient);
 
-  private readonly API_URL = environment.apiUrl;
+  private readonly API_URL = `${environment.apiUrl}`;
 
-  // Get Converted Client Accounts
-  getConvertedLeads(): Observable<LeadResponse> {
-    return this.http.get<LeadResponse>(
-      `${this.API_URL}/account`
-    );
-  }
-
-  // Create Order
-  createOrder(payload: any): Observable<any> {
-    return this.http.post(
-      `${this.API_URL}/createOrder`,
+  // ✅ CREATE SALES VISIT
+  createSalesVisit(payload: SalesVisitPayload): Observable<SalesVisit> {
+    return this.http.post<SalesVisit>(
+      `${this.API_URL}/createSalesVisit`,
       payload
     );
   }
 
-  // Get Orders
-  getOrders(): Observable<OrderResponse> {
-    return this.http.get<OrderResponse>(
-      `${this.API_URL}/fetchOrders`
+  // ✅ GET SALES VISITS (FIXED)
+  getSalesVisits(): Observable<SalesVisitResponse> {
+    return this.http.get<SalesVisitResponse>(
+      `${this.API_URL}/my-visits`
     );
   }
 
+ updateSalesVisit(
+  id: number,
+  payload: UpdateSalesVisitPayload
+) {
+  return this.http.put(
+    `${this.API_URL}/update/${id}`,
+    payload
+  );
+}
+
+getConvertedSalesVisits(): Observable<SalesVisitResponse> {
+
+  return this.http.get<SalesVisitResponse>(
+    `${this.API_URL}/convert`
+  );
+
+}
+
+getFailedSalesVisits(): Observable<SalesVisitResponse> {
+
+  return this.http.get<SalesVisitResponse>(
+    `${this.API_URL}/failed`
+  );
+
+}
 }

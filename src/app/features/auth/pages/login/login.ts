@@ -17,10 +17,10 @@ import { ToastService } from '../../../../core/services/toast.service';
 })
 export class LoginComponent {
 
-  private fb = inject(FormBuilder);
-  private router = inject(Router);
-  private authService = inject(AuthService);
-  private toast = inject(ToastService);
+  private readonly fb = inject(FormBuilder);
+  private readonly router = inject(Router);
+  private readonly authService = inject(AuthService);
+  private readonly toast = inject(ToastService);
 
   errorMessage = '';
 
@@ -70,7 +70,6 @@ export class LoginComponent {
       this.toast.success(
         'Login Successful'
       );
-      // const role = response.user?.roles;
       const role = response.user?.roles?.[0];
 
 
