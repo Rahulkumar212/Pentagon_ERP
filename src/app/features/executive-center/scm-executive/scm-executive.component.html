@@ -12,17 +12,14 @@
       <span class="font-semibold">SCME001</span>
       | Department:
       <span class="font-semibold">Supply Chain</span>
-      <!-- | -->
-      <!-- Location:
-      <span class="font-semibold">Chhattisgarh</span> -->
     </p>
   </div>
 
   <!-- KPI Cards -->
 
-  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-4">
+  <div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-3">
     @for (card of cards; track card.title) {
-    <div class="bg-white border border-gray-200 rounded-xl p-4 sm:p-5 shadow-sm hover:shadow-md transition">
+    <div class="bg-white border border-gray-200 rounded-xl p-2 sm:p-3 shadow-sm hover:shadow-md transition">
       <p class="text-[11px] uppercase tracking-wider font-semibold text-gray-500">
         {{ card.title }}
       </p>
@@ -64,7 +61,7 @@
 
         <div class="flex flex-col sm:flex-row sm:justify-between gap-2">
           <div>
-            <h3 class="font-bold text-base sm:text-lg break-words text-gray-900">
+            <h3 class="font-bold text-base sm:text-lg wrap-break-word text-gray-900">
               {{ order.orderNo }}
 
               <span class="block sm:inline font-normal text-gray-500">
@@ -88,7 +85,7 @@
         <!-- Bottom -->
 
         <div class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4 mt-4">
-          <p class="text-xs sm:text-sm text-gray-500 break-words">
+          <p class="text-xs sm:text-sm text-gray-500 wrap-break-word">
             Value:
             <span class="font-semibold text-gray-900">
               {{ order.value }}

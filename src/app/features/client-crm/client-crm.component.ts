@@ -2,13 +2,20 @@ import {
   Component
 } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
-
-import { OrganizationFormComponent } from './form/organization-form.component';
-import { OrganizationTableComponent } from './tables/organization-table.component';
+import {
+  CommonModule
+} from '@angular/common';
 
 import {
-  Organization
+  OrganizationFormComponent
+} from './form/organization-form.component';
+
+import {
+  OrganizationTableComponent
+} from './tables/organization-table.component';
+
+import {
+  SalesVisitPayload
 } from '../../core/models/client-crm.type';
 
 @Component({
@@ -25,23 +32,22 @@ export class ClientCrmComponent {
 
   showOrganizationModal = false;
 
-
   openOrganizationModal(): void {
+
     this.showOrganizationModal = true;
   }
 
   closeOrganizationModal(): void {
+
     this.showOrganizationModal = false;
   }
 
-saveOrganization(
-  organization: Organization
+  saveOrganization(
+  salesVisit: SalesVisitPayload
 ): void {
 
-  console.log(organization);
+  console.log(salesVisit);
 
   this.closeOrganizationModal();
-
 }
-
 }

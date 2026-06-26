@@ -12,6 +12,7 @@ import {
 @Injectable({
   providedIn: 'root'
 })
+
 export class DashboardService {
 
   private readonly http = inject(HttpClient);

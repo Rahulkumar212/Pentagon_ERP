@@ -6,7 +6,7 @@ import { ToastrService } from 'ngx-toastr';
 })
 export class ToastService {
 
-  private toastr = inject(ToastrService);
+  private readonly toastr = inject(ToastrService);
 
   success(
     message: string,

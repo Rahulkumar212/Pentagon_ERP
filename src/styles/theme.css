@@ -1,0 +1,44 @@
+@layer base {
+  :root {
+
+    /* =========================
+       BRAND COLORS
+    ========================= */
+    --brand-50: #fef2f2;
+    --brand-100: #fee2e2;
+    --brand-200: #fecaca;
+    --brand-300: #fca5a5;
+    --brand-400: #f87171;
+    --brand-500: #ef4444;
+    --brand-600: #dc2626;
+    --brand-700: #b91c1c;
+    --brand-800: #991b1b;
+    --brand-900: #7f1d1d;
+
+    /* =========================
+       STATUS COLORS
+    ========================= */
+    --status-raw: #6b7280;         /* gray */
+    --status-progress: #f97316;    /* orange */
+    --status-interested: #2563eb;  /* blue */
+    --status-converted: #16a34a;   /* green */
+
+    /* =========================
+       TEXT COLORS
+    ========================= */
+    --text-primary: #111827;
+    --text-secondary: #6b7280;
+    --text-muted: #9ca3af;
+
+    /* =========================
+       BACKGROUND COLORS
+    ========================= */
+    --bg-card: #ffffff;
+    --bg-muted: #f9fafb;
+
+    /* =========================
+       BORDER COLORS
+    ========================= */
+    --border-default: #e5e7eb;
+  }
+}

@@ -1,13 +1,25 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
-
-import { environment } from '../../../environments/environment';
+import {
+  Injectable,
+  inject
+} from '@angular/core';
 
 import {
-  Organization,
-  OrganizationPayload,
-  LeadResponse
+  HttpClient
+} from '@angular/common/http';
+
+import {
+  Observable
+} from 'rxjs';
+
+import {
+  environment
+} from '../../../environments/environment';
+
+import {
+  SalesVisit,
+  SalesVisitPayload,
+  SalesVisitResponse,
+  UpdateSalesVisitPayload
 } from '../models/client-crm.type';
 
 @Injectable({
@@ -15,52 +27,48 @@ import {
 })
 export class OrganizationService {
 
-  private http = inject(HttpClient);
+  private readonly http = inject(HttpClient);
 
-  private readonly API_URL =
-    `${environment.apiUrl}`;
+  private readonly API_URL = environment.apiUrl;
 
-  constructor() {}
+  createSalesVisit(
+    payload: SalesVisitPayload
+  ): Observable<SalesVisit> {
 
-  createOrganization(
-    payload: OrganizationPayload
-  ): Observable<Organization> {
-
-    return this.http.post<Organization>(
-      `${this.API_URL}/createLead`,
+    return this.http.post<SalesVisit>(
+      `${this.API_URL}/create`,
       payload
     );
   }
 
-  getOrganizations():
-  Observable<LeadResponse> {
+  getSalesVisits(): Observable<SalesVisitResponse> {
 
-  return this.http.get<LeadResponse>(
-    `${this.API_URL}/fetchLeads`
-  );
-}
+    return this.http.get<SalesVisitResponse>(
+      `${this.API_URL}/fetchLeads`
+    );
+  }
 
-  getOrganizationById(
+  getSalesVisitById(
     id: number
-  ): Observable<Organization> {
+  ): Observable<SalesVisit> {
 
-    return this.http.get<Organization>(
+    return this.http.get<SalesVisit>(
       `${this.API_URL}/${id}`
     );
   }
 
-  updateOrganization(
+  updateSalesVisit(
     id: number,
-    payload: OrganizationPayload
-  ): Observable<Organization> {
+    payload: UpdateSalesVisitPayload
+  ): Observable<SalesVisit> {
 
-    return this.http.put<Organization>(
-      `${this.API_URL}/${id}`,
+    return this.http.put<SalesVisit>(
+      `${this.API_URL}/update/${id}`,
       payload
     );
   }
 
-  deleteOrganization(
+  deleteSalesVisit(
     id: number
   ): Observable<void> {
 

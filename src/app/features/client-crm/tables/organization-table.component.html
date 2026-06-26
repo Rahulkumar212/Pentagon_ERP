@@ -1,82 +1,207 @@
 <div class="bg-white border border-gray-200 rounded-xl shadow-sm mt-6 overflow-hidden w-full">
+
+  <!-- Header -->
   <div class="px-5 py-4 border-b border-gray-200">
-    <h2 class="text-lg font-semibold">Client Organizations</h2>
+    <h2 class="text-lg font-semibold">
+      Sales Visit Records
+    </h2>
   </div>
 
-  <div class="overflow-x-auto w-full">
-    <table class="min-w-max w-full whitespace-nowrap">
-      <thead class="bg-gray-100 sticky top-0 z-10">
-        <tr class="text-xs uppercase tracking-wide text-gray-600">
-          <th class="px-5 py-4 text-left">Organization</th>
-          <th class="px-5 py-4 text-left">POC</th>
-          <th class="px-5 py-4 text-left">Designation</th>
-          <th class="px-5 py-4 text-left">Phone</th>
-          <th class="px-5 py-4 text-left">Email</th>
-          <th class="px-5 py-4 text-left">Address</th>
-          <th class="px-5 py-4 text-left">City</th>
-          <th class="px-5 py-4 text-center">Actions</th>
-        </tr>
-      </thead>
+  <!-- Table -->
+  <div class="overflow-x-auto">
 
-      <tbody>
-        @for (org of organizations; track org.id) {
-          <tr class="border-b border-gray-100 hover:bg-blue-50 transition-colors duration-200">
+    <div class="max-h-112.5 overflow-y-auto">
+
+      <table class="min-w-max w-full whitespace-nowrap">
+
+        <thead class="bg-gray-100 sticky top-0 z-10">
+
+          <tr class="text-xs uppercase tracking-wide text-gray-600">
+
+            <th class="px-5 py-4 text-left">Executive</th>
+            <th class="px-5 py-4 text-left">Date</th>
+            <th class="px-5 py-4 text-left">Visit Type</th>
+            <th class="px-5 py-4 text-left">Lead Type</th>
+
+            <th class="px-5 py-4 text-left">Customer Name</th>
+            <th class="px-5 py-4 text-left">Address</th>
+
+            <th class="px-5 py-4 text-left">Contact Person</th>
+            <th class="px-5 py-4 text-left">Contact No</th>
+            <th class="px-5 py-4 text-left">Email</th>
+
+            <th class="px-5 py-4 text-left">Product</th>
+            <th class="px-5 py-4 text-left">Quantity</th>
+
+            <th class="px-5 py-4 text-left">Description</th>
+            @if (canEdit) {
+            <th class="px-5 py-4 text-center">
+              Action
+            </th>
+            }
+
+            @if(showBillingColumns){
+
+            <th class="px-5 py-4 text-left">
+              Status
+            </th>
+
+            <th class="px-5 py-4 text-left">
+              Closure Date
+            </th>
+
+            <th class="px-5 py-4 text-left">
+              Basic Amount
+            </th>
+
+            }
+            <th class="px-5 py-4 text-left">Remarks</th>
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for (visit of salesVisits; track visit.id) {
+
+          <tr class="border-b border-gray-100 hover:bg-blue-50 transition">
+
             <td class="px-5 py-4 font-semibold text-gray-800">
-              {{ org.organization_name }}
+              {{ visit.executive_name }}
             </td>
 
             <td class="px-5 py-4">
-              {{ org.name_of_poc }}
+              {{ visit.visit_date | date:'dd/MM/yyyy' }}
             </td>
 
             <td class="px-5 py-4">
-              {{ org.designation || '-' }}
+              {{ visit.visit_type }}
             </td>
 
             <td class="px-5 py-4">
-              {{ org.phoneNumber }}
+              <span class="px-2 py-1 rounded-full text-xs font-medium" [ngClass]="{
+      'bg-red-100 text-red-700': visit.lead_type === 'HOT',
+      'bg-orange-100 text-orange-700': visit.lead_type === 'WARM'
+    }">
+                {{ visit.lead_type }}
+              </span>
             </td>
 
             <td class="px-5 py-4">
-              {{ org.email }}
+              {{ visit.customer_name }}
             </td>
 
             <td class="px-5 py-4 max-w-xs truncate">
-              {{ org.address || '-' }}
+              {{ visit.customer_address }}
             </td>
 
             <td class="px-5 py-4">
-              {{ org.city || '-' }}
+              {{ visit.contact_person }}
             </td>
+
+            <td class="px-5 py-4">
+              {{ visit.contact_number }}
+            </td>
+
+            <td class="px-5 py-4">
+              {{ visit.customer_email }}
+            </td>
+
+            <td class="px-5 py-4">
+              {{ visit.product_type }}
+            </td>
+
+            <td class="px-5 py-4">
+              {{ visit.quantity }}
+            </td>
+
+            <td class="px-5 py-4 max-w-xs truncate">
+              {{ visit.product_description }}
+            </td>
+
+            @if(showBillingColumns){
+
+            <td class="px-5 py-4">
+              <span class="px-2 py-1 rounded-full text-xs font-semibold" [ngClass]="{
+
+      'bg-green-100 text-green-700': visit.status==='CONVERTED',
+
+      'bg-red-100 text-red-700': visit.status==='FAILED',
+
+      'bg-yellow-100 text-yellow-700': visit.status==='PENDING',
+
+      'bg-blue-100 text-blue-700': visit.status==='OPEN'
+
+    }">
+                {{ visit.status }}
+                </span>
+            </td>
+
+            <td class="px-5 py-4">
+              {{ visit.closure_date | date:'dd/MM/yyyy' }}
+            </td>
+
+            <td class="px-5 py-4">
+              ₹{{ visit.basic_amount || 0 }}
+            </td>
+
+            }
+
+            <td class="px-5 py-4 max-w-xs truncate">
+              {{ visit.remarks || '-' }}
+            </td>
+
+
+            @if (canEdit) {
 
             <td class="px-5 py-4 text-center">
-              <button
-                (click)="openCreateOrderModal(org)"
-                class="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg text-xs font-medium transition whitespace-nowrap"
-              >
-                📦 Create Order
+
+              <button (click)="editVisit(visit)" class="px-4 py-2 rounded-lg bg-blue-600 text-white">
+
+                Edit
+
               </button>
+
+            </td>
+
+            }
+
+          </tr>
+
+          }
+
+          @empty {
+          <tr>
+            <td colspan="12" class="py-12 text-center text-gray-500">
+              No Sales Visit Found
             </td>
           </tr>
-        } @empty {
-          <tr>
-            <td colspan="8" class="py-12 text-center text-gray-500">No Organization Found</td>
-          </tr>
-        }
-      </tbody>
-    </table>
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
   </div>
 
-  @if (showCreateOrderModal && selectedOrganization) {
-    <div class="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
-      <div class="bg-white rounded-2xl w-full max-w-lg shadow-xl">
-        <app-create-order-form
-          [organization]="selectedOrganization"
-          (close)="closeCreateOrderModal()"
-          (save)="saveOrder($event)"
-        >
-        </app-create-order-form>
-      </div>
-    </div>
-  }
 </div>
+
+
+
+@if(showEditModal && selectedVisit){
+
+<div class="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+
+  <div class="w-full max-w-2xl">
+
+    <app-edit-sales-visit [visit]="selectedVisit" (close)="closeEditModal()" (updated)="onUpdated()">
+
+    </app-edit-sales-visit>
+
+  </div>
+
+</div>
+
+}

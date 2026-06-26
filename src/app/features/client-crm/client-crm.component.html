@@ -40,13 +40,18 @@
 
 </div>
 
- <!-- Organizations Table -->
+<!-- ================= Converted Orders ================= -->
 
-  <div class="w-full min-w-0">
-    <app-organization-table
-    >
-    </app-organization-table>
-  </div>
+<!-- Only One Table -->
+
+<div class="mt-8">
+
+  <app-organization-table
+      [showBillingColumns]="true"
+      [canEdit]="false">
+  </app-organization-table>
+
+</div>
 
 <!-- Modal -->
 
@@ -60,9 +65,9 @@
     class="bg-white rounded-2xl w-full max-w-3xl max-h-[85vh] overflow-y-auto shadow-2xl"
   >
 
-   <app-organization-form
-   (save)="saveOrganization($event)"
-  (close)="closeOrganizationModal()">
+ <app-organization-form
+  *ngIf="showOrganizationModal"
+  (save)="saveOrganization($event)">
 </app-organization-form>
 
   </div>

@@ -1,99 +1,128 @@
-import { Component, OnInit, inject, ChangeDetectorRef } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  Input,
+  OnInit,
+  inject
+} from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
-import { Organization } from '../../../core/models/client-crm.type';
-import { ClientCrmService } from '../../../core/services/client-crm.service';
-import { CreateOrderFormComponent } from '../form/create-order-form.component';
+import {
+  SalesVisit,
+  SalesVisitResponse
+} from '../../../core/models/client-crm.type';
+
+import { ClientCrmService }
+  from '../../../core/services/client-crm.service';
+
+import { EditSalesVisitComponent }
+  from './edit-sales-visit/edit-sales-visit.component';
 
 @Component({
   selector: 'app-organization-table',
   standalone: true,
-  imports: [CommonModule, CreateOrderFormComponent],
-  templateUrl: './organization-table.component.html',
+  imports: [
+    CommonModule,
+    EditSalesVisitComponent
+  ],
+  templateUrl: './organization-table.component.html'
 })
-export class OrganizationTableComponent implements OnInit {
-  organizations: Organization[] = [];
-  private cdr = inject(ChangeDetectorRef);
-  // Order Modal
-  showCreateOrderModal = false;
+export class OrganizationTableComponent
+  implements OnInit {
+  @Input() canEdit = false;
+  @Input()
+  status?: 'FAILED' | 'CONVERTED';
 
-  selectedOrganization: Organization | null = null;
+  @Input()
+  showBillingColumns = false;
 
-  private readonly clientCrmService = inject(ClientCrmService);
+
+
+  salesVisits: SalesVisit[] = [];
+
+  selectedVisit: SalesVisit | null = null;
+
+  showEditModal = false;
+
+  private readonly clientCrmService =
+    inject(ClientCrmService);
+
+  private readonly cdr =
+    inject(ChangeDetectorRef);
 
   ngOnInit(): void {
-    this.loadConvertedLeads();
+
+    this.loadSalesVisits();
+
   }
 
-  loadConvertedLeads(): void {
-    this.clientCrmService.getConvertedLeads().subscribe({
-      next: (response) => {
-        this.organizations = response.data;
+  loadSalesVisits(): void {
 
-        this.cdr.detectChanges();
-      },
+    this.clientCrmService
+      .getSalesVisits()
+      .subscribe({
 
-      error: (err) => {
-        console.error('Error loading converted leads', err);
-      },
-    });
+        next: (response: SalesVisitResponse) => {
+
+          const data = response.data ?? [];
+
+          // Client CRM Page
+          if (!this.canEdit) {
+
+            this.salesVisits = data.filter(
+              visit =>
+                visit.status === 'CONVERTED' ||
+                visit.status === 'FAILED'
+            );
+
+          }
+
+          // Executive Center
+          else {
+
+            this.salesVisits = data;
+
+          }
+
+          this.cdr.detectChanges();
+
+        },
+
+        error: (err) => {
+
+          console.error(err);
+
+        }
+
+      });
+
   }
 
-  // ==========================
-  // Open Create Order Modal
-  // ==========================
+  editVisit(
+    visit: SalesVisit
+  ): void {
 
-  openCreateOrderModal(organization: Organization): void {
-    this.selectedOrganization = organization;
+    this.selectedVisit = visit;
 
-    this.showCreateOrderModal = true;
-  }
-  saveOrder(orderData: any): void {
-    if (!this.selectedOrganization) {
-      return;
-    }
+    this.showEditModal = true;
 
-    const payload = {
-      clientAccountId: this.selectedOrganization.id,
-
-      purchaseMode: orderData.purchaseMode,
-
-      shippingAddress: orderData.shippingAddress,
-
-      totalAmount: Number(orderData.orderAmount),
-
-      proposal: orderData.proposal,
-
-      // poNumber: '',
-    };
-
-    console.log('Payload =>', payload);
-
-    this.clientCrmService.createOrder(payload).subscribe({
-      next: (response) => {
-        console.log('Order Created', response);
-
-        alert('Order Created Successfully');
-
-        this.closeCreateOrderModal();
-      },
-
-      error: (error) => {
-        console.error('Order Creation Failed', error);
-
-        alert(error?.error?.message || 'Failed to create order');
-      },
-    });
   }
 
-  // ==========================
-  // Close Modal
-  // ==========================
+  closeEditModal(): void {
 
-  closeCreateOrderModal(): void {
-    this.showCreateOrderModal = false;
+    this.showEditModal = false;
 
-    this.selectedOrganization = null;
+    this.selectedVisit = null;
+
   }
+
+  onUpdated(): void {
+
+    this.closeEditModal();
+
+    this.loadSalesVisits();
+
+  }
+
 }

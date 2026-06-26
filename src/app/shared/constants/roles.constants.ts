@@ -34,7 +34,6 @@ export const ROLES = {
     'DIRECTOR',
     'MANAGER',
     'SALES_MANAGER',
-    'SALES_EXECUTIVE',
     'SUPPLY_CHAIN_EXECUTIVE'
   ],
 
