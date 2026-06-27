@@ -51,6 +51,18 @@ export const routes: Routes = [
           import('./features/client-crm/client-crm.component').then((m) => m.ClientCrmComponent),
       },
       {
+        path: 'billing-orders',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/billing-orders/pages/billing-orders.component').then((m) => m.BillingOrdersComponent),
+      },
+       {
+        path: 'institution-visit-planner',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/institution-visit-planner/pages/institution-visit-planner.component').then((m) => m.InstitutionVisitPlannerComponent),
+      },
+      {
         path: 'task-collaboration',
         canActivate: [authGuard],
         loadComponent: () =>

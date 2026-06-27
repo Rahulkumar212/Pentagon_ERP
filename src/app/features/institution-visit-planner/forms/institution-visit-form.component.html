@@ -1,0 +1,200 @@
+<form
+  [formGroup]="visitForm"
+  (ngSubmit)="onSubmit()">
+
+<div class="bg-white rounded-xl p-6">
+
+<h2 class="text-xl font-semibold mb-6">
+
+Institution Visit Planner
+
+</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+<!-- Institution Type -->
+
+<div>
+
+<label class="block mb-2 font-medium">
+
+Institution Type *
+
+</label>
+
+<select
+formControlName="institution_type"
+class="w-full border rounded-lg p-3">
+
+<option value="">
+Select Type
+</option>
+
+<option value="PRIVATE_SCHOOL">
+Private School
+</option>
+
+<option value="GOVT_SCHOOL">
+Govt School
+</option>
+
+<option value="PRIVATE_UNIVERSITY">
+Private University
+</option>
+
+<option value="GOVT_UNIVERSITY">
+Govt University
+</option>
+
+<option value="PRIVATE_INSTITUTION">
+Private Institution
+</option>
+
+<option value="GOVT_INSTITUTION">
+Govt Institution
+</option>
+
+<option value="OTHER">
+Other
+</option>
+
+</select>
+
+</div>
+
+<!-- Institution Name -->
+
+<div>
+
+<label class="block mb-2 font-medium">
+
+Institution Name *
+
+</label>
+
+<input
+type="text"
+formControlName="institution_name"
+class="w-full border rounded-lg p-3">
+
+</div>
+
+<!-- Address -->
+
+<div class="md:col-span-2">
+
+<label class="block mb-2 font-medium">
+
+Address *
+
+</label>
+
+<textarea
+rows="3"
+formControlName="address"
+class="w-full border rounded-lg p-3">
+
+</textarea>
+
+</div>
+
+<!-- Contact Person -->
+
+<div>
+
+<label class="block mb-2 font-medium">
+
+Contact Person *
+
+</label>
+
+<input
+type="text"
+formControlName="contact_person"
+class="w-full border rounded-lg p-3">
+
+</div>
+
+<!-- Contact Number -->
+
+<div>
+
+<label class="block mb-2 font-medium">
+
+Contact Number *
+
+</label>
+
+<input
+type="text"
+formControlName="contact_number"
+class="w-full border rounded-lg p-3">
+
+</div>
+
+<!-- Designation -->
+
+<div>
+
+<label class="block mb-2 font-medium">
+
+Designation *
+
+</label>
+
+<input
+type="text"
+formControlName="designation"
+class="w-full border rounded-lg p-3">
+
+</div>
+
+<!-- Planned Visit Date -->
+
+<div>
+
+<label class="block mb-2 font-medium">
+
+Planned Date of Visit *
+
+</label>
+
+<input
+type="date"
+formControlName="planned_visit_date"
+class="w-full border rounded-lg p-3">
+
+</div>
+
+</div>
+
+<div class="flex justify-end gap-3 mt-8">
+
+<button
+type="button"
+(click)="onCancel()"
+class="border px-5 py-2 rounded-lg hover:bg-gray-100">
+
+Cancel
+
+</button>
+
+<button
+  type="submit"
+  [disabled]="visitForm.invalid || isSubmitting"
+  class="bg-red-700 text-white px-5 py-2 rounded-lg hover:bg-red-800 disabled:opacity-50">
+
+  {{
+    isSubmitting
+      ? (isEditMode ? 'Updating...' : 'Saving...')
+      : (isEditMode ? 'Update Visit' : 'Save Visit')
+  }}
+
+</button>
+
+
+</div>
+
+</div>
+
+</form>

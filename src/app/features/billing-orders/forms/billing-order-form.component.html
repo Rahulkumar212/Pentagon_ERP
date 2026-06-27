@@ -1,0 +1,127 @@
+<form  [formGroup]="billingForm"
+  (ngSubmit)="onSubmit()">
+
+<div class="bg-white rounded-xl p-6">
+
+<h2 class="text-xl font-semibold mb-6">
+
+Create Billing Order
+
+</h2>
+
+<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+<!-- Date -->
+
+<div>
+
+<label>Date</label>
+
+<input
+type="date"
+formControlName="date"
+class="w-full border rounded-lg p-3">
+
+</div>
+
+<!-- Particulars -->
+
+<div>
+
+<label>Particulars</label>
+
+<input
+type="text"
+formControlName="particulars"
+class="w-full border rounded-lg p-3">
+
+</div>
+
+<!-- Item Details -->
+
+<div class="md:col-span-2">
+
+<label>Items Details</label>
+
+<textarea
+rows="3"
+formControlName="item_details"
+class="w-full border rounded-lg p-3">
+
+</textarea>
+
+</div>
+
+<!-- Taxable Amount -->
+
+<div>
+
+<label>Taxable Amount</label>
+
+<input
+type="number"
+formControlName="taxable_amount"
+class="w-full border rounded-lg p-3">
+
+</div>
+
+<!-- With Support Of -->
+
+<div>
+
+<label>With Support Of</label>
+
+<input
+type="text"
+formControlName="support_of"
+class="w-full border rounded-lg p-3">
+
+</div>
+
+<!-- Quarterly Business -->
+
+<!-- Monthly Business -->
+
+<div>
+
+  <label>Business Amount(₹)</label>
+
+  <input
+    type="number"
+    formControlName="monthly_business"
+    placeholder="Enter Monthly Business Amount"
+    class="w-full border rounded-lg p-3">
+
+</div>
+
+</div>
+
+<div class="flex justify-end gap-3 mt-8">
+
+<button
+type="button"
+ (click)="onCancel()"
+class="border px-5 py-2 rounded-lg">
+
+Cancel
+
+</button>
+
+<button
+  type="submit"
+  [disabled]="billingForm.invalid || isSubmitting"
+  class="bg-red-700 text-white px-5 py-2 rounded-lg">
+
+  {{
+    isSubmitting
+      ? (isEditMode ? 'Updating...' : 'Saving...')
+      : (isEditMode ? 'Update Billing' : 'Save Billing')
+  }}
+
+</button>
+
+</div>
+
+</div>
+
+</form>
