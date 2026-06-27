@@ -67,7 +67,8 @@
 
  <app-organization-form
   *ngIf="showOrganizationModal"
-  (save)="saveOrganization($event)">
+  (save)="saveOrganization($event)"
+   (cancel)="closeOrganizationModal()">
 </app-organization-form>
 
   </div>

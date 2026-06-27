@@ -204,12 +204,12 @@ export class OrganizationFormComponent {
       });
   }
 
-  onCancel(): void {
+ @Output()
+cancel = new EventEmitter<void>();
 
-    this.resetForm();
-
-    this.showOrganizationModal = false;
-  }
+onCancel(): void {
+  this.cancel.emit();
+}
 
   private resetForm(): void {
 

@@ -56,39 +56,57 @@
     </div>
 
     <div *appHasRole="ROLES.CRM">
-    <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
-      CRM & Sales
+      <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
+        CRM & Sales
+      </div>
+
+      <a routerLink="/crm" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+        <span class="text-lg">⌗</span>
+        Client CRM
+      </a>
+
+      <a routerLink="/billing-orders" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+
+        <span class="text-lg">🧾</span>
+        Billing Orders
+
+      </a>
+
+      <!-- Institution Visit Planner -->
+
+      <a routerLink="/institution-visit-planner" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+
+        <span class="text-lg">🏫</span>
+        Institution Visit Planner
+
+      </a>
+
     </div>
 
-    <a routerLink="/crm" (click)="closeSidebar.emit()"
-      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
-      <span class="text-lg">⌗</span>
-      Client CRM
-    </a>
+    <div *appHasRole="ROLES.ORDERS">
+
+      <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
+        Orders
+      </div>
+
+      <a routerLink="/orders" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+
+        <span class="text-lg">📦</span>
+        Orders Management
+
+      </a>
 
     </div>
 
-   <div *appHasRole="ROLES.ORDERS">
 
-  <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
-    Orders
-  </div>
-
-  <a
-    routerLink="/orders"
-    (click)="closeSidebar.emit()"
-    routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-    class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
-
-    <span class="text-lg">📦</span>
-    Orders Management
-
-  </a>
-
-</div>
-
-    
     <a *appHasRole="ROLES.TASKS" routerLink="/task-collaboration" (click)="closeSidebar.emit()"
       routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
       class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
@@ -96,59 +114,59 @@
       Tasks & Collaboration
     </a>
 
-   <div *appHasRole="ROLES.GEM">
-    <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
-      GEM Bids
+    <div *appHasRole="ROLES.GEM">
+      <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
+        GEM Bids
+      </div>
+
+      <a routerLink="/gem" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+        <span class="text-lg">⚙</span>
+        GEM Tenders
+      </a>
     </div>
 
-    <a routerLink="/gem" (click)="closeSidebar.emit()"
-      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
-      <span class="text-lg">⚙</span>
-      GEM Tenders
-    </a>
+    <div *appHasRole="ROLES.SCM">
+      <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
+        Logistics & SCM
+      </div>
+
+      <a routerLink="/supply-chain" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+        <span class="text-lg">⊞</span>
+        Supply Chain SCM
+      </a>
     </div>
 
-   <div *appHasRole="ROLES.SCM">
-    <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
-      Logistics & SCM
-    </div>
-
-    <a routerLink="/supply-chain" (click)="closeSidebar.emit()"
-      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
-      <span class="text-lg">⊞</span>
-      Supply Chain SCM
-    </a>
-    </div>
-
-   
 
 
-   <div *appHasRole="ROLES.OPERATIONS">
-    <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
-      Service & Operations
-    </div>
 
-    <a routerLink="/operations" (click)="closeSidebar.emit()"
-      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
-      <span class="text-lg">⎔</span>
-      Operations Desk
-    </a>
+    <div *appHasRole="ROLES.OPERATIONS">
+      <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
+        Service & Operations
+      </div>
+
+      <a routerLink="/operations" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+        <span class="text-lg">⎔</span>
+        Operations Desk
+      </a>
     </div>
 
     <div *appHasRole="ROLES.FINANCE">
-    <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
-      Finance
-    </div>
+      <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
+        Finance
+      </div>
 
-    <a routerLink="/finance" (click)="closeSidebar.emit()"
-      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-      class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
-      <span class="text-lg">⛃</span>
-      Finance Ledgers
-    </a>
+      <a routerLink="/finance" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+        <span class="text-lg">⛃</span>
+        Finance Ledgers
+      </a>
     </div>
   </div>
 

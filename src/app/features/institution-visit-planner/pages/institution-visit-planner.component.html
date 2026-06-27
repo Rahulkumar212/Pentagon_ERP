@@ -1,0 +1,64 @@
+<div class="w-full min-w-0 overflow-x-hidden space-y-6">
+
+  <!-- Header -->
+
+  <div class="border-b border-gray-200 pb-5">
+
+    <p class="uppercase tracking-[0.2em] text-red-800 text-xs font-bold">
+      Institution Visit Planning
+    </p>
+
+    <h1 class="text-3xl font-bold text-gray-900 mt-1">
+      Institution Visit Planner
+    </h1>
+
+    <p class="text-gray-500 mt-3 text-sm">
+      Manage planning of visits for Schools, Universities and Institutions.
+    </p>
+
+  </div>
+
+  <!-- Button -->
+
+  <button
+    (click)="openModal()"
+    class="bg-red-800 hover:bg-red-900 text-white px-6 py-3 rounded-lg font-semibold">
+
+    ➕ Add Institution Visit
+
+  </button>
+
+</div>
+
+<!-- Table -->
+
+<div class="mt-8">
+
+ <app-institution-visit-table
+  (editVisitEvent)="editVisit($event)">
+</app-institution-visit-table>
+
+
+</div>
+
+<!-- Modal -->
+
+@if(showModal){
+
+<div
+class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+
+    <div
+    class="bg-white rounded-2xl w-full max-w-4xl max-h-[90vh] overflow-y-auto">
+
+       <app-institution-visit-form
+  [visit]="selectedVisit"
+  (save)="saveVisit()"
+  (cancel)="closeModal()">
+</app-institution-visit-form>
+
+    </div>
+
+</div>
+
+}
