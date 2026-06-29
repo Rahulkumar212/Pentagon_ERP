@@ -22,6 +22,7 @@ import {
 
 import { OrganizationService }
   from '../../../../core/services/organization.service';
+import { ToastService } from '../../../../core/services/toast.service';
 
 @Component({
   selector: 'app-edit-sales-visit',
@@ -49,6 +50,9 @@ export class EditSalesVisitComponent
 
   private readonly organizationService =
     inject(OrganizationService);
+
+  private readonly toast =
+    inject(ToastService);
 
   isSubmitting = false;
 
@@ -100,6 +104,11 @@ export class EditSalesVisitComponent
 
       this.form.markAllAsTouched();
 
+      this.toast.warning(
+        'Please fill all required fields.'
+      );
+
+
       return;
 
     }
@@ -130,6 +139,12 @@ export class EditSalesVisitComponent
 
         next: () => {
 
+          this.toast.clear();
+
+          this.toast.success(
+            'Sales visit updated successfully.'
+          );
+
           this.isSubmitting = false;
 
           this.updated.emit();
@@ -137,6 +152,13 @@ export class EditSalesVisitComponent
         },
 
         error: (err) => {
+
+          this.toast.clear();
+
+          this.toast.error(
+            'Failed to update sales visit.'
+          );
+
 
           console.error(err);
 
