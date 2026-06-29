@@ -1,0 +1,148 @@
+<div
+  class="bg-white border border-gray-200 rounded-2xl shadow-sm p-6">
+
+  <!-- Header -->
+
+  <div
+    class="flex justify-between items-center mb-6">
+
+    <div>
+
+      <h2
+        class="text-2xl font-serif text-red-900">
+
+        Roster & Leave Approvals
+
+      </h2>
+
+      <p
+        class="text-sm text-gray-500">
+
+        Employee leave requests pending approval.
+
+      </p>
+
+    </div>
+
+    <button
+      class="text-red-800 font-bold uppercase tracking-wider text-xs hover:underline">
+
+      Go To Logs →
+
+    </button>
+
+  </div>
+
+  <!-- Leave Cards -->
+
+  <div
+    class="space-y-5">
+
+    @for(request of leaveRequests; track request.employee){
+
+    <div
+      class="border border-gray-200 rounded-xl p-5 hover:shadow-md transition">
+
+      <div
+        class="flex justify-between items-center">
+
+        <!-- Left -->
+
+        <div
+          class="flex items-start gap-4">
+
+          <!-- Avatar -->
+
+          <div
+            class="w-14 h-14 rounded-xl bg-red-100 flex items-center justify-center text-red-800 font-bold text-lg">
+
+            {{ request.avatar }}
+
+          </div>
+
+          <!-- Details -->
+
+          <div>
+
+            <div
+              class="flex items-center gap-2">
+
+              <h3
+                class="font-bold text-red-900">
+
+                {{ request.employee }}
+
+              </h3>
+
+              <span
+                class="px-2 py-1 rounded-full text-[10px] uppercase bg-red-100 text-red-700 font-semibold">
+
+                {{ request.leaveType }}
+
+              </span>
+
+            </div>
+
+            <p
+              class="text-sm text-gray-500">
+
+              {{ request.designation }}
+
+            </p>
+
+            <p
+              class="text-sm mt-1">
+
+              <strong>{{ request.duration }}</strong>
+
+              ({{ request.date }})
+
+            </p>
+
+            <p
+              class="italic text-gray-500 text-sm mt-1">
+
+              "{{ request.remarks }}"
+
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- Right -->
+
+        <div
+          class="flex gap-3">
+
+          <button
+
+            (click)="rejectLeave(request)"
+
+            class="px-5 py-2 rounded-lg border border-gray-300 hover:bg-gray-100">
+
+            Reject
+
+          </button>
+
+          <button
+
+            (click)="approveLeave(request)"
+
+            class="px-5 py-2 rounded-lg bg-red-800 hover:bg-red-900 text-white">
+
+            Approve
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    }
+
+  </div>
+
+</div>
