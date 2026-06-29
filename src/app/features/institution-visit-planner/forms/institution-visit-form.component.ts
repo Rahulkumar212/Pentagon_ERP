@@ -27,6 +27,7 @@ import {
   InstitutionVisit,
   InstitutionVisitResponse
 } from '../../../core/models/institution-visit.type';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-institution-visit-form',
@@ -38,7 +39,7 @@ import {
   templateUrl: './institution-visit-form.component.html'
 })
 export class InstitutionVisitFormComponent
-implements OnChanges {
+  implements OnChanges {
 
   @Input()
   visit: InstitutionVisit | null = null;
@@ -54,6 +55,9 @@ implements OnChanges {
 
   private readonly institutionVisitService =
     inject(InstitutionVisitService);
+
+  private readonly toast =
+    inject(ToastService);
 
   isSubmitting = false;
 
@@ -172,6 +176,10 @@ implements OnChanges {
     if (this.visitForm.invalid) {
 
       this.visitForm.markAllAsTouched();
+      this.toast.warning(
+        'Please fill all required fields.'
+      );
+
 
       return;
 
@@ -192,6 +200,11 @@ implements OnChanges {
         .subscribe({
 
           next: (response: InstitutionVisitResponse) => {
+            this.toast.clear();
+
+            this.toast.success(
+              'Visit details updated successfully.'
+            );
 
             this.isSubmitting = false;
 
@@ -201,10 +214,12 @@ implements OnChanges {
 
           error: (err) => {
 
-            console.error(
-              'Failed to update institution visit',
-              err
+            this.toast.clear();
+
+            this.toast.error(
+              'Failed to update Institution Visit.'
             );
+
 
             this.isSubmitting = false;
 

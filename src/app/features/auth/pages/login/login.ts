@@ -88,7 +88,7 @@ export class LoginComponent {
 
         case 'HR_MANAGER':
         case 'HR_EXECUTIVE':
-          this.router.navigate(['/employees']);
+          this.router.navigate(['/hr-dashboard']);
           break;
 
         case 'FINANCE_MANAGER':

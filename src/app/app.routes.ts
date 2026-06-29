@@ -63,6 +63,12 @@ export const routes: Routes = [
           import('./features/institution-visit-planner/pages/institution-visit-planner.component').then((m) => m.InstitutionVisitPlannerComponent),
       },
       {
+        path: 'hr-dashboard',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/hr-dashboard/pages/hr-dashboard.component').then((m) => m.HrDashboardComponent),
+      },
+      {
         path: 'task-collaboration',
         canActivate: [authGuard],
         loadComponent: () =>

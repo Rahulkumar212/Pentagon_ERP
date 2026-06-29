@@ -27,6 +27,7 @@ import {
   BillingResponse,
   CreateBillingOrderPayload
 } from '../../../core/models/billing-order.type';
+import { ToastService } from '../../../core/services/toast.service';
 
 @Component({
   selector: 'app-billing-order-form',
@@ -38,7 +39,7 @@ import {
   templateUrl: './billing-order-form.component.html'
 })
 export class BillingOrderFormComponent
-implements OnChanges {
+  implements OnChanges {
 
   @Input()
   billing?: BillingOrder | null;
@@ -54,6 +55,9 @@ implements OnChanges {
 
   private readonly billingService =
     inject(BillingOrderService);
+
+  private readonly toast =
+    inject(ToastService);
 
   isSubmitting = false;
 
@@ -146,6 +150,9 @@ implements OnChanges {
     if (this.billingForm.invalid) {
 
       this.billingForm.markAllAsTouched();
+      this.toast.warning(
+        'Please fill all required fields.'
+      );
 
       return;
 
@@ -164,6 +171,13 @@ implements OnChanges {
 
           next: (response: BillingResponse) => {
 
+            this.toast.clear();
+
+            this.toast.success(
+              'Billing updated successfully.'
+            );
+
+
             this.isSubmitting = false;
 
             this.save.emit(response.data);
@@ -171,6 +185,12 @@ implements OnChanges {
           },
 
           error: (err) => {
+
+            this.toast.clear();
+
+            this.toast.error(
+              'Failed to update billing.'
+            );
 
             console.error(err);
 
