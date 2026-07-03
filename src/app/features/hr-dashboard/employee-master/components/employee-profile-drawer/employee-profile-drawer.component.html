@@ -1,0 +1,290 @@
+<div class="fixed top-0 right-0 h-screen w-[430px] bg-white shadow-2xl border-l border-gray-200 flex flex-col">
+
+  <!-- Header -->
+
+  <div class="flex items-center justify-between px-5 py-4 border-b border-gray-200">
+
+    <div>
+
+      <h2 class="text-base font-semibold text-red-900">
+        Employee Profile
+      </h2>
+
+      <p class="text-[11px] text-gray-500 mt-0.5">
+        Employee Information
+      </p>
+
+    </div>
+
+    <button
+      (click)="onClose()"
+      class="w-8 h-8 rounded-lg border border-gray-300 hover:bg-gray-100 transition">
+
+      ✕
+
+    </button>
+
+  </div>
+
+  <!-- Scroll Body -->
+
+  <div class="flex-1 overflow-y-auto p-5 space-y-5">
+
+    <!-- ====================================== -->
+    <!-- Employee Summary -->
+    <!-- ====================================== -->
+
+    <div class="flex items-center gap-4">
+
+      <img
+        [src]="employee.avatar"
+        [alt]="employee.name"
+        class="w-16 h-16 rounded-xl object-cover border border-red-200">
+
+      <div class="min-w-0 flex-1">
+
+        <h2 class="text-lg font-semibold text-red-900 truncate">
+          {{ employee.name }}
+        </h2>
+
+        <p class="text-sm text-gray-600 truncate">
+          {{ employee.designation }}
+        </p>
+
+        <div class="mt-2 flex items-center gap-2 flex-wrap">
+
+          <span
+            class="px-2 py-1 rounded-full bg-red-50 text-red-800 text-[10px] font-semibold">
+
+            {{ employee.employeeCode }}
+
+          </span>
+
+          <span
+            class="px-2 py-1 rounded-full text-[10px] font-semibold"
+
+            [ngClass]="{
+              'bg-green-100 text-green-700': employee.status==='Active',
+              'bg-blue-100 text-blue-700': employee.status==='Probation',
+              'bg-yellow-100 text-yellow-700': employee.status==='On Leave'
+            }">
+
+            {{ employee.status }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ====================================== -->
+    <!-- Lifecycle -->
+    <!-- ====================================== -->
+
+    <section>
+
+      <h3 class="text-[10px] uppercase tracking-[0.2em] font-bold text-red-700 mb-2">
+        Lifecycle Stage
+      </h3>
+
+      <div class="rounded-lg border border-red-100 bg-red-50 p-3 flex justify-between items-center">
+
+        <p class="text-xs text-gray-700">
+
+          Current:
+          <span class="font-semibold text-red-900">
+            {{ employee.status }}
+          </span>
+
+        </p>
+
+        <select
+          class="h-8 px-2 rounded-lg border border-red-200 text-xs">
+
+          <option>Active</option>
+          <option>Probation</option>
+          <option>On Leave</option>
+
+        </select>
+
+      </div>
+
+    </section>
+
+    <!-- ====================================== -->
+    <!-- Personal -->
+    <!-- ====================================== -->
+
+    <section>
+
+      <h3 class="text-[10px] uppercase tracking-[0.2em] font-bold text-red-700 mb-2">
+        Personal & Contact
+      </h3>
+
+      <div class="border border-red-100 rounded-lg p-3 grid grid-cols-2 gap-4">
+
+        <div>
+
+          <p class="text-[10px] text-gray-400">Email</p>
+
+          <p class="text-xs font-semibold break-all">
+            {{ employee.email }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-[10px] text-gray-400">Phone</p>
+
+          <p class="text-xs font-semibold">
+            {{ employee.mobileNumber }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-[10px] text-gray-400">Joining</p>
+
+          <p class="text-xs font-semibold">
+            {{ employee.joiningDate }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-[10px] text-gray-400">Reporting Officer</p>
+
+          <p class="text-xs font-semibold">
+            {{ employee.reportingOfficer }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ====================================== -->
+    <!-- Banking -->
+    <!-- ====================================== -->
+
+    <section>
+
+      <h3 class="text-[10px] uppercase tracking-[0.2em] font-bold text-red-700 mb-2">
+        Banking & Salary
+      </h3>
+
+      <div class="border border-red-100 rounded-lg p-3 grid grid-cols-2 gap-4">
+
+        <div>
+
+          <p class="text-[10px] text-gray-400">Bank</p>
+
+          <p class="text-xs font-semibold">
+            {{ employee.bankName }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-[10px] text-gray-400">Account</p>
+
+          <p class="text-xs font-semibold">
+            {{ employee.accountNumber }}
+          </p>
+
+        </div>
+
+        <div class="col-span-2">
+
+          <p class="text-[10px] text-gray-400">Salary</p>
+
+          <p class="text-sm font-bold text-red-900">
+            ₹ {{ employee.salary }}/month
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ====================================== -->
+    <!-- Compliance -->
+    <!-- ====================================== -->
+
+    <section>
+
+      <h3 class="text-[10px] uppercase tracking-[0.2em] font-bold text-red-700 mb-2">
+        Compliance
+      </h3>
+
+      <div class="border border-red-100 rounded-lg p-3 grid grid-cols-2 gap-4">
+
+        <div>
+
+          <p class="text-[10px] text-gray-400">PAN</p>
+
+          <p class="text-xs font-semibold">
+            {{ employee.panNumber }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-[10px] text-gray-400">Aadhaar</p>
+
+          <p class="text-xs font-semibold">
+            {{ employee.aadhaarNumber }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <!-- ====================================== -->
+    <!-- KRA -->
+    <!-- ====================================== -->
+
+    <section>
+
+      <h3 class="text-[10px] uppercase tracking-[0.2em] font-bold text-red-700 mb-2">
+        KRA Goal
+      </h3>
+
+      <div class="border border-red-100 rounded-lg p-3">
+
+        <div class="flex justify-between text-xs mb-2">
+
+          <span>{{ employee.kraGoal }}</span>
+
+          <strong>{{ employee.kraProgress }}%</strong>
+
+        </div>
+
+        <div class="h-1.5 rounded-full bg-gray-200 overflow-hidden">
+
+          <div
+            class="h-full bg-red-700"
+            [style.width.%]="employee.kraProgress">
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
+</div>

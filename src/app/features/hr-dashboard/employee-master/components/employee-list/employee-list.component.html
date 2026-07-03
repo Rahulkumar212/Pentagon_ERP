@@ -1,0 +1,46 @@
+<div
+  class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6">
+
+  @for(employee of employees; track employee.employeeCode){
+
+<app-employee-card
+
+  [employee]="employee"
+
+  (viewProfile)="openProfile($event)">
+
+</app-employee-card>
+
+}
+
+  @empty {
+
+  <div
+    class="col-span-full py-16 text-center border border-dashed border-gray-300 rounded-xl">
+
+    <div
+      class="text-5xl mb-3">
+
+      👥
+
+    </div>
+
+    <h3
+      class="text-lg font-semibold text-gray-700">
+
+      No Employees Found
+
+    </h3>
+
+    <p
+      class="text-sm text-gray-500 mt-1">
+
+      There are no employee records available.
+
+    </p>
+
+  </div>
+
+  }
+
+</div>

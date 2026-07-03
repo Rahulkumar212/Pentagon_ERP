@@ -7,6 +7,7 @@ import {
 
 import { CommonModule } from '@angular/common';
 import { OnboardingEmployee } from '../../../../../core/models/onboarding.type';
+import { OnboardingService } from '../../../../../core/services/onboarding.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -18,8 +19,11 @@ import { OnboardingEmployee } from '../../../../../core/models/onboarding.type';
 })
 export class EmployeeListComponent {
 
-  @Input({ required: true })
-  employees: OnboardingEmployee[] = [];
+  constructor(
+
+  public onboardingService: OnboardingService
+
+) {}
 
   @Input({ required: true })
   selectedEmployee!: OnboardingEmployee;

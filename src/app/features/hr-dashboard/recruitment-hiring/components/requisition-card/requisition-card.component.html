@@ -1,0 +1,105 @@
+<div
+  class="bg-white border border-gray-200 rounded-xl shadow-sm p-5 hover:shadow-md transition-all duration-300">
+
+  <!-- Top -->
+  <div class="flex items-start justify-between">
+
+    <span
+      class="text-[10px] uppercase tracking-wider text-gray-400 font-semibold">
+
+      {{ job.id }}
+
+    </span>
+
+    <span
+      class="px-2.5 py-1 rounded-md text-[10px] uppercase font-semibold"
+      [ngClass]="{
+        'bg-green-100 text-green-700': job.status === 'OPEN',
+        'bg-red-100 text-red-700': job.status === 'CLOSED',
+        'bg-yellow-100 text-yellow-700': job.status === 'DRAFT'
+      }">
+
+      {{ job.status }}
+
+    </span>
+
+  </div>
+
+  <!-- Title -->
+
+  <h2
+    class="mt-4 text-2xl font-serif text-red-900">
+
+    {{ job.title }}
+
+  </h2>
+
+  <!-- Meta -->
+
+  <div
+    class="mt-2 flex flex-wrap items-center gap-2 text-xs text-gray-500">
+
+    <span>🏢 {{ job.department }}</span>
+
+    <span>•</span>
+
+    <span>{{ job.employmentType }}</span>
+
+  </div>
+
+  <!-- Description -->
+
+  <p
+    class="mt-4 text-sm text-gray-600 leading-6">
+
+    {{ job.description }}
+
+  </p>
+
+  <!-- Divider -->
+
+  <div
+    class="border-t border-gray-200 my-4">
+
+  </div>
+
+  <!-- Bottom -->
+
+  <div
+    class="flex items-center justify-between">
+
+    <div>
+
+      <p
+        class="text-[10px] uppercase tracking-wider text-gray-400">
+
+        Posted
+
+      </p>
+
+      <p
+        class="text-xs font-medium text-gray-600 mt-1">
+
+        {{ job.postedDate }}
+
+      </p>
+
+    </div>
+
+    <button
+      (click)="openCandidates()"
+      class="px-4 py-2 rounded-lg border border-red-300
+             text-red-800
+             hover:bg-red-800
+             hover:text-white
+             transition
+             text-[11px]
+             font-semibold">
+
+      👥 Candidates ({{ job.candidates }})
+
+    </button>
+
+  </div>
+
+</div>

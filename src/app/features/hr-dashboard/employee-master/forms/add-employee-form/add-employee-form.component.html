@@ -1,0 +1,326 @@
+<div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+
+  <div class="w-full max-w-4xl bg-white rounded-2xl border border-gray-200 shadow-2xl overflow-hidden">
+
+    <!-- Header -->
+
+    <div class="bg-white border-b border-gray-200 px-6 py-4 flex items-center justify-between">
+
+      <div>
+
+        <h2 class="text-xl font-serif text-red-900">
+
+          Add Employee
+
+        </h2>
+
+        <p class="text-xs text-gray-500 mt-1">
+
+          Create a new employee master profile
+
+        </p>
+
+      </div>
+
+      <button
+        (click)="onCancel()"
+        class="w-9 h-9 rounded-lg border border-red-200 text-red-700 hover:bg-red-50 transition">
+
+        ✕
+
+      </button>
+
+    </div>
+
+    <!-- Body -->
+
+    <div class="p-5">
+
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+
+        <!-- ================================= -->
+        <!-- Personal Details -->
+        <!-- ================================= -->
+
+        <div>
+
+          <h3 class="text-[11px] uppercase tracking-[0.18em] font-bold text-red-800 border-b border-red-100 pb-2 mb-3">
+
+            Personal Details
+
+          </h3>
+
+          <div class="space-y-3">
+
+            <div>
+
+              <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                Full Name
+
+              </label>
+
+              <input
+                [(ngModel)]="form.fullName"
+                placeholder="Rahul Sharma"
+                class="w-full h-10 px-3 text-sm rounded-lg border border-gray-300 focus:border-red-700 focus:ring-2 focus:ring-red-100 outline-none transition">
+
+            </div>
+
+            <div>
+
+              <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                Work Email
+
+              </label>
+
+              <input
+                [(ngModel)]="form.workEmail"
+                placeholder="rahul@company.com"
+                class="w-full h-10 px-3 text-sm rounded-lg border border-gray-300 focus:border-red-700 focus:ring-2 focus:ring-red-100 outline-none transition">
+
+            </div>
+
+            <div>
+
+              <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                Mobile Number
+
+              </label>
+
+              <input
+                [(ngModel)]="form.mobileNumber"
+                placeholder="+91 9876543210"
+                class="w-full h-10 px-3 text-sm rounded-lg border border-gray-300 focus:border-red-700 focus:ring-2 focus:ring-red-100 outline-none transition">
+
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+
+              <div>
+
+                <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                  PAN Number
+
+                </label>
+
+                <input
+                  [(ngModel)]="form.panNumber"
+                  placeholder="ABCDE1234F"
+                  class="w-full h-10 px-3 text-sm rounded-lg border border-gray-300 focus:border-red-700 focus:ring-2 focus:ring-red-100 outline-none transition">
+
+              </div>
+
+              <div>
+
+                <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                  Aadhaar Number
+
+                </label>
+
+                <input
+                  [(ngModel)]="form.aadhaarNumber"
+                  placeholder="1234 5678 9012"
+                  class="w-full h-10 px-3 text-sm rounded-lg border border-gray-300 focus:border-red-700 focus:ring-2 focus:ring-red-100 outline-none transition">
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- ================================= -->
+        <!-- Corporate Details -->
+        <!-- ================================= -->
+
+        <div>
+
+          <h3 class="text-[11px] uppercase tracking-[0.18em] font-bold text-red-800 border-b border-red-100 pb-2 mb-3">
+
+            Corporate & Financial
+
+          </h3>
+
+          <div class="space-y-3">
+
+            <div class="grid grid-cols-2 gap-3">
+
+              <div>
+
+                <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                  Designation
+
+                </label>
+
+                <input
+                  [(ngModel)]="form.designation"
+                  placeholder="Frontend Developer"
+                  class="w-full h-10 px-3 text-sm rounded-lg border border-gray-300 focus:border-red-700 focus:ring-2 focus:ring-red-100 outline-none transition">
+
+              </div>
+
+              <div>
+
+                <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                  Department
+
+                </label>
+
+                <select
+                  [(ngModel)]="form.department"
+                  class="w-full h-10 px-3 text-sm rounded-lg border border-gray-300 focus:border-red-700 outline-none">
+
+                  <option value="">
+                    Select Department
+                  </option>
+
+                  <option>Engineering</option>
+
+                  <option>Product</option>
+
+                  <option>Human Resources</option>
+
+                  <option>Finance</option>
+
+                  <option>Sales</option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+            <div class="grid grid-cols-2 gap-3">
+
+              <div>
+
+                <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                  Monthly Salary (₹)
+
+                </label>
+
+                <input
+                  type="number"
+                  [(ngModel)]="form.salary"
+                  placeholder="75000"
+                  class="w-full h-10 px-3 text-sm rounded-lg border border-gray-300 focus:border-red-700 outline-none">
+
+              </div>
+
+              <div>
+
+                <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                  Employment Status
+
+                </label>
+
+                <select
+                  [(ngModel)]="form.status"
+                  class="w-full h-10 px-3 text-sm rounded-lg border border-gray-300 focus:border-red-700 outline-none">
+
+                  <option value="Active">
+                    Active
+                  </option>
+
+                  <option value="Probation">
+                    Probation
+                  </option>
+
+                  <option value="On Leave">
+                    On Leave
+                  </option>
+
+                </select>
+
+              </div>
+
+            </div>
+
+            <div>
+
+              <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                Bank Name
+
+              </label>
+
+              <input
+                [(ngModel)]="form.bankName"
+                placeholder="HDFC Bank"
+                class="w-full h-10 px-3 text-sm rounded-lg border border-gray-300 focus:border-red-700 outline-none">
+
+            </div>
+
+            <div>
+
+              <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                Account Number
+
+              </label>
+
+              <input
+                [(ngModel)]="form.accountNumber"
+                placeholder="5010022334455"
+                class="w-full h-10 px-3 text-sm rounded-lg border border-gray-300 focus:border-red-700 outline-none">
+
+            </div>
+
+            <div>
+
+              <label class="block text-xs font-semibold text-gray-700 mb-1">
+
+                Joining Date
+
+              </label>
+
+              <input
+                type="date"
+                [(ngModel)]="form.joiningDate"
+                class="w-full h-10 px-3 text-sm rounded-lg border border-gray-300 focus:border-red-700 outline-none">
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+
+    <div class="px-6 py-4 border-t border-gray-200 bg-gray-50 flex justify-end gap-3">
+
+      <button
+        (click)="onCancel()"
+        class="px-5 py-2 rounded-lg border border-gray-300 text-sm hover:bg-gray-100 transition">
+
+        Cancel
+
+      </button>
+
+      <button
+        (click)="onSave()"
+        class="px-5 py-2 rounded-lg bg-red-800 hover:bg-red-900 text-white text-sm font-semibold transition">
+
+        COMMIT MASTER RECORD
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

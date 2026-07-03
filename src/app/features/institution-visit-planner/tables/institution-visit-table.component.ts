@@ -12,6 +12,10 @@ import {
 } from '@angular/common';
 
 import {
+  FormsModule
+} from '@angular/forms';
+
+import {
   InstitutionVisitService
 } from '../../../core/services/institution-visit.service';
 
@@ -19,24 +23,29 @@ import {
   InstitutionVisit,
   InstitutionVisitResponse
 } from '../../../core/models/institution-visit.type';
-import { AlertService } from '../../../core/alert/alert.service';
+
+import {
+  AlertService
+} from '../../../core/alert/alert.service';
 
 @Component({
   selector: 'app-institution-visit-table',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   templateUrl: './institution-visit-table.component.html'
 })
-export class InstitutionVisitTableComponent
-  implements OnInit {
+export class InstitutionVisitTableComponent implements OnInit {
 
   @Output()
   editVisitEvent =
     new EventEmitter<InstitutionVisit>();
 
   institutionVisits: InstitutionVisit[] = [];
+
+  selectedType = 'ALL';
 
   private readonly institutionVisitService =
     inject(InstitutionVisitService);
@@ -53,16 +62,13 @@ export class InstitutionVisitTableComponent
 
   }
 
-
   loadVisits(): void {
 
     this.institutionVisitService
       .getInstitutionVisits()
       .subscribe({
 
-        next: (
-          response: InstitutionVisitResponse
-        ) => {
+        next: (response: InstitutionVisitResponse) => {
 
           this.institutionVisits =
             response.data ?? [];
@@ -71,7 +77,7 @@ export class InstitutionVisitTableComponent
 
         },
 
-        error: (err) => {
+        error: err => {
 
           console.error(
             'Failed to fetch Institution Visits',
@@ -84,6 +90,43 @@ export class InstitutionVisitTableComponent
 
   }
 
+  get filteredVisits(): InstitutionVisit[] {
+
+    if (this.selectedType === 'ALL') {
+
+      return this.institutionVisits;
+
+    }
+
+    if (this.selectedType === 'Government') {
+
+      return this.institutionVisits.filter(visit =>
+
+        visit.institution_type?.startsWith('GOVT_')
+
+      );
+
+    }
+
+    if (this.selectedType === 'Private') {
+
+      return this.institutionVisits.filter(visit =>
+
+        visit.institution_type?.startsWith('PRIVATE_')
+
+      );
+
+    }
+
+    return this.institutionVisits.filter(
+
+      visit =>
+
+        visit.institution_type === 'OTHER'
+
+    );
+
+  }
 
   editVisit(
     visit: InstitutionVisit
@@ -93,7 +136,6 @@ export class InstitutionVisitTableComponent
 
   }
 
-
   deleteVisit(
     visit: InstitutionVisit
   ): void {
@@ -101,11 +143,8 @@ export class InstitutionVisitTableComponent
     this.alert
 
       .confirm(
-
         'Delete Visit',
-
         'Are you sure?'
-
       )
 
       .then(result => {
@@ -119,9 +158,7 @@ export class InstitutionVisitTableComponent
         this.institutionVisitService
 
           .deleteInstitutionVisit(
-
             visit.id
-
           )
 
           .subscribe({
@@ -129,9 +166,7 @@ export class InstitutionVisitTableComponent
             next: () => {
 
               this.alert.success(
-
                 'Deleted Successfully'
-
               );
 
               this.loadVisits();
@@ -141,9 +176,7 @@ export class InstitutionVisitTableComponent
             error: () => {
 
               this.alert.error(
-
                 'Delete Failed'
-
               );
 
             }
@@ -153,5 +186,14 @@ export class InstitutionVisitTableComponent
       });
 
   }
+
+  formatInstitutionType(type: string): string {
+
+  return type
+    .replace(/_/g, ' ')
+    .toLowerCase()
+    .replace(/\b\w/g, c => c.toUpperCase());
+
+}
 
 }

@@ -63,7 +63,6 @@ export const ROLES = {
     'SUPER_ADMIN',
     'DIRECTOR',
     'MANAGER',
-    'HR_MANAGER',
     'HR_EXECUTIVE',
     'SALES_MANAGER',
     'GEM_MANAGER',
@@ -73,6 +72,24 @@ export const ROLES = {
     'FINANCE_MANAGER',
     'ACCOUNTANT',
     'EMPLOYEE'
-  ]
+  ],
+
+   EXECUTIVE: [
+    'SUPER_ADMIN',
+    'DIRECTOR',
+    'MANAGER',
+    'SALES_MANAGER',
+    'SALES_EXECUTIVE',
+    'SCM_MANAGER',
+    'SCM_EXECUTIVE',
+    'SUPPLY_CHAIN_EXECUTIVE',
+    'FINANCE_MANAGER',
+    'ACCOUNTANT',
+    'OPERATIONS_MANAGER',
+    'OPERATIONS_EXECUTIVE',
+    'GEM_MANAGER',
+    'GEM_EXECUTIVE'
+  ],
+
 
 };

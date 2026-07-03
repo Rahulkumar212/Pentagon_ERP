@@ -1,0 +1,40 @@
+<div class="space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-5">
+    <div>
+      <h1 class="text-4xl font-serif text-red-900 mt-2">
+        Dashboard Overview
+      </h1>
+    </div>
+  </div>
+
+  <!-- Overview Cards -->
+  <div class="mt-6">
+    <app-overview-cards></app-overview-cards>
+  </div>
+
+  <!-- Bottom Section -->
+  <div class="grid grid-cols-1 xl:grid-cols-3 gap-4">
+
+    <!-- Left -->
+    <div class="xl:col-span-2 flex flex-col gap-4">
+
+      <app-quick-workflows></app-quick-workflows>
+
+      <app-leave-approvals></app-leave-approvals>
+
+      <app-onboarding-milestones></app-onboarding-milestones>
+
+    </div>
+
+    <!-- Right -->
+    <div class="flex flex-col gap-4">
+
+      <app-corporate-feed></app-corporate-feed>
+
+    </div>
+
+  </div>
+
+</div>
