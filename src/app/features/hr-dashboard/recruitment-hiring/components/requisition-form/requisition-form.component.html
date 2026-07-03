@@ -1,0 +1,144 @@
+<!-- Overlay -->
+<div
+  class="fixed inset-0 z-50 bg-black/50 flex items-center justify-center p-3">
+
+  <!-- Modal -->
+  <div
+    class="bg-white rounded-xl shadow-2xl w-full max-w-3xl max-h-[85vh] overflow-y-auto">
+
+    <!-- Header -->
+    <div
+      class="flex items-center justify-between px-5 py-4 border-b border-gray-200">
+
+      <div>
+
+        <h2 class="text-xl font-serif text-red-900">
+          Raise New Requisition
+        </h2>
+
+        <p class="text-xs text-gray-500 mt-1">
+          Create a new hiring request.
+        </p>
+
+      </div>
+
+      <button
+        (click)="onClose()"
+        class="w-8 h-8 rounded-lg hover:bg-gray-100 text-xl text-gray-500">
+
+        ✕
+
+      </button>
+
+    </div>
+
+    <!-- Body -->
+    <div class="p-5 space-y-5">
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+
+        <!-- Job Title -->
+        <div>
+
+          <label class="block mb-1.5 text-xs font-semibold text-gray-700">
+            Job Title
+          </label>
+
+          <input
+            type="text"
+            [(ngModel)]="jobTitle"
+            placeholder="Senior React Developer"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-700">
+
+        </div>
+
+        <!-- Department -->
+        <div>
+
+          <label class="block mb-1.5 text-xs font-semibold text-gray-700">
+            Department
+          </label>
+
+          <select
+            [(ngModel)]="department"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-700">
+
+            <option value="">Select Department</option>
+            <option>Engineering</option>
+            <option>HR</option>
+            <option>Finance</option>
+            <option>Sales</option>
+
+          </select>
+
+        </div>
+
+        <!-- Employment Type -->
+        <div>
+
+          <label class="block mb-1.5 text-xs font-semibold text-gray-700">
+            Employment Type
+          </label>
+
+          <select
+            [(ngModel)]="employmentType"
+            class="w-full border border-gray-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:border-red-700">
+
+            <option value="">Select Type</option>
+            <option>Full-time</option>
+            <option>Part-time</option>
+            <option>Contract</option>
+            <option>Internship</option>
+            <option>Remote</option>
+
+          </select>
+
+        </div>
+
+      </div>
+
+      <!-- Description -->
+      <div>
+
+        <label class="block mb-1.5 text-xs font-semibold text-gray-700">
+          Roles & Requirements
+        </label>
+
+        <textarea
+          rows="5"
+          [(ngModel)]="description"
+          placeholder="Enter job description, responsibilities, skills and requirements..."
+          class="w-full border border-gray-300 rounded-lg p-3 text-sm resize-none focus:outline-none focus:border-red-700">
+        </textarea>
+
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+    <div
+      class="flex justify-end gap-3 px-5 py-4 border-t border-gray-200">
+
+      <button
+        type="button"
+        (click)="onClose()"
+        class="px-4 py-2 rounded-lg border border-gray-300 text-sm hover:bg-gray-100">
+
+        Cancel
+
+      </button>
+
+      <button
+        type="button"
+        (click)="onSubmit()"
+        class="px-5 py-2 rounded-lg bg-red-800 hover:bg-red-900 text-white text-sm font-medium">
+
+        Create Requisition
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

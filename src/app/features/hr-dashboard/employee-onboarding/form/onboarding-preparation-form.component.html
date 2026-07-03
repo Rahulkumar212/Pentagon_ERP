@@ -1,0 +1,160 @@
+<div class="fixed inset-0 z-50 bg-black/50 backdrop-blur-sm flex items-center justify-center p-4">
+
+  <div class="bg-white rounded-2xl border border-gray-200 shadow-2xl w-full max-w-4xl overflow-hidden">
+
+    <!-- Header -->
+    <div
+      class="bg-gray-100 px-6 py-4 flex items-center justify-between">
+
+      <div class="flex items-center gap-3">
+
+        <div
+          class="w-11 h-11 rounded-xl bg-white/20 flex items-center justify-center text-xl">
+
+          👥
+
+        </div>
+
+        <div>
+
+          <h2 class="text-lg font-bold text-black">
+
+            Employee Onboarding
+
+          </h2>
+
+          <p class="text-black text-xs">
+
+            Prepare employee onboarding checklist
+
+          </p>
+
+        </div>
+
+      </div>
+
+      <button
+        (click)="onCancel()"
+        class="w-9 h-9 rounded-lg bg-white/10 hover:bg-white/20 text-red-700 transition">
+
+        ✕
+
+      </button>
+
+    </div>
+
+    <!-- Body -->
+    <div class="p-6">
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-5">
+
+        <!-- Employee Name -->
+        <div>
+
+          <label class="block mb-2 text-sm font-semibold text-gray-700">
+
+            Employee Name
+
+          </label>
+
+          <input
+            type="text"
+            [(ngModel)]="form.employeeName"
+            placeholder="Rahul Sharma"
+            class="w-full h-11 px-4 rounded-xl border border-gray-300 focus:border-red-700 focus:ring-2 focus:ring-red-200 outline-none transition">
+
+        </div>
+
+        <!-- Designation -->
+        <div>
+
+          <label class="block mb-2 text-sm font-semibold text-gray-700">
+
+            Designation
+
+          </label>
+
+          <input
+            type="text"
+            [(ngModel)]="form.designation"
+            placeholder="Frontend Developer"
+            class="w-full h-11 px-4 rounded-xl border border-gray-300 focus:border-red-700 focus:ring-2 focus:ring-red-200 outline-none transition">
+
+        </div>
+
+        <!-- Joining Date -->
+        <div>
+
+          <label class="block mb-2 text-sm font-semibold text-gray-700">
+
+            Joining Date
+
+          </label>
+
+          <input
+            type="date"
+            [(ngModel)]="form.joiningDate"
+            class="w-full h-11 px-4 rounded-xl border border-gray-300 focus:border-red-700 focus:ring-2 focus:ring-red-200 outline-none transition">
+
+        </div>
+
+      </div>
+
+      <!-- Information Card -->
+      <div
+        class="mt-6 rounded-xl border border-red-100 bg-red-50 p-4 flex items-start gap-3">
+
+        <div
+          class="w-10 h-10 rounded-full bg-red-100 text-red-700 flex items-center justify-center text-lg">
+
+          ℹ️
+
+        </div>
+
+        <div>
+
+          <h4 class="font-semibold text-red-900">
+
+            Information
+
+          </h4>
+
+          <p class="text-sm text-red-700 mt-1">
+
+            After creating the checklist, HR can complete all onboarding
+            formalities. Once every task is completed, the
+            <strong>Generate Employee Code</strong> button will automatically
+            become active.
+
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+      <div class="flex justify-end gap-3 mt-8 pt-5 border-t">
+
+        <button
+          (click)="onCancel()"
+          class="px-6 py-2.5 rounded-xl border border-gray-300 font-medium text-gray-700 hover:bg-gray-100 transition">
+
+          Cancel
+
+        </button>
+
+        <button
+          (click)="onSubmit()"
+          class="px-6 py-2.5 rounded-xl bg-red-800 hover:bg-red-900 text-white font-semibold shadow-lg shadow-red-900/20 transition">
+
+          Create Master Checklist
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

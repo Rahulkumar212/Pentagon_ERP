@@ -1,0 +1,67 @@
+<app-recruitment-header
+  (tabChanged)="onTabChange($event)"
+  (raiseRequisition)="onRaiseRequisition()">
+</app-recruitment-header>
+
+
+@if(selectedTab === 'Job Requisitions') {
+
+  <!-- Cards -->
+
+  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+
+    @for(job of filteredJobs; track job.id){
+
+      <app-requisition-card
+        [job]="job"
+        (viewCandidates)="openCandidateList(job)">
+      </app-requisition-card>
+
+    }
+
+  </div>
+
+}
+
+
+@if(selectedTab === 'Hiring Pipeline') {
+
+  <div class="mt-6">
+
+    <app-hiring-pipeline>
+    </app-hiring-pipeline>
+
+  </div>
+
+}
+
+
+@if(selectedTab === 'AI JD Copilot') {
+
+  <div
+    class="mt-6 bg-white rounded-2xl border border-gray-200 p-16 text-center">
+
+    <h2
+      class="text-2xl font-serif text-red-900">
+
+      AI JD Copilot
+
+    </h2>
+
+    <p
+      class="mt-3 text-gray-500">
+
+      Intelligent Job Description Generator is coming soon.
+
+    </p>
+
+  </div>
+
+}
+
+@if (showRequisitionForm()) {
+  <app-requisition-form
+    (close)="closeRequisitionModal()"
+    (submit)="submitRequisition($event)">
+  </app-requisition-form>
+}

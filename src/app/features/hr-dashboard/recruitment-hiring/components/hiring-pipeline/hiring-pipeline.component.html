@@ -1,0 +1,135 @@
+<div class="space-y-5">
+
+    <!-- Header -->
+    <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-2">
+
+        <div>
+
+            <h2 class="text-2xl font-serif text-red-900">
+                Application Progress Board
+            </h2>
+
+            <p class="text-sm text-gray-500 mt-1">
+                Track candidates from screening to final hiring.
+            </p>
+
+        </div>
+
+        <div class="text-[10px] uppercase tracking-wider text-gray-500">
+            ★ Score ≥ 85
+            &nbsp;&nbsp;•&nbsp;&nbsp;
+            Score &lt; 75
+        </div>
+
+    </div>
+
+    <!-- Pipeline -->
+    <div class="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+
+        @for(column of pipeline(); track column.title; let colIndex = $index){
+
+        <div class="bg-white rounded-xl border border-gray-200 shadow-sm p-4 min-h-[500px]">
+
+            <!-- Column Header -->
+            <div class="flex justify-between items-center">
+
+                <h3 class="text-sm font-semibold tracking-wide text-red-900">
+                    {{ column.title }}
+                </h3>
+
+                <span
+                    class="w-6 h-6 rounded-full bg-red-800 text-white text-[11px] flex items-center justify-center">
+
+                    {{ column.candidates.length }}
+
+                </span>
+
+            </div>
+
+            <div class="border-b border-red-100 my-3"></div>
+
+            <!-- Candidate Cards -->
+            <div class="space-y-3">
+
+                @for(candidate of column.candidates; track candidate.name; let i = $index){
+
+                <div
+                    class="border border-gray-200 rounded-lg p-3 hover:shadow-sm transition">
+
+                    <!-- Name -->
+                    <h4 class="text-sm font-semibold text-red-900">
+                        {{ candidate.name }}
+                    </h4>
+
+                    <!-- Designation -->
+                    <p
+                        class="uppercase tracking-wide text-[9px] text-gray-500 mt-1">
+
+                        {{ candidate.designation }}
+
+                    </p>
+
+                    <!-- Experience + Score -->
+                    <div
+                        class="flex justify-between items-center mt-3">
+
+                        <span class="text-[10px] text-gray-500">
+                            {{ candidate.experience }}
+                        </span>
+
+                        <span
+                            class="px-2 py-0.5 rounded-full bg-red-100 text-red-700 text-[10px] font-semibold">
+
+                            ★ {{ candidate.score }}
+
+                        </span>
+
+                    </div>
+
+                    <!-- Buttons -->
+                    <div class="mt-3 flex gap-2">
+
+                        <button
+                            class="flex-1 rounded-md border border-gray-300 py-1.5 text-[10px] font-medium hover:bg-gray-100 transition"
+                            (click)="moveBackward(colIndex, i)">
+
+                            Reject
+
+                        </button>
+
+                        @if (colIndex === pipeline().length - 1) {
+
+                        <button
+                            class="flex-1 rounded-md bg-green-700 py-1.5 text-[10px] font-medium text-white hover:bg-green-800 transition">
+
+                            Hire
+
+                        </button>
+
+                        } @else {
+
+                        <button
+                            class="flex-1 rounded-md bg-red-800 py-1.5 text-[10px] font-medium text-white hover:bg-red-900 transition"
+                            (click)="moveForward(colIndex, i)">
+
+                            Advance
+
+                        </button>
+
+                        }
+
+                    </div>
+
+                </div>
+
+                }
+
+            </div>
+
+        </div>
+
+        }
+
+    </div>
+
+</div>

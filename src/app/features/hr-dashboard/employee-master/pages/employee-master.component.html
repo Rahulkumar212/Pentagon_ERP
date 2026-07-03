@@ -1,0 +1,50 @@
+<div class="space-y-8">
+
+  <app-employee-master-header
+    (addEmployee)="openForm()">
+  </app-employee-master-header>
+
+  <div class="my-2">
+
+   <app-employee-filters
+  (departmentChange)="filterDepartment = $event; applyFilters()"
+  (statusChange)="filterStatus = $event; applyFilters()">
+</app-employee-filters>
+
+
+  </div>
+
+  <div class="rounded-xl border border-gray-200 bg-white p-5">
+
+  <app-employee-list
+
+  [employees]="employees"
+
+  (viewProfile)="openProfile($event)">
+
+</app-employee-list>
+
+  </div>
+
+</div>
+
+@if(showForm()){
+
+<app-add-employee-form
+  (close)="closeForm()"
+  (save)="addEmployee($event)">
+</app-add-employee-form>
+
+}
+
+@if(showProfile()){
+
+<app-employee-profile-drawer
+
+  [employee]="selectedEmployee!"
+
+  (close)="closeProfile()">
+
+</app-employee-profile-drawer>
+
+}

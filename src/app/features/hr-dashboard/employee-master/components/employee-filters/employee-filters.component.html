@@ -1,0 +1,87 @@
+<div class="flex justify-end gap-3">
+
+  <!-- Department -->
+
+  <div>
+
+    <label
+      class="block text-[9px] uppercase tracking-[0.2em] text-gray-500 mb-1">
+
+      Department
+
+    </label>
+
+    <select
+      [(ngModel)]="department"
+      (change)="onDepartmentChange()"
+      class="h-9 w-36 rounded-md border border-red-200 bg-red-50 px-2.5 text-xs outline-none focus:border-red-700">
+
+      <option value="All">
+        All
+      </option>
+
+      <option value="Engineering">
+        Engineering
+      </option>
+
+      <option value="Product">
+        Product
+      </option>
+
+      <option value="HR & Admin">
+        HR & Admin
+      </option>
+
+      <option value="Sales & Marketing">
+        Sales & Marketing
+      </option>
+
+      <option value="Finance">
+        Finance
+      </option>
+
+    </select>
+
+  </div>
+
+  <!-- Status -->
+
+  <div>
+
+    <label
+      class="block text-[9px] uppercase tracking-[0.2em] text-gray-500 mb-1">
+
+      Status
+
+    </label>
+
+    <select
+      [(ngModel)]="status"
+      (change)="onStatusChange()"
+      class="h-9 w-32 rounded-md border border-red-200 bg-red-50 px-2.5 text-xs outline-none focus:border-red-700">
+
+      <option value="All">
+        All
+      </option>
+
+      <option value="Active">
+        Active
+      </option>
+
+      <option value="Probation">
+        Probation
+      </option>
+
+      <option value="On Leave">
+        On Leave
+      </option>
+
+      <option value="Resigned">
+        Resigned
+      </option>
+
+    </select>
+
+  </div>
+
+</div>

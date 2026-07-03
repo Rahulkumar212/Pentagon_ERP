@@ -2,13 +2,34 @@
 
   <!-- Header -->
 
-  <div class="px-5 py-4 border-b border-gray-200">
+  <div class="px-5 py-4 border-b border-gray-200 flex items-center justify-between">
 
     <h2 class="text-lg font-semibold">
 
       Institution Visit Records
 
     </h2>
+
+    <select [(ngModel)]="selectedType"
+      class="border border-gray-300 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-red-700">
+
+      <option value="ALL">
+        All
+      </option>
+
+      <option value="Government">
+        Government
+      </option>
+
+      <option value="Private">
+        Private
+      </option>
+
+      <option value="Others">
+        Others
+      </option>
+
+    </select>
 
   </div>
 
@@ -78,19 +99,21 @@
 
         <tbody>
 
-          @for (visit of institutionVisits; track visit.id) {
+          @for (visit of filteredVisits; track visit.id) {
 
           <tr class="border-b border-gray-100 hover:bg-gray-50">
 
             <td class="px-5 py-4">
 
-              <span
-                class="px-3 py-1 rounded-full bg-blue-100 text-blue-700 text-xs font-semibold">
+              <span class="px-3 py-1 rounded-full text-xs font-semibold" [ngClass]="{
+    'bg-green-100 text-green-700': visit.institution_type.startsWith('GOVT_'),
+    'bg-blue-100 text-blue-700': visit.institution_type.startsWith('PRIVATE_'),
+    'bg-yellow-100 text-yellow-700': visit.institution_type === 'OTHER'
+  }">
 
-                {{ visit.institution_type }}
+                {{ formatInstitutionType(visit.institution_type) }}
 
               </span>
-
             </td>
 
             <td class="px-5 py-4 font-semibold">
@@ -133,16 +156,14 @@
 
               <div class="flex justify-center gap-2">
 
-                <button
-                  (click)="editVisit(visit)"
+                <button (click)="editVisit(visit)"
                   class="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700">
 
                   Edit
 
                 </button>
 
-                <button
-                  (click)="deleteVisit(visit)"
+                <button (click)="deleteVisit(visit)"
                   class="px-4 py-2 bg-red-600 text-white rounded-lg hover:bg-red-700">
 
                   Delete
@@ -161,9 +182,7 @@
 
           <tr>
 
-            <td
-              colspan="8"
-              class="py-12 text-center text-gray-500">
+            <td colspan="8" class="py-12 text-center text-gray-500">
 
               No Institution Visits Found
 

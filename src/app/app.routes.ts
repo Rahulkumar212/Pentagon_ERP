@@ -66,8 +66,26 @@ export const routes: Routes = [
         path: 'hr-dashboard',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./features/hr-dashboard/pages/hr-dashboard.component').then((m) => m.HrDashboardComponent),
+          import('./features/hr-dashboard/dashboard-overview/pages/hr-dashboard.component').then((m) => m.HrDashboardComponent),
       },
+      {
+        path: 'recruitment',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/hr-dashboard/recruitment-hiring/pages/recruitment-dashboard.component').then((m) => m.RecruitmentDashboardComponent),
+      },
+      {
+        path: 'employee-onboarding',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/hr-dashboard/employee-onboarding/pages/onboarding-milestones.component').then((m) => m.OnboardingMilestonesComponent),
+      },
+       {
+        path: 'employee-master',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/hr-dashboard/employee-master/pages/employee-master.component').then((m) => m.EmployeeMasterComponent),
+      },  //  EmployeeMasterComponent
       {
         path: 'task-collaboration',
         canActivate: [authGuard],
@@ -75,7 +93,7 @@ export const routes: Routes = [
           import('./features/task-collaboration/pages/task-collaboration.component').then(
             (m) => m.TaskCollaborationComponent,
           ),
-      },
+      },  //OnboardingMilestonesComponent  employee-onboarding
       {
         path: 'supply-chain',
         canActivate: [authGuard],
@@ -93,7 +111,7 @@ export const routes: Routes = [
           ),
       },
     ],
-  },
+  },  
 
   // Invalid Route
   {

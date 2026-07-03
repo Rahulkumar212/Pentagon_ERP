@@ -1,0 +1,48 @@
+<div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+
+    <!-- Header -->
+
+    <app-onboarding-header
+    (prepareChecklist)="prepareChecklist()">
+</app-onboarding-header>
+
+    <!-- Body -->
+
+    <div class="grid grid-cols-1 xl:grid-cols-3">
+
+        <!-- Employee List -->
+
+        <app-employee-list  [selectedEmployee]="selectedEmployee"
+            (selectEmployee)="selectEmployee($event)">
+        </app-employee-list>
+
+        <!-- Right Side -->
+
+        <div class="xl:col-span-2 p-6">
+
+            <!-- Employee Profile -->
+
+            <app-employee-profile [employee]="selectedEmployee" [canGenerate]="isChecklistCompleted()"
+                (generateEmployeeCode)="generateEmployeeCode()">
+            </app-employee-profile>
+
+            <!-- Checklist -->
+
+            <app-checklist [checklist]="checklist" (toggle)="toggleChecklist($event)">
+            </app-checklist>
+
+        </div>
+
+    </div>
+
+</div>
+
+<!-- Preparation Form -->
+
+@if(showPreparationForm()){
+
+<app-onboarding-preparation-form (close)="closePreparationForm()" (createChecklist)="createChecklist($event)">
+
+</app-onboarding-preparation-form>
+
+}
