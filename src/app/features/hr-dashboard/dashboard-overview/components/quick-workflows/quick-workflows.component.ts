@@ -5,6 +5,7 @@ import {
 import {
   CommonModule
 } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-quick-workflows',
@@ -16,6 +17,7 @@ import {
 })
 export class QuickWorkflowsComponent {
 
+  constructor(private readonly router: Router) { }
   workflows = [
 
     {
@@ -44,14 +46,47 @@ export class QuickWorkflowsComponent {
     workflow: any
   ): void {
 
-    console.log(
-      workflow.title
-    );
+    switch (workflow.title) {
+      case "Add Employee":
+        this.router.navigate([
+          "/employee-master"
+        ])
+        break;
 
-    // TODO:
-    // Router navigate
-    // Open Modal
-    // API Call
+      case "Post Job":
+        this.router.navigate([
+          "/recruitment"
+        ])
+        break;
+
+      case "Apply Leave":
+        this.router.navigate([
+          "/daily-operations"
+        ], {
+          queryParams: {
+            tab: "attendance"
+          }
+        }
+        )
+        break;
+
+      case "Allocate Asset":
+        this.router.navigate([
+          "/daily-operations"
+        ],
+        {
+          queryParams:{
+            tab:"assets"
+          }
+        }
+      )
+        break;
+
+      default:
+        console.log(workflow.title);
+        break;
+    }
+
 
   }
 

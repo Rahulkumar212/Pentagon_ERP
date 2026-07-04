@@ -1,0 +1,119 @@
+<div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+
+  <!-- Header -->
+
+  <div class="mb-5">
+
+    <h2
+      class="text-lg font-bold uppercase tracking-[0.15em] text-gray-900">
+
+      Attendance History
+
+    </h2>
+
+    <p
+      class="mt-1 text-sm text-gray-500">
+
+      Review recent office attendance records.
+
+    </p>
+
+  </div>
+
+  <!-- Table -->
+
+  <div class="overflow-x-auto">
+
+    <table class="w-full">
+
+      <thead>
+
+        <tr class="border-b border-gray-200">
+
+          <th class="py-3 text-left text-[11px] uppercase tracking-[0.18em] text-gray-500">
+            Date
+          </th>
+
+          <th class="py-3 text-left text-[11px] uppercase tracking-[0.18em] text-gray-500">
+            Punch In
+          </th>
+
+          <th class="py-3 text-left text-[11px] uppercase tracking-[0.18em] text-gray-500">
+            Punch Out
+          </th>
+
+          <th class="py-3 text-left text-[11px] uppercase tracking-[0.18em] text-gray-500">
+            Working Hours
+          </th>
+
+          <th class="py-3 text-left text-[11px] uppercase tracking-[0.18em] text-gray-500">
+            Status
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        <tr
+          *ngFor="let record of attendanceHistory"
+          class="border-b border-gray-100 hover:bg-gray-50">
+
+          <td class="py-3 text-sm">
+
+            {{ record.date }}
+
+          </td>
+
+          <td class="py-3 text-sm">
+
+            {{ record.punchIn }}
+
+          </td>
+
+          <td class="py-3 text-sm">
+
+            {{ record.punchOut }}
+
+          </td>
+
+          <td class="py-3 text-sm font-medium">
+
+            {{ record.hours }}
+
+          </td>
+
+          <td class="py-3">
+
+            <span
+              class="rounded-full px-3 py-1 text-xs font-semibold"
+
+              [ngClass]="{
+
+                'bg-green-100 text-green-700':
+                record.status === 'Present',
+
+                'bg-yellow-100 text-yellow-700':
+                record.status === 'Late',
+
+                'bg-blue-100 text-blue-700':
+                record.status === 'Leave'
+
+              }">
+
+              {{ record.status }}
+
+            </span>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

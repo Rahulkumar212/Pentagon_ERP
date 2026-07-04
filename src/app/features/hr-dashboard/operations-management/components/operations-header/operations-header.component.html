@@ -1,0 +1,110 @@
+<div class="space-y-4">
+
+  <!-- Header -->
+
+  <div class="flex items-start justify-between">
+
+    <div>
+
+      <p
+        class="text-[9px] uppercase tracking-[0.28em] text-gray-500 font-semibold">
+
+        Daily Operations
+
+      </p>
+
+      <h1
+        class="mt-1 text-3xl font-serif text-gray-900">
+
+        Operations Management
+
+      </h1>
+
+    </div>
+
+    <!-- Tabs -->
+
+    <div
+      class="flex items-center overflow-hidden rounded-lg border border-gray-200 bg-white shadow-sm">
+
+      <!-- Attendance -->
+
+      <button
+        (click)="changeTab('attendance')"
+        class="flex items-center gap-1.5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] transition"
+
+        [ngClass]="
+          activeTab === 'attendance'
+            ? 'border-b-2 border-black bg-gray-50 text-black'
+            : 'text-gray-500 hover:bg-gray-50'
+        ">
+
+        🕒
+
+        Attendance
+
+      </button>
+
+      <!-- Payroll -->
+
+      <button
+        (click)="changeTab('payroll')"
+        class="flex items-center gap-1.5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] transition"
+
+        [ngClass]="
+          activeTab === 'payroll'
+            ? 'border-b-2 border-black bg-gray-50 text-black'
+            : 'text-gray-500 hover:bg-gray-50'
+        ">
+
+        💳
+
+        Payroll
+
+      </button>
+
+      <!-- KRA -->
+
+      <button
+        (click)="changeTab('kra')"
+        class="flex items-center gap-1.5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] transition"
+
+        [ngClass]="
+          activeTab === 'kra'
+            ? 'border-b-2 border-black bg-gray-50 text-black'
+            : 'text-gray-500 hover:bg-gray-50'
+        ">
+
+        📈
+
+        KRA
+
+      </button>
+
+      <!-- Assets -->
+
+      <button
+        (click)="changeTab('assets')"
+        class="flex items-center gap-1.5 px-4 py-2 text-[11px] font-semibold uppercase tracking-[0.12em] transition"
+
+        [ngClass]="
+          activeTab === 'assets'
+            ? 'border-b-2 border-black bg-gray-50 text-black'
+            : 'text-gray-500 hover:bg-gray-50'
+        ">
+
+        💻
+
+        Assets
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Divider -->
+
+  <div class="border-b border-gray-300"></div>
+
+</div>

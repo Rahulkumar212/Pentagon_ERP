@@ -1,0 +1,104 @@
+<div class="bg-white border border-gray-300 rounded-lg p-4">
+
+  <!-- Header -->
+
+  <div class="flex items-center gap-2 mb-4">
+
+    <span class="text-base">
+      ↪
+    </span>
+
+    <h2 class="text-xs font-bold uppercase tracking-[0.15em] text-gray-900">
+      Resignation Submission Form
+    </h2>
+
+  </div>
+
+  <!-- Row -->
+
+  <div class="grid grid-cols-2 gap-3">
+
+    <!-- Employee -->
+
+    <div>
+
+      <label class="block text-xs font-semibold mb-1.5">
+        Select Employee
+      </label>
+
+      <select
+        [(ngModel)]="form.employee"
+        class="w-full h-9 rounded-md border border-gray-300 px-2.5 text-xs outline-none focus:border-black">
+
+        <option
+          *ngFor="let employee of employees"
+          [value]="employee">
+
+          {{ employee }}
+
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- Notice -->
+
+    <div>
+
+      <label class="block text-xs font-semibold mb-1.5">
+        Notice Period (Days)
+      </label>
+
+      <input
+        type="number"
+        [(ngModel)]="form.noticePeriod"
+        class="w-full h-9 rounded-md border border-gray-300 px-2.5 text-xs outline-none focus:border-black">
+
+    </div>
+
+  </div>
+
+  <!-- Reason -->
+
+  <div class="mt-4">
+
+    <label class="block text-xs font-semibold mb-1.5">
+      Resignation Reason
+    </label>
+
+    <textarea
+      rows="4"
+      [(ngModel)]="form.reason"
+      placeholder="Enter resignation reason..."
+      class="w-full rounded-md border border-gray-300 p-2.5 text-xs resize-none outline-none focus:border-black">
+
+    </textarea>
+
+  </div>
+
+  <!-- Footer -->
+
+  <div class="flex justify-end gap-2 mt-4">
+
+    <button
+      (click)="onCancel()"
+      type="button"
+      class="h-9 px-4 rounded-md border border-gray-300 text-xs font-medium hover:bg-gray-100">
+
+      Cancel
+
+    </button>
+
+    <button
+      (click)="onSubmit()"
+      type="button"
+      class="h-9 px-4 rounded-md bg-gray-900 text-white text-[10px] font-semibold uppercase tracking-[0.12em] hover:bg-black">
+
+      Commit Resignation Notice
+
+    </button>
+
+  </div>
+
+</div>

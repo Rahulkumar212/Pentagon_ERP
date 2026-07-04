@@ -1,0 +1,80 @@
+<div class="space-y-6">
+
+  <!-- Header -->
+
+  <div class="flex items-start justify-between">
+
+    <div>
+
+      <p
+        class="text-[10px] uppercase tracking-[0.28em] text-gray-500 font-medium">
+
+        Separation & Clearances
+
+      </p>
+
+      <h1
+        class="mt-1 text-3xl font-serif text-gray-900">
+
+        Exit Management
+
+      </h1>
+
+    </div>
+
+    <!-- Button -->
+
+    <button
+      (click)="openForm()"
+      class="flex items-center gap-2 rounded-lg bg-gray-900 hover:bg-black px-4 py-2.5 text-xs font-semibold tracking-[0.15em] text-white transition">
+
+      <span class="text-base leading-none">
+        +
+      </span>
+
+      <span>
+        FILE RESIGNATION
+      </span>
+
+    </button>
+
+  </div>
+
+  <!-- Divider -->
+
+  <div class="border-b border-gray-300"></div>
+
+  <!-- Form -->
+
+  @if(showForm()){
+
+    <app-resignation-form
+      (submitForm)="submitResignation($event)"
+      (cancel)="closeForm()">
+    </app-resignation-form>
+
+  }
+
+  <!-- Exit Card -->
+
+  @if(showExitCard()){
+
+    <app-exit-clearance-card
+      [request]="exitRequest!"
+      (showCertificate)="openCertificate()">
+    </app-exit-clearance-card>
+
+  }
+
+  <!-- Certificate -->
+
+  @if(showCertificate()){
+
+    <app-relieving-certificate
+      [request]="exitRequest!"
+      (close)="closeCertificate()">
+    </app-relieving-certificate>
+
+  }
+
+</div>

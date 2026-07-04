@@ -1,0 +1,70 @@
+<div class="space-y-6">
+
+  <!-- Header -->
+
+  <app-operations-header
+    [activeTab]="activeTab"
+    (tabChanged)="onTabChange($event)">
+  </app-operations-header>
+
+  <!-- ========================= -->
+  <!-- Attendance & Leave Tab -->
+  <!-- ========================= -->
+
+  @if(activeTab === 'attendance'){
+
+    <!-- Top -->
+
+    <div class="grid grid-cols-12 gap-6">
+
+      <div class="col-span-4">
+        <app-attendance-punch-card />
+      </div>
+
+      <div class="col-span-8">
+        <app-attendance-history />
+      </div>
+
+    </div>
+
+    <!-- Bottom -->
+
+    <div class="mt-6">
+
+      <app-leave-request-list />
+
+    </div>
+
+  }
+
+  <!-- ========================= -->
+  <!-- Payroll Tab -->
+  <!-- ========================= -->
+
+  @if(activeTab === 'payroll'){
+
+    <app-payroll-summary-card />
+
+  }
+
+  <!-- ========================= -->
+  <!-- KRA Tab -->
+  <!-- ========================= -->
+
+  @if(activeTab === 'kra'){
+
+    <app-kra-progress-card />
+
+  }
+
+  <!-- ========================= -->
+  <!-- Assets Tab -->
+  <!-- ========================= -->
+
+  @if(activeTab === 'assets'){
+
+    <app-assigned-assets />
+
+  }
+
+</div>
