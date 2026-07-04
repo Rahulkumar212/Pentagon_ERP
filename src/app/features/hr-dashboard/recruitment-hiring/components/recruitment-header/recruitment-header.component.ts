@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  Input,
   Output
 } from '@angular/core';
 
@@ -10,6 +11,9 @@ import {
   templateUrl: './recruitment-header.component.html'
 })
 export class RecruitmentHeaderComponent {
+   
+  @Input()
+  activeTab = 'Job Requisitions';
 
   @Output()
   tabChanged = new EventEmitter<string>();
@@ -17,7 +21,6 @@ export class RecruitmentHeaderComponent {
   @Output()
   raiseRequisition = new EventEmitter<void>();
 
-  activeTab = 'Job Requisitions';
 
   tabs = [
     'Job Requisitions',
@@ -26,8 +29,6 @@ export class RecruitmentHeaderComponent {
   ];
 
   changeTab(tab: string): void {
-
-    this.activeTab = tab;
 
     this.tabChanged.emit(tab);
 
