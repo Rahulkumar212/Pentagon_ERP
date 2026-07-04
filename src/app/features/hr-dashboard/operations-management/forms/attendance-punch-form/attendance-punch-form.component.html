@@ -1,0 +1,211 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+
+  <div class="border-b border-gray-200 px-5 py-4">
+
+    <p
+      class="text-[10px] uppercase tracking-[0.25em] text-gray-500">
+
+      Attendance Management
+
+    </p>
+
+    <h2
+      class="mt-1 text-lg font-serif text-red-900">
+
+      Attendance Punch Form
+
+    </h2>
+
+  </div>
+
+  <!-- Form -->
+
+  <div class="grid grid-cols-2 gap-5 p-5">
+
+    <!-- Employee -->
+
+    <div>
+
+      <label
+        class="mb-2 block text-xs font-semibold text-gray-700">
+
+        Employee
+
+      </label>
+
+      <select
+
+        [(ngModel)]="form.employee"
+
+        class="h-10 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-red-700">
+
+        @for(employee of employees; track employee){
+
+          <option [value]="employee">
+
+            {{ employee }}
+
+          </option>
+
+        }
+
+      </select>
+
+    </div>
+
+    <!-- Punch Type -->
+
+    <div>
+
+      <label
+        class="mb-2 block text-xs font-semibold text-gray-700">
+
+        Punch Type
+
+      </label>
+
+      <select
+
+        [(ngModel)]="form.punchType"
+
+        class="h-10 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-red-700">
+
+        <option value="Punch In">
+
+          Punch In
+
+        </option>
+
+        <option value="Punch Out">
+
+          Punch Out
+
+        </option>
+
+      </select>
+
+    </div>
+
+    <!-- Shift -->
+
+    <div>
+
+      <label
+        class="mb-2 block text-xs font-semibold text-gray-700">
+
+        Shift
+
+      </label>
+
+      <select
+
+        [(ngModel)]="form.shift"
+
+        class="h-10 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-red-700">
+
+        @for(shift of shifts; track shift){
+
+          <option [value]="shift">
+
+            {{ shift }}
+
+          </option>
+
+        }
+
+      </select>
+
+    </div>
+
+    <!-- Location -->
+
+    <div>
+
+      <label
+        class="mb-2 block text-xs font-semibold text-gray-700">
+
+        Location
+
+      </label>
+
+      <select
+
+        [(ngModel)]="form.location"
+
+        class="h-10 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-red-700">
+
+        @for(location of locations; track location){
+
+          <option [value]="location">
+
+            {{ location }}
+
+          </option>
+
+        }
+
+      </select>
+
+    </div>
+
+  </div>
+
+  <!-- Remarks -->
+
+  <div class="px-5 pb-5">
+
+    <label
+      class="mb-2 block text-xs font-semibold text-gray-700">
+
+      Remarks
+
+    </label>
+
+    <textarea
+
+      rows="4"
+
+      [(ngModel)]="form.remarks"
+
+      placeholder="Optional remarks..."
+
+      class="w-full resize-none rounded-lg border border-gray-300 p-3 text-sm outline-none focus:border-red-700">
+
+    </textarea>
+
+  </div>
+
+  <!-- Footer -->
+
+  <div
+    class="flex justify-end gap-3 border-t border-gray-200 px-5 py-4">
+
+    <button
+
+      type="button"
+
+      (click)="onCancel()"
+
+      class="rounded-lg border border-gray-300 px-5 py-2 text-xs uppercase tracking-widest hover:bg-gray-100">
+
+      Cancel
+
+    </button>
+
+    <button
+
+      type="button"
+
+      (click)="onSubmit()"
+
+      class="rounded-lg bg-red-900 px-5 py-2 text-xs uppercase tracking-widest text-white hover:bg-red-800">
+
+      Submit Punch
+
+    </button>
+
+  </div>
+
+</div>

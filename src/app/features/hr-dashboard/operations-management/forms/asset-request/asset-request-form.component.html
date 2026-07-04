@@ -1,0 +1,199 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+
+  <div class="border-b border-gray-200 px-5 py-4">
+
+    <p
+      class="text-[10px] uppercase tracking-[0.25em] text-gray-500">
+
+      Asset Management
+
+    </p>
+
+    <h2
+      class="mt-1 text-lg font-serif text-red-900">
+
+      Asset Request Form
+
+    </h2>
+
+  </div>
+
+  <!-- Form -->
+
+  <div class="grid grid-cols-2 gap-5 p-5">
+
+    <!-- Employee -->
+
+    <div>
+
+      <label
+        class="mb-2 block text-xs font-semibold text-gray-700">
+
+        Employee
+
+      </label>
+
+      <select
+
+        [(ngModel)]="form.employee"
+
+        class="h-10 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-red-700">
+
+        @for(employee of employees; track employee){
+
+          <option [value]="employee">
+
+            {{ employee }}
+
+          </option>
+
+        }
+
+      </select>
+
+    </div>
+
+    <!-- Asset -->
+
+    <div>
+
+      <label
+        class="mb-2 block text-xs font-semibold text-gray-700">
+
+        Asset Type
+
+      </label>
+
+      <select
+
+        [(ngModel)]="form.assetType"
+
+        class="h-10 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-red-700">
+
+        @for(asset of assetTypes; track asset){
+
+          <option [value]="asset">
+
+            {{ asset }}
+
+          </option>
+
+        }
+
+      </select>
+
+    </div>
+
+    <!-- Priority -->
+
+    <div>
+
+      <label
+        class="mb-2 block text-xs font-semibold text-gray-700">
+
+        Priority
+
+      </label>
+
+      <select
+
+        [(ngModel)]="form.priority"
+
+        class="h-10 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-red-700">
+
+        @for(priority of priorities; track priority){
+
+          <option [value]="priority">
+
+            {{ priority }}
+
+          </option>
+
+        }
+
+      </select>
+
+    </div>
+
+    <!-- Required Date -->
+
+    <div>
+
+      <label
+        class="mb-2 block text-xs font-semibold text-gray-700">
+
+        Required Date
+
+      </label>
+
+      <input
+
+        type="date"
+
+        [(ngModel)]="form.requiredDate"
+
+        class="h-10 w-full rounded-lg border border-gray-300 px-3 text-sm outline-none focus:border-red-700">
+
+    </div>
+
+  </div>
+
+  <!-- Justification -->
+
+  <div class="px-5 pb-5">
+
+    <label
+      class="mb-2 block text-xs font-semibold text-gray-700">
+
+      Business Justification
+
+    </label>
+
+    <textarea
+
+      rows="4"
+
+      [(ngModel)]="form.justification"
+
+      placeholder="Why is this asset required?"
+
+      class="w-full resize-none rounded-lg border border-gray-300 p-3 text-sm outline-none focus:border-red-700">
+
+    </textarea>
+
+  </div>
+
+  <!-- Footer -->
+
+  <div
+    class="flex justify-end gap-3 border-t border-gray-200 px-5 py-4">
+
+    <button
+
+      type="button"
+
+      (click)="onCancel()"
+
+      class="rounded-lg border border-gray-300 px-5 py-2 text-xs uppercase tracking-widest hover:bg-gray-100">
+
+      Cancel
+
+    </button>
+
+    <button
+
+      type="button"
+
+      (click)="onSubmit()"
+
+      class="rounded-lg bg-red-900 px-5 py-2 text-xs uppercase tracking-widest text-white hover:bg-red-800">
+
+      Submit Request
+
+    </button>
+
+  </div>
+
+</div>

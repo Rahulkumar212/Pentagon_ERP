@@ -73,7 +73,7 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () =>
           import('./features/hr-dashboard/recruitment-hiring/pages/recruitment-dashboard.component').then((m) => m.RecruitmentDashboardComponent),
-      },
+      },  
       {
         path: 'employee-onboarding',
         canActivate: [authGuard],
@@ -85,7 +85,19 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () =>
           import('./features/hr-dashboard/employee-master/pages/employee-master.component').then((m) => m.EmployeeMasterComponent),
-      },  //  EmployeeMasterComponent
+      },  
+      {
+        path: 'exit-management',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/hr-dashboard/exit-management/pages/exit-management.component').then((m) => m.ExitManagementComponent),
+      },
+      {
+        path: 'daily-operations',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/hr-dashboard/operations-management/pages/operations-management.component').then((m) => m.OperationsManagementComponent),
+      },  
       {
         path: 'task-collaboration',
         canActivate: [authGuard],
@@ -93,7 +105,7 @@ export const routes: Routes = [
           import('./features/task-collaboration/pages/task-collaboration.component').then(
             (m) => m.TaskCollaborationComponent,
           ),
-      },  //OnboardingMilestonesComponent  employee-onboarding
+      },  
       {
         path: 'supply-chain',
         canActivate: [authGuard],
@@ -113,7 +125,6 @@ export const routes: Routes = [
     ],
   },  
 
-  // Invalid Route
   {
     path: '**',
     redirectTo: 'login',

@@ -1,0 +1,471 @@
+<div class="grid grid-cols-12 gap-4">
+
+  <!-- Employee List -->
+
+  <div
+    class="col-span-4 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+
+    <div class="mb-4">
+
+      <h2
+        class="text-base font-bold uppercase tracking-[0.12em] text-gray-900">
+
+        Employee Selector
+
+      </h2>
+
+      <p
+        class="mt-1 text-xs text-gray-500">
+
+        Select an employee to preview the monthly payslip.
+
+      </p>
+
+    </div>
+
+    <div
+      class="max-h-[520px] space-y-2 overflow-y-auto pr-1">
+
+      @for(employee of employees; track employee.id){
+
+      <div
+
+        (click)="selectEmployee(employee)"
+
+        class="flex cursor-pointer items-center gap-2 rounded-md border p-2 transition"
+
+        [ngClass]="
+          selectedEmployee.id === employee.id
+            ? 'border-black bg-gray-50'
+            : 'border-gray-200 hover:border-gray-400 hover:bg-gray-50'
+        ">
+
+        <img
+
+          [src]="employee.avatar"
+
+          class="h-10 w-10 rounded-full object-cover">
+
+        <div>
+
+          <h3
+            class="text-sm font-semibold text-gray-900">
+
+            {{ employee.name }}
+
+          </h3>
+
+          <p
+            class="text-[11px] text-gray-500">
+
+            {{ employee.designation }}
+
+          </p>
+
+        </div>
+
+      </div>
+
+      }
+
+    </div>
+
+  </div>
+
+  <!-- Payslip -->
+
+  <div
+    class="col-span-8 rounded-lg border border-gray-200 bg-white p-4 shadow-sm">
+
+    <!-- Company -->
+
+    <div class="flex items-start justify-between">
+
+      <div>
+
+        <h1
+          class="text-xl font-serif font-semibold">
+
+          NEXUS ENTERPRISES PVT LTD
+
+        </h1>
+
+        <p
+          class="mt-1 text-[11px] text-gray-500">
+
+          Reg : NEX-99213 • Mumbai, MH
+
+        </p>
+
+      </div>
+
+      <div class="text-right">
+
+        <span
+          class="rounded-full bg-gray-900 px-3 py-1 text-[9px] font-semibold uppercase tracking-[0.15em] text-white">
+
+          Draft Payslip
+
+        </span>
+
+        <p
+          class="mt-1 text-[11px] text-gray-500">
+
+          June 2026
+
+        </p>
+
+      </div>
+
+    </div>
+
+    <hr class="my-4">
+
+    <!-- Employee Info -->
+
+    <div
+      class="grid grid-cols-2 gap-4 text-xs">
+
+      <div class="space-y-2">
+
+        <div class="flex justify-between">
+
+          <span class="text-gray-500">
+
+            Employee Code
+
+          </span>
+
+          <strong>
+
+            {{ selectedEmployee.employeeCode }}
+
+          </strong>
+
+        </div>
+
+        <div class="flex justify-between">
+
+          <span class="text-gray-500">
+
+            Employee
+
+          </span>
+
+          <strong>
+
+            {{ selectedEmployee.name }}
+
+          </strong>
+
+        </div>
+
+        <div class="flex justify-between">
+
+          <span class="text-gray-500">
+
+            PAN
+
+          </span>
+
+          <strong>
+
+            {{ selectedEmployee.pan }}
+
+          </strong>
+
+        </div>
+
+      </div>
+
+      <div class="space-y-2">
+
+        <div class="flex justify-between">
+
+          <span class="text-gray-500">
+
+            Bank
+
+          </span>
+
+          <strong>
+
+            {{ selectedEmployee.bank }}
+
+          </strong>
+
+        </div>
+
+        <div class="flex justify-between">
+
+          <span class="text-gray-500">
+
+            Account
+
+          </span>
+
+          <strong>
+
+            {{ selectedEmployee.accountNumber }}
+
+          </strong>
+
+        </div>
+
+        <div class="flex justify-between">
+
+          <span class="text-gray-500">
+
+            Aadhaar
+
+          </span>
+
+          <strong>
+
+            {{ selectedEmployee.aadhaar }}
+
+          </strong>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Salary -->
+
+    <div
+      class="mt-5 grid grid-cols-2 gap-4">
+
+      <!-- Earnings -->
+
+      <div>
+
+        <h3
+          class="mb-2 text-[10px] font-bold uppercase tracking-[0.15em] text-gray-500">
+
+          Earnings
+
+        </h3>
+
+        <div class="space-y-2">
+
+          <div
+            class="flex justify-between rounded-md bg-gray-50 px-3 py-2 text-xs">
+
+            <span>
+
+              Basic Salary
+
+            </span>
+
+            <strong>
+
+              ₹{{ selectedEmployee.basic | number }}
+
+            </strong>
+
+          </div>
+
+          <div
+            class="flex justify-between rounded-md bg-gray-50 px-3 py-2 text-xs">
+
+            <span>
+
+              HRA
+
+            </span>
+
+            <strong>
+
+              ₹{{ selectedEmployee.hra | number }}
+
+            </strong>
+
+          </div>
+
+          <div
+            class="flex justify-between rounded-md bg-gray-50 px-3 py-2 text-xs">
+
+            <span>
+
+              Special Allowance
+
+            </span>
+
+            <strong>
+
+              ₹{{ selectedEmployee.specialAllowance | number }}
+
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Deductions -->
+
+      <div>
+
+        <h3
+          class="mb-2 text-[10px] font-bold uppercase tracking-[0.15em] text-gray-500">
+
+          Deductions
+
+        </h3>
+
+        <div class="space-y-2">
+
+          <div
+            class="flex justify-between rounded-md bg-gray-50 px-3 py-2 text-xs">
+
+            <span>
+
+              EPF
+
+            </span>
+
+            <strong>
+
+              ₹{{ selectedEmployee.epf | number }}
+
+            </strong>
+
+          </div>
+
+          <div
+            class="flex justify-between rounded-md bg-gray-50 px-3 py-2 text-xs">
+
+            <span>
+
+              Professional Tax
+
+            </span>
+
+            <strong>
+
+              ₹{{ selectedEmployee.professionalTax | number }}
+
+            </strong>
+
+          </div>
+
+          <div
+            class="flex justify-between rounded-md bg-gray-50 px-3 py-2 text-xs">
+
+            <span>
+
+              Income Tax
+
+            </span>
+
+            <strong>
+
+              ₹{{ selectedEmployee.incomeTax | number }}
+
+            </strong>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Summary -->
+
+    <div
+      class="mt-5 rounded-lg border border-gray-200 p-4">
+
+      <div
+        class="grid grid-cols-3 gap-4">
+
+        <div>
+
+          <p
+            class="text-[10px] uppercase tracking-[0.15em] text-gray-500">
+
+            Gross Salary
+
+          </p>
+
+          <h2
+            class="mt-1 text-xl font-bold">
+
+            ₹{{ grossSalary | number }}
+
+          </h2>
+
+        </div>
+
+        <div>
+
+          <p
+            class="text-[10px] uppercase tracking-[0.15em] text-gray-500">
+
+            Total Deduction
+
+          </p>
+
+          <h2
+            class="mt-1 text-xl font-bold text-red-600">
+
+            ₹{{ totalDeduction | number }}
+
+          </h2>
+
+        </div>
+
+        <div
+          class="rounded-md bg-gray-900 p-2 text-center text-white">
+
+          <p
+            class="text-[10px] uppercase tracking-[0.15em]">
+
+            Net Salary
+
+          </p>
+
+          <h2
+            class="mt-1 text-lg font-bold">
+
+            ₹{{ netSalary | number }}
+
+          </h2>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+
+    <div
+      class="mt-5 flex items-center justify-between border-t pt-3">
+
+      <p
+        class="text-[11px] text-gray-400">
+
+        Generated automatically from Payroll Management System.
+
+      </p>
+
+      <button
+
+        (click)="exportPayslip()"
+
+        class="rounded-md bg-black px-4 py-2 text-[10px] font-semibold uppercase tracking-[0.15em] text-white transition hover:bg-gray-800">
+
+        ⬇ Export Payslip
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

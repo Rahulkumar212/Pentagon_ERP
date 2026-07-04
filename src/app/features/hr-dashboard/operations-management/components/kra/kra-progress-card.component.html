@@ -1,0 +1,82 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+
+    <div>
+      <p class="text-[10px] uppercase tracking-[0.22em] text-gray-500">
+        Department Performance
+      </p>
+
+      <h2 class="mt-1 text-lg font-serif text-red-900">
+        KRA Progress Overview
+      </h2>
+    </div>
+
+    <div class="rounded-md bg-red-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-red-700">
+      Live KPI
+    </div>
+
+  </div>
+
+  <!-- Cards -->
+  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-5">
+
+    <div
+      *ngFor="let department of departments; trackBy: trackByDepartment"
+      class="rounded-lg border border-gray-200 p-4 hover:shadow transition"
+    >
+
+      <!-- Header -->
+      <div class="flex items-center justify-between">
+
+        <div>
+          <h3 class="text-sm font-semibold text-gray-900">
+            {{ department.department }}
+          </h3>
+
+          <p class="text-[10px] text-gray-500">
+            {{ department.owner }}
+          </p>
+        </div>
+
+        <span class="rounded-full bg-red-50 px-2 py-1 text-[10px] font-semibold text-red-700">
+          {{ department.progress }}%
+        </span>
+
+      </div>
+
+      <!-- Progress Bar -->
+      <div class="mt-4 h-2 overflow-hidden rounded-full bg-gray-200">
+        <div
+          class="h-full rounded-full bg-red-700 transition-all"
+          [style.width.%]="department.progress">
+        </div>
+      </div>
+
+      <!-- KPI Section -->
+      <div class="mt-4 space-y-2 text-xs">
+
+        <div class="flex justify-between">
+          <span class="text-gray-500">KPI</span>
+          <span class="font-semibold">{{ department.kpi }}</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="text-gray-500">Target</span>
+          <span class="font-semibold">{{ department.target }}</span>
+        </div>
+
+        <div class="flex justify-between">
+          <span class="text-gray-500">Achieved</span>
+          <span class="font-semibold text-green-700">
+            {{ department.achieved }}
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+</div>
