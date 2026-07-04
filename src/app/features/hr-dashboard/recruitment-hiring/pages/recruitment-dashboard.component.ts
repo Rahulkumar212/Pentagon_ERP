@@ -181,7 +181,7 @@ export class RecruitmentDashboardComponent {
   // ==========================
 
   openCandidateList(job: JobRequisition): void {
-    console.log(job);
+     this.selectedTab = 'Hiring Pipeline';
   }
 
 }

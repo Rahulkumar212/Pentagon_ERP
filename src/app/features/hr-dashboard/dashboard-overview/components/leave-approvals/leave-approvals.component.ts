@@ -5,6 +5,7 @@ import {
 import {
   CommonModule
 } from '@angular/common';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-leave-approvals',
@@ -15,6 +16,8 @@ import {
   templateUrl: './leave-approvals.component.html'
 })
 export class LeaveApprovalsComponent {
+
+  constructor(private readonly router:Router){};
 
   leaveRequests = [
 
@@ -73,6 +76,10 @@ export class LeaveApprovalsComponent {
     }
 
   ];
+
+  getToLogs():void {
+    this.router.navigate(["/daily-operations"]);
+  }
 
   approveLeave(request: any): void {
 

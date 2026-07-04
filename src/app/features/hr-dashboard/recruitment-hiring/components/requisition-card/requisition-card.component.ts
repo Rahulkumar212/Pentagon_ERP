@@ -46,6 +46,7 @@ export class RequisitionCardComponent {
   viewCandidates =
     new EventEmitter<JobRequisition>();
 
+
   openCandidates(): void {
 
     this.viewCandidates.emit(

@@ -1,67 +1,59 @@
-<app-recruitment-header
-  (tabChanged)="onTabChange($event)"
+<app-recruitment-header [activeTab]="selectedTab" (tabChanged)="onTabChange($event)"
   (raiseRequisition)="onRaiseRequisition()">
 </app-recruitment-header>
 
 
 @if(selectedTab === 'Job Requisitions') {
 
-  <!-- Cards -->
+<!-- Cards -->
 
-  <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
 
-    @for(job of filteredJobs; track job.id){
+  @for(job of filteredJobs; track job.id){
 
-      <app-requisition-card
-        [job]="job"
-        (viewCandidates)="openCandidateList(job)">
-      </app-requisition-card>
+  <app-requisition-card [job]="job" (viewCandidates)="openCandidateList(job)">
+  </app-requisition-card>
 
-    }
+  }
 
-  </div>
+</div>
 
 }
 
 
 @if(selectedTab === 'Hiring Pipeline') {
 
-  <div class="mt-6">
+<div class="mt-6">
 
-    <app-hiring-pipeline>
-    </app-hiring-pipeline>
+  <app-hiring-pipeline>
+  </app-hiring-pipeline>
 
-  </div>
+</div>
 
 }
 
 
 @if(selectedTab === 'AI JD Copilot') {
 
-  <div
-    class="mt-6 bg-white rounded-2xl border border-gray-200 p-16 text-center">
+<div class="mt-6 bg-white rounded-2xl border border-gray-200 p-16 text-center">
 
-    <h2
-      class="text-2xl font-serif text-red-900">
+  <h2 class="text-2xl font-serif text-red-900">
 
-      AI JD Copilot
+    AI JD Copilot
 
-    </h2>
+  </h2>
 
-    <p
-      class="mt-3 text-gray-500">
+  <p class="mt-3 text-gray-500">
 
-      Intelligent Job Description Generator is coming soon.
+    Intelligent Job Description Generator is coming soon.
 
-    </p>
+  </p>
 
-  </div>
+</div>
 
 }
 
 @if (showRequisitionForm()) {
-  <app-requisition-form
-    (close)="closeRequisitionModal()"
-    (submit)="submitRequisition($event)">
-  </app-requisition-form>
+<app-requisition-form (close)="closeRequisitionModal()" (submit)="submitRequisition($event)">
+</app-requisition-form>
 }
