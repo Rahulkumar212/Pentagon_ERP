@@ -1,26 +1,17 @@
 import {
   Component,
   EventEmitter,
-  Output
+  Output,
+  inject
 } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
+import { NotificationService } from '../../../../../core/services/notification.service';
 import {
-  CommonModule
-} from '@angular/common';
-
-import {
-  FormsModule
-} from '@angular/forms';
-
-export interface CorporateFeedForm {
-
-  title: string;
-
-  description: string;
-
-  category: string;
-
-}
+  CreateNoticeRequest,
+  Notice
+} from '../../../../../core/models/notice.model';
 
 @Component({
   selector: 'app-create-feed-form',
@@ -33,80 +24,75 @@ export interface CorporateFeedForm {
 })
 export class CreateFeedFormComponent {
 
-  @Output()
-  close =
-    new EventEmitter<void>();
+  private readonly notificationService = inject(NotificationService);
 
   @Output()
-  publish =
-    new EventEmitter<CorporateFeedForm>();
+  cancel = new EventEmitter<void>();
 
+  @Output()
+  published = new EventEmitter<Notice>();
 
-  form: CorporateFeedForm = {
-
+  form: CreateNoticeRequest = {
     title: '',
-
-    description: '',
-
-    category: 'Announcements'
-
+    text: '',
+    type: 'Announcements'
   };
 
+  isLoading = false;
 
-  isValid(): boolean {
+  onPublish(): void {
 
-    return (
+    if (
+      !this.form.title.trim() ||
+      !this.form.text.trim()
+    ) {
+      alert('Please fill all required fields.');
+      return;
+    }
 
-      this.form.title.trim().length > 0 &&
+    this.isLoading = true;
 
-      this.form.description.trim().length > 0
+    this.notificationService
+      .createNotice(this.form)
+      .subscribe({
 
-    );
+        next: (notice) => {
+
+          this.isLoading = false;
+
+          this.published.emit(notice);
+
+          this.resetForm();
+
+          this.cancel.emit();
+
+        },
+
+        error: (error) => {
+
+          console.error('Create Notice Error:', error);
+
+          this.isLoading = false;
+
+        }
+
+      });
 
   }
 
+  onCancel(): void {
+
+    this.cancel.emit();
+
+  }
 
   private resetForm(): void {
 
     this.form = {
-
       title: '',
-
-      description: '',
-
-      category: 'Announcements'
-
+      text: '',
+      type: 'Announcements'
     };
-
-  }
-
-
-  onCancel(): void {
-
-    this.resetForm();
-
-    this.close.emit();
-
-  }
-
-
-  onPublish(): void {
-
-    if (!this.isValid()) {
-
-      return;
-
-    }
-
-    this.publish.emit({
-
-      ...this.form
-
-    });
-
-    this.resetForm();
-
-    this.close.emit();
 
   }
 

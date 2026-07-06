@@ -1,0 +1,119 @@
+<div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+
+  <!-- HEADER -->
+  <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+
+    <div>
+      <p class="text-[10px] uppercase tracking-[0.22em] text-gray-500">
+        Executive Insights
+      </p>
+
+      <h2 class="mt-1 text-lg font-serif text-red-900">
+        Executive Performance
+      </h2>
+    </div>
+
+    <span class="rounded-md bg-red-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-red-700">
+      Leaderboard
+    </span>
+
+  </div>
+
+  <!-- CARDS LIST -->
+  <div class="divide-y divide-gray-200">
+
+    @for (executive of executives; track executive.id) {
+
+      <div class="p-5 hover:bg-gray-50 transition">
+
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-5">
+
+          <!-- LEFT -->
+          <div class="flex items-center gap-4">
+
+            <img
+              [src]="executive.avatar"
+              [alt]="executive.name"
+              class="w-14 h-14 rounded-lg object-cover border border-red-200"
+            />
+
+            <div>
+              <h3 class="font-semibold text-red-900">
+                {{ executive.name }}
+              </h3>
+
+              <p class="text-xs text-gray-500">
+                {{ executive.designation }}
+              </p>
+            </div>
+
+          </div>
+
+          <!-- KPI -->
+          <div class="grid grid-cols-3 gap-6 text-center">
+
+            <div>
+              <p class="text-[10px] uppercase text-gray-400">Visits</p>
+              <h4 class="mt-1 text-lg font-bold text-gray-900">
+                {{ executive.visits }}
+              </h4>
+            </div>
+
+            <div>
+              <p class="text-[10px] uppercase text-gray-400">Revenue</p>
+              <h4 class="mt-1 text-lg font-bold text-green-700">
+                {{ executive.revenue }}
+              </h4>
+            </div>
+
+            <div>
+              <p class="text-[10px] uppercase text-gray-400">Conversion</p>
+              <h4 class="mt-1 text-lg font-bold text-red-800">
+                {{ executive.conversion }}%
+              </h4>
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- PROGRESS BAR -->
+        <div class="mt-4">
+
+          <div class="flex justify-between text-xs mb-2">
+            <span class="text-gray-500">Performance Score</span>
+            <span class="font-semibold text-red-900">
+              {{ executive.performance }}%
+            </span>
+          </div>
+
+          <div class="h-2 rounded-full bg-gray-200 overflow-hidden">
+
+            <div
+              class="h-full rounded-full bg-red-700 transition-all duration-500"
+              [style.width.%]="executive.performance">
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>
+
+
+<!-- 📊 CHART SECTION -->
+<div class="mt-6 bg-white rounded-xl border border-gray-200 shadow-sm p-5">
+
+  <h2 class="text-lg font-serif text-red-900 mb-4">
+    Executive Performance Analytics
+  </h2>
+
+  <div echarts [options]="chartOption" class="w-full h-[380px]"></div>
+
+</div>

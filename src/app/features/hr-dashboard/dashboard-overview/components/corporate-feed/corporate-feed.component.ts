@@ -1,22 +1,32 @@
-import { Component } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  inject
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { CorporateFeedForm, CreateFeedFormComponent } from '../../forms/create-feed-form/create-feed-form.component';
 
-interface CorporateFeed {
-  category: string;
-  title: string;
-  description: string;
-  author: string;
-  date: string;
-}
+import { CreateFeedFormComponent } from '../../forms/create-feed-form/create-feed-form.component';
+import { NotificationService } from '../../../../../core/services/notification.service';
+
+import {
+  CorporateFeed,
+  Notice
+} from '../../../../../core/models/notice.model';
 
 @Component({
   selector: 'app-corporate-feed',
   standalone: true,
-  imports: [CommonModule,CreateFeedFormComponent],
+  imports: [
+    CommonModule,
+    CreateFeedFormComponent
+  ],
   templateUrl: './corporate-feed.component.html'
 })
-export class CorporateFeedComponent {
+export class CorporateFeedComponent implements OnInit {
+
+  private readonly notificationService = inject(NotificationService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   tabs = [
     'All',
@@ -28,94 +38,68 @@ export class CorporateFeedComponent {
 
   selectedTab = 'All';
 
-  feeds: CorporateFeed[] = [
+  showCreateForm = false;
 
-    {
-      category: 'Announcements',
-      title: 'New Attendance Policy Released',
-      description:
-        'Employees are requested to review the revised attendance and leave policy effective from next month.',
-      author: 'HR Department',
-      date: 'Today'
-    },
-    {
-      category: 'Birthday',
-      title: 'Happy Birthday - Priya Sharma 🎂',
-      description:
-        'Wishing Priya Sharma from the HR Department a wonderful birthday filled with happiness and success.',
-      author: 'HR Department',
-      date: 'Today'
-    },
+  feeds: CorporateFeed[] = [];
 
-    {
-      category: 'Birthday',
-      title: 'Happy Birthday - Amit Verma 🎉',
-      description:
-        'Join us in wishing Amit Verma from the Engineering Team a very Happy Birthday!',
-      author: 'Corporate Office',
-      date: '02 Jul'
-    },
+  ngOnInit(): void {
+    this.loadNotices();
+  }
 
-    {
-      category: 'Recognition',
-      title: 'Employee of the Month',
-      description:
-        'Congratulations to Rahul Sharma for exceptional performance in Sales & Marketing this month.',
-      author: 'Management',
-      date: 'Yesterday'
-    },
+  private loadNotices(): void {
 
-    {
-      category: 'Events',
-      title: 'Quarterly Town Hall Meeting',
-      description:
-        'Join the CEO and leadership team this Friday at 4:00 PM in the Conference Hall for quarterly updates.',
-      author: 'Corporate Office',
-      date: '28 Jun'
-    },
+    this.notificationService.getNotices().subscribe({
 
-    {
-      category: 'Events',
-      title: 'Annual Sports Day',
-      description:
-        'Sports Day will be held on 5th July. Cricket, Football, Badminton and Indoor Games registrations are now open.',
-      author: 'HR Team',
-      date: '05 Jul'
-    },
+      next: (response) => {
 
-    {
-      category: 'Announcements',
-      title: 'New Employee Joining',
-      description:
-        'Please welcome our new team members joining the Engineering and HR departments.',
-      author: 'HR Team',
-      date: '24 Jun'
-    },
+        this.feeds = [...response.data.map((notice: Notice) => ({
 
-    {
-      category: 'Recognition',
-      title: 'Project Excellence Award',
-      description:
-        'The ERP Development Team has received the Project Excellence Award for timely delivery.',
-      author: 'Leadership Team',
-      date: '20 Jun'
-    }
+          title: notice.title,
 
-  ];
+          text: notice.text,
 
-  get filteredFeeds(): CorporateFeed[] {
+          category: notice.type,
 
-    if (this.selectedTab === 'All') {
-      return this.feeds;
-    }
+          author: 'HR Team',
 
-    return this.feeds.filter(
-      feed => feed.category === this.selectedTab
-    );
+          date: notice.createdAt
+            ? new Date(notice.createdAt).toLocaleDateString()
+            : 'Today'
+
+        }))];
+
+        // Force UI refresh
+        this.cdr.detectChanges();
+
+      },
+
+      error: (error) => {
+
+        console.error(error);
+
+      }
+
+    });
 
   }
 
-  showCreateForm = false;
+  get filteredFeeds(): CorporateFeed[] {
+
+    if (
+      !this.selectedTab ||
+      this.selectedTab === 'All'
+    ) {
+
+      return this.feeds;
+
+    }
+
+    return this.feeds.filter(feed =>
+      feed.category.trim().toLowerCase() ===
+      this.selectedTab.trim().toLowerCase()
+    );
+
+  }
 
   openCreateForm(): void {
 
@@ -129,26 +113,13 @@ export class CorporateFeedComponent {
 
   }
 
-  publishFeed(
-  data: CorporateFeedForm
-): void {
+  onNoticeCreated(notice: Notice): void {
 
-  this.feeds.unshift({
+    this.closeCreateForm();
 
-    title: data.title,
+    // Reload latest data
+    this.loadNotices();
 
-    description: data.description,
-
-    category: data.category,
-
-    author: 'HR Team',
-
-    date: new Date().toLocaleDateString()
-
-  });
-
-  this.closeCreateForm();
-
-}
+  }
 
 }

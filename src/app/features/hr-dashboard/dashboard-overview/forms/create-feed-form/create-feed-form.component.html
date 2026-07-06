@@ -8,8 +8,7 @@
 
       <div class="flex items-center gap-3">
 
-        <div
-          class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center text-lg">
+        <div class="w-10 h-10 rounded-lg bg-white/20 flex items-center justify-center text-lg">
 
           📰
 
@@ -33,9 +32,7 @@
 
       </div>
 
-      <button
-        (click)="onCancel()"
-        class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white transition">
+      <button (click)="onCancel()" class="w-8 h-8 rounded-lg bg-white/10 hover:bg-white/20 text-white transition">
 
         ✕
 
@@ -57,10 +54,7 @@
 
         </label>
 
-        <input
-          type="text"
-          [(ngModel)]="form.title"
-          placeholder="Employee of the Month"
+        <input type="text" [(ngModel)]="form.title" placeholder="Employee of the Month"
           class="w-full h-10 px-3 rounded-lg border border-gray-300 text-sm focus:border-red-700 focus:ring-2 focus:ring-red-200 outline-none">
 
       </div>
@@ -75,10 +69,7 @@
 
         </label>
 
-        <textarea
-          rows="4"
-          [(ngModel)]="form.description"
-          placeholder="Write announcement..."
+        <textarea rows="4" [(ngModel)]="form.text" placeholder="Write announcement..."
           class="w-full px-3 py-2 rounded-lg border border-gray-300 text-sm resize-none focus:border-red-700 focus:ring-2 focus:ring-red-200 outline-none">
 
         </textarea>
@@ -95,8 +86,7 @@
 
         </label>
 
-        <select
-          [(ngModel)]="form.category"
+        <select  [(ngModel)]="form.type"
           class="w-full h-10 px-3 rounded-lg border border-gray-300 text-sm focus:border-red-700 focus:ring-2 focus:ring-red-200 outline-none">
 
           <option value="Announcements">
@@ -125,19 +115,17 @@
 
     <div class="flex justify-end gap-2 px-5 py-4 border-t bg-gray-50">
 
-      <button
-        (click)="onCancel()"
+      <button (click)="onCancel()"
         class="px-4 py-2 rounded-lg border border-gray-300 text-sm font-medium hover:bg-gray-100 transition">
 
         Cancel
 
       </button>
 
-      <button
-        (click)="onPublish()"
-        class="px-4 py-2 rounded-lg bg-red-800 hover:bg-red-900 text-white text-sm font-semibold transition">
+      <button (click)="onPublish()" [disabled]="isLoading"
+        class="px-4 py-2 rounded-lg bg-red-800 hover:bg-red-900 disabled:opacity-50 text-white text-sm font-semibold transition">
 
-        Publish
+        {{ isLoading ? 'Publishing...' : 'Publish' }}
 
       </button>
 

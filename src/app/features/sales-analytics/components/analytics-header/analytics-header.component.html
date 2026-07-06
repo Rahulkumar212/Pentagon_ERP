@@ -1,0 +1,115 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+    <!-- Header -->
+
+    <div class="px-5 py-4">
+
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+
+            <!-- Left -->
+
+            <div>
+
+                <p class="text-[9px] uppercase tracking-[0.22em] font-semibold text-red-700">
+
+                    Sales Intelligence
+
+                </p>
+
+                <h1 class="mt-1 text-2xl font-serif text-red-900">
+
+                    Sales Analytics
+
+                </h1>
+
+                <p class="mt-1 text-xs text-gray-500">
+
+                    Revenue, billing, organizations, executive performance and sales insights.
+
+                </p>
+
+            </div>
+
+            <!-- Right -->
+
+            <div class="flex gap-3">
+
+                <!-- Report Date -->
+
+                <div
+                    class="rounded-lg border border-gray-200 bg-gray-50 px-4 py-2 min-w-[150px]">
+
+                    <p class="text-[9px] uppercase tracking-[0.18em] text-gray-500">
+
+                        Report
+
+                    </p>
+
+                    <h3 class="mt-1 text-sm font-semibold text-gray-900">
+
+                        {{ today | date:'dd MMM yyyy' }}
+
+                    </h3>
+
+                </div>
+
+                <!-- Status -->
+
+                <div
+                    class="rounded-lg border border-green-200 bg-green-50 px-4 py-2 min-w-[150px]">
+
+                    <p class="text-[9px] uppercase tracking-[0.18em] text-green-700">
+
+                        Status
+
+                    </p>
+
+                    <h3 class="mt-1 text-sm font-semibold text-green-800">
+
+                        Live
+
+                    </h3>
+
+                </div>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    <!-- Tabs -->
+
+    <div class="border-t border-gray-200 px-5">
+
+        <div class="flex gap-6 overflow-x-auto hide-scrollbar">
+
+            @for(tab of tabs; track tab){
+
+            <button
+                (click)="changeTab(tab)"
+                class="relative py-3 text-xs font-semibold whitespace-nowrap transition-all duration-200"
+
+                [class.text-red-800]="activeTab === tab"
+
+                [class.text-gray-500]="activeTab !== tab">
+
+                {{ tab }}
+
+                @if(activeTab === tab){
+
+                <span
+                    class="absolute left-0 bottom-0 h-[2px] w-full rounded-full bg-red-800">
+                </span>
+
+                }
+
+            </button>
+
+            }
+
+        </div>
+
+    </div>
+
+</div>

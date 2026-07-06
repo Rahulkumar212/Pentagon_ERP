@@ -113,7 +113,7 @@
       <p
         class="mt-2 text-xs text-gray-600 leading-5">
 
-        {{ feed.description }}
+        {{ feed.text }}
 
       </p>
 
@@ -167,14 +167,11 @@
 </div>
 
 
-@if(showCreateForm){
+@if (showCreateForm) {
 
-<app-create-feed-form
-
-  (close)="closeCreateForm()"
-
-  (publish)="publishFeed($event)">
-
-</app-create-feed-form>
+  <app-create-feed-form
+    (cancel)="closeCreateForm()"
+    (published)="onNoticeCreated($event)">
+  </app-create-feed-form>
 
 }
