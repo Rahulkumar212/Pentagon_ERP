@@ -97,6 +97,12 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () =>
           import('./features/hr-dashboard/operations-management/pages/operations-management.component').then((m) => m.OperationsManagementComponent),
+      },
+       {
+        path: 'sales-analytics',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/sales-analytics/pages/sales-analytics.component').then((m) => m.SalesAnalyticsComponent),
       },  
       {
         path: 'task-collaboration',

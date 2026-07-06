@@ -1,0 +1,64 @@
+<app-analytics-header
+    [activeTab]="selectedTab"
+    (tabChanged)="onTabChange($event)">
+</app-analytics-header>
+
+<!-- Always Visible -->
+
+<div class="mt-5">
+
+    <app-kpi-summary />
+
+</div>
+
+<!-- Tab Content -->
+
+<div class="mt-5">
+
+    @switch(selectedTab){
+
+        @case('Revenue Overview'){
+
+            <app-revenue-overview />
+
+        }
+
+        @case('Organization Summary'){
+
+            <app-organization-summary />
+
+        }
+
+        @case('Visit Summary'){
+
+            <app-visit-summary />
+
+        }
+
+        @case('Executive Performance'){
+
+            <app-executive-performance />
+
+        }
+
+        @case('Billing Summary'){
+
+            <app-billing-summary />
+
+        }
+
+        @case('Sales Funnel'){
+
+            <app-sales-funnel />
+
+        }
+
+        @case('Recent Activities'){
+
+            <app-recent-activities />
+
+        }
+
+    }
+
+</div>

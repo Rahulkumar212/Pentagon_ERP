@@ -24,18 +24,15 @@
   <div class="flex-1 overflow-y-auto p-4 hide-scrollbar">
     <p class="text-xs uppercase tracking-widest text-white/40 font-bold mb-3">Main Console</p>
 
-  <a
-  *appHasRole="ROLES.EXECUTIVE"
-  [routerLink]="getDashboardRoute()"
-  (click)="closeSidebar.emit()"
-  routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-  class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+    <a *appHasRole="ROLES.EXECUTIVE" [routerLink]="getDashboardRoute()" (click)="closeSidebar.emit()"
+      routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+      class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
 
-  <span class="text-md">⌘</span>
+      <span class="text-md">⌘</span>
 
-  Executive Center
+      Executive Center
 
-</a>
+    </a>
 
 
     <a *appHasRole="ROLES.APPROVALS" routerLink="/approvals" (click)="closeSidebar.emit()"
@@ -46,129 +43,125 @@
     </a>
 
 
-   <!-- ====================================================== -->
-<!-- HR MODULE -->
-<!-- ====================================================== -->
+    <!-- ====================================================== -->
+    <!-- HR MODULE -->
+    <!-- ====================================================== -->
 
-<div *appHasRole="ROLES.HR">
+    <div *appHasRole="ROLES.HR">
 
-  <!-- MAIN -->
+      <!-- MAIN -->
 
-  <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
+      <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
 
-    Main
+        Main
 
-  </div>
+      </div>
 
-  <a
-    routerLink="/hr-dashboard"
-    (click)="closeSidebar.emit()"
-    routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-    class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
+      <a routerLink="/hr-dashboard" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 font-semibold hover:bg-white/5 hover:text-white transition-all duration-200">
 
-    <span class="text-md">📊</span>
+        <span class="text-md">📊</span>
 
-    Dashboard Overview
+        Dashboard Overview
 
-  </a>
+      </a>
 
-  <!-- EMPLOYEE LIFECYCLE -->
+      <!-- EMPLOYEE LIFECYCLE -->
 
-  <div class="mt-8 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
+      <div class="mt-8 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
 
-    Employee Lifecycle
+        Employee Lifecycle
 
-  </div>
+      </div>
 
-  <a
-    routerLink="/recruitment"
-    (click)="closeSidebar.emit()"
-    routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-    class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 hover:bg-white/5 hover:text-white">
+      <a routerLink="/recruitment" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 hover:bg-white/5 hover:text-white">
 
-    <span class="text-md">💼</span>
+        <span class="text-md">💼</span>
 
-    Recruitment & Hiring
+        Recruitment & Hiring
 
-  </a>
+      </a>
 
-  <a
-    routerLink="/employee-onboarding"
-    (click)="closeSidebar.emit()"
-    routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-    class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 hover:bg-white/5 hover:text-white">
+      <a routerLink="/employee-onboarding" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 hover:bg-white/5 hover:text-white">
 
-    <span class="text-md">📝</span>
+        <span class="text-md">📝</span>
 
-    Employee Onboarding
+        Employee Onboarding
 
-  </a>
+      </a>
 
-  <a
-    routerLink="/employee-master"
-    (click)="closeSidebar.emit()"
-    routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-    class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 hover:bg-white/5 hover:text-white">
+      <a routerLink="/employee-master" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 hover:bg-white/5 hover:text-white">
 
-    <span class="text-md">👥</span>
+        <span class="text-md">👥</span>
 
-    Employee Master
+        Employee Master
 
-  </a>
+      </a>
 
-  <a
-    routerLink="/exit-management"
-    (click)="closeSidebar.emit()"
-    routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-    class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 hover:bg-white/5 hover:text-white">
+      <a routerLink="/exit-management" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 hover:bg-white/5 hover:text-white">
 
-    <span class="text-md">🚪</span>
+        <span class="text-md">🚪</span>
 
-    Exit Management
+        Exit Management
 
-  </a>
+      </a>
 
-  <!-- DAILY OPERATIONS -->
+      <!-- DAILY OPERATIONS -->
 
-  <div class="mt-8 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
+      <div class="mt-8 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
 
-    Daily Operations
+        Daily Operations
 
-  </div>
+      </div>
 
-  <a
-    routerLink="/daily-operations"
-    (click)="closeSidebar.emit()"
-    routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-    class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 hover:bg-white/5 hover:text-white">
+      <a routerLink="/daily-operations" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 hover:bg-white/5 hover:text-white">
 
-    <span class="text-md">📅</span>
+        <span class="text-md">📅</span>
 
-    Daily Operations
+        Daily Operations
 
-  </a>
+      </a>
 
-  <!-- INTELLIGENCE -->
+      <!-- INTELLIGENCE -->
 
-  <div class="mt-8 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
+      <div class="mt-8 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">
 
-    Intelligence
+        Intelligence
 
-  </div>
+      </div>
 
-  <a
-    routerLink="/reports-analytics"
-    (click)="closeSidebar.emit()"
-    routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
-    class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 hover:bg-white/5 hover:text-white">
+      <a routerLink="/reports-analytics" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 hover:bg-white/5 hover:text-white">
 
-    <span class="text-md">📈</span>
+        <span class="text-md">📈</span>
 
-    Reports & Analytics
+        Reports & Analytics
 
-  </a>
+      </a>
 
-</div>
+      <a routerLink="/sales-analytics" (click)="closeSidebar.emit()"
+        routerLinkActive="bg-red-900/20 text-white border-l-4 border-red-700"
+        class="flex items-center gap-3 px-4 py-3 text-sm rounded-lg text-white/70 hover:bg-white/5 hover:text-white">
+
+        <span class="text-md">📊</span>
+
+        Sales Analytics
+
+      </a>
+
+    </div>
 
     <div *appHasRole="ROLES.CRM">
       <div class="mt-6 mb-2 text-xs uppercase tracking-widest text-white/40 font-bold">

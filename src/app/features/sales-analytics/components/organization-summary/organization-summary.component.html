@@ -1,0 +1,114 @@
+<div class="bg-white rounded-xl border border-gray-200 shadow-sm">
+
+    <!-- Header -->
+
+    <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+
+        <div>
+
+            <p class="text-[10px] uppercase tracking-[0.22em] text-gray-500">
+
+                Organization Insights
+
+            </p>
+
+            <h2 class="mt-1 text-lg font-serif text-red-900">
+
+                Organization Summary
+
+            </h2>
+
+        </div>
+
+        <span
+            class="rounded-md bg-blue-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-blue-700">
+
+            Live Data
+
+        </span>
+
+    </div>
+
+    <!-- Stats -->
+
+    <div class="grid grid-cols-4 border-b border-gray-200">
+
+        <div class="p-5">
+
+            <p class="text-xs text-gray-500">
+
+                Total
+
+            </p>
+
+            <h3 class="mt-1 text-2xl font-bold text-red-900">
+
+                368
+
+            </h3>
+
+        </div>
+
+        <div class="border-l border-gray-200 p-5">
+
+            <p class="text-xs text-gray-500">
+
+                Active
+
+            </p>
+
+            <h3 class="mt-1 text-2xl font-bold text-green-700">
+
+                342
+
+            </h3>
+
+        </div>
+
+        <div class="border-l border-gray-200 p-5">
+
+            <p class="text-xs text-gray-500">
+
+                New
+
+            </p>
+
+            <h3 class="mt-1 text-2xl font-bold text-blue-700">
+
+                24
+
+            </h3>
+
+        </div>
+
+        <div class="border-l border-gray-200 p-5">
+
+            <p class="text-xs text-gray-500">
+
+                Growth
+
+            </p>
+
+            <h3 class="mt-1 text-2xl font-bold text-orange-600">
+
+                +18%
+
+            </h3>
+
+        </div>
+
+    </div>
+
+    <!-- Chart -->
+
+    <div class="p-5">
+
+        <div
+            echarts
+            [options]="chartOption"
+            class="h-[360px] w-full">
+        </div>
+
+    </div>
+
+</div>

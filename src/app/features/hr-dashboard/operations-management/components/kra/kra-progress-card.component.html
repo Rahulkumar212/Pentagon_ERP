@@ -1,82 +1,185 @@
-<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+<div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
 
   <!-- Header -->
-  <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+  <div class="border-b border-gray-200 px-4 py-3">
 
-    <div>
-      <p class="text-[10px] uppercase tracking-[0.22em] text-gray-500">
-        Department Performance
-      </p>
+    <p class="text-[10px] font-semibold uppercase tracking-[0.22em] text-gray-500">
+      Department Performance
+    </p>
 
-      <h2 class="mt-1 text-lg font-serif text-red-900">
-        KRA Progress Overview
-      </h2>
-    </div>
+    <h2 class="mt-1 text-lg font-bold text-gray-900">
+      Key Result Areas (KRA) & Progress
+    </h2>
 
-    <div class="rounded-md bg-red-50 px-3 py-1 text-[10px] font-semibold uppercase tracking-widest text-red-700">
-      Live KPI
-    </div>
+    <p class="mt-1 text-xs text-gray-500">
+      Manage employee operational milestones and assign ratings.
+    </p>
 
   </div>
 
-  <!-- Cards -->
-  <div class="grid grid-cols-1 md:grid-cols-2 gap-4 p-5">
+  <!-- Table -->
+  <div class="overflow-x-auto">
 
-    <div
-      *ngFor="let department of departments; trackBy: trackByDepartment"
-      class="rounded-lg border border-gray-200 p-4 hover:shadow transition"
-    >
+    <table class="min-w-full">
 
-      <!-- Header -->
-      <div class="flex items-center justify-between">
+      <!-- Heading -->
+      <thead class="bg-stone-50">
 
-        <div>
-          <h3 class="text-sm font-semibold text-gray-900">
-            {{ department.department }}
-          </h3>
+        <tr class="border-b border-gray-200">
 
-          <p class="text-[10px] text-gray-500">
-            {{ department.owner }}
-          </p>
-        </div>
+          <th
+            class="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.22em] text-gray-500">
+            Employee
+          </th>
 
-        <span class="rounded-full bg-red-50 px-2 py-1 text-[10px] font-semibold text-red-700">
-          {{ department.progress }}%
-        </span>
+          <th
+            class="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.22em] text-gray-500">
+            Goal Statement / KRAs
+          </th>
 
-      </div>
+          <th
+            class="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.22em] text-gray-500">
+            Target Outcome
+          </th>
 
-      <!-- Progress Bar -->
-      <div class="mt-4 h-2 overflow-hidden rounded-full bg-gray-200">
-        <div
-          class="h-full rounded-full bg-red-700 transition-all"
-          [style.width.%]="department.progress">
-        </div>
-      </div>
+          <th
+            class="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-[0.22em] text-gray-500">
+            Progress Tracking
+          </th>
 
-      <!-- KPI Section -->
-      <div class="mt-4 space-y-2 text-xs">
+          <th
+            class="px-4 py-3 text-center text-[10px] font-semibold uppercase tracking-[0.22em] text-gray-500">
+            Assigned Score
+          </th>
 
-        <div class="flex justify-between">
-          <span class="text-gray-500">KPI</span>
-          <span class="font-semibold">{{ department.kpi }}</span>
-        </div>
+        </tr>
 
-        <div class="flex justify-between">
-          <span class="text-gray-500">Target</span>
-          <span class="font-semibold">{{ department.target }}</span>
-        </div>
+      </thead>
 
-        <div class="flex justify-between">
-          <span class="text-gray-500">Achieved</span>
-          <span class="font-semibold text-green-700">
-            {{ department.achieved }}
-          </span>
-        </div>
+      <!-- Body -->
+      <tbody>
 
-      </div>
+        @for(employee of departments; track employee.id){
 
-    </div>
+        <tr class="border-b border-gray-200 transition hover:bg-gray-50">
+
+          <!-- Employee -->
+          <td class="px-4 py-3">
+
+            <div class="flex items-center gap-3">
+
+              <img
+                [src]="employee.avatar"
+                [alt]="employee.name"
+                class="h-9 w-9 rounded-lg border border-gray-200 object-cover">
+
+              <div>
+
+                <h3 class="text-sm font-semibold text-gray-900">
+                  {{ employee.name }}
+                </h3>
+
+                <p class="text-[11px] text-gray-500">
+                  {{ employee.designation }}
+                </p>
+
+              </div>
+
+            </div>
+
+          </td>
+
+          <!-- Goal -->
+          <td class="px-4 py-3">
+
+            <h4 class="text-sm font-semibold leading-5 text-gray-900">
+              {{ employee.kra }}
+            </h4>
+
+            <span
+              class="mt-1 inline-flex rounded-full border border-gray-300 bg-stone-50 px-2 py-0.5 text-[10px] font-medium">
+
+              {{ employee.department }}
+
+            </span>
+
+          </td>
+
+          <!-- Target -->
+          <td class="px-4 py-3">
+
+            <p class="max-w-xs text-xs leading-5 text-gray-600">
+
+              {{ employee.target }}
+
+            </p>
+
+          </td>
+
+          <!-- Progress -->
+          <td class="px-4 py-3">
+
+            <div class="space-y-1">
+
+              <div class="flex items-center justify-between">
+
+                <span class="text-[10px] font-medium text-gray-500">
+
+                  Progress
+
+                </span>
+
+                <span class="text-xs font-bold text-gray-900">
+
+                  {{ employee.progress }}%
+
+                </span>
+
+              </div>
+
+              <div class="h-1.5 w-40 rounded-full bg-gray-200">
+
+                <div
+                  class="h-full rounded-full bg-black transition-all duration-500"
+                  [style.width.%]="employee.progress">
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </td>
+
+          <!-- Rating -->
+          <td class="px-4 py-3">
+
+            <div class="flex justify-center gap-0.5 text-sm">
+
+              @for(star of [1,2,3,4,5]; track star){
+
+              <span
+                [class.text-gray-900]="star <= employee.rating"
+                [class.text-gray-300]="star > employee.rating">
+
+                ★
+
+              </span>
+
+              }
+
+            </div>
+
+          </td>
+
+        </tr>
+
+        }
+
+      </tbody>
+
+    </table>
 
   </div>
+
 </div>
