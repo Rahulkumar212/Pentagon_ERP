@@ -19,9 +19,6 @@ import {
   AttendanceHistoryComponent
 } from '../components/attendance-history/attendance-history.component';
 
-import {
-  LeaveRequestListComponent
-} from '../components/leave/leave-request-list.component';
 
 import {
   PayrollSummaryCardComponent
@@ -35,6 +32,7 @@ import {
   AssignedAssetsComponent
 } from '../components/assigned-assets/assigned-assets.component';
 import { ActivatedRoute } from '@angular/router';
+import { LeaveRequestFormComponent } from '../../../../shared/forms/leave-request-form/leave-request-form.component';
 
 @Component({
 
@@ -52,13 +50,14 @@ import { ActivatedRoute } from '@angular/router';
 
     AttendanceHistoryComponent,
 
-    LeaveRequestListComponent,
 
     PayrollSummaryCardComponent,
 
     KraProgressCardComponent,
 
-    AssignedAssetsComponent
+    AssignedAssetsComponent,
+
+    LeaveRequestFormComponent
 
   ],
 
@@ -67,6 +66,17 @@ import { ActivatedRoute } from '@angular/router';
 })
 
 export class OperationsManagementComponent implements OnInit {
+
+  showLeaveForm = false;
+
+  openLeaveForm(): void {
+     console.log('Button Clicked');
+   this.showLeaveForm = true;
+  }
+
+  closeLeaveForm(): void {
+    this.showLeaveForm = false;
+  }
 
   constructor(private readonly route:ActivatedRoute){}
 

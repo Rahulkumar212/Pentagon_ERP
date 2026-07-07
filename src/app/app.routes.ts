@@ -97,7 +97,13 @@ export const routes: Routes = [
         canActivate: [authGuard],
         loadComponent: () =>
           import('./features/hr-dashboard/operations-management/pages/operations-management.component').then((m) => m.OperationsManagementComponent),
-      },
+      }, 
+      {
+        path: 'reports-analytics',
+        canActivate: [authGuard],
+        loadComponent: () =>
+          import('./features/hr-dashboard/reports-analytics/pages/reports-analytics.component').then((m) => m.ReportsAnalyticsComponent),
+      }, 
        {
         path: 'sales-analytics',
         canActivate: [authGuard],

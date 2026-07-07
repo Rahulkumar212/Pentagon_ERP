@@ -1,0 +1,161 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+  <div class="flex items-center justify-between border-b border-gray-200 px-6 py-5">
+
+    <div>
+
+      <h2 class="text-xl font-serif text-red-900">
+        Leave Application Register
+      </h2>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Comprehensive record of employee leave applications, approval decisions,
+        leave periods, and supporting reasons.
+      </p>
+
+    </div>
+
+    <button
+      class="flex items-center gap-2 rounded-lg border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50">
+
+      📄
+      Export Leave Report
+
+    </button>
+
+  </div>
+
+  <!-- Table -->
+  <div class="overflow-x-auto px-6 py-4">
+
+    <table class="w-full border-collapse">
+
+      <thead>
+
+        <tr class="border-b border-gray-200">
+
+          <th class="py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">
+            Employee
+          </th>
+
+          <th class="py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">
+            Leave Type
+          </th>
+
+          <th class="py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">
+            Leave Period
+          </th>
+
+          <th class="py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">
+            Leave Reason
+          </th>
+
+          <th class="py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">
+            Rejection Reason
+          </th>
+
+          <th class="py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-gray-500">
+            Approval Status
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        @for(leave of leaveRequests; track leave.id){
+
+        <tr
+          class="border-b border-gray-100 last:border-0 hover:bg-gray-50">
+
+          <!-- Employee -->
+          <td class="py-4 text-sm font-semibold text-gray-900">
+
+            {{ leave.applicant_name }}
+
+          </td>
+
+          <!-- Leave Type -->
+          <td class="py-4 text-sm text-gray-700">
+
+            {{ leave.leave_category }}
+
+          </td>
+
+          <!-- Leave Period -->
+          <td class="py-4 text-sm text-gray-700">
+
+            {{ getLeaveDays(leave.from_date, leave.to_date) }}
+            Day{{ getLeaveDays(leave.from_date, leave.to_date) > 1 ? 's' : '' }}
+
+            <div class="mt-1 text-xs text-gray-500">
+
+              {{ leave.from_date | date:'dd MMM yyyy' }}
+              -
+              {{ leave.to_date | date:'dd MMM yyyy' }}
+
+            </div>
+
+          </td>
+
+          <!-- Leave Reason -->
+          <td class="max-w-sm py-4 text-sm text-gray-600">
+
+            {{ leave.reason_absence }}
+
+          </td>
+
+          <!-- Rejection Reason -->
+          <td class="max-w-sm py-4 text-sm text-gray-600">
+
+            @if (leave.reason_reject) {
+
+              {{ leave.reason_reject }}
+
+            } @else {
+
+              <span class="italic text-gray-400">
+                —
+              </span>
+
+            }
+
+          </td>
+
+          <!-- Approval Status -->
+          <td class="py-4 text-center">
+
+            <span
+              class="inline-flex rounded-md border px-3 py-1 text-[10px] font-bold uppercase tracking-wide"
+              [ngClass]="{
+
+                'border-green-200 bg-green-50 text-green-700':
+                  leave.leave_approve === 'APPROVED',
+
+                'border-yellow-200 bg-yellow-50 text-yellow-700':
+                  leave.leave_approve === 'PENDING',
+
+                'border-red-200 bg-red-50 text-red-700':
+                  leave.leave_approve === 'REJECTED'
+
+              }">
+
+              {{ leave.leave_approve }}
+
+            </span>
+
+          </td>
+
+        </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
