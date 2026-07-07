@@ -13,29 +13,47 @@
 
   @if(activeTab === 'attendance'){
 
-    <!-- Top -->
+  <!-- Action Bar -->
 
-    <div class="grid grid-cols-12 gap-6">
+  <div class="my-3 flex justify-end">
 
-      <div class="col-span-4">
-        <app-attendance-punch-card />
-      </div>
+    <button
+      (click)="openLeaveForm()"
+      class="rounded-lg bg-red-900 px-5 py-2 text-sm font-medium text-white hover:bg-red-800 transition">
 
-      <div class="col-span-8">
-        <app-attendance-history />
-      </div>
+      + Apply Leave
 
+    </button>
+
+  </div>
+
+  <!-- Top -->
+
+  <div class="grid grid-cols-12 gap-6">
+
+    <div class="col-span-4">
+      <app-attendance-punch-card />
     </div>
 
-    <!-- Bottom -->
-
-    <div class="mt-6">
-
-      <app-leave-request-list />
-
+    <div class="col-span-8">
+      <app-attendance-history />
     </div>
+
+  </div>
+
+
+  <!-- Leave Modal -->
+
+  @if(showLeaveForm){
+
+    <app-leave-request-form
+      (cancel)="closeLeaveForm()"
+      (submitted)="closeLeaveForm()">
+    </app-leave-request-form>
 
   }
+
+}
 
   <!-- ========================= -->
   <!-- Payroll Tab -->

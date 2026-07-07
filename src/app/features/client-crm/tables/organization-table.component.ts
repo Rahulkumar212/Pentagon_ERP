@@ -1,3 +1,139 @@
+// import {
+//   ChangeDetectorRef,
+//   Component,
+//   Input,
+//   OnInit,
+//   inject
+// } from '@angular/core';
+
+// import { CommonModule } from '@angular/common';
+
+// import {
+//   SalesVisit,
+//   SalesVisitResponse
+// } from '../../../core/models/client-crm.type';
+
+// import { ClientCrmService }
+//   from '../../../core/services/client-crm.service';
+
+// import { EditSalesVisitComponent }
+//   from './edit-sales-visit/edit-sales-visit.component';
+
+// @Component({
+//   selector: 'app-organization-table',
+//   standalone: true,
+//   imports: [
+//     CommonModule,
+//     EditSalesVisitComponent
+//   ],
+//   templateUrl: './organization-table.component.html'
+// })
+// export class OrganizationTableComponent
+//   implements OnInit {
+//   @Input() canEdit = false;
+//   @Input()
+//   status?: 'FAILED' | 'CONVERTED';
+
+//   @Input()
+//   showBillingColumns = false;
+
+
+
+//   salesVisits: SalesVisit[] = [];
+
+//   selectedVisit: SalesVisit | null = null;
+
+//   showEditModal = false;
+
+//   private readonly clientCrmService =
+//     inject(ClientCrmService);
+
+//   private readonly cdr =
+//     inject(ChangeDetectorRef);
+
+//   ngOnInit(): void {
+
+//     this.loadSalesVisits();
+
+//   }
+
+//   loadSalesVisits(): void {
+
+//     this.clientCrmService
+//       .getSalesVisits()
+//       .subscribe({
+
+//         next: (response: SalesVisitResponse) => {
+
+//           const data = response.data ?? [];
+
+//           // Client CRM Page
+//           if (!this.canEdit) {
+
+//             this.salesVisits = data.filter(
+//               visit =>
+//                 visit.status === 'CONVERTED' ||
+//                 visit.status === 'FAILED'
+//             );
+
+//           }
+
+//           // Executive Center
+//           else {
+
+//             this.salesVisits = data;
+
+//           }
+
+//           this.cdr.detectChanges();
+
+//         },
+
+//         error: (err) => {
+
+//           console.error(err);
+
+//         }
+
+//       });
+
+//   }
+
+//   editVisit(
+//     visit: SalesVisit
+//   ): void {
+
+//     this.selectedVisit = visit;
+
+//     this.showEditModal = true;
+
+//   }
+
+//   closeEditModal(): void {
+
+//     this.showEditModal = false;
+
+//     this.selectedVisit = null;
+
+//   }
+
+//   onUpdated(): void {
+
+//     this.closeEditModal();
+
+//     this.loadSalesVisits();
+
+//   }
+
+// }
+
+
+
+
+
+
+
+
 import {
   ChangeDetectorRef,
   Component,
@@ -13,11 +149,13 @@ import {
   SalesVisitResponse
 } from '../../../core/models/client-crm.type';
 
-import { ClientCrmService }
-  from '../../../core/services/client-crm.service';
+import {
+  ClientCrmService
+} from '../../../core/services/client-crm.service';
 
-import { EditSalesVisitComponent }
-  from './edit-sales-visit/edit-sales-visit.component';
+import {
+  EditSalesVisitComponent
+} from './edit-sales-visit/edit-sales-visit.component';
 
 @Component({
   selector: 'app-organization-table',
@@ -28,16 +166,20 @@ import { EditSalesVisitComponent }
   ],
   templateUrl: './organization-table.component.html'
 })
-export class OrganizationTableComponent
-  implements OnInit {
-  @Input() canEdit = false;
+export class OrganizationTableComponent implements OnInit {
+
+  @Input()
+  canEdit = false;
+
   @Input()
   status?: 'FAILED' | 'CONVERTED';
 
   @Input()
   showBillingColumns = false;
 
-
+  // Decide which API to call
+  @Input()
+  fetchType: 'MY_VISITS' | 'ALL_VISITS' = 'MY_VISITS';
 
   salesVisits: SalesVisit[] = [];
 
@@ -45,11 +187,9 @@ export class OrganizationTableComponent
 
   showEditModal = false;
 
-  private readonly clientCrmService =
-    inject(ClientCrmService);
+  private readonly clientCrmService = inject(ClientCrmService);
 
-  private readonly cdr =
-    inject(ChangeDetectorRef);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
 
@@ -59,43 +199,42 @@ export class OrganizationTableComponent
 
   loadSalesVisits(): void {
 
-    this.clientCrmService
-      .getSalesVisits()
-      .subscribe({
+    const request$ =
+      this.fetchType === 'ALL_VISITS'
+        ? this.clientCrmService.getSalesAllVisits()
+        : this.clientCrmService.getSalesVisits();
 
-        next: (response: SalesVisitResponse) => {
+    request$.subscribe({
 
-          const data = response.data ?? [];
+      next: (response: SalesVisitResponse) => {
 
-          // Client CRM Page
-          if (!this.canEdit) {
+        const data = response.data ?? [];
 
-            this.salesVisits = data.filter(
-              visit =>
-                visit.status === 'CONVERTED' ||
-                visit.status === 'FAILED'
-            );
+        if (!this.canEdit) {
 
-          }
+          this.salesVisits = data.filter(
+            visit =>
+              visit.status === 'CONVERTED' ||
+              visit.status === 'FAILED'
+          );
 
-          // Executive Center
-          else {
+        } else {
 
-            this.salesVisits = data;
-
-          }
-
-          this.cdr.detectChanges();
-
-        },
-
-        error: (err) => {
-
-          console.error(err);
+          this.salesVisits = data;
 
         }
 
-      });
+        this.cdr.detectChanges();
+
+      },
+
+      error: (err) => {
+
+        console.error('Failed to fetch sales visits:', err);
+
+      }
+
+    });
 
   }
 

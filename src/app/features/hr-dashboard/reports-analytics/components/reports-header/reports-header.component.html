@@ -1,0 +1,62 @@
+<div class="flex items-center justify-between gap-6">
+
+  <!-- Left -->
+
+  <div>
+
+    <h1
+      class="text-xl font-serif text-red-900">
+
+      Reports & MIS Dashboard
+
+    </h1>
+
+    <p
+      class="mt-1 max-w-xl text-xs leading-5 text-gray-500">
+
+      Analyze enterprise headcount, department dynamics,
+      retention trends, payroll summaries and statutory
+      compliance reports from a centralized dashboard.
+
+    </p>
+
+  </div>
+
+  <!-- Right -->
+
+  <div
+  class="border border-gray-200 rounded-lg bg-white px-2 py-1 shadow-sm">
+
+  <div class="flex items-center gap-5">
+
+    @for(tab of tabs; track tab.id){
+
+    <button
+
+      (click)="changeTab(tab.id)"
+
+      class="relative pb-2 text-xs font-medium transition-all duration-200"
+
+      [class.text-red-900]="activeTab === tab.id"
+
+      [class.font-semibold]="activeTab === tab.id"
+
+      [class.border-b-2]="activeTab === tab.id"
+
+      [class.border-red-900]="activeTab === tab.id"
+
+      [class.text-gray-500]="activeTab !== tab.id"
+
+      [class.hover:text-red-800]="activeTab !== tab.id">
+
+      {{ tab.label }}
+
+    </button>
+
+    }
+
+  </div>
+
+</div>
+
+</div>

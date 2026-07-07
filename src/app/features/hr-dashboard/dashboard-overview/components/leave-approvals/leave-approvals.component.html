@@ -1,20 +1,17 @@
-<div
-  class="bg-white border border-gray-200 rounded-xl shadow-sm p-5">
+<div class="bg-white rounded-xl border border-gray-200 p-5 shadow-sm">
 
   <!-- Header -->
-  <div
-    class="flex justify-between items-center mb-5">
 
-      <h2
-        class="text-xl font-serif text-red-900">
+  <div class="mb-5 flex items-center justify-between">
 
-        Roster & Leave Approvals
+    <h2 class="text-xl font-serif text-red-900">
 
-      </h2>
+      Roster & Leave Approvals
 
-    <button
-    (click)="getToLogs()"
-      class="text-red-800 font-semibold uppercase tracking-wide text-[11px] hover:underline">
+    </h2>
+
+    <button (click)="getToLogs()"
+      class="text-[11px] font-semibold uppercase tracking-wide text-red-800 hover:underline">
 
       Go To Logs →
 
@@ -24,28 +21,24 @@
 
   <!-- Leave Cards -->
 
-  <div
-    class="space-y-4 max-h-[250px] overflow-y-auto pr-2">
+  <div class="max-h-[250px] space-y-4 overflow-y-auto pr-2">
 
-    @for(request of leaveRequests; track request.employee){
+    @for(leave of leaveRequests; track leave.id){
 
-    <div
-      class="border border-gray-200 rounded-lg p-4 hover:shadow-md transition">
+    <div class="rounded-lg border border-gray-200 p-4 transition hover:shadow-md">
 
-      <div
-        class="flex flex-col lg:flex-row lg:justify-between lg:items-center gap-4">
+      <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
 
         <!-- Left -->
 
-        <div
-          class="flex items-start gap-3 flex-1">
+        <div class="flex flex-1 items-start gap-3">
 
           <!-- Avatar -->
 
           <div
-            class="w-12 h-12 rounded-lg bg-red-100 flex items-center justify-center text-red-800 font-bold text-base shrink-0">
+            class="flex h-12 w-12 shrink-0 items-center justify-center rounded-lg bg-red-100 text-base font-bold text-red-800">
 
-            {{ request.avatar }}
+            {{ leave.applicant_name.charAt(0) }}
 
           </div>
 
@@ -53,47 +46,52 @@
 
           <div class="flex-1">
 
-            <div
-              class="flex flex-wrap items-center gap-2">
+            <div class="flex flex-wrap items-center gap-2">
 
-              <h3
-                class="font-semibold text-base text-red-900">
+              <h3 class="text-base font-semibold text-red-900">
 
-                {{ request.employee }}
+                {{ leave.applicant_name }}
 
               </h3>
 
-              <span
-                class="px-2 py-0.5 rounded-full text-[9px] uppercase bg-red-100 text-red-700 font-semibold">
+              <span class="rounded-full bg-red-100 px-2 py-0.5 text-[9px] font-semibold uppercase text-red-700">
 
-                {{ request.leaveType }}
+                {{ leave.leave_category }}
 
               </span>
 
             </div>
 
-            <p
-              class="text-xs text-gray-500">
+            <p class="mt-1 text-xs text-gray-500">
 
-              {{ request.designation }}
-
-            </p>
-
-            <p
-              class="text-xs mt-1">
-
-              <strong>{{ request.duration }}</strong>
-
-              ({{ request.date }})
+              {{ leave.from_date | date:'dd MMM yyyy' }}
+              -
+              {{ leave.to_date | date:'dd MMM yyyy' }}
 
             </p>
 
-            <p
-              class="italic text-xs text-gray-500 mt-1">
+            <p class="mt-2 text-xs text-gray-700">
 
-              "{{ request.remarks }}"
+              {{ leave.reason_absence }}
 
             </p>
+
+            <span class="mt-2 inline-block rounded-full px-2 py-1 text-[10px] font-semibold" [ngClass]="{
+
+                'bg-yellow-100 text-yellow-700':
+                leave.leave_approve === 'PENDING',
+
+                'bg-green-100 text-green-700':
+                leave.leave_approve === 'APPROVED',
+
+                'bg-red-100 text-red-700':
+                leave.leave_approve === 'REJECTED'
+
+              }">
+
+              {{ leave.leave_approve }}
+
+            </span>
 
           </div>
 
@@ -101,20 +99,15 @@
 
         <!-- Right -->
 
-        <div
-          class="flex gap-2">
+        <div class="flex gap-2">
 
-          <button
-            (click)="rejectLeave(request)"
-            class="px-4 py-1.5 text-sm rounded-lg border border-gray-300 hover:bg-gray-100">
-
+          <button (click)="openRejectModal(leave)"
+            class="rounded-lg border border-gray-300 px-4 py-1.5 text-sm hover:bg-gray-100">
             Reject
-
           </button>
 
-          <button
-            (click)="approveLeave(request)"
-            class="px-4 py-1.5 text-sm rounded-lg bg-red-800 hover:bg-red-900 text-white">
+          <button (click)="approveLeave(leave)"
+            class="rounded-lg bg-red-800 px-4 py-1.5 text-sm text-white hover:bg-red-900">
 
             Approve
 
@@ -131,3 +124,78 @@
   </div>
 
 </div>
+
+
+@if(showRejectModal){
+
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 backdrop-blur-sm p-4">
+
+  <div class="w-full max-w-lg rounded-xl border border-gray-200 bg-white shadow-2xl overflow-hidden">
+
+    <!-- Header -->
+    <div class="flex items-center justify-between border-b border-gray-200 px-6 py-5">
+
+      <div>
+
+        <p class="text-[10px] uppercase tracking-[0.25em] text-gray-500">
+          Leave Approval
+        </p>
+
+        <h2 class="mt-1 text-xl font-serif text-red-900">
+          Reject Leave Request
+        </h2>
+
+      </div>
+
+      <button
+        (click)="closeRejectModal()"
+        class="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-500 hover:bg-gray-100 hover:text-red-700">
+
+        ✕
+
+      </button>
+
+    </div>
+
+    <!-- Body -->
+    <div class="p-6">
+
+      <label class="mb-2 block text-sm font-semibold text-gray-700">
+        Reason
+      </label>
+
+      <textarea
+        [(ngModel)]="rejectReason"
+        rows="5"
+        placeholder="Enter rejection reason..."
+        class="w-full resize-none rounded-lg border border-gray-300 p-3 text-sm outline-none transition focus:border-red-700">
+      </textarea>
+
+    </div>
+
+    <!-- Footer -->
+    <div class="flex justify-end gap-3 border-t border-gray-200 bg-gray-50 px-6 py-4">
+
+      <button
+        (click)="closeRejectModal()"
+        class="rounded-lg border border-gray-300 px-5 py-2 text-sm hover:bg-gray-100">
+
+        Cancel
+
+      </button>
+
+      <button
+        (click)="confirmReject()"
+        class="rounded-lg bg-red-900 px-6 py-2 text-sm font-semibold text-white hover:bg-red-800">
+
+        Reject Leave
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+
+}

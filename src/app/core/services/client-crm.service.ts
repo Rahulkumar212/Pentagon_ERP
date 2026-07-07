@@ -35,6 +35,15 @@ export class ClientCrmService {
     );
   }
 
+
+
+  // ✅ GET SALES VISITS (FIXED)
+  getSalesAllVisits(): Observable<SalesVisitResponse> {
+    return this.http.get<SalesVisitResponse>(
+      `${this.API_URL}/get`
+    );
+  }
+
  updateSalesVisit(
   id: number,
   payload: UpdateSalesVisitPayload

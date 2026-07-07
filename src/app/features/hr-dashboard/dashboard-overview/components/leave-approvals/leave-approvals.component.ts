@@ -1,102 +1,185 @@
 import {
-  Component
+  Component,
+  OnInit,
+  ChangeDetectorRef,
+  inject
 } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { Router } from '@angular/router';
+
+import { LeaveService } from '../../../../../core/services/leave.service';
+import { Leave } from '../../../../../core/models/leave.model';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-leave-approvals',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    FormsModule
   ],
   templateUrl: './leave-approvals.component.html'
 })
-export class LeaveApprovalsComponent {
+export class LeaveApprovalsComponent implements OnInit {
 
-  constructor(private readonly router:Router){};
+  private readonly leaveService = inject(LeaveService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
-  leaveRequests = [
+  constructor(
+    private readonly router: Router
+  ) { }
 
-    {
+  leaveRequests: Leave[] = [];
 
-      employee: 'Priya Iyer',
+  showRejectModal = false;
 
-      designation: 'HR Specialist',
+  rejectReason = '';
 
-      leaveType: 'Casual Leave',
+  selectedLeave: Leave | null = null;
 
-      duration: '2 Days',
+  isLoading = false;
 
-      date: '2026-06-29 to 2026-06-30',
+  ngOnInit(): void {
 
-      remarks: 'Family function.',
+    this.loadLeaveRequests();
 
-      avatar: 'P'
+  }
+
+  private loadLeaveRequests(): void {
+
+    this.isLoading = true;
+
+    this.leaveService.getLeaves().subscribe({
+
+      next: (response) => {
+
+        this.leaveRequests = [...response.data];
+
+        this.isLoading = false;
+
+        this.cdr.detectChanges();
+
+      },
+
+      error: (error) => {
+
+        console.error('Failed to fetch leave requests', error);
+
+        this.isLoading = false;
+
+        this.cdr.detectChanges();
+
+      }
+
+    });
+
+  }
+
+  getToLogs(): void {
+
+    this.router.navigate(['/daily-operations']);
+
+  }
+
+  approveLeave(leave: Leave): void {
+
+  this.leaveService.updateLeave(leave.id!, {
+
+    leave_approve: 'APPROVED'
+
+  }).subscribe({
+
+    next: (response) => {
+
+      const index = this.leaveRequests.findIndex(
+        item => item.id === leave.id
+      );
+
+      if (index !== -1) {
+        this.leaveRequests[index] = response.data;
+      }
 
     },
 
-    {
+    error: (error) => {
+      console.error('Approve Error:', error);
+    }
 
-      employee: 'Aanya Sharma',
+  });
 
-      designation: 'Senior Software Engineer',
+}
 
-      leaveType: 'Casual Leave',
+  rejectLeave(request: Leave): void {
 
-      duration: '2 Days',
+    console.log('Rejected', request);
 
-      date: '2026-07-02 to 2026-07-03',
+  }
 
-      remarks: 'Personal work.',
+  openRejectModal(leave: Leave): void {
 
-      avatar: 'A'
+  this.selectedLeave = leave;
+
+  this.rejectReason = '';
+
+  this.showRejectModal = true;
+
+}
+
+closeRejectModal(): void {
+
+  this.showRejectModal = false;
+
+  this.rejectReason = '';
+
+  this.selectedLeave = null;
+
+}
+
+confirmReject(): void {
+
+  if (!this.selectedLeave) {
+    return;
+  }
+
+  if (!this.rejectReason.trim()) {
+
+    alert('Please enter rejection reason.');
+
+    return;
+
+  }
+
+  this.leaveService.updateLeave(this.selectedLeave.id!, {
+
+    leave_approve: 'REJECTED',
+
+    reason_reject: this.rejectReason
+
+  }).subscribe({
+
+    next: (response) => {
+
+      const index = this.leaveRequests.findIndex(
+        item => item.id === this.selectedLeave!.id
+      );
+
+      if (index !== -1) {
+        this.leaveRequests[index] = response.data;
+      }
+
+      this.closeRejectModal();
 
     },
 
-    {
+    error: (error) => {
 
-      employee: 'Diya Sen',
-
-      designation: 'Software Engineer',
-
-      leaveType: 'Sick Leave',
-
-      duration: '1 Day',
-
-      date: '2026-06-28',
-
-      remarks: 'Doctor advised rest.',
-
-      avatar: 'D'
+      console.error('Reject Error:', error);
 
     }
 
-  ];
+  });
 
-  getToLogs():void {
-    this.router.navigate(["/daily-operations"]);
-  }
-
-  approveLeave(request: any): void {
-
-    console.log(
-      'Approved',
-      request
-    );
-
-  }
-
-  rejectLeave(request: any): void {
-
-    console.log(
-      'Rejected',
-      request
-    );
-
-  }
+}
 
 }
