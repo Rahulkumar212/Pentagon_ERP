@@ -1,127 +1,375 @@
-<form  [formGroup]="billingForm"
+<form
+  [formGroup]="billingForm"
   (ngSubmit)="onSubmit()">
 
-<div class="bg-white rounded-xl p-6">
+  <div class="bg-white rounded-lg p-4 shadow-sm">
 
-<h2 class="text-xl font-semibold mb-6">
-
-Create Billing Order
-
+   <h2 class="mb-4 text-lg font-semibold text-gray-800">
+  Create Billing Order
 </h2>
 
-<div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+    <!-- ================= Billing Information ================= -->
 
-<!-- Date -->
+    <div class="rounded-xl border border-gray-200 p-5">
 
-<div>
+     <h3 class="mb-3 text-base font-semibold text-gray-800">
+        Billing Information
+      </h3>
 
-<label>Date</label>
+     <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
 
-<input
-type="date"
-formControlName="date"
-class="w-full border rounded-lg p-3">
+        <!-- Date -->
 
-</div>
+        <div>
 
-<!-- Particulars -->
+         <label class="mb-1 block text-xs font-medium text-gray-700">
+            Date
+          </label>
 
-<div>
+          <input
+            type="date"
+            formControlName="date"
+            class="w-full rounded-lg border p-3">
 
-<label>Particulars</label>
+        </div>
 
-<input
-type="text"
-formControlName="particulars"
-class="w-full border rounded-lg p-3">
+        <!-- Particulars -->
 
-</div>
+        <div>
 
-<!-- Item Details -->
+         <label class="mb-1 block text-xs font-medium text-gray-700">
+            Particulars / Project Name
+          </label>
 
-<div class="md:col-span-2">
+          <input
+            type="text"
+            formControlName="particulars"
+            class="w-full rounded-lg border p-3">
 
-<label>Items Details</label>
+        </div>
 
-<textarea
-rows="3"
-formControlName="item_details"
-class="w-full border rounded-lg p-3">
+        <!-- Item Details -->
 
-</textarea>
+        <div class="md:col-span-2">
 
-</div>
+         <label class="mb-1 block text-xs font-medium text-gray-700">
+            Item / Service Details
+          </label>
 
-<!-- Taxable Amount -->
+       <textarea
+rows="2"
+class="w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-red-600 focus:outline-none">
+          </textarea>
 
-<div>
+        </div>
 
-<label>Taxable Amount</label>
+        <!-- Taxable Amount -->
 
-<input
-type="number"
-formControlName="taxable_amount"
-class="w-full border rounded-lg p-3">
+        <div>
 
-</div>
+         <label class="mb-1 block text-xs font-medium text-gray-700">
+            Taxable Amount (₹)
+          </label>
 
-<!-- With Support Of -->
+          <input
+            type="number"
+            formControlName="taxable_amount"
+            class="w-full rounded-lg border p-3">
 
-<div>
+        </div>
 
-<label>With Support Of</label>
+        <!-- Business Value -->
 
-<input
-type="text"
-formControlName="support_of"
-class="w-full border rounded-lg p-3">
+        <div>
 
-</div>
+          <label class="mb-1 block text-xs font-medium text-gray-700">
+            Business Value (₹)
+          </label>
 
-<!-- Quarterly Business -->
+          <input
+            type="number"
+            formControlName="business_value"
+            class="w-full rounded-lg border p-3">
 
-<!-- Monthly Business -->
+        </div>
 
-<div>
+      </div>
 
-  <label>Business Amount(₹)</label>
+    </div>
+
+    <!-- ================= Customer Information ================= -->
+
+    <div class="mt-6 rounded-xl border border-gray-200 p-5">
+
+      <h3 class="mb-5 text-lg font-semibold">
+        Customer Information
+      </h3>
+
+      <div>
+
+        <label class="mb-2 block text-sm font-medium">
+          Customer / Company Name
+        </label>
+
+        <input
+          type="text"
+          formControlName="customer_name"
+          class="w-full rounded-lg border p-3">
+
+      </div>
+
+    </div>
+
+    <!-- ================= Customer Contact (PO) ================= -->
+
+    <div class="mt-6 rounded-xl border border-gray-200 p-5">
+
+      <h3 class="mb-5 text-lg font-semibold">
+        Customer Contact (For Purchase Order)
+      </h3>
+
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+
+        <div>
+
+          <label class="mb-2 block text-sm font-medium">
+            Contact Person Name
+          </label>
+
+          <input
+            type="text"
+            formControlName="po_contact_name"
+            class="w-full rounded-lg border p-3">
+
+        </div>
+
+        <div>
+
+          <label class="mb-2 block text-sm font-medium">
+            Email Address
+          </label>
+
+          <input
+            type="email"
+            formControlName="po_contact_email"
+            class="w-full rounded-lg border p-3">
+
+        </div>
+
+        <div>
+
+          <label class="mb-2 block text-sm font-medium">
+            Phone Number
+          </label>
+
+          <input
+            type="text"
+            formControlName="po_contact_phone"
+            class="w-full rounded-lg border p-3">
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ================= Billing Contact ================= -->
+
+    <div class="mt-6 rounded-xl border border-gray-200 p-5">
+
+      <h3 class="mb-5 text-lg font-semibold">
+        Billing Contact
+      </h3>
+
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+
+        <input
+          type="text"
+          formControlName="billing_contact_name"
+          placeholder="Name"
+          class="rounded-lg border p-3">
+
+        <input
+          type="email"
+          formControlName="billing_contact_email"
+          placeholder="Email"
+          class="rounded-lg border p-3">
+
+        <input
+          type="text"
+          formControlName="billing_contact_phone"
+          placeholder="Phone Number"
+          class="rounded-lg border p-3">
+
+      </div>
+
+    </div>
+
+    <!-- ================= Invoice Recipient ================= -->
+
+    <div class="mt-6 rounded-xl border border-gray-200 p-5">
+
+      <h3 class="mb-5 text-lg font-semibold">
+        Invoice Recipient
+      </h3>
+
+      <div class="grid grid-cols-1 gap-5 md:grid-cols-3">
+
+        <input
+          type="text"
+          formControlName="recipient_name"
+          placeholder="Name"
+          class="rounded-lg border p-3">
+
+        <input
+          type="email"
+          formControlName="recipient_email"
+          placeholder="Email"
+          class="rounded-lg border p-3">
+
+        <input
+          type="text"
+          formControlName="recipient_phone"
+          placeholder="Phone Number"
+          class="rounded-lg border p-3">
+
+      </div>
+
+    </div>
+
+    <!-- ================= Accounts Contact ================= -->
+<div class="mt-5 rounded-lg border border-gray-200 bg-white p-4">
+
+  <h3 class="mb-3 text-sm font-semibold text-gray-800">
+    Accounts / Payment Contact
+  </h3>
+
+  <label class="mb-1 block text-xs font-medium text-gray-600">
+    Phone Number
+  </label>
 
   <input
-    type="number"
-    formControlName="monthly_business"
-    placeholder="Enter Monthly Business Amount"
-    class="w-full border rounded-lg p-3">
+    type="text"
+    formControlName="accounts_phone"
+    placeholder="Enter Accounts Contact Number"
+    class="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-red-600 focus:outline-none" />
 
 </div>
 
-</div>
 
-<div class="flex justify-end gap-3 mt-8">
+  <div class="mt-5 rounded-lg border border-gray-200 bg-white p-4">
 
-<button
-type="button"
- (click)="onCancel()"
-class="border px-5 py-2 rounded-lg">
+  <h3 class="mb-3 text-sm font-semibold text-gray-800">
+    Project Execution Contact
+  </h3>
 
-Cancel
+  <label class="mb-1 block text-xs font-medium text-gray-600">
+    Phone Number
+  </label>
 
-</button>
-
-<button
-  type="submit"
-  [disabled]="billingForm.invalid || isSubmitting"
-  class="bg-red-700 text-white px-5 py-2 rounded-lg">
-
-  {{
-    isSubmitting
-      ? (isEditMode ? 'Updating...' : 'Saving...')
-      : (isEditMode ? 'Update Billing' : 'Save Billing')
-  }}
-
-</button>
+  <input
+    type="text"
+    formControlName="execution_phone"
+    placeholder="Enter Execution Contact Number"
+    class="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-red-600 focus:outline-none" />
 
 </div>
 
+
+    <!-- ================= Post Implementation Support ================= -->
+
+   <div class="mt-5 rounded-lg border border-gray-200 bg-white p-4">
+
+  <h3 class="mb-3 text-sm font-semibold text-gray-800">
+    Post-Implementation Support Contact
+  </h3>
+
+  <label class="mb-1 block text-xs font-medium text-gray-600">
+    Phone Number
+  </label>
+
+  <input
+    type="text"
+    formControlName="support_phone"
+    placeholder="Enter Support Contact Number"
+    class="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-red-600 focus:outline-none" />
+
 </div>
+
+<!-- ================= Partner / Support Reference ================= -->
+
+<div class="mt-5 rounded-lg border border-gray-200 bg-white p-4">
+
+  <h3 class="mb-3 text-sm font-semibold text-gray-800">
+    Partner / Support Reference
+  </h3>
+
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+
+    <!-- Support Person Name -->
+
+    <div>
+
+      <label class="mb-1 block text-xs font-medium text-gray-600">
+        Support Person Name
+      </label>
+
+      <input
+        type="text"
+        formControlName="support_name"
+        placeholder="Enter Support Person Name"
+        class="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-red-600 focus:outline-none" />
+
+    </div>
+
+    <!-- Support Contact Number -->
+
+    <div>
+
+      <label class="mb-1 block text-xs font-medium text-gray-600">
+        Contact Number
+      </label>
+
+      <input
+        type="text"
+        formControlName="support_phone"
+        placeholder="Enter Contact Number"
+        class="h-10 w-full rounded-md border border-gray-300 px-3 text-sm focus:border-red-600 focus:outline-none" />
+
+    </div>
+
+  </div>
+
+</div>
+
+    <!-- ================= Footer ================= -->
+
+   <div class="mt-5 flex justify-end gap-2 border-t pt-4">
+
+      <button
+        type="button"
+        (click)="onCancel()"
+        class="rounded-lg border px-5 py-2">
+
+        Cancel
+
+      </button>
+
+      <button
+        type="submit"
+        [disabled]="billingForm.invalid || isSubmitting"
+        class="rounded-lg bg-red-700 px-5 py-2 text-white">
+
+        {{
+          isSubmitting
+            ? (isEditMode ? 'Updating...' : 'Saving...')
+            : (isEditMode ? 'Update Billing' : 'Save Billing')
+        }}
+
+      </button>
+
+    </div>
+
+  </div>
 
 </form>

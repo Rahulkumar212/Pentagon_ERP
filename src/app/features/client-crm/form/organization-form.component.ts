@@ -52,6 +52,11 @@ export class OrganizationFormComponent {
         Validators.required
       ],
 
+      designation: [
+        '',
+        Validators.required
+      ],
+
       visit_date: [
         '',
         Validators.required
@@ -133,6 +138,9 @@ export class OrganizationFormComponent {
       executive_name:
         formValue.executive_name.trim(),
 
+        designation:
+        formValue.executive_name.trim(),
+
       visit_date:
         formValue.visit_date,
 
@@ -204,18 +212,19 @@ export class OrganizationFormComponent {
       });
   }
 
- @Output()
-cancel = new EventEmitter<void>();
+  @Output()
+  cancel = new EventEmitter<void>();
 
-onCancel(): void {
-  this.cancel.emit();
-}
+  onCancel(): void {
+    this.cancel.emit();
+  }
 
   private resetForm(): void {
 
     this.organizationForm.reset({
 
       executive_name: '',
+      designation:'',
       visit_date: '',
 
       visit_type:

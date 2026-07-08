@@ -65,41 +65,69 @@ export class BillingOrderFormComponent
 
   billingForm = this.fb.group({
 
-    date: this.fb.nonNullable.control(
-      '',
-      Validators.required
-    ),
+    // Billing Information
+    date: this.fb.nonNullable.control('', Validators.required),
 
-    particulars: this.fb.nonNullable.control(
-      '',
-      Validators.required
-    ),
+    particulars: this.fb.nonNullable.control('', Validators.required),
 
-    item_details: this.fb.nonNullable.control(
-      '',
-      Validators.required
-    ),
+    item_details: this.fb.nonNullable.control('', Validators.required),
 
-    taxable_amount: this.fb.nonNullable.control(
-      0,
-      [
-        Validators.required,
-        Validators.min(0)
-      ]
-    ),
+    taxable_amount: this.fb.nonNullable.control(0, [
+      Validators.required,
+      Validators.min(0)
+    ]),
 
-    support_of: this.fb.nonNullable.control(
-      '',
-      Validators.required
-    ),
+    business_value: this.fb.nonNullable.control(0, [
+      Validators.required,
+      Validators.min(0)
+    ]),
 
-    monthly_business: this.fb.nonNullable.control(
-      0,
-      [
-        Validators.required,
-        Validators.min(0)
-      ]
-    )
+    // Customer
+    customer_name: this.fb.nonNullable.control('', Validators.required),
+
+    // Customer Contact (PO)
+    po_contact_name: this.fb.nonNullable.control('', Validators.required),
+
+    po_contact_email: this.fb.nonNullable.control('', [
+      Validators.required,
+      Validators.email
+    ]),
+
+    po_contact_phone: this.fb.nonNullable.control('', Validators.required),
+
+    // Billing Contact
+    billing_contact_name: this.fb.nonNullable.control('', Validators.required),
+
+    billing_contact_email: this.fb.nonNullable.control('', [
+      Validators.required,
+      Validators.email
+    ]),
+
+    billing_contact_phone: this.fb.nonNullable.control('', Validators.required),
+
+    // Invoice Recipient
+    recipient_name: this.fb.nonNullable.control('', Validators.required),
+
+    recipient_email: this.fb.nonNullable.control('', [
+      Validators.required,
+      Validators.email
+    ]),
+
+    recipient_phone: this.fb.nonNullable.control('', Validators.required),
+
+    // Accounts
+    accounts_phone: this.fb.nonNullable.control('', Validators.required),
+
+    // Execution
+    execution_phone: this.fb.nonNullable.control('', Validators.required),
+
+    // Support
+    support_phone: this.fb.nonNullable.control('', Validators.required),
+
+    // Partner / Support Reference
+    support_name: this.fb.nonNullable.control('', Validators.required),
+
+    support_contact_phone: this.fb.nonNullable.control('', Validators.required)
 
   });
 
@@ -119,8 +147,30 @@ export class BillingOrderFormComponent
           particulars: this.billing.particulars,
           item_details: this.billing.item_details,
           taxable_amount: this.billing.taxable_amount,
-          support_of: this.billing.support_of,
-          monthly_business: this.billing.monthly_business
+          business_value: this.billing.business_value,
+
+          customer_name: this.billing.customer_name,
+
+          po_contact_name: this.billing.po_contact_name,
+          po_contact_email: this.billing.po_contact_email,
+          po_contact_phone: this.billing.po_contact_phone,
+
+          billing_contact_name: this.billing.billing_contact_name,
+          billing_contact_email: this.billing.billing_contact_email,
+          billing_contact_phone: this.billing.billing_contact_phone,
+
+          recipient_name: this.billing.recipient_name,
+          recipient_email: this.billing.recipient_email,
+          recipient_phone: this.billing.recipient_phone,
+
+          accounts_phone: this.billing.accounts_phone,
+
+          execution_phone: this.billing.execution_phone,
+
+          support_phone: this.billing.support_phone,
+
+          support_name: this.billing.support_name,
+          support_contact_phone: this.billing.support_contact_phone
 
         });
 
@@ -134,8 +184,30 @@ export class BillingOrderFormComponent
           particulars: '',
           item_details: '',
           taxable_amount: 0,
-          support_of: '',
-          monthly_business: 0
+          business_value: 0,
+
+          customer_name: '',
+
+          po_contact_name: '',
+          po_contact_email: '',
+          po_contact_phone: '',
+
+          billing_contact_name: '',
+          billing_contact_email: '',
+          billing_contact_phone: '',
+
+          recipient_name: '',
+          recipient_email: '',
+          recipient_phone: '',
+
+          accounts_phone: '',
+
+          execution_phone: '',
+
+          support_phone: '',
+
+          support_name: '',
+          support_contact_phone: ''
 
         });
 
@@ -216,8 +288,30 @@ export class BillingOrderFormComponent
               particulars: '',
               item_details: '',
               taxable_amount: 0,
-              support_of: '',
-              monthly_business: 0
+              business_value: 0,
+
+              customer_name: '',
+
+              po_contact_name: '',
+              po_contact_email: '',
+              po_contact_phone: '',
+
+              billing_contact_name: '',
+              billing_contact_email: '',
+              billing_contact_phone: '',
+
+              recipient_name: '',
+              recipient_email: '',
+              recipient_phone: '',
+
+              accounts_phone: '',
+
+              execution_phone: '',
+
+              support_phone: '',
+
+              support_name: '',
+              support_contact_phone: ''
 
             });
 
