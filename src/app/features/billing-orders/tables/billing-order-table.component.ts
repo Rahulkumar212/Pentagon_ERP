@@ -20,7 +20,6 @@ import {
   BillingOrderResponse
 } from '../../../core/models/billing-order.type';
 
-
 @Component({
   selector: 'app-billing-order-table',
   standalone: true,
@@ -30,9 +29,9 @@ import {
   templateUrl: './billing-order-table.component.html'
 })
 export class BillingOrderTableComponent
-implements OnInit {
+  implements OnInit {
 
- @Output()
+  @Output()
   edit = new EventEmitter<BillingOrder>();
 
   private readonly billingService =
@@ -41,9 +40,9 @@ implements OnInit {
   private readonly cdr =
     inject(ChangeDetectorRef);
 
-    
-
   billingOrders: BillingOrder[] = [];
+
+  isLoading = false;
 
   ngOnInit(): void {
 
@@ -57,6 +56,8 @@ implements OnInit {
 
   loadBillingOrders(): void {
 
+    this.isLoading = true;
+
     this.billingService
       .getBillings()
       .subscribe({
@@ -66,7 +67,8 @@ implements OnInit {
           this.billingOrders =
             response.data ?? [];
 
-          // Force UI Refresh
+          this.isLoading = false;
+
           this.cdr.detectChanges();
 
         },
@@ -78,6 +80,8 @@ implements OnInit {
             err
           );
 
+          this.isLoading = false;
+
         }
 
       });
@@ -85,7 +89,7 @@ implements OnInit {
   }
 
   // ==========================
-  // Total Monthly Business
+  // Total Business Value
   // ==========================
 
   get totalMonthlyBusiness(): number {
@@ -94,7 +98,7 @@ implements OnInit {
 
       (total, order) =>
 
-        total + Number(order.monthly_business || 0),
+        total + Number(order.business_value || 0),
 
       0
 
@@ -106,12 +110,12 @@ implements OnInit {
   // Edit Billing
   // ==========================
 
-  editBilling(order: BillingOrder): void {
+  editBilling(
+    order: BillingOrder
+  ): void {
 
-  console.log(order);
+    this.edit.emit(order);
 
-  this.edit.emit(order);
-
-}
+  }
 
 }

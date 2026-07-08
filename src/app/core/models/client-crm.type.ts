@@ -4,8 +4,8 @@ export type VisitType =
   | 'TELECALL';
 
   export type LeadType =
-  | 'HOT'
-  | 'WARM';
+  | 'HOT_PROSPECTS'
+  | 'WARM_PROSPECTS';
 
 export type VisitStatus =
   | 'OPEN'
@@ -19,6 +19,8 @@ export type VisitStatus =
 export interface SalesVisitPayload {
 
   executive_name: string;
+
+  designation: string;
 
   visit_date: string;
 
