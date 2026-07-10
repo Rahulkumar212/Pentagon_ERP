@@ -1,5 +1,6 @@
 import {
   Component,
+  inject,
   signal
 } from '@angular/core';
 
@@ -10,11 +11,12 @@ import { EmployeeListComponent } from '../components/employee-list/employee-list
 import { EmployeeMasterHeaderComponent } from '../components/employee-master-header/employee-master-header.component';
 import { EmployeeFiltersComponent } from '../components/employee-filters/employee-filters.component';
 import {
-  AddEmployeeFormComponent,
-  EmployeeForm
+  AddEmployeeFormComponent
 } from '../forms/add-employee-form/add-employee-form.component';
 import { EmployeeProfileDrawerComponent } from '../components/employee-profile-drawer/employee-profile-drawer.component';
 import { EMPLOYEE_DATA } from '../utils/employee';
+import { CreateEmployeePayload } from '../../../../core/models/employee.type';
+import { EmployeeService } from '../../../../core/services/employee.service';
 
 @Component({
   selector: 'app-employee-master',
@@ -30,6 +32,9 @@ import { EMPLOYEE_DATA } from '../utils/employee';
   templateUrl: './employee-master.component.html'
 })
 export class EmployeeMasterComponent {
+
+  private readonly employeeService =
+  inject(EmployeeService);
 
   showForm = signal(false);
 
@@ -57,57 +62,75 @@ export class EmployeeMasterComponent {
 
   }
 
-  addEmployee(data: EmployeeForm): void {
+ addEmployee(data: CreateEmployeePayload): void {
 
-    const employee: Employee = {
+  this.employeeService
+    .createEmployee(data)
+    .subscribe({
 
-      employeeCode: data.employeeCode,
+      next: (response) => {
 
-      name: data.fullName,
+        console.log(response);
 
-      designation: data.designation,
+        const employee: Employee = {
 
-      department: data.department,
+          employeeCode: data.employeeCode,
 
-      status: data.status,
+          name: data.fullName,
 
-      rating: 0,
+          designation: data.designation,
 
-      attendance: 0,
+          department: data.department,
 
-      avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(data.fullName)}&background=7f1d1d&color=fff`,
+          status: data.status,
 
-      email: data.workEmail,
+          rating: 0,
 
-      mobileNumber: data.mobileNumber,
+          attendance: 0,
 
-      joiningDate: data.joiningDate,
+          avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(data.fullName)}&background=7f1d1d&color=fff`,
 
-      reportingOfficer: '-',
+          email: data.workEmail,
 
-      bankName: data.bankName,
+          mobileNumber: data.mobileNumber,
 
-      accountNumber: data.accountNumber,
+          joiningDate: data.joiningDate,
 
-      salary: data.salary,
+          reportingOfficer: '-',
 
-      panNumber: data.panNumber,
+          bankName: data.bankName,
 
-      aadhaarNumber: data.aadhaarNumber,
+          accountNumber: data.accountNumber,
 
-      kraGoal: 'Not Assigned',
+          salary: data.salary,
 
-      kraProgress: 0
+          panNumber: data.panNumber,
 
-    };
+          aadhaarNumber: data.aadhaarNumber,
 
-    this.employees.unshift(employee);
+          kraGoal: 'Not Assigned',
 
-    this.applyFilters();
+          kraProgress: 0
 
-    this.showForm.set(false);
+        };
 
-  }
+        this.employees.unshift(employee);
+
+        this.applyFilters();
+
+        this.showForm.set(false);
+
+      },
+
+      error: (err) => {
+
+        console.error(err);
+
+      }
+
+    });
+
+}
 
   openProfile(employee: Employee): void {
 

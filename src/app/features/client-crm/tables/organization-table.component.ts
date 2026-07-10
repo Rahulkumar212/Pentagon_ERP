@@ -10,18 +10,26 @@ import { CommonModule } from '@angular/common';
 
 import {
   SalesVisit,
-  SalesVisitResponse
+  SalesVisitResponse,
+  CallDiscussion,
+  CallDiscussionResponse
 } from '../../../core/models/client-crm.type';
 
 import {
   ClientCrmService
 } from '../../../core/services/client-crm.service';
 
+import {
+  OrganizationService
+} from '../../../core/services/organization.service';
+
+import {
+  CallDiscussionFormComponent
+} from './call-discussion-form/call-discussion-form.component';
 
 import {
   CallDiscussionViewComponent
 } from './call-discussion-view/call-discussion-view.component';
-import { CallDiscussionFormComponent } from './call-discussion-form/call-discussion-form.component';
 
 @Component({
   selector: 'app-organization-table',
@@ -33,8 +41,7 @@ import { CallDiscussionFormComponent } from './call-discussion-form/call-discuss
   ],
   templateUrl: './organization-table.component.html'
 })
-export class OrganizationTableComponent
-implements OnInit {
+export class OrganizationTableComponent implements OnInit {
 
   @Input()
   canEdit = false;
@@ -52,14 +59,18 @@ implements OnInit {
 
   selectedVisit: SalesVisit | null = null;
 
-  // Add Call Modal
+  selectedDiscussion: CallDiscussion | null = null;
+
+  // Modals
   showCallModal = false;
 
-  // View Modal
   showViewModal = false;
 
   private readonly clientCrmService =
     inject(ClientCrmService);
+
+  private readonly organizationService =
+    inject(OrganizationService);
 
   private readonly cdr =
     inject(ChangeDetectorRef);
@@ -134,26 +145,40 @@ implements OnInit {
   }
 
   // ==========================
-  // View
+  // View Call History
   // ==========================
 
-  viewHistory(
-    visit: SalesVisit
-  ): void {
+  viewHistory(visit: SalesVisit): void {
 
-    this.selectedVisit = visit;
+  this.organizationService
+    .getCallDiscussionHistory(visit.id)
+    .subscribe({
 
-    this.showViewModal = true;
+      next: (response: CallDiscussionResponse) => {
 
-  }
+        this.selectedDiscussion = response.data[0] ?? null;
+
+        this.showViewModal = true;
+
+      },
+
+      error: err => {
+
+        console.error(err);
+
+      }
+
+    });
+
+}
 
   closeViewModal(): void {
 
-    this.showViewModal = false;
+  this.showViewModal = false;
 
-    this.selectedVisit = null;
+  this.selectedDiscussion = null;
 
-  }
+}
 
   // ==========================
 

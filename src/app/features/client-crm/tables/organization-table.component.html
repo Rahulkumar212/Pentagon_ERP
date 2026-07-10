@@ -222,14 +222,14 @@
 
 
 
-@if(showViewModal && selectedVisit){
+@if(showViewModal && selectedDiscussion){
 
 <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 
   <div class="w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white shadow-2xl">
 
     <app-call-discussion-view
-      [discussion]="selectedVisit"
+      [discussion]="selectedDiscussion!"
       (close)="closeViewModal()">
     </app-call-discussion-view>
 

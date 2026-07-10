@@ -12,35 +12,9 @@ import {
   FormsModule
 } from '@angular/forms';
 
-export interface EmployeeForm {
-
-  employeeCode: string;
-
-  fullName: string;
-
-  workEmail: string;
-
-  mobileNumber: string;
-
-  panNumber: string;
-
-  aadhaarNumber: string;
-
-  designation: string;
-
-  department: string;
-
-  salary: number;
-
-  status: 'Active' | 'Probation' | 'On Leave';
-
-  bankName: string;
-
-  accountNumber: string;
-
-  joiningDate: string;
-
-}
+import {
+  CreateEmployeePayload
+} from '../../../../../core/models/employee.type';
 
 @Component({
   selector: 'app-add-employee-form',
@@ -54,44 +28,44 @@ export interface EmployeeForm {
 export class AddEmployeeFormComponent {
 
   @Output()
-  close =
-    new EventEmitter<void>();
+  close = new EventEmitter<void>();
 
   @Output()
-  save =
-    new EventEmitter<EmployeeForm>();
+  save = new EventEmitter<CreateEmployeePayload>();
 
+  form: CreateEmployeePayload = {
 
-  form: EmployeeForm = {
+    employeeCode: '',
 
-  employeeCode: '',
+    fullName: '',
 
-  fullName: '',
+    workEmail: '',
 
-  workEmail: '',
+    mobileNumber: '',
 
-  mobileNumber: '',
+    panNumber: '',
 
-  panNumber: '',
+    aadhaarNumber: '',
 
-  aadhaarNumber: '',
+    dob: '',
 
-  designation: '',
+    org_name: '',
 
-  department: '',
+    designation: '',
 
-  salary: 0,
+    department: '',
 
-  status: 'Active',
+    salary: 0,
 
-  bankName: '',
+    status: 'Active',
 
-  accountNumber: '',
+    bankName: '',
 
-  joiningDate: ''
+    accountNumber: '',
 
-};
+    joiningDate: ''
 
+  };
 
   onCancel(): void {
 
@@ -99,49 +73,50 @@ export class AddEmployeeFormComponent {
 
   }
 
+  onSave(): void {
 
- onSave(): void {
+    if (
 
-  if (
+      !this.form.employeeCode.trim() ||
 
-    !this.form.employeeCode.trim() ||
+      !this.form.fullName.trim() ||
 
-    !this.form.fullName.trim() ||
+      !this.form.workEmail.trim() ||
 
-    !this.form.designation.trim() ||
+      !this.form.mobileNumber.trim() ||
 
-    !this.form.department.trim() ||
+      !this.form.panNumber.trim() ||
 
-    !this.form.joiningDate ||
+      !this.form.aadhaarNumber.trim() ||
 
-    !this.form.status.trim() ||
+      !this.form.dob ||
 
-    !this.form.workEmail.trim() ||
+      !this.form.org_name.trim() ||
 
-    !this.form.mobileNumber.trim() ||
+      !this.form.designation.trim() ||
 
-    !this.form.panNumber.trim() ||
+      !this.form.department.trim() ||
 
-    !this.form.aadhaarNumber.trim() ||
+      !this.form.joiningDate ||
 
-    !this.form.salary ||
+      this.form.salary <= 0 ||
 
-    !this.form.bankName.trim() ||
+      !this.form.bankName.trim() ||
 
-    !this.form.accountNumber.trim()
+      !this.form.accountNumber.trim()
 
-  ) {
+    ) {
 
-    return;
+      return;
+
+    }
+
+    this.save.emit({
+
+      ...this.form
+
+    });
 
   }
-
-  this.save.emit({
-
-    ...this.form
-
-  });
-
-}
 
 }

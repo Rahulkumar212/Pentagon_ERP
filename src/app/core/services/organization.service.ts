@@ -81,6 +81,19 @@ export class OrganizationService {
   );
 
 }
+
+
+getCallDiscussionHistory(
+  salesVisitId: number
+) {
+
+  return this.http.get<CallDiscussionResponse>(
+    `${this.API_URL}/sales-visits/${salesVisitId}/call-discussions`
+  );
+
+}
+
+
   
 
   deleteSalesVisit(

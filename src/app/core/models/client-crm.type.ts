@@ -163,6 +163,12 @@ extends CallDiscussionPayload {
 
   approval_status: ApprovalStatus;
 
+  approved_by:string;
+
+  approved_date:string;
+
+  management_remarks:string;
+
   createdAt?: string;
 
   updatedAt?: string;
