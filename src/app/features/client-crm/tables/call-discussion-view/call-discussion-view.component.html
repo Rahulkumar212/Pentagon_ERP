@@ -1,0 +1,367 @@
+<div class="w-full rounded-2xl bg-white">
+
+  <!-- ================= Header ================= -->
+
+  <div class="border-b border-gray-200 px-6 py-4">
+
+    <div class="flex items-center justify-between">
+
+      <div>
+
+        <h2 class="text-xl font-bold text-gray-800">
+          Call Discussion Details
+        </h2>
+
+        <p class="mt-1 text-sm text-gray-500">
+          View complete follow-up discussion.
+        </p>
+
+      </div>
+
+      <span
+        class="rounded-full px-4 py-1 text-xs font-semibold"
+        [ngClass]="{
+
+          'bg-yellow-100 text-yellow-700':
+          discussion.approval_status==='PENDING',
+
+          'bg-green-100 text-green-700':
+          discussion.approval_status==='APPROVED',
+
+          'bg-red-100 text-red-700':
+          discussion.approval_status==='REJECTED'
+
+        }">
+
+        {{ discussion.approval_status }}
+
+      </span>
+
+    </div>
+
+  </div>
+
+  <div class="max-h-[75vh] overflow-y-auto p-6 space-y-6">
+
+    <!-- Lead -->
+
+    <div class="rounded-xl border p-5">
+
+      <h3 class="mb-4 text-lg font-semibold">
+        Lead Information
+      </h3>
+
+      <div class="grid grid-cols-2 gap-5">
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Executive
+          </p>
+
+          <p class="font-medium">
+            {{ discussion.executive_name }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Customer
+          </p>
+
+          <p class="font-medium">
+            {{ discussion.customer_name }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Call -->
+
+    <div class="rounded-xl border p-5">
+
+      <h3 class="mb-4 text-lg font-semibold">
+        Call Information
+      </h3>
+
+      <div class="grid grid-cols-2 gap-5">
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Call Date
+          </p>
+
+          <p>
+            {{ discussion.call_date | date:'dd/MM/yyyy' }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Time
+          </p>
+
+          <p>
+            {{ discussion.call_time }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Call Type
+          </p>
+
+          <p>
+            {{ discussion.call_type }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Duration
+          </p>
+
+          <p>
+            {{ discussion.duration }} Minutes
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Discussion -->
+
+    <div class="rounded-xl border p-5">
+
+      <h3 class="mb-4 text-lg font-semibold">
+        Discussion Summary
+      </h3>
+
+      <div class="space-y-5">
+
+        <div>
+
+          <p class="text-xs text-gray-500 mb-2">
+            Discussion
+          </p>
+
+          <div class="rounded-lg bg-gray-50 p-3">
+            {{ discussion.discussion }}
+          </div>
+
+        </div>
+
+        <div>
+
+          <p class="text-xs text-gray-500 mb-2">
+            Client Requirement
+          </p>
+
+          <div class="rounded-lg bg-gray-50 p-3">
+            {{ discussion.requirement }}
+          </div>
+
+        </div>
+
+        <div>
+
+          <p class="text-xs text-gray-500 mb-2">
+            Solution Explained
+          </p>
+
+          <div class="rounded-lg bg-gray-50 p-3">
+            {{ discussion.solution }}
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Response -->
+
+    <div class="rounded-xl border p-5">
+
+      <h3 class="mb-4 text-lg font-semibold">
+        Client Response
+      </h3>
+
+      <div class="grid grid-cols-2 gap-5">
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Outcome
+          </p>
+
+          <p>
+            {{ discussion.outcome }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Expected Amount
+          </p>
+
+          <p>
+            ₹{{ discussion.expected_amount }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Follow Up -->
+
+    <div class="rounded-xl border p-5">
+
+      <h3 class="mb-4 text-lg font-semibold">
+        Next Follow-up
+      </h3>
+
+      <div class="grid grid-cols-2 gap-5">
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Follow-up Date
+          </p>
+
+          <p>
+            {{ discussion.next_followup_date | date:'dd/MM/yyyy' }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Follow-up Mode
+          </p>
+
+          <p>
+            {{ discussion.followup_mode }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Remarks -->
+
+    <div class="rounded-xl border p-5">
+
+      <h3 class="mb-4 text-lg font-semibold">
+        Executive Remarks
+      </h3>
+
+      <div class="rounded-lg bg-gray-50 p-3">
+
+        {{ discussion.remarks || '-' }}
+
+      </div>
+
+    </div>
+
+    <!-- Approval -->
+
+    <div class="rounded-xl border p-5">
+
+      <h3 class="mb-4 text-lg font-semibold">
+        Approval Details
+      </h3>
+
+      <div class="grid grid-cols-2 gap-5">
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Approval Status
+          </p>
+
+          <p>
+            {{ discussion.approval_status }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Approved By
+          </p>
+
+          <p>
+            {{ discussion.approved_by || '-' }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Approved Date
+          </p>
+
+          <p>
+            {{ discussion.approved_date | date:'dd/MM/yyyy' }}
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-xs text-gray-500">
+            Management Remarks
+          </p>
+
+          <p>
+            {{ discussion.management_remarks || '-' }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+
+  <div class="border-t border-gray-200 px-6 py-4 flex justify-end">
+
+    <button
+      type="button"
+      (click)="close.emit()"
+      class="rounded-lg border border-gray-300 px-6 py-2 hover:bg-gray-100">
+
+      Close
+
+    </button>
+
+  </div>
+
+</div>
