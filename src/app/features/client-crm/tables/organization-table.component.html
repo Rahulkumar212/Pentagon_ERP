@@ -134,7 +134,7 @@
 
     }">
                 {{ visit.status }}
-                </span>
+              </span>
             </td>
 
             <td class="px-5 py-4">
@@ -154,13 +154,25 @@
 
             @if (canEdit) {
 
-            <td class="px-5 py-4 text-center">
+            <td class="px-5 py-4">
 
-              <button (click)="editVisit(visit)" class="px-4 py-2 rounded-lg bg-blue-600 text-white">
+              <div class="flex items-center justify-center gap-2">
 
-                Edit
+                <button (click)="addCall(visit)"
+                  class="rounded-lg bg-green-600 px-3 py-2 text-sm text-white hover:bg-green-700">
 
-              </button>
+                  ☎ Add Call
+
+                </button>
+
+                <button (click)="viewHistory(visit)"
+                  class="rounded-lg bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700">
+
+                  👁 View
+
+                </button>
+
+              </div>
 
             </td>
 
@@ -190,15 +202,36 @@
 
 
 
-@if(showEditModal && selectedVisit){
+@if(showCallModal && selectedVisit){
 
-<div class="fixed inset-0 bg-black/50 flex justify-center items-center z-50 p-4">
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 
-  <div class="w-full max-w-2xl">
+  <div class="w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white shadow-2xl">
 
-    <app-edit-sales-visit [visit]="selectedVisit" (close)="closeEditModal()" (updated)="onUpdated()">
+    <app-call-discussion-form
+      [lead]="selectedVisit"
+      (close)="closeCallModal()"
+      (saved)="onUpdated()">
+    </app-call-discussion-form>
 
-    </app-edit-sales-visit>
+  </div>
+
+</div>
+
+}
+
+
+
+@if(showViewModal && selectedVisit){
+
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+
+  <div class="w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white shadow-2xl">
+
+    <app-call-discussion-view
+      [discussion]="selectedVisit"
+      (close)="closeViewModal()">
+    </app-call-discussion-view>
 
   </div>
 

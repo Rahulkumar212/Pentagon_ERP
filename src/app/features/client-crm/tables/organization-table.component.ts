@@ -1,139 +1,3 @@
-// import {
-//   ChangeDetectorRef,
-//   Component,
-//   Input,
-//   OnInit,
-//   inject
-// } from '@angular/core';
-
-// import { CommonModule } from '@angular/common';
-
-// import {
-//   SalesVisit,
-//   SalesVisitResponse
-// } from '../../../core/models/client-crm.type';
-
-// import { ClientCrmService }
-//   from '../../../core/services/client-crm.service';
-
-// import { EditSalesVisitComponent }
-//   from './edit-sales-visit/edit-sales-visit.component';
-
-// @Component({
-//   selector: 'app-organization-table',
-//   standalone: true,
-//   imports: [
-//     CommonModule,
-//     EditSalesVisitComponent
-//   ],
-//   templateUrl: './organization-table.component.html'
-// })
-// export class OrganizationTableComponent
-//   implements OnInit {
-//   @Input() canEdit = false;
-//   @Input()
-//   status?: 'FAILED' | 'CONVERTED';
-
-//   @Input()
-//   showBillingColumns = false;
-
-
-
-//   salesVisits: SalesVisit[] = [];
-
-//   selectedVisit: SalesVisit | null = null;
-
-//   showEditModal = false;
-
-//   private readonly clientCrmService =
-//     inject(ClientCrmService);
-
-//   private readonly cdr =
-//     inject(ChangeDetectorRef);
-
-//   ngOnInit(): void {
-
-//     this.loadSalesVisits();
-
-//   }
-
-//   loadSalesVisits(): void {
-
-//     this.clientCrmService
-//       .getSalesVisits()
-//       .subscribe({
-
-//         next: (response: SalesVisitResponse) => {
-
-//           const data = response.data ?? [];
-
-//           // Client CRM Page
-//           if (!this.canEdit) {
-
-//             this.salesVisits = data.filter(
-//               visit =>
-//                 visit.status === 'CONVERTED' ||
-//                 visit.status === 'FAILED'
-//             );
-
-//           }
-
-//           // Executive Center
-//           else {
-
-//             this.salesVisits = data;
-
-//           }
-
-//           this.cdr.detectChanges();
-
-//         },
-
-//         error: (err) => {
-
-//           console.error(err);
-
-//         }
-
-//       });
-
-//   }
-
-//   editVisit(
-//     visit: SalesVisit
-//   ): void {
-
-//     this.selectedVisit = visit;
-
-//     this.showEditModal = true;
-
-//   }
-
-//   closeEditModal(): void {
-
-//     this.showEditModal = false;
-
-//     this.selectedVisit = null;
-
-//   }
-
-//   onUpdated(): void {
-
-//     this.closeEditModal();
-
-//     this.loadSalesVisits();
-
-//   }
-
-// }
-
-
-
-
-
-
-
-
 import {
   ChangeDetectorRef,
   Component,
@@ -153,20 +17,24 @@ import {
   ClientCrmService
 } from '../../../core/services/client-crm.service';
 
+
 import {
-  EditSalesVisitComponent
-} from './edit-sales-visit/edit-sales-visit.component';
+  CallDiscussionViewComponent
+} from './call-discussion-view/call-discussion-view.component';
+import { CallDiscussionFormComponent } from './call-discussion-form/call-discussion-form.component';
 
 @Component({
   selector: 'app-organization-table',
   standalone: true,
   imports: [
     CommonModule,
-    EditSalesVisitComponent
+    CallDiscussionFormComponent,
+    CallDiscussionViewComponent
   ],
   templateUrl: './organization-table.component.html'
 })
-export class OrganizationTableComponent implements OnInit {
+export class OrganizationTableComponent
+implements OnInit {
 
   @Input()
   canEdit = false;
@@ -177,7 +45,6 @@ export class OrganizationTableComponent implements OnInit {
   @Input()
   showBillingColumns = false;
 
-  // Decide which API to call
   @Input()
   fetchType: 'MY_VISITS' | 'ALL_VISITS' = 'MY_VISITS';
 
@@ -185,11 +52,17 @@ export class OrganizationTableComponent implements OnInit {
 
   selectedVisit: SalesVisit | null = null;
 
-  showEditModal = false;
+  // Add Call Modal
+  showCallModal = false;
 
-  private readonly clientCrmService = inject(ClientCrmService);
+  // View Modal
+  showViewModal = false;
 
-  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly clientCrmService =
+    inject(ClientCrmService);
+
+  private readonly cdr =
+    inject(ChangeDetectorRef);
 
   ngOnInit(): void {
 
@@ -228,9 +101,9 @@ export class OrganizationTableComponent implements OnInit {
 
       },
 
-      error: (err) => {
+      error: err => {
 
-        console.error('Failed to fetch sales visits:', err);
+        console.error(err);
 
       }
 
@@ -238,27 +111,55 @@ export class OrganizationTableComponent implements OnInit {
 
   }
 
-  editVisit(
+  // ==========================
+  // Add Call
+  // ==========================
+
+  addCall(
     visit: SalesVisit
   ): void {
 
     this.selectedVisit = visit;
 
-    this.showEditModal = true;
+    this.showCallModal = true;
 
   }
 
-  closeEditModal(): void {
+  closeCallModal(): void {
 
-    this.showEditModal = false;
+    this.showCallModal = false;
 
     this.selectedVisit = null;
 
   }
 
+  // ==========================
+  // View
+  // ==========================
+
+  viewHistory(
+    visit: SalesVisit
+  ): void {
+
+    this.selectedVisit = visit;
+
+    this.showViewModal = true;
+
+  }
+
+  closeViewModal(): void {
+
+    this.showViewModal = false;
+
+    this.selectedVisit = null;
+
+  }
+
+  // ==========================
+
   onUpdated(): void {
 
-    this.closeEditModal();
+    this.closeCallModal();
 
     this.loadSalesVisits();
 

@@ -16,6 +16,8 @@ import {
 } from '../../../environments/environment';
 
 import {
+  CallDiscussionPayload,
+  CallDiscussionResponse,
   SalesVisit,
   SalesVisitPayload,
   SalesVisitResponse,
@@ -67,6 +69,19 @@ export class OrganizationService {
       payload
     );
   }
+
+  saveCallDiscussion(
+  visitId: number,
+  payload: CallDiscussionPayload
+): Observable<CallDiscussionResponse> {
+
+  return this.http.post<CallDiscussionResponse>(
+    `${this.API_URL}/call-discussion/${visitId}`,
+    payload
+  );
+
+}
+  
 
   deleteSalesVisit(
     id: number

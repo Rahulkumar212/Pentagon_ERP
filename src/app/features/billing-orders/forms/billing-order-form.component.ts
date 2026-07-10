@@ -217,121 +217,82 @@ export class BillingOrderFormComponent
 
   }
 
-  onSubmit(): void {
+ onSubmit(): void {
+   console.log('Submit Clicked');
 
-    if (this.billingForm.invalid) {
+  if (this.billingForm.invalid) {
+    this.billingForm.markAllAsTouched();
+    this.toast.warning('Please fill all required fields.');
+    return;
+  }
 
-      this.billingForm.markAllAsTouched();
-      this.toast.warning(
-        'Please fill all required fields.'
-      );
+  this.isSubmitting = true;
 
-      return;
+  const payload = this.billingForm.getRawValue();
 
-    }
+  if (this.isEditMode && this.billing) {
 
-    this.isSubmitting = true;
+    this.billingService
+      .updateBilling(this.billing.id, payload)
+      .subscribe({
 
-    const payload: CreateBillingOrderPayload =
-      this.billingForm.getRawValue();
+        next: (response) => {
 
-    if (this.isEditMode && this.billing) {
+          this.toast.success('Billing updated successfully.');
 
-      this.billingService
-        .updateBilling(this.billing.id, payload)
-        .subscribe({
+          this.isSubmitting = false;
 
-          next: (response: BillingResponse) => {
+          this.save.emit(response.data);
 
-            this.toast.clear();
+        },
 
-            this.toast.success(
-              'Billing updated successfully.'
-            );
+        error: (err) => {
 
+          this.isSubmitting = false;
 
-            this.isSubmitting = false;
+          this.toast.error('Failed to update billing.');
 
-            this.save.emit(response.data);
+          console.error(err);
 
-          },
+        }
 
-          error: (err) => {
+      });
 
-            this.toast.clear();
+  } else {
 
-            this.toast.error(
-              'Failed to update billing.'
-            );
+    this.billingService
+      .createBilling(payload)
+      .subscribe({
 
-            console.error(err);
+        next: (response) => {
 
-            this.isSubmitting = false;
+          this.toast.success('Billing created successfully.');
 
-          }
+          this.isSubmitting = false;
 
-        });
+          this.billingForm.reset();
 
-    } else {
+          this.save.emit(response.data);
 
-      this.billingService
-        .createBilling(payload)
-        .subscribe({
+        },
 
-          next: (response: BillingResponse) => {
+        error: (err) => {
 
-            this.isSubmitting = false;
+          this.isSubmitting = false;
 
-            this.billingForm.reset({
+          this.toast.error('Failed to create billing.');
 
-              date: '',
-              particulars: '',
-              item_details: '',
-              taxable_amount: 0,
-              business_value: 0,
+          console.error(err);
 
-              customer_name: '',
+        }
 
-              po_contact_name: '',
-              po_contact_email: '',
-              po_contact_phone: '',
-
-              billing_contact_name: '',
-              billing_contact_email: '',
-              billing_contact_phone: '',
-
-              recipient_name: '',
-              recipient_email: '',
-              recipient_phone: '',
-
-              accounts_phone: '',
-
-              execution_phone: '',
-
-              support_phone: '',
-
-              support_name: '',
-              support_contact_phone: ''
-
-            });
-
-            this.save.emit(response.data);
-
-          },
-
-          error: (err) => {
-
-            console.error(err);
-
-            this.isSubmitting = false;
-
-          }
-
-        });
-
-    }
+      });
 
   }
+
+}
+
+
 
   onCancel(): void {
 
