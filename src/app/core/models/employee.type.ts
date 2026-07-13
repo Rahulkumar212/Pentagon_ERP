@@ -1,8 +1,10 @@
+export type OrganizationName =
+  | 'PTGN'
+  | 'SEST';
+
 export interface Employee {
 
   id: number;
-
-  employeeCode: string;
 
   fullName: string;
 
@@ -16,7 +18,7 @@ export interface Employee {
 
   dob: string;
 
-  org_name: string;
+  org_name: OrganizationName;
 
   designation: string;
 
@@ -30,7 +32,7 @@ export interface Employee {
 
   accountNumber: string;
 
-  joiningDate: string;
+  joiningDate?: string;
 
   createdAt?: string;
 
@@ -40,7 +42,6 @@ export interface Employee {
 
 export interface CreateEmployeePayload {
 
-  employeeCode: string;
 
   fullName: string;
 
@@ -54,7 +55,7 @@ export interface CreateEmployeePayload {
 
   dob: string;
 
-  org_name: string;
+   org_name: OrganizationName;
 
   designation: string;
 
@@ -68,7 +69,6 @@ export interface CreateEmployeePayload {
 
   accountNumber: string;
 
-  joiningDate: string;
 
 }
 

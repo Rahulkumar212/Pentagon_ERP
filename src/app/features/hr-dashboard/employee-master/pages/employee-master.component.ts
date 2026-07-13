@@ -1,22 +1,44 @@
 import {
+  ChangeDetectorRef,
   Component,
+  OnInit,
   inject,
   signal
 } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
+import {
+  CommonModule
+} from '@angular/common';
 
-import { Employee } from '../components/employee-card/employee-card.component';
-import { EmployeeListComponent } from '../components/employee-list/employee-list.component';
-import { EmployeeMasterHeaderComponent } from '../components/employee-master-header/employee-master-header.component';
-import { EmployeeFiltersComponent } from '../components/employee-filters/employee-filters.component';
+import {
+  EmployeeListComponent
+} from '../components/employee-list/employee-list.component';
+
+import {
+  EmployeeMasterHeaderComponent
+} from '../components/employee-master-header/employee-master-header.component';
+
+import {
+  EmployeeFiltersComponent
+} from '../components/employee-filters/employee-filters.component';
+
 import {
   AddEmployeeFormComponent
 } from '../forms/add-employee-form/add-employee-form.component';
-import { EmployeeProfileDrawerComponent } from '../components/employee-profile-drawer/employee-profile-drawer.component';
-import { EMPLOYEE_DATA } from '../utils/employee';
-import { CreateEmployeePayload } from '../../../../core/models/employee.type';
-import { EmployeeService } from '../../../../core/services/employee.service';
+
+import {
+  EmployeeProfileDrawerComponent
+} from '../components/employee-profile-drawer/employee-profile-drawer.component';
+
+import {
+  CreateEmployeePayload,
+  Employee,
+  EmployeesResponse
+} from '../../../../core/models/employee.type';
+
+import {
+  EmployeeService
+} from '../../../../core/services/employee.service';
 
 @Component({
   selector: 'app-employee-master',
@@ -31,16 +53,19 @@ import { EmployeeService } from '../../../../core/services/employee.service';
   ],
   templateUrl: './employee-master.component.html'
 })
-export class EmployeeMasterComponent {
+export class EmployeeMasterComponent implements OnInit {
 
   private readonly employeeService =
-  inject(EmployeeService);
+    inject(EmployeeService);
+
+  private readonly cdr =
+    inject(ChangeDetectorRef);
 
   showForm = signal(false);
 
-  employees: Employee[] = [...EMPLOYEE_DATA];
+  employees: Employee[] = [];
 
-  filteredEmployees: Employee[] = [...EMPLOYEE_DATA];
+  filteredEmployees: Employee[] = [];
 
   filterDepartment = 'All';
 
@@ -49,6 +74,40 @@ export class EmployeeMasterComponent {
   selectedEmployee?: Employee;
 
   showProfile = signal(false);
+
+  ngOnInit(): void {
+
+    this.loadEmployees();
+
+  }
+
+  loadEmployees(): void {
+
+    this.employeeService
+      .getEmployees()
+      .subscribe({
+
+        next: (response: EmployeesResponse) => {
+
+          console.log('Employees Response', response);
+
+          this.employees = response.data;
+
+          this.applyFilters();
+
+          this.cdr.detectChanges();
+
+        },
+
+        error: (err) => {
+
+          console.error('Get Employees Error', err);
+
+        }
+
+      });
+
+  }
 
   openForm(): void {
 
@@ -62,81 +121,45 @@ export class EmployeeMasterComponent {
 
   }
 
- addEmployee(data: CreateEmployeePayload): void {
+  addEmployee(
+    data: CreateEmployeePayload
+  ): void {
 
-  this.employeeService
-    .createEmployee(data)
-    .subscribe({
+    this.employeeService
+      .createEmployee(data)
+      .subscribe({
 
-      next: (response) => {
+        next: (response) => {
 
-        console.log(response);
+          console.log('Employee Created', response);
 
-        const employee: Employee = {
+          this.showForm.set(false);
 
-          employeeCode: data.employeeCode,
+          this.loadEmployees();
 
-          name: data.fullName,
+          this.cdr.detectChanges();
 
-          designation: data.designation,
+        },
 
-          department: data.department,
+        error: (err) => {
 
-          status: data.status,
+          console.error('Create Employee Error', err);
 
-          rating: 0,
+        }
 
-          attendance: 0,
+      });
 
-          avatar: `https://ui-avatars.com/api/?name=${encodeURIComponent(data.fullName)}&background=7f1d1d&color=fff`,
+  }
 
-          email: data.workEmail,
-
-          mobileNumber: data.mobileNumber,
-
-          joiningDate: data.joiningDate,
-
-          reportingOfficer: '-',
-
-          bankName: data.bankName,
-
-          accountNumber: data.accountNumber,
-
-          salary: data.salary,
-
-          panNumber: data.panNumber,
-
-          aadhaarNumber: data.aadhaarNumber,
-
-          kraGoal: 'Not Assigned',
-
-          kraProgress: 0
-
-        };
-
-        this.employees.unshift(employee);
-
-        this.applyFilters();
-
-        this.showForm.set(false);
-
-      },
-
-      error: (err) => {
-
-        console.error(err);
-
-      }
-
-    });
-
-}
-
-  openProfile(employee: Employee): void {
+  openProfile(
+    employee: Employee
+  ): void {
 
     this.selectedEmployee = employee;
 
     this.showProfile.set(true);
+
+    this.cdr.detectChanges();
 
   }
 
@@ -144,21 +167,31 @@ export class EmployeeMasterComponent {
 
     this.showProfile.set(false);
 
+    this.cdr.detectChanges();
+
   }
 
-  onDepartmentChange(department: string): void {
+  onDepartmentChange(
+    department: string
+  ): void {
 
     this.filterDepartment = department;
 
     this.applyFilters();
 
+    this.cdr.detectChanges();
+
   }
 
-  onStatusChange(status: string): void {
+  onStatusChange(
+    status: string
+  ): void {
 
     this.filterStatus = status;
 
     this.applyFilters();
+
+    this.cdr.detectChanges();
 
   }
 
@@ -177,6 +210,8 @@ export class EmployeeMasterComponent {
       return departmentMatch && statusMatch;
 
     });
+
+    this.cdr.detectChanges();
 
   }
 
