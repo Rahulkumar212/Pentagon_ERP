@@ -10,9 +10,12 @@ import {
 } from '@angular/common';
 
 import {
-  Employee,
   EmployeeCardComponent
 } from '../employee-card/employee-card.component';
+
+import {
+  Employee
+} from '../../../../../core/models/employee.type';
 
 @Component({
   selector: 'app-employee-list',
@@ -28,16 +31,15 @@ export class EmployeeListComponent {
   @Input({ required: true })
   employees: Employee[] = [];
 
-@Output()
-viewProfile =
-  new EventEmitter<Employee>();
+  @Output()
+  viewProfile = new EventEmitter<Employee>();
 
-openProfile(
-  employee: Employee
-): void {
+  openProfile(
+    employee: Employee
+  ): void {
 
-  this.viewProfile.emit(employee);
+    this.viewProfile.emit(employee);
 
-}
+  }
 
 }

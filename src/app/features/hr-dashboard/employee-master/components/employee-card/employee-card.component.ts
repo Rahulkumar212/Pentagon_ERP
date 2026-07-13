@@ -9,47 +9,9 @@ import {
   CommonModule
 } from '@angular/common';
 
-export interface Employee {
-
-  employeeCode: string;
-
-  name: string;
-
-  designation: string;
-
-  department: string;
-
-  status: 'Active' | 'Probation' | 'On Leave';
-
-  rating: number;
-
-  attendance: number;
-
-  avatar: string;
-
-  email: string;
-
-  mobileNumber: string;
-
-  joiningDate: string;
-
-  reportingOfficer: string;
-
-  bankName: string;
-
-  accountNumber: string;
-
-  salary: number;
-
-  panNumber: string;
-
-  aadhaarNumber: string;
-
-  kraGoal: string;
-
-  kraProgress: number;
-
-}
+import {
+  Employee
+} from '../../../../../core/models/employee.type';
 
 @Component({
   selector: 'app-employee-card',
@@ -65,12 +27,12 @@ export class EmployeeCardComponent {
   employee!: Employee;
 
   @Output()
-viewProfile = new EventEmitter<Employee>();
+  viewProfile = new EventEmitter<Employee>();
 
-openProfile(): void {
+  openProfile(): void {
 
-  this.viewProfile.emit(this.employee);
+    this.viewProfile.emit(this.employee);
 
-}
+  }
 
 }

@@ -15,7 +15,7 @@ import {
 
 import {
   Employee
-} from '../employee-card/employee-card.component';
+} from '../../../../../core/models/employee.type';
 
 @Component({
   selector: 'app-employee-profile-drawer',
