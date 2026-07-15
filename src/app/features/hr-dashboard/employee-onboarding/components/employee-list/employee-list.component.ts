@@ -6,35 +6,34 @@ import {
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
-import { OnboardingEmployee } from '../../../../../core/models/onboarding.type';
-import { OnboardingService } from '../../../../../core/services/onboarding.service';
+
+import {
+  EmployeeOnboard
+} from '../../../../../core/models/employee-onboard.type';
 
 @Component({
   selector: 'app-employee-list',
   standalone: true,
-  imports: [
-    CommonModule
-  ],
+  imports: [CommonModule],
   templateUrl: './employee-list.component.html'
 })
 export class EmployeeListComponent {
 
-  constructor(
-
-  public onboardingService: OnboardingService
-
-) {}
+  @Input({ required: true })
+  employees: EmployeeOnboard[] = [];
 
   @Input({ required: true })
-  selectedEmployee!: OnboardingEmployee;
+  selectedEmployee!: EmployeeOnboard;
+
+  @Input()
+  progress = 0;
 
   @Output()
   selectEmployee =
-    new EventEmitter<OnboardingEmployee>();
-
+    new EventEmitter<EmployeeOnboard>();
 
   onSelectEmployee(
-    employee: OnboardingEmployee
+    employee: EmployeeOnboard
   ): void {
 
     this.selectEmployee.emit(employee);

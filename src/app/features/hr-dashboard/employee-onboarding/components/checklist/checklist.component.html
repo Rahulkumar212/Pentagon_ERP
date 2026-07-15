@@ -14,7 +14,7 @@
 
 <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
 
-    @for(item of checklist; track item.title){
+    @for(item of checklist; track item.text){
 
     <div
         class="border border-gray-200 rounded-xl p-4 hover:shadow-sm hover:border-red-300 transition">
@@ -55,7 +55,7 @@
 
                     <h4 class="font-semibold text-gray-900">
 
-                        {{ item.title }}
+                        {{ item.text }}
 
                     </h4>
 

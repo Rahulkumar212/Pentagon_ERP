@@ -15,7 +15,8 @@ import {
   EmployeeNameDesignationResponse,
   EmployeeOnboardPayload,
   EmployeeOnboardResponse,
-  EmployeeOnboardsResponse
+  EmployeeOnboardsResponse,
+  TaskChecklist
 } from '../models/employee-onboard.type';
 
 import {
@@ -59,6 +60,31 @@ export class EmployeeOnboardService {
     );
 
   }
+
+toggleTaskChecklist(
+  taskId: number,
+  completed: boolean
+): Observable<any> {
+
+  return this.http.patch(
+
+    `${this.apiUrl}/task-checklist/${taskId}/toggle`,
+
+    { completed }
+
+  );
+
+}
+
+getTaskChecklist(
+  employeeOnboardId: number
+): Observable<TaskChecklist[]> {
+
+  return this.http.get<TaskChecklist[]>(
+    `${this.apiUrl}/fetchChecklist/${employeeOnboardId}`
+  );
+
+}
 
 
 }

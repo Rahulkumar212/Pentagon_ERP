@@ -1,18 +1,30 @@
+import { Employee } from './employee.type';
+
+export interface TaskChecklist {
+
+  id: number;
+
+  text: string;
+
+  category: string;
+
+  completed: boolean;
+
+  employeeOnboardId: number;
+
+}
+
 export interface EmployeeOnboard {
 
   id: number;
 
-  employee_id: number;
+  joiningDate: string;
 
-  onboarding_date: string;
+  employeeId: number;
 
-  onboarding_status: string;
+  employee: Employee;
 
-  remarks: string;
-
-  createdAt?: string;
-
-  updatedAt?: string;
+  taskCheckLists: TaskChecklist[];
 
 }
 
@@ -38,12 +50,11 @@ export interface EmployeeOnboardsResponse {
 
   success: boolean;
 
-  message: string;
+  count: number;
 
   data: EmployeeOnboard[];
 
 }
-
 
 export interface EmployeeNameDesignation {
 
@@ -64,3 +75,4 @@ export interface EmployeeNameDesignationResponse {
   data: EmployeeNameDesignation[];
 
 }
+

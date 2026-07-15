@@ -1,6 +1,8 @@
 import {
+  ChangeDetectorRef,
   Component,
-  Signal,
+  OnInit,
+  inject,
   signal
 } from '@angular/core';
 
@@ -8,35 +10,37 @@ import {
   CommonModule
 } from '@angular/common';
 
-
 import {
   OnboardingPreparationFormComponent,
   PreparationForm
 } from '../form/onboarding-preparation-form.component';
-import { OnboardingHeaderComponent } from '../components/onboarding-header/onboarding-header.component';
-import { EmployeeListComponent } from '../components/employee-list/employee-list.component';
-import { EmployeeProfileComponent } from '../components/employee-profile/employee-profile.component';
-import { ChecklistComponent } from '../components/checklist/checklist.component';
-import { ChecklistItem } from '../../../../core/models/onboarding.type';
-import { OnboardingService } from '../../../../core/services/onboarding.service';
 
-export interface OnboardingEmployee {
+import {
+  OnboardingHeaderComponent
+} from '../components/onboarding-header/onboarding-header.component';
 
-  name: string;
+import {
+  EmployeeListComponent
+} from '../components/employee-list/employee-list.component';
 
-  designation: string;
+import {
+  EmployeeProfileComponent
+} from '../components/employee-profile/employee-profile.component';
 
-  department: string;
+import {
+  ChecklistComponent
+} from '../components/checklist/checklist.component';
 
-  joiningDate: string;
 
-  progress: number;
+import {
+  TaskChecklist,
+  EmployeeOnboard,
+  EmployeeOnboardsResponse
+} from '../../../../core/models/employee-onboard.type';
 
-  status: string;
-
-  avatar: string;
-
-}
+import {
+  EmployeeOnboardService
+} from '../../../../core/services/employee-onboard.service';
 
 @Component({
   selector: 'app-onboarding-milestones',
@@ -47,160 +51,161 @@ export interface OnboardingEmployee {
     EmployeeListComponent,
     EmployeeProfileComponent,
     ChecklistComponent,
-    OnboardingPreparationFormComponent,
+    OnboardingPreparationFormComponent
   ],
   templateUrl: './onboarding-milestones.component.html'
 })
-export class OnboardingMilestonesComponent {
+export class OnboardingMilestonesComponent
+  implements OnInit {
 
-  // ===========================================
-  // Employees
-  // ===========================================
+  private readonly employeeOnboardService =
+    inject(EmployeeOnboardService);
 
-  onboardingEmployees!: Signal<OnboardingEmployee[]>;
+    private readonly cdr =
+  inject(ChangeDetectorRef);
 
-  selectedEmployee!: OnboardingEmployee;
+  employees: EmployeeOnboard[] = [];
 
-  checklist: ChecklistItem[] = [];
+  selectedEmployee: EmployeeOnboard | null = null;
+
+  checklist: TaskChecklist[] = [];
 
   showPreparationForm =
     signal(false);
 
+  ngOnInit(): void {
 
-    constructor(
-    private readonly onboardingService: OnboardingService
-  ) {
-
-    this.onboardingEmployees =
-      this.onboardingService.getEmployees();
-
-    this.selectedEmployee =
-      this.onboardingEmployees()[0];
-
-    this.generateChecklist();
+    this.loadEmployees();
 
   }
 
+  loadEmployees(): void {
 
-  // ===========================================
-  // Employee Selection
-  // ===========================================
+    this.employeeOnboardService
+      .getEmployeeOnboards()
+      .subscribe({
+
+        next: (
+          response: EmployeeOnboardsResponse
+        ) => {
+
+          this.employees = response.data;
+
+          if (this.employees.length > 0) {
+
+            this.selectedEmployee =
+              this.employees[0];
+
+            this.generateChecklist();
+
+          }
+          this.cdr.detectChanges();
+
+        },
+
+        error: err => {
+
+          console.error(err);
+
+        }
+
+      });
+
+  }
 
   selectEmployee(
-    employee: OnboardingEmployee
+    employee: EmployeeOnboard
   ): void {
 
     this.selectedEmployee = employee;
 
     this.generateChecklist();
 
+     this.cdr.detectChanges();
+
   }
 
-  // ===========================================
-  // Checklist
-  // ===========================================
+  getProgress(): number {
+
+  if (!this.checklist.length) {
+
+    return 0;
+
+  }
+
+  const completed =
+    this.checklist.filter(
+      item => item.completed
+    ).length;
+
+  return Math.round(
+    (completed / this.checklist.length) * 100
+  );
+
+}
 
   generateChecklist(): void {
 
-    const progress =
-      this.selectedEmployee.progress;
+  if (!this.selectedEmployee) {
 
-    this.checklist = [
+    this.checklist = [];
 
-      {
-        title: 'Submit Documents',
-        category: 'DOCUMENT',
-        completed: progress >= 20
+    return;
+
+  }
+
+  this.employeeOnboardService
+    .getTaskChecklist(this.selectedEmployee.id)
+    .subscribe({
+
+      next: (response) => {
+
+        this.checklist = response;
+
+        this.cdr.detectChanges();
+
       },
 
-      {
-        title: 'Create Email Account',
-        category: 'IT',
-        completed: progress >= 40
-      },
+      error: err => {
 
-      {
-        title: 'Laptop Allocation',
-        category: 'ASSET',
-        completed: progress >= 60
-      },
+        console.error(
+          'Failed to load checklist',
+          err
+        );
 
-      {
-        title: 'HR Induction',
-        category: 'INDUCTION',
-        completed: progress >= 80
-      },
-
-      {
-        title: 'Manager Introduction',
-        category: 'MEETING',
-        completed: progress >= 100
       }
 
-    ];
+    });
 
-  }
+}
 
-  toggleChecklist(
-    item: ChecklistItem
-  ): void {
+toggleChecklist(
+  item: TaskChecklist
+): void {
 
-    item.completed =
-      !item.completed;
+  const completed = !item.completed;
 
-    const completed =
-      this.checklist.filter(
-        x => x.completed
-      ).length;
+  this.employeeOnboardService
+    .toggleTaskChecklist(item.id, completed)
+    .subscribe({
 
-    this.selectedEmployee.progress =
-      Math.round(
-        (completed / this.checklist.length) * 100
-      );
+      next: () => {
 
-    if (this.selectedEmployee.progress === 100) {
+        item.completed = completed;
 
-      this.selectedEmployee.status =
-        'Completed';
+        this.cdr.detectChanges();
 
-    }
+      },
 
-    else if (this.selectedEmployee.progress >= 80) {
+      error: err => {
 
-      this.selectedEmployee.status =
-        'Almost Complete';
+        console.error(err);
 
-    }
+      }
 
-    else if (this.selectedEmployee.progress >= 60) {
+    });
 
-      this.selectedEmployee.status =
-        'HR Induction Pending';
-
-    }
-
-    else if (this.selectedEmployee.progress >= 40) {
-
-      this.selectedEmployee.status =
-        'Asset Allocation Pending';
-
-    }
-
-    else if (this.selectedEmployee.progress >= 20) {
-
-      this.selectedEmployee.status =
-        'Documents Pending';
-
-    }
-
-    else {
-
-      this.selectedEmployee.status =
-        'Joining Formalities';
-
-    }
-
-  }
+}
 
   isChecklistCompleted(): boolean {
 
@@ -209,10 +214,6 @@ export class OnboardingMilestonesComponent {
     );
 
   }
-
-  // ===========================================
-  // Preparation Form
-  // ===========================================
 
   prepareChecklist(): void {
 
@@ -224,43 +225,19 @@ export class OnboardingMilestonesComponent {
 
     this.showPreparationForm.set(false);
 
+    this.loadEmployees();
+
   }
 
   createChecklist(
-    data: PreparationForm
+    _: PreparationForm
   ): void {
-
-    const newEmployee: OnboardingEmployee = {
-
-      name: data.employeeName,
-
-      designation: data.designation,
-
-      department: 'Not Assigned',
-
-      joiningDate: data.joiningDate,
-
-      progress: 0,
-
-      status: 'Joining Formalities',
-
-      avatar: data.employeeName.charAt(0).toUpperCase()
-
-    };
-
-    this.selectedEmployee = newEmployee;
-
-    this.generateChecklist();
-
-    this.onboardingService.addEmployee(newEmployee);
 
     this.showPreparationForm.set(false);
 
-  }
+    this.loadEmployees();
 
-  // ===========================================
-  // Employee Code
-  // ===========================================
+  }
 
   generateEmployeeCode(): void {
 
@@ -271,15 +248,9 @@ export class OnboardingMilestonesComponent {
     }
 
     const employeeCode =
-      'EMP-' +
-      Math.floor(
-        1000 + Math.random() * 9000
-      );
+      `EMP-${Math.floor(1000 + Math.random() * 9000)}`;
 
-    console.log(
-      'Employee Code:',
-      employeeCode
-    );
+    console.log('Employee Code:', employeeCode);
 
   }
 

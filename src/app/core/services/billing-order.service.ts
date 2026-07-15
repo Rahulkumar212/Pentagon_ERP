@@ -1,11 +1,7 @@
 import {
-  Injectable,
-  inject
+  Injectable
 } from '@angular/core';
 
-import {
-  HttpClient
-} from '@angular/common/http';
 
 import {
   Observable
@@ -17,17 +13,13 @@ import {
   CreateBillingOrderPayload,
   UpdateBillingOrderPayload
 } from '../models/billing-order.type';
-import { environment } from '../../../environments/environment.development';
+import { BaseApiService } from './base-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class BillingOrderService {
+export class BillingOrderService extends BaseApiService {
 
-  private readonly http =
-    inject(HttpClient);
-
-  private readonly API = `${environment.apiUrl}`;
    
   createBilling(
 
@@ -37,7 +29,7 @@ export class BillingOrderService {
 
     return this.http.post<BillingResponse>(
 
-      `${this.API}/billing/create`,
+      `${this.API_URL}/billing/create`,
 
       payload
 
@@ -53,7 +45,7 @@ export class BillingOrderService {
 
     return this.http.get<BillingOrderResponse>(
 
-      `${this.API}/fetchBillings`
+      `${this.API_URL}/fetchBillings`
 
     );
 
@@ -73,7 +65,7 @@ export class BillingOrderService {
 
     return this.http.put<BillingResponse>(
 
-      `${this.API}/updates/${id}`,
+      `${this.API_URL}/updates/${id}`,
 
       payload
 

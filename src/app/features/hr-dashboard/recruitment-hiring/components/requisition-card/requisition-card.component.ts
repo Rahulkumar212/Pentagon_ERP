@@ -8,26 +8,8 @@ import {
 import {
   CommonModule
 } from '@angular/common';
+import { HiringRequirement } from '../../../../../core/models/hiring-requirement.type';
 
-export interface JobRequisition {
-
-  id: string;
-
-  title: string;
-
-  department: string;
-
-  employmentType: string;
-
-  description: string;
-
-  status: 'OPEN' | 'CLOSED' | 'DRAFT';
-
-  candidates: number;
-
-  postedDate: string;
-
-}
 
 @Component({
   selector: 'app-requisition-card',
@@ -40,11 +22,11 @@ export interface JobRequisition {
 export class RequisitionCardComponent {
 
   @Input({ required: true })
-  job!: JobRequisition;
+  job!:  HiringRequirement;
 
   @Output()
   viewCandidates =
-    new EventEmitter<JobRequisition>();
+    new EventEmitter<HiringRequirement>();
 
 
   openCandidates(): void {

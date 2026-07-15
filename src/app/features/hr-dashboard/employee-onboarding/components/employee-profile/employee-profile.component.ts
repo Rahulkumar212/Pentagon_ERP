@@ -9,23 +9,9 @@ import {
   CommonModule
 } from '@angular/common';
 
-export interface OnboardingEmployee {
-
-  name: string;
-
-  designation: string;
-
-  department: string;
-
-  joiningDate: string;
-
-  progress: number;
-
-  status: string;
-
-  avatar: string;
-
-}
+import {
+  EmployeeOnboard
+} from '../../../../../core/models/employee-onboard.type';
 
 @Component({
   selector: 'app-employee-profile',
@@ -38,24 +24,24 @@ export interface OnboardingEmployee {
 export class EmployeeProfileComponent {
 
   @Input({ required: true })
-  employee!: OnboardingEmployee;
+  employee!: EmployeeOnboard;
 
   @Input()
-  canGenerate = false;
+  canGenerateCode = false;
 
   @Output()
-  generateEmployeeCode =
+  generateCode =
     new EventEmitter<void>();
 
   onGenerateEmployeeCode(): void {
 
-    if (!this.canGenerate) {
+    if (!this.canGenerateCode) {
 
       return;
 
     }
 
-    this.generateEmployeeCode.emit();
+    this.generateCode.emit();
 
   }
 

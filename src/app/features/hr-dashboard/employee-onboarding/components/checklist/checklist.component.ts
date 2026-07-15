@@ -8,16 +8,9 @@ import {
 import {
   CommonModule
 } from '@angular/common';
+import { TaskChecklist } from '../../../../../core/models/employee-onboard.type';
 
-export interface ChecklistItem {
 
-  title: string;
-
-  category: string;
-
-  completed: boolean;
-
-}
 
 @Component({
   selector: 'app-checklist',
@@ -29,15 +22,15 @@ export interface ChecklistItem {
 })
 export class ChecklistComponent {
 
-  @Input({ required: true })
-  checklist: ChecklistItem[] = [];
+   @Input({ required: true })
+ checklist: TaskChecklist[] = [];
 
   @Output()
   toggle =
-    new EventEmitter<ChecklistItem>();
+    new EventEmitter<TaskChecklist>();
 
   toggleItem(
-    item: ChecklistItem
+    item: TaskChecklist
   ): void {
 
     this.toggle.emit(item);
