@@ -1,23 +1,15 @@
 import {
   Component,
   EventEmitter,
+  inject,
   Output
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { HiringRequirementService } from '../../../../../core/services/hiring-requirement.service';
+import { CreateHiringRequirementPayload } from '../../../../../core/models/hiring-requirement.type';
 
-export interface RequisitionFormData {
-
-  title: string;
-
-  department: string;
-
-  employmentType: string;
-
-  description: string;
-
-}
 
 @Component({
   selector: 'app-requisition-form',
@@ -30,6 +22,8 @@ export interface RequisitionFormData {
 })
 export class RequisitionFormComponent {
 
+  private readonly hiringRequirementService = inject(HiringRequirementService)
+
   // ==========================
   // Outputs
   // ==========================
@@ -38,7 +32,11 @@ export class RequisitionFormComponent {
   close = new EventEmitter<void>();
 
   @Output()
-  submit = new EventEmitter<RequisitionFormData>();
+  created = new EventEmitter<void>();
+
+  @Output()
+submit =
+  new EventEmitter<CreateHiringRequirementPayload>();
 
   // ==========================
   // Form Fields
@@ -66,9 +64,9 @@ export class RequisitionFormComponent {
 
   onSubmit(): void {
 
-    const formData: RequisitionFormData = {
+    const payload: CreateHiringRequirementPayload = {
 
-      title: this.jobTitle.trim(),
+      jobTitle: this.jobTitle.trim(),
 
       department: this.department,
 
@@ -78,7 +76,15 @@ export class RequisitionFormComponent {
 
     };
 
-    this.submit.emit(formData);
+    this.hiringRequirementService.createHiringRequirement(payload).subscribe({
+      next:() => {
+        this.created.emit();
+        this.onClose();
+      },
+      error:err => {
+        console.log(err);
+      }
+    })
 
   }
 

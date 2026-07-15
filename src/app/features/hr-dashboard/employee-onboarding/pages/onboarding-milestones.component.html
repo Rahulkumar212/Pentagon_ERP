@@ -1,48 +1,82 @@
 <div class="bg-white rounded-xl border border-gray-200 shadow-sm">
 
-    <!-- Header -->
+  <!-- Header -->
+  <app-onboarding-header (prepareChecklist)="prepareChecklist()">
+  </app-onboarding-header>
 
-    <app-onboarding-header
-    (prepareChecklist)="prepareChecklist()">
-</app-onboarding-header>
+ <!-- Body -->
+<div class="grid grid-cols-12">
 
-    <!-- Body -->
+  @if (selectedEmployee) {
 
-    <div class="grid grid-cols-1 xl:grid-cols-3">
+    <!-- ===================== -->
+    <!-- Employee List -->
+    <!-- ===================== -->
 
-        <!-- Employee List -->
+    <div class="col-span-4 border-r border-gray-200">
 
-        <app-employee-list  [selectedEmployee]="selectedEmployee"
-            (selectEmployee)="selectEmployee($event)">
-        </app-employee-list>
-
-        <!-- Right Side -->
-
-        <div class="xl:col-span-2 p-6">
-
-            <!-- Employee Profile -->
-
-            <app-employee-profile [employee]="selectedEmployee" [canGenerate]="isChecklistCompleted()"
-                (generateEmployeeCode)="generateEmployeeCode()">
-            </app-employee-profile>
-
-            <!-- Checklist -->
-
-            <app-checklist [checklist]="checklist" (toggle)="toggleChecklist($event)">
-            </app-checklist>
-
-        </div>
+      <app-employee-list
+        [employees]="employees"
+        [selectedEmployee]="selectedEmployee"
+        (selectEmployee)="selectEmployee($event)"
+         [progress]="getProgress()">
+      </app-employee-list>
 
     </div>
 
+    <!-- ===================== -->
+    <!-- Right Side -->
+    <!-- ===================== -->
+
+    <div class="col-span-8 p-3 space-y-6">
+
+      <!-- Employee Profile -->
+
+      <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-3">
+
+        <app-employee-profile
+          [employee]="selectedEmployee"
+          [canGenerateCode]="isChecklistCompleted()"
+          (generateCode)="generateEmployeeCode()">
+        </app-employee-profile>
+
+      </div>
+
+      <!-- Checklist -->
+
+      <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-6">
+
+        <app-checklist
+          [checklist]="checklist"
+          (toggle)="toggleChecklist($event)">
+        </app-checklist>
+
+      </div>
+
+    </div>
+
+  }
+
+  @else {
+
+    <div class="col-span-12 flex items-center justify-center py-20">
+
+      <p class="text-sm text-gray-500">
+        No onboarding employees found.
+      </p>
+
+    </div>
+
+  }
+
 </div>
 
-<!-- Preparation Form -->
 
-@if(showPreparationForm()){
+</div>
+
+@if (showPreparationForm()) {
 
 <app-onboarding-preparation-form (close)="closePreparationForm()" (createChecklist)="createChecklist($event)">
-
 </app-onboarding-preparation-form>
 
 }

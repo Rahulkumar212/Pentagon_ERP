@@ -1,15 +1,40 @@
-import { Component, signal } from '@angular/core';
-import { CommonModule } from '@angular/common';
-
-import { RecruitmentHeaderComponent } from '../components/recruitment-header/recruitment-header.component';
-import { RequisitionCardComponent } from '../components/requisition-card/requisition-card.component';
-import { HiringPipelineComponent } from '../components/hiring-pipeline/hiring-pipeline.component';
 import {
-  RequisitionFormComponent,
-  RequisitionFormData
+  ChangeDetectorRef,
+  Component,
+  OnInit,
+  inject,
+  signal
+} from '@angular/core';
+
+import {
+  CommonModule
+} from '@angular/common';
+
+import {
+  RecruitmentHeaderComponent
+} from '../components/recruitment-header/recruitment-header.component';
+
+import {
+  RequisitionCardComponent
+} from '../components/requisition-card/requisition-card.component';
+
+import {
+  HiringPipelineComponent
+} from '../components/hiring-pipeline/hiring-pipeline.component';
+
+import {
+  RequisitionFormComponent
 } from '../components/requisition-form/requisition-form.component';
 
-import { JobRequisition } from '../../../../core/models/recruitment.type';
+import {
+  HiringRequirementService
+} from '../../../../core/services/hiring-requirement.service';
+
+import {
+  HiringRequirementsResponse,
+  CreateHiringRequirementPayload,
+  HiringRequirement
+} from '../../../../core/models/hiring-requirement.type';
 
 @Component({
   selector: 'app-recruitment-dashboard',
@@ -23,99 +48,137 @@ import { JobRequisition } from '../../../../core/models/recruitment.type';
   ],
   templateUrl: './recruitment-dashboard.component.html'
 })
-export class RecruitmentDashboardComponent {
+export class RecruitmentDashboardComponent
+  implements OnInit {
+
+  private readonly hiringRequirementService =
+    inject(HiringRequirementService);
+
+    private readonly cdr =
+  inject(ChangeDetectorRef);
 
   // ==========================
-  // Modal State
+  // Modal
   // ==========================
 
-  showRequisitionForm = signal(false);
+  showRequisitionForm =
+    signal(false);
 
   // ==========================
-  // Active Tab
+  // Tabs
   // ==========================
 
-  selectedTab = 'Job Requisitions';
+  selectedTab =
+    'Job Requisitions';
 
   // ==========================
-  // Dummy Data
+  // Data
   // ==========================
 
-  jobs: JobRequisition[] = [
-    {
-      id: 'REQ-ENG-098',
-      title: 'Senior React Developer',
-      department: 'Engineering',
-      employmentType: 'Full-time',
-      description:
-        'We are looking for a Senior React Developer to join our core UI team. Experience with React 19, TypeScript, Tailwind CSS and state management is required.',
-      status: 'OPEN',
-      candidates: 14,
-      postedDate: '2026-06-15'
-    },
-    {
-      id: 'REQ-PROD-054',
-      title: 'Product Designer (UX/UI)',
-      department: 'Product',
-      employmentType: 'Full-time',
-      description:
-        'Seeking a creative UX/UI designer capable of mapping complex user workflows into clean, human-centered designs.',
-      status: 'OPEN',
-      candidates: 8,
-      postedDate: '2026-06-18'
-    },
-    {
-      id: 'REQ-MKT-112',
-      title: 'Sales Executive',
-      department: 'Sales & Marketing',
-      employmentType: 'Full-time',
-      description:
-        'Drive regional enterprise software sales. Strong pipeline management and software negotiation skills required.',
-      status: 'CLOSED',
-      candidates: 22,
-      postedDate: '2026-05-16'
-    },
-    {
-      id: 'REQ-ENG-121',
-      title: 'AI Engineering Specialist',
-      department: 'Engineering',
-      employmentType: 'Remote',
-      description:
-        'Looking for a specialized developer experienced in LLM orchestration, prompt engineering and backend AI services.',
-      status: 'DRAFT',
-      candidates: 0,
-      postedDate: '2026-06-25'
-    }
-  ];
+ jobs: HiringRequirement[] = [];
 
-  filteredJobs: JobRequisition[] = [...this.jobs];
+filteredJobs: HiringRequirement[] = [];
+
+  // ==========================
+  // Init
+  // ==========================
+
+  ngOnInit(): void {
+
+    this.loadHiringRequirements();
+
+  }
+
+  // ==========================
+  // Load Hiring Requirements
+  // ==========================
+
+  loadHiringRequirements(): void {
+
+    this.hiringRequirementService
+      .getHiringRequirements()
+      .subscribe({
+
+        next: (
+          response: HiringRequirementsResponse
+        ) => {
+
+          this.jobs =
+            response.data;
+
+          this.filteredJobs =
+            [...this.jobs];
+
+             this.cdr.detectChanges();
+
+        },
+
+        error: err => {
+
+          console.error(
+            'Failed to load hiring requirements',
+            err
+          );
+
+        }
+
+      });
+
+  }
 
   // ==========================
   // Header Tabs
   // ==========================
 
-  onTabChange(tab: string): void {
-    this.selectedTab = tab;
+  onTabChange(
+    tab: string
+  ): void {
+
+    this.selectedTab =
+      tab;
+
   }
 
   // ==========================
   // Search
   // ==========================
 
-  onSearch(keyword: string): void {
+  onSearch(
+    keyword: string
+  ): void {
 
-    const value = keyword.trim().toLowerCase();
+    const value =
+      keyword.trim().toLowerCase();
 
     if (!value) {
-      this.filteredJobs = [...this.jobs];
+
+      this.filteredJobs =
+        [...this.jobs];
+
       return;
+
     }
 
-    this.filteredJobs = this.jobs.filter(job =>
-      job.title.toLowerCase().includes(value) ||
-      job.department.toLowerCase().includes(value) ||
-      job.id.toLowerCase().includes(value)
-    );
+    this.filteredJobs =
+      this.jobs.filter(job =>
+
+        job.jobTitle
+          .toLowerCase()
+          .includes(value)
+
+        ||
+
+        job.department
+          .toLowerCase()
+          .includes(value)
+
+        ||
+
+        String(job.id)
+          .includes(value)
+
+      );
+
   }
 
   // ==========================
@@ -123,7 +186,9 @@ export class RecruitmentDashboardComponent {
   // ==========================
 
   onRaiseRequisition(): void {
+
     this.openRequisitionModal();
+
   }
 
   // ==========================
@@ -131,8 +196,10 @@ export class RecruitmentDashboardComponent {
   // ==========================
 
   openRequisitionModal(): void {
-    this.showRequisitionForm.set(true);
-    console.log(this.showRequisitionForm());
+
+    this.showRequisitionForm
+      .set(true);
+
   }
 
   // ==========================
@@ -140,48 +207,75 @@ export class RecruitmentDashboardComponent {
   // ==========================
 
   closeRequisitionModal(): void {
-    this.showRequisitionForm.set(false);
+
+    this.showRequisitionForm
+      .set(false);
+
   }
 
   // ==========================
-  // Submit Form
+  // Submit Requisition
   // ==========================
 
-  submitRequisition(data: RequisitionFormData): void {
+  submitRequisition(
+    data: CreateHiringRequirementPayload
+  ): void {
 
-    const newJob: JobRequisition = {
+    const payload:
+      CreateHiringRequirementPayload = {
 
-      id: `REQ-${Date.now()}`,
+      jobTitle:
+        data.jobTitle,
 
-      title: data.title,
+      department:
+        data.department,
 
-      department: data.department,
+      employmentType:
+        data.employmentType,
 
-      employmentType: data.employmentType,
-
-      description: data.description,
-
-      status: 'OPEN',
-
-      candidates: 0,
-
-      postedDate: new Date().toISOString().split('T')[0]
+      description:
+        data.description
 
     };
 
-    this.jobs.unshift(newJob);
+    this.hiringRequirementService
+      .createHiringRequirement(payload)
+      .subscribe({
 
-    this.filteredJobs = [...this.jobs];
+        next: () => {
 
-    this.closeRequisitionModal();
+          this.closeRequisitionModal();
+
+          this.loadHiringRequirements();
+
+        },
+
+        error: err => {
+
+          console.error(
+            'Failed to create hiring requirement',
+            err
+          );
+
+        }
+
+      });
+
   }
 
   // ==========================
   // Candidate List
   // ==========================
 
-  openCandidateList(job: JobRequisition): void {
-     this.selectedTab = 'Hiring Pipeline';
+  openCandidateList(
+  job: HiringRequirement
+): void {
+
+    console.log(job);
+
+    this.selectedTab =
+      'Hiring Pipeline';
+
   }
 
 }
