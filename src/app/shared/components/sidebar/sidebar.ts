@@ -1,21 +1,37 @@
 import {
   Component,
+  EventEmitter,
   Input,
-  Output,
   OnInit,
-  EventEmitter
+  Output
 } from '@angular/core';
 
-import { CommonModule } from '@angular/common';
+import {
+  CommonModule
+} from '@angular/common';
+
 import {
   Router,
   RouterLink,
   RouterLinkActive
 } from '@angular/router';
 
-import { AuthService } from '../../../core/services/auth.service';
-import { ROLES } from '../../constants/roles.constants';
-import { HasRoleDirective } from '../../directives/has-role.directive';
+import {
+  AuthService
+} from '../../../core/services/auth.service';
+
+import {
+  ROLES
+} from '../../constants/roles.constants';
+
+import {
+  SIDEBAR_CONFIG
+} from './config/sidebar.config';
+
+import {
+  SidebarSection
+} from './config/sidebar.types';
+
 
 @Component({
   selector: 'app-sidebar',
@@ -23,19 +39,17 @@ import { HasRoleDirective } from '../../directives/has-role.directive';
   imports: [
     CommonModule,
     RouterLink,
-    RouterLinkActive,
-    HasRoleDirective
+    RouterLinkActive
   ],
-  templateUrl: './sidebar.html',
+  templateUrl: './sidebar.html'
 })
 export class SidebarComponent implements OnInit {
 
   readonly ROLES = ROLES;
 
-  constructor(
-     private readonly router: Router,
-    private readonly auth: AuthService
-  ) {}
+  readonly sidebarConfig = SIDEBAR_CONFIG;
+
+  currentRole = '';
 
   @Input()
   isOpen = false;
@@ -44,71 +58,197 @@ export class SidebarComponent implements OnInit {
   closeSidebar = new EventEmitter<void>();
 
   user = {
+
     roleName: '',
+
     departmentName: '',
-    name: '',
+
+    name: ''
+
   };
 
-  isScmOpen = false;
-  isOrdersOpen = false;
+  constructor(
+    private readonly router: Router,
+    private readonly auth: AuthService
+  ) {}
 
   ngOnInit(): void {
+
+    this.currentRole = 
+      this.auth.getRole() ?? '';
+
+      
+
     this.user = {
-      roleName: localStorage.getItem('role') || '',
-      departmentName: localStorage.getItem('departmentName') || '',
-      name: localStorage.getItem('name') || '',
+
+      roleName:
+        localStorage.getItem('role') ?? '',
+
+      departmentName:
+        localStorage.getItem('departmentName') ?? '',
+
+      name:
+        localStorage.getItem('name') ?? ''
     };
   }
 
-  toggleScm(): void {
-    this.isScmOpen = !this.isScmOpen;
-  }
-  getDashboardRoute(): string {
-    const role = this.auth.getRole();
+
+  
+  private getSidebarKey(
+    role: string
+  ): keyof typeof SIDEBAR_CONFIG {
 
     switch (role) {
 
-      case 'SALES_EXECUTIVE':
-      case 'SALES_MANAGER':
-        return '/sales-executive';
-
-      case 'SCM_EXECUTIVE':
-      case 'SCM_MANAGER':
-      case 'SUPPLY_CHAIN_EXECUTIVE':
-        return '/scm-executive';
-
-      case 'HR_EXECUTIVE':
-      case 'HR_MANAGER':
-        return '/employees';
-
       case 'FINANCE_MANAGER':
       case 'ACCOUNTANT':
-        return '/finance';
+        return 'FINANCE';
+
+      case 'HR_MANAGER':
+      case 'HR_EXECUTIVE':
+        return 'HR';
+
+      case 'SALES_MANAGER':
+      case 'SALES_EXECUTIVE':
+        return 'CRM';
+
+      case 'SCM_MANAGER':
+      case 'SCM_EXECUTIVE':
+      case 'SUPPLY_CHAIN_EXECUTIVE':
+        return 'SCM';
 
       case 'OPERATIONS_MANAGER':
       case 'OPERATIONS_EXECUTIVE':
-        return '/operations';
+        return 'OPERATIONS';
 
       case 'GEM_MANAGER':
       case 'GEM_EXECUTIVE':
-        return '/gem';
+        return 'GEM';
 
       default:
-        return '/sales-executive';
+        return 'EXECUTIVE';
+
     }
+
   }
 
-  logout() {
+   getSections(
+    role: string
+  ): SidebarSection[] {
 
-  this.auth.logout().subscribe({
-    next: () => {
+    const key =
+      this.getSidebarKey(role);
 
-      localStorage.clear();
+    return this.sidebarConfig[key]?.sections ?? [];
 
-      this.router.navigate(['/login']);
+  }
+
+  getConsoleTitle(
+    role: string
+  ): string {
+
+    const key =
+      this.getSidebarKey(role);
+
+    return this.sidebarConfig[key]?.consoleTitle ?? 'Main Console';
+
+  }
+
+  
+  getDashboardRoute(): string {
+
+
+    const role =
+      this.auth.getRole();
+
+    switch(role) {
+
+
+      case 'SALES_EXECUTIVE':
+
+      case 'SALES_MANAGER':
+
+        return '/sales-executive';
+
+
+
+      case 'SCM_EXECUTIVE':
+
+      case 'SCM_MANAGER':
+
+      case 'SUPPLY_CHAIN_EXECUTIVE':
+
+        return '/scm-executive';
+
+
+
+      case 'HR_EXECUTIVE':
+
+      case 'HR_MANAGER':
+
+        return '/hr-dashboard';
+
+
+
+      case 'FINANCE_MANAGER':
+
+      case 'ACCOUNTANT':
+
+        return '/finance/dashboard';
+
+
+
+      case 'OPERATIONS_MANAGER':
+
+      case 'OPERATIONS_EXECUTIVE':
+
+        return '/operations';
+
+
+
+      case 'GEM_MANAGER':
+
+      case 'GEM_EXECUTIVE':
+
+        return '/gem';
+
+
+
+      default:
+
+        return '/sales-executive';
+
 
     }
-  });
 
-}
+
+  }
+
+  logout():void {
+
+
+    this.auth.logout()
+    .subscribe({
+
+
+      next:()=>{
+
+
+        localStorage.clear();
+
+
+        this.router.navigate([
+          '/login'
+        ]);
+
+
+      }
+
+
+    });
+
+
+  }
+
+
 }

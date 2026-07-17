@@ -1,0 +1,152 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+
+  <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+
+    <div>
+
+      <h2 class="text-lg font-semibold text-gray-900">
+
+        Recent Transactions
+
+      </h2>
+
+      <p class="mt-1 text-sm text-gray-500">
+
+        Latest financial activities
+
+      </p>
+
+    </div>
+
+    <button
+      class="text-sm font-medium text-red-700 hover:underline">
+
+      View All
+
+    </button>
+
+  </div>
+
+  <!-- Table -->
+
+  <div class="overflow-x-auto">
+
+    <table class="min-w-full">
+
+      <thead class="bg-gray-50">
+
+        <tr>
+
+          <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+            Transaction
+
+          </th>
+
+          <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+            Category
+
+          </th>
+
+          <th class="px-6 py-3 text-left text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+            Date
+
+          </th>
+
+          <th class="px-6 py-3 text-right text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+            Amount
+
+          </th>
+
+          <th class="px-6 py-3 text-center text-xs font-semibold uppercase tracking-wider text-gray-500">
+
+            Status
+
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        @for (transaction of transactions; track transaction.id) {
+
+          <tr class="border-t border-gray-200 hover:bg-gray-50">
+
+            <td class="px-6 py-4">
+
+              <div>
+
+                <p class="font-medium text-gray-900">
+
+                  {{ transaction.title }}
+
+                </p>
+
+                <p
+                  class="mt-1 text-xs"
+                  [class.text-green-600]="transaction.type === 'Income'"
+                  [class.text-red-600]="transaction.type === 'Expense'">
+
+                  {{ transaction.type }}
+
+                </p>
+
+              </div>
+
+            </td>
+
+            <td class="px-6 py-4 text-sm text-gray-600">
+
+              {{ transaction.category }}
+
+            </td>
+
+            <td class="px-6 py-4 text-sm text-gray-600">
+
+              {{ transaction.date | date:'dd MMM yyyy' }}
+
+            </td>
+
+            <td
+              class="px-6 py-4 text-right font-semibold"
+              [class.text-green-600]="transaction.type === 'Income'"
+              [class.text-red-600]="transaction.type === 'Expense'">
+
+              {{ transaction.type === 'Income' ? '+' : '-' }}
+              {{ transaction.amount | currency:'INR':'symbol':'1.0-0' }}
+
+            </td>
+
+            <td class="px-6 py-4 text-center">
+
+              <span
+                class="rounded-full px-3 py-1 text-xs font-semibold"
+                [class.bg-green-100]="transaction.status === 'Completed'"
+                [class.text-green-700]="transaction.status === 'Completed'"
+                [class.bg-yellow-100]="transaction.status === 'Pending'"
+                [class.text-yellow-700]="transaction.status === 'Pending'">
+
+                {{ transaction.status }}
+
+              </span>
+
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

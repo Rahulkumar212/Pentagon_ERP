@@ -1,0 +1,80 @@
+<div class="space-y-6">
+
+  <!-- Header -->
+
+  <app-finance-header>
+  </app-finance-header>
+
+  <!-- Summary Cards -->
+
+  <app-finance-summary-cards
+    [summaryCards]="summaryCards">
+  </app-finance-summary-cards>
+
+  <!-- Charts -->
+
+  <div class="grid grid-cols-12 gap-6">
+
+    <div class="col-span-8">
+
+      <app-revenue-expense-chart
+        [chartData]="revenueExpenseChart">
+      </app-revenue-expense-chart>
+
+    </div>
+
+    <div class="col-span-4">
+
+      <app-cashflow-chart
+        [chartData]="cashflowChart">
+      </app-cashflow-chart>
+
+    </div>
+
+  </div>
+
+  <!-- Budget + Alerts -->
+
+  <div class="grid grid-cols-12 gap-6">
+
+    <div class="col-span-7">
+
+      <app-budget-overview
+        [budgets]="budgets">
+      </app-budget-overview>
+
+    </div>
+
+    <div class="col-span-5">
+
+      <app-finance-alerts
+        [alerts]="financeAlerts">
+      </app-finance-alerts>
+
+    </div>
+
+  </div>
+
+  <!-- Transactions + Payments -->
+
+  <div class="grid grid-cols-12 gap-6">
+
+    <div class="col-span-8">
+
+      <app-recent-transactions
+        [transactions]="recentTransactions">
+      </app-recent-transactions>
+
+    </div>
+
+    <div class="col-span-4">
+
+      <app-pending-payments
+        [payments]="pendingPayments">
+      </app-pending-payments>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,76 @@
+<div
+  class="flex items-center justify-between rounded-xl border border-gray-200 bg-white px-6 py-5 shadow-sm">
+
+  <!-- Left -->
+
+  <div>
+
+    <p
+      class="text-[11px] uppercase tracking-[0.25em] text-gray-500">
+
+      Finance Management
+
+    </p>
+
+    <h1
+      class="mt-1 text-3xl font-serif text-red-900">
+
+      Finance Dashboard
+
+    </h1>
+
+    <div
+      class="mt-2 flex items-center gap-5 text-sm text-gray-500">
+
+      <span>
+
+        {{ currentDate | date:'EEEE, dd MMMM yyyy' }}
+
+      </span>
+
+      <span
+        class="rounded-full bg-red-100 px-3 py-1 text-xs font-semibold text-red-800">
+
+        {{ financialYear }}
+
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- Right -->
+
+  <div
+    class="flex items-center gap-3">
+
+    <!-- Search -->
+
+    <input
+      type="text"
+      placeholder="Search transaction..."
+      class="w-72 rounded-lg border border-gray-300 px-4 py-2 text-sm outline-none transition focus:border-red-700" />
+
+    <!-- Export -->
+
+    <button
+      (click)="onExport()"
+      class="rounded-lg border border-red-800 px-4 py-2 text-sm font-semibold text-red-800 transition hover:bg-red-800 hover:text-white">
+
+      Export
+
+    </button>
+
+    <!-- Refresh -->
+
+    <button
+      (click)="onRefresh()"
+      class="rounded-lg bg-red-800 px-5 py-2 text-sm font-semibold text-white transition hover:bg-red-900">
+
+      Refresh
+
+    </button>
+
+  </div>
+
+</div>

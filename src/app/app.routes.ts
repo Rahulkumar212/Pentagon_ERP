@@ -1,21 +1,17 @@
 import { Routes } from '@angular/router';
 
 import { MainLayoutComponent } from './layouts/main-layout/main-layout.component';
+
+import { authRoutes } from './features/auth/auth.routes';
+import { HR_ROUTES } from './features/hr-dashboard/hr.routes';
+import { FINANCE_ROUTES } from './features/Finance/finance.routes';
+
 import { authGuard } from './core/guards/auth.guards';
 
 export const routes: Routes = [
-  // Default Route
-  {
-    path: '',
-    redirectTo: 'login',
-    pathMatch: 'full',
-  },
 
-  // Login
-  {
-    path: 'login',
-    loadComponent: () => import('./features/auth/pages/login/login').then((m) => m.LoginComponent),
-  },
+  // Auth Routes
+  ...authRoutes,
 
   // Main Layout
   {
@@ -23,122 +19,101 @@ export const routes: Routes = [
     component: MainLayoutComponent,
 
     children: [
-      // Sales Executive Dashboard
+
+      // Sales Executive
       {
         path: 'sales-executive',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./features/executive-center/sales-executive/sales-executive.component').then(
-            (m) => m.SalesExecutiveComponent,
-          ),
+          import('./features/executive-center/sales-executive/sales-executive.component')
+            .then(m => m.SalesExecutiveComponent),
       },
 
-      // SCM Executive Dashboard
+      // SCM Executive
       {
         path: 'scm-executive',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./features/executive-center/scm-executive/scm-executive.component').then(
-            (m) => m.ScmExecutiveComponent,
-          ),
+          import('./features/executive-center/scm-executive/scm-executive.component')
+            .then(m => m.ScmExecutiveComponent),
       },
 
-      // Client CRM
+      // CRM
       {
         path: 'crm',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./features/client-crm/client-crm.component').then((m) => m.ClientCrmComponent),
+          import('./features/client-crm/client-crm.component')
+            .then(m => m.ClientCrmComponent),
       },
+
+      // Billing
       {
         path: 'billing-orders',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./features/billing-orders/pages/billing-orders.component').then((m) => m.BillingOrdersComponent),
+          import('./features/billing-orders/pages/billing-orders.component')
+            .then(m => m.BillingOrdersComponent),
       },
-       {
+
+      // Institution
+      {
         path: 'institution-visit-planner',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./features/institution-visit-planner/pages/institution-visit-planner.component').then((m) => m.InstitutionVisitPlannerComponent),
+          import('./features/institution-visit-planner/pages/institution-visit-planner.component')
+            .then(m => m.InstitutionVisitPlannerComponent),
       },
+
+      // HR
+      ...HR_ROUTES,
+
+      // Finance
+      ...FINANCE_ROUTES,
+
+      // Sales Analytics
       {
-        path: 'hr-dashboard',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/hr-dashboard/dashboard-overview/pages/hr-dashboard.component').then((m) => m.HrDashboardComponent),
-      },
-      {
-        path: 'recruitment',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/hr-dashboard/recruitment-hiring/pages/recruitment-dashboard.component').then((m) => m.RecruitmentDashboardComponent),
-      },  
-      {
-        path: 'employee-onboarding',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/hr-dashboard/employee-onboarding/pages/onboarding-milestones.component').then((m) => m.OnboardingMilestonesComponent),
-      },
-       {
-        path: 'employee-master',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/hr-dashboard/employee-master/pages/employee-master.component').then((m) => m.EmployeeMasterComponent),
-      },  
-      {
-        path: 'exit-management',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/hr-dashboard/exit-management/pages/exit-management.component').then((m) => m.ExitManagementComponent),
-      },
-      {
-        path: 'daily-operations',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/hr-dashboard/operations-management/pages/operations-management.component').then((m) => m.OperationsManagementComponent),
-      }, 
-      {
-        path: 'reports-analytics',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/hr-dashboard/reports-analytics/pages/reports-analytics.component').then((m) => m.ReportsAnalyticsComponent),
-      }, 
-       {
         path: 'sales-analytics',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./features/sales-analytics/pages/sales-analytics.component').then((m) => m.SalesAnalyticsComponent),
-      },  
+          import('./features/sales-analytics/pages/sales-analytics.component')
+            .then(m => m.SalesAnalyticsComponent),
+      },
+
+      // Task Collaboration
       {
         path: 'task-collaboration',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./features/task-collaboration/pages/task-collaboration.component').then(
-            (m) => m.TaskCollaborationComponent,
-          ),
-      },  
+          import('./features/task-collaboration/pages/task-collaboration.component')
+            .then(m => m.TaskCollaborationComponent),
+      },
+
+      // SCM Dashboard
       {
         path: 'supply-chain',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./features/scm-dashboard/pages/scm-dashboard.component').then(
-            (m) => m.ScmDashboardComponent,
-          ),
+          import('./features/scm-dashboard/pages/scm-dashboard.component')
+            .then(m => m.ScmDashboardComponent),
       },
+
+      // Operations
       {
         path: 'operations',
         canActivate: [authGuard],
         loadComponent: () =>
-          import('./features/operations/operations-dashboard.component').then(
-            (m) => m.OperationsDashboardComponent,
-          ),
-      },
-    ],
-  },  
+          import('./features/operations/operations-dashboard.component')
+            .then(m => m.OperationsDashboardComponent),
+      }
+
+    ]
+
+  },
 
   {
     path: '**',
-    redirectTo: 'login',
-  },
+    redirectTo: 'login'
+  }
+
 ];
