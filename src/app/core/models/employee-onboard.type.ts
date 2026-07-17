@@ -14,6 +14,12 @@ export interface TaskChecklist {
 
 }
 
+export interface TaskChecklistResponse {
+  success: boolean;
+  message: string;
+  data: TaskChecklist[];
+}
+
 export interface EmployeeOnboard {
 
   id: number;

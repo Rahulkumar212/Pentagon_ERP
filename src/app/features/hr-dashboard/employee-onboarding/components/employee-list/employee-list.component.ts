@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   Output
 } from '@angular/core';
@@ -10,6 +11,7 @@ import { CommonModule } from '@angular/common';
 import {
   EmployeeOnboard
 } from '../../../../../core/models/employee-onboard.type';
+import { EmployeeOnboardService } from '../../../../../core/services/employee-onboard.service';
 
 @Component({
   selector: 'app-employee-list',
@@ -31,6 +33,9 @@ export class EmployeeListComponent {
   @Output()
   selectEmployee =
     new EventEmitter<EmployeeOnboard>();
+
+     readonly onboardingService =
+    inject(EmployeeOnboardService);
 
   onSelectEmployee(
     employee: EmployeeOnboard

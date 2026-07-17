@@ -1,23 +1,18 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { Injectable} from '@angular/core';
 import { Observable } from 'rxjs';
-
-import { environment } from '../../../environments/environment';
 
 import {
   DashboardStatsResponse,
   NotificationResponse
 } from '../models/executive.type';
+import { BaseApiService } from './base-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
 
-export class DashboardService {
+export class DashboardService extends BaseApiService {
 
-  private readonly http = inject(HttpClient);
-
-  private readonly API_URL = `${environment.apiUrl}`;
 
   // Dashboard Stats
   getStats(): Observable<DashboardStatsResponse> {

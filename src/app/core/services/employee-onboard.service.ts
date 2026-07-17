@@ -1,11 +1,8 @@
 import {
+  computed,
   Injectable,
-  inject
+  signal
 } from '@angular/core';
-
-import {
-  HttpClient
-} from '@angular/common/http';
 
 import {
   Observable
@@ -13,33 +10,199 @@ import {
 
 import {
   EmployeeNameDesignationResponse,
+  EmployeeOnboard,
   EmployeeOnboardPayload,
   EmployeeOnboardResponse,
   EmployeeOnboardsResponse,
-  TaskChecklist
+  TaskChecklist,
+  TaskChecklistResponse
 } from '../models/employee-onboard.type';
-
-import {
-  environment
-} from '../../../environments/environment';
+import { BaseApiService } from './base-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class EmployeeOnboardService {
+export class EmployeeOnboardService extends BaseApiService{
 
-  private readonly http =
-    inject(HttpClient);
+   readonly employees = signal<EmployeeOnboard[]>([]);
+  readonly selectedEmployee = signal<EmployeeOnboard | null>(null);
+  readonly checklist = signal<TaskChecklist[]>([]);
+  readonly employeeChecklists = signal<
+  Record<number, TaskChecklist[]>
+>({});
+  
 
-  private readonly apiUrl =
-    environment.apiUrl;
+ getProgress(employeeId: number): number {
+
+  const checklist =
+    this.employeeChecklists()[employeeId] ?? [];
+
+  if (!checklist.length) {
+
+    return 0;
+
+  }
+
+  const completed =
+    checklist.filter(item => item.completed).length;
+
+  return Math.round(
+    (completed / checklist.length) * 100
+  );
+
+}
+
+
+loadEmployees(): void {
+
+  this.getEmployeeOnboards().subscribe({
+
+    next: (response) => {
+
+      this.employees.set(response.data);
+
+      if (!response.data.length) {
+        return;
+      }
+
+      this.selectedEmployee.set(response.data[0]);
+
+      response.data.forEach(employee => {
+
+        this.loadChecklist(employee.id);
+
+      });
+
+    },
+
+    error: console.error
+
+  });
+
+}
+
+selectEmployee(
+  employee: EmployeeOnboard
+): void {
+
+  this.selectedEmployee.set(employee);
+
+  this.loadChecklist(employee.id);
+
+}
+
+
+loadChecklist(employeeId: number): void {
+
+  this.getTaskChecklist(employeeId)
+    .subscribe({
+
+      next: (response) => {
+
+        this.employeeChecklists.update(state => ({
+
+          ...state,
+
+          [employeeId]: response.data
+
+        }));
+
+        // Selected employee ki checklist bhi update karo
+        this.checklist.set(response.data);
+
+      },
+
+      error: console.error
+
+    });
+
+}
+
+toggleChecklist(
+  item: TaskChecklist
+): void {
+
+  const completed = !item.completed;
+
+  this.toggleTaskChecklist(
+    item.id,
+    completed
+  ).subscribe({
+
+    next: () => {
+
+      this.checklist.update(tasks =>
+        tasks.map(task =>
+          task.id === item.id
+            ? { ...task, completed }
+            : task
+        )
+      );
+
+      const employeeId =
+        this.selectedEmployee()?.id;
+
+      if (!employeeId) {
+
+        return;
+
+      }
+
+      this.employeeChecklists.update(state => ({
+
+        ...state,
+
+        [employeeId]:
+          (state[employeeId] ?? []).map(task =>
+            task.id === item.id
+              ? { ...task, completed }
+              : task
+          )
+
+      }));
+
+    },
+
+    error: console.error
+
+  });
+
+}
+
+
+generateEmployeeCodeForSelectedEmployee(): void {
+
+  const employee = this.selectedEmployee();
+
+  if (!employee) {
+    return;
+  }
+
+  this.generateEmployeeCode(employee.id)
+    .subscribe({
+
+      next: (response) => {
+
+        console.log('Employee Code:', response);
+
+        // Agar backend updated employee bhejta hai
+        // to yahan employees signal bhi update kar sakte ho.
+
+      },
+
+      error: console.error
+
+    });
+
+}
+
 
   createEmployeeOnboard(
     payload: EmployeeOnboardPayload
   ): Observable<EmployeeOnboardResponse> {
 
     return this.http.post<EmployeeOnboardResponse>(
-      `${this.apiUrl}/onboard/create`,
+      `${this.API_URL}/onboard/create`,
       payload
     );
 
@@ -48,7 +211,7 @@ export class EmployeeOnboardService {
   getEmployeeOnboards(): Observable<EmployeeOnboardsResponse> {
 
     return this.http.get<EmployeeOnboardsResponse>(
-      `${this.apiUrl}/fetchonboard`
+      `${this.API_URL}/fetchonboard`
     );
 
   }
@@ -56,7 +219,7 @@ export class EmployeeOnboardService {
    getEmployeeNameDesignation(): Observable<EmployeeNameDesignationResponse> {
 
     return this.http.get<EmployeeNameDesignationResponse>(
-      `${this.apiUrl}/employee-name-designation`
+      `${this.API_URL}/employee-name-designation`
     );
 
   }
@@ -68,7 +231,7 @@ toggleTaskChecklist(
 
   return this.http.patch(
 
-    `${this.apiUrl}/task-checklist/${taskId}/toggle`,
+    `${this.API_URL}/task-checklist/${taskId}/toggle`,
 
     { completed }
 
@@ -78,10 +241,27 @@ toggleTaskChecklist(
 
 getTaskChecklist(
   employeeOnboardId: number
-): Observable<TaskChecklist[]> {
+): Observable<TaskChecklistResponse> {
 
-  return this.http.get<TaskChecklist[]>(
-    `${this.apiUrl}/fetchChecklist/${employeeOnboardId}`
+  return this.http.get<TaskChecklistResponse>(
+    `${this.API_URL}/fetchChecklist/${employeeOnboardId}`
+  );
+
+}
+
+
+generateEmployeeCode(
+  employeeOnboardId: number
+): Observable<any> {
+
+  return this.http.post(
+
+    `${this.API_URL}/generateEmpCode`,
+
+    {
+      employeeOnboardId
+    }
+
   );
 
 }

@@ -5,20 +5,22 @@ import {
 import {
   CommonModule
 } from '@angular/common';
-import { OnboardingService } from '../../../../../core/services/onboarding.service';
+import { EmployeeOnboardService } from '../../../../../core/services/employee-onboard.service';
 import { Router } from '@angular/router';
+import { EmployeeListComponent } from '../../../employee-onboarding/components/employee-list/employee-list.component';
 
 @Component({
   selector: 'app-onboarding-milestones',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    EmployeeListComponent
   ],
   templateUrl: './onboarding-milestones.component.html'
 })
 export class OnboardingMilestonesComponent {
 
- constructor(public onboardingService:OnboardingService,private readonly router:Router){}
+ constructor(public onboardingService:EmployeeOnboardService,private readonly router:Router){}
 
  viewAllOnboarding():void {
   this.router.navigate(["/employee-onboarding"])

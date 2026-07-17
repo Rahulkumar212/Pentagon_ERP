@@ -1,5 +1,4 @@
 import {
-  ChangeDetectorRef,
   Component,
   OnInit,
   inject,
@@ -31,11 +30,9 @@ import {
   ChecklistComponent
 } from '../components/checklist/checklist.component';
 
-
 import {
   TaskChecklist,
-  EmployeeOnboard,
-  EmployeeOnboardsResponse
+  EmployeeOnboard
 } from '../../../../core/models/employee-onboard.type';
 
 import {
@@ -58,58 +55,15 @@ import {
 export class OnboardingMilestonesComponent
   implements OnInit {
 
-  private readonly employeeOnboardService =
+  readonly employeeOnboardService =
     inject(EmployeeOnboardService);
-
-    private readonly cdr =
-  inject(ChangeDetectorRef);
-
-  employees: EmployeeOnboard[] = [];
-
-  selectedEmployee: EmployeeOnboard | null = null;
-
-  checklist: TaskChecklist[] = [];
 
   showPreparationForm =
     signal(false);
 
   ngOnInit(): void {
 
-    this.loadEmployees();
-
-  }
-
-  loadEmployees(): void {
-
-    this.employeeOnboardService
-      .getEmployeeOnboards()
-      .subscribe({
-
-        next: (
-          response: EmployeeOnboardsResponse
-        ) => {
-
-          this.employees = response.data;
-
-          if (this.employees.length > 0) {
-
-            this.selectedEmployee =
-              this.employees[0];
-
-            this.generateChecklist();
-
-          }
-          this.cdr.detectChanges();
-
-        },
-
-        error: err => {
-
-          console.error(err);
-
-        }
-
-      });
+    this.employeeOnboardService.loadEmployees();
 
   }
 
@@ -117,101 +71,27 @@ export class OnboardingMilestonesComponent
     employee: EmployeeOnboard
   ): void {
 
-    this.selectedEmployee = employee;
-
-    this.generateChecklist();
-
-     this.cdr.detectChanges();
+    this.employeeOnboardService
+      .selectEmployee(employee);
 
   }
 
-  getProgress(): number {
+  toggleChecklist(
+    item: TaskChecklist
+  ): void {
 
-  if (!this.checklist.length) {
-
-    return 0;
-
-  }
-
-  const completed =
-    this.checklist.filter(
-      item => item.completed
-    ).length;
-
-  return Math.round(
-    (completed / this.checklist.length) * 100
-  );
-
-}
-
-  generateChecklist(): void {
-
-  if (!this.selectedEmployee) {
-
-    this.checklist = [];
-
-    return;
+    this.employeeOnboardService
+      .toggleChecklist(item);
 
   }
 
-  this.employeeOnboardService
-    .getTaskChecklist(this.selectedEmployee.id)
-    .subscribe({
-
-      next: (response) => {
-
-        this.checklist = response;
-
-        this.cdr.detectChanges();
-
-      },
-
-      error: err => {
-
-        console.error(
-          'Failed to load checklist',
-          err
-        );
-
-      }
-
-    });
-
-}
-
-toggleChecklist(
-  item: TaskChecklist
-): void {
-
-  const completed = !item.completed;
-
-  this.employeeOnboardService
-    .toggleTaskChecklist(item.id, completed)
-    .subscribe({
-
-      next: () => {
-
-        item.completed = completed;
-
-        this.cdr.detectChanges();
-
-      },
-
-      error: err => {
-
-        console.error(err);
-
-      }
-
-    });
-
-}
+  
 
   isChecklistCompleted(): boolean {
 
-    return this.checklist.every(
-      item => item.completed
-    );
+    return this.employeeOnboardService
+      .checklist()
+      .every(item => item.completed);
 
   }
 
@@ -225,7 +105,7 @@ toggleChecklist(
 
     this.showPreparationForm.set(false);
 
-    this.loadEmployees();
+    this.employeeOnboardService.loadEmployees();
 
   }
 
@@ -235,23 +115,19 @@ toggleChecklist(
 
     this.showPreparationForm.set(false);
 
-    this.loadEmployees();
+    this.employeeOnboardService.loadEmployees();
 
   }
 
-  generateEmployeeCode(): void {
+ generateEmployeeCode(): void {
 
-    if (!this.isChecklistCompleted()) {
-
-      return;
-
-    }
-
-    const employeeCode =
-      `EMP-${Math.floor(1000 + Math.random() * 9000)}`;
-
-    console.log('Employee Code:', employeeCode);
-
+  if (!this.isChecklistCompleted()) {
+    return;
   }
+
+  this.employeeOnboardService
+    .generateEmployeeCodeForSelectedEmployee();
+
+}
 
 }
