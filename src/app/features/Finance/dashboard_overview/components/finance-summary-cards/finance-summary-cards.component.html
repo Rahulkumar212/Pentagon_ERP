@@ -1,0 +1,66 @@
+<div class="grid grid-cols-4 gap-6">
+
+  @for (card of summaryCards; track card.title) {
+
+    <div
+      class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm transition hover:-translate-y-1 hover:shadow-lg">
+
+      <!-- Card Header -->
+
+      <div class="flex items-center justify-between">
+
+        <p
+          class="text-xs uppercase tracking-[0.2em] text-gray-500">
+
+          {{ card.title }}
+
+        </p>
+
+        <div
+          class="flex h-10 w-10 items-center justify-center rounded-full bg-red-100 text-lg">
+
+          💰
+
+        </div>
+
+      </div>
+
+      <!-- Amount -->
+
+      <h2
+        class="mt-5 text-3xl font-bold text-gray-900">
+
+        {{ card.value | currency:'INR':'symbol':'1.0-0' }}
+
+      </h2>
+
+      <!-- Growth -->
+
+      <div
+        class="mt-4 flex items-center gap-2">
+
+        <span
+          class="rounded-full px-2 py-1 text-xs font-semibold"
+          [class.bg-green-100]="card.positive"
+          [class.text-green-700]="card.positive"
+          [class.bg-red-100]="!card.positive"
+          [class.text-red-700]="!card.positive">
+
+          {{ card.positive ? '+' : '-' }}{{ card.change }}%
+
+        </span>
+
+        <span
+          class="text-xs text-gray-500">
+
+          vs last month
+
+        </span>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

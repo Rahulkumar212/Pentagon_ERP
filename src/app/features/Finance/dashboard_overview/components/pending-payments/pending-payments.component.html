@@ -1,0 +1,94 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+
+  <div class="border-b border-gray-200 px-6 py-4">
+
+    <h2 class="text-lg font-semibold text-gray-900">
+
+      Pending Payments
+
+    </h2>
+
+    <p class="mt-1 text-sm text-gray-500">
+
+      Upcoming vendor and invoice payments
+
+    </p>
+
+  </div>
+
+  <!-- List -->
+
+  <div class="divide-y divide-gray-200">
+
+    @for (payment of pendingPayments; track payment.id) {
+
+      <div
+        class="flex items-center justify-between px-6 py-4 hover:bg-gray-50">
+
+        <!-- Left -->
+
+        <div>
+
+          <h3 class="font-medium text-gray-900">
+
+            {{ payment.vendor }}
+
+          </h3>
+
+          <p class="mt-1 text-xs text-gray-500">
+
+            {{ payment.invoiceNo }}
+
+          </p>
+
+          <p class="mt-1 text-xs text-gray-400">
+
+            Due:
+            {{ payment.dueDate | date:'dd MMM yyyy' }}
+
+          </p>
+
+        </div>
+
+        <!-- Right -->
+
+        <div class="text-right">
+
+          <p class="font-semibold text-red-700">
+
+            {{ payment.amount | currency:'INR':'symbol':'1.0-0' }}
+
+          </p>
+
+          <span
+            class="mt-2 inline-block rounded-full px-3 py-1 text-xs font-semibold"
+            [class.bg-red-100]="payment.priority === 'High'"
+            [class.text-red-700]="payment.priority === 'High'"
+            [class.bg-yellow-100]="payment.priority === 'Medium'"
+            [class.text-yellow-700]="payment.priority === 'Medium'"
+            [class.bg-green-100]="payment.priority === 'Low'"
+            [class.text-green-700]="payment.priority === 'Low'">
+
+            {{ payment.priority }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+    } @empty {
+
+      <div class="px-6 py-10 text-center text-sm text-gray-500">
+
+        No pending payments found.
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

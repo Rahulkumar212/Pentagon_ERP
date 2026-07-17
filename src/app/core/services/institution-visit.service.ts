@@ -1,36 +1,26 @@
 import {
-  Injectable,
-  inject
+  Injectable
 } from '@angular/core';
 
-import {
-  HttpClient
-} from '@angular/common/http';
 
 import {
   Observable
 } from 'rxjs';
 
-import {
-  environment
-} from '../../../environments/environment';
 
 import {
   CreateInstitutionVisitPayload,
   InstitutionVisitListResponse,
   InstitutionVisitResponse
 } from '../models/institution-visit.type';
+import { BaseApiService } from './base-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class InstitutionVisitService {
+export class InstitutionVisitService extends BaseApiService {
 
-  private readonly http =
-    inject(HttpClient);
-
-  private readonly API =
-    `${environment.apiUrl}/InstitutionVisit`;
+ 
 
   // ==========================
   // Create Institution Visit
@@ -41,7 +31,7 @@ export class InstitutionVisitService {
   ): Observable<InstitutionVisitResponse> {
 
     return this.http.post<InstitutionVisitResponse>(
-      `${this.API}/create`,
+      `${this.API_URL}/InstitutionVisit/create`,
       payload
     );
 
@@ -55,7 +45,7 @@ export class InstitutionVisitService {
     Observable<InstitutionVisitListResponse> {
 
     return this.http.get<InstitutionVisitListResponse>(
-      this.API
+      `${this.API_URL}/InstitutionVisit`
     );
 
   }
@@ -74,7 +64,7 @@ export class InstitutionVisitService {
 
     return this.http.put<InstitutionVisitResponse>(
 
-      `${this.API}/Visitupdate/${id}`,
+      `${this.API_URL}/InstitutionVisit/Visitupdate/${id}`,
 
       payload
 
@@ -94,7 +84,7 @@ export class InstitutionVisitService {
 
     return this.http.delete<InstitutionVisitResponse>(
 
-      `${this.API}/delete/${id}`
+      `${this.API_URL}/InstitutionVisit/delete/${id}`
 
     );
 

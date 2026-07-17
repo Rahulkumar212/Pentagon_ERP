@@ -1,19 +1,11 @@
 import {
-  Injectable,
-  inject
+  Injectable
 } from '@angular/core';
-
-import {
-  HttpClient
-} from '@angular/common/http';
 
 import {
   Observable
 } from 'rxjs';
 
-import {
-  environment
-} from '../../../environments/environment';
 
 import {
   CallDiscussionPayload,
@@ -23,15 +15,13 @@ import {
   SalesVisitResponse,
   UpdateSalesVisitPayload
 } from '../models/client-crm.type';
+import { BaseApiService } from './base-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class OrganizationService {
+export class OrganizationService extends BaseApiService {
 
-  private readonly http = inject(HttpClient);
-
-  private readonly API_URL = environment.apiUrl;
 
   createSalesVisit(
     payload: SalesVisitPayload
