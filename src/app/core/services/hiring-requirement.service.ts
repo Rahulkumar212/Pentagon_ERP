@@ -1,15 +1,11 @@
-import { HttpClient } from "@angular/common/http";
-import { inject, Injectable } from "@angular/core";
-import { environment } from "../../../environments/environment.development";
+import { Injectable } from "@angular/core";
 import { CreateHiringRequirementPayload, HiringRequirementResponse, HiringRequirementsResponse } from "../models/hiring-requirement.type";
 import { Observable } from "rxjs";
+import { BaseApiService } from "./base-api.service";
 
 @Injectable({providedIn:'root'})
 
-export class HiringRequirementService {
-
-    private readonly http = inject(HttpClient)
-    private readonly API_URL = environment.apiUrl
+export class HiringRequirementService extends BaseApiService {
 
     createHiringRequirement(
        payload: CreateHiringRequirementPayload

@@ -1,20 +1,13 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Router } from '@angular/router';
+import { Injectable} from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
-import { environment } from '../../../environments/environment.development';
 import { LogoutResponse } from '../models/login-request.model';
+import { BaseApiService } from './base-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class AuthService {
-
-  private readonly http = inject(HttpClient);
-  private readonly router = inject(Router);
-
-  private readonly API_URL = environment.apiUrl;
+export class AuthService extends BaseApiService {
 
   login(
     empcode: string,

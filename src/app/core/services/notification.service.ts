@@ -1,23 +1,19 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient, HttpParams } from '@angular/common/http';
+import { Injectable} from '@angular/core';
+import { HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-
-import { environment } from '../../../environments/environment.development';
 
 import {
   Notice,
   CreateNoticeRequest,
   NoticeResponse
 } from '../models/notice.model';
+import { BaseApiService } from './base-api.service';
 
 @Injectable({
   providedIn: 'root'
 })
-export class NotificationService {
+export class NotificationService extends BaseApiService {
 
-  private readonly http = inject(HttpClient);
-
-  private readonly API_URL = environment.apiUrl;
 
   getNotices(): Observable<NoticeResponse> {
 

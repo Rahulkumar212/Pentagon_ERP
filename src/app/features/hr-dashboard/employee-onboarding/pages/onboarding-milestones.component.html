@@ -7,7 +7,7 @@
  <!-- Body -->
 <div class="grid grid-cols-12">
 
-  @if (selectedEmployee) {
+  @if (employeeOnboardService.selectedEmployee(); as selectedEmployee) {
 
     <!-- ===================== -->
     <!-- Employee List -->
@@ -16,10 +16,10 @@
     <div class="col-span-4 border-r border-gray-200">
 
       <app-employee-list
-        [employees]="employees"
-        [selectedEmployee]="selectedEmployee"
+        [employees]="employeeOnboardService.employees()"
+        [selectedEmployee]="employeeOnboardService.selectedEmployee()!"
         (selectEmployee)="selectEmployee($event)"
-         [progress]="getProgress()">
+        >
       </app-employee-list>
 
     </div>
@@ -47,7 +47,7 @@
       <div class="rounded-xl border border-gray-200 bg-white shadow-sm p-6">
 
         <app-checklist
-          [checklist]="checklist"
+          [checklist]="employeeOnboardService.checklist()"
           (toggle)="toggleChecklist($event)">
         </app-checklist>
 
