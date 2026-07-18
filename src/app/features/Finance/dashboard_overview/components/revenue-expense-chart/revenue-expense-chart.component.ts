@@ -32,87 +32,139 @@ export class RevenueExpenseChartComponent {
 
   chartOptions: EChartsOption = {
 
-    tooltip: {
-      trigger: 'axis'
+  color: [
+    '#991b1b',
+    '#cbd5e1'
+  ],
+
+  tooltip: {
+    trigger: 'axis',
+    axisPointer: {
+      type: 'shadow'
+    }
+  },
+
+  legend: {
+    top: 0,
+    right: 0,
+    itemWidth: 12,
+    itemHeight: 12,
+    textStyle: {
+      color: '#334155',
+      fontSize: 13
+    }
+  },
+
+  grid: {
+    left: '5%',
+    right: '3%',
+    top: '18%',
+    bottom: '10%',
+    containLabel: true
+  },
+
+  xAxis: {
+
+    type: 'category',
+
+    data: [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul'
+    ],
+
+    axisTick: {
+      show: false
     },
 
-    legend: {
-      top: 0
+    axisLine: {
+      lineStyle: {
+        color: '#e5e7eb'
+      }
     },
 
-    grid: {
-      left: '4%',
-      right: '4%',
-      bottom: '5%',
-      containLabel: true
-    },
+    axisLabel: {
+      color: '#64748b'
+    }
 
-    xAxis: {
-      type: 'category',
-      boundaryGap: false,
-      data: [
-        'Jan',
-        'Feb',
-        'Mar',
-        'Apr',
-        'May',
-        'Jun',
-        'Jul'
-      ]
-    },
+  },
 
-    yAxis: {
-      type: 'value'
-    },
+  yAxis: {
 
-    series: [
+    type: 'value',
 
-      {
+    splitLine: {
 
-        name: 'Revenue',
+      lineStyle: {
 
-        type: 'line',
+        color: '#edf2f7',
 
-        smooth: true,
-
-        data: [
-          120000,
-          180000,
-          150000,
-          220000,
-          260000,
-          310000,
-          340000
-        ],
-
-        areaStyle: {}
-
-      },
-
-      {
-
-        name: 'Expense',
-
-        type: 'line',
-
-        smooth: true,
-
-        data: [
-          90000,
-          120000,
-          115000,
-          145000,
-          170000,
-          185000,
-          210000
-        ],
-
-        areaStyle: {}
+        type: 'dashed'
 
       }
 
-    ]
+    },
 
-  };
+    axisLine: {
+      show: false
+    },
+
+    axisTick: {
+      show: false
+    },
+
+    axisLabel: {
+      show: false
+    }
+
+  },
+
+  series: [
+  {
+    name: 'Revenue',
+    type: 'bar',
+    barWidth: 18,
+
+    itemStyle: {
+      borderRadius: [4, 4, 0, 0]
+    },
+
+    data: [
+      180,
+      240,
+      250,
+      280,
+      320,
+      370,
+      55
+    ]
+  },
+
+  {
+    name: 'Expense',
+    type: 'bar',
+    barWidth: 18,
+
+    itemStyle: {
+      borderRadius: [4, 4, 0, 0]
+    },
+
+    data: [
+      140,
+      175,
+      190,
+      220,
+      245,
+      280,
+      25
+    ]
+  }
+]
+
+};
 
 }

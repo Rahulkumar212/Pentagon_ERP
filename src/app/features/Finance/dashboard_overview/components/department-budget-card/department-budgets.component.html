@@ -1,0 +1,90 @@
+<div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm min-h-[340px]">
+
+  <!-- Header -->
+
+  <h2 class="text-lg font-semibold text-slate-900">
+    Department Budgets
+  </h2>
+
+  <p class="mt-1 text-sm text-slate-500">
+    Current financial year spending caps
+  </p>
+
+  <!-- Budget List -->
+
+  <div class="mt-5 space-y-5">
+
+    @for (item of budgets; track item.department) {
+
+      <div>
+
+        <div class="mb-2 flex items-center justify-between">
+
+          <span class="text-sm font-medium text-slate-800">
+            {{ item.department }}
+          </span>
+
+          <span
+            class="font-mono text-sm"
+            [class.text-red-700]="isExceeded(item)"
+            [class.text-slate-600]="!isExceeded(item)">
+
+            ₹{{ item.spent | number }}
+            /
+            ₹{{ item.limit | number }}
+
+          </span>
+
+        </div>
+
+        <div class="h-2 overflow-hidden rounded-full bg-gray-200">
+
+          <div
+            class="h-full rounded-full transition-all"
+            [class.bg-red-800]="!isExceeded(item)"
+            [class.bg-red-600]="isExceeded(item)"
+            [style.width.%]="getPercentage(item)">
+          </div>
+
+        </div>
+
+        @if (isExceeded(item)) {
+
+          <div
+            class="mt-2 flex items-center gap-2 text-xs font-medium text-red-600">
+
+            <span>ⓘ</span>
+
+            <span>
+              Exceeded by ₹{{ getExceededAmount(item) | number }}
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  </div>
+
+  <!-- Footer -->
+
+  <div class="mt-6 border-t border-gray-200 pt-4">
+
+    <div class="flex items-center justify-between">
+
+      <span class="text-sm text-slate-600">
+        Total Budget Compliance
+      </span>
+
+      <span class="text-sm font-semibold text-red-700">
+        {{ totalCompliance() }}% Safe
+      </span>
+
+    </div>
+
+  </div>
+
+</div>

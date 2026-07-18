@@ -10,13 +10,13 @@ export const FINANCE_ROUTES: Routes = [
         .then(m => m.DashboardOverviewComponent)
   },
 
-//   // Accounting
-//   {
-//     path: 'accounting',
-//     loadComponent: () =>
-//       import('./accounting/pages/accounting.component')
-//         .then(m => m.AccountingComponent)
-//   },
+  // Accounting
+  {
+    path: 'finance/accounting',
+    loadComponent: () =>
+      import('./accounting_ledger/pages/accounting-dashboard.component')
+        .then(m => m.AccountingDashboardComponent)
+  },
 
 //   // Payments
 //   {

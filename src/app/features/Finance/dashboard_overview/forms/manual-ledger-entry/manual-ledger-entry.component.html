@@ -1,0 +1,199 @@
+<!-- Backdrop -->
+
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm p-4">
+
+  <!-- Modal -->
+
+  <div class="w-full max-w-md overflow-hidden rounded-xl bg-white shadow-2xl">
+
+    <!-- Header -->
+
+    <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+
+      <div class="flex items-center gap-3">
+
+        <div
+          class="flex h-8 w-8 items-center justify-center rounded-lg bg-red-800 text-sm text-white">
+
+          🧾
+
+        </div>
+
+        <h2 class="text-lg font-semibold text-slate-800">
+          Manual General Ledger Entry
+        </h2>
+
+      </div>
+
+      <button
+        (click)="cancel()"
+        class="text-xl text-gray-400 transition hover:text-gray-700">
+
+        ×
+
+      </button>
+
+    </div>
+
+    <!-- Body -->
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      class="space-y-4 p-5">
+
+      <!-- Transaction Type -->
+
+      <div>
+
+        <label
+          class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+
+          Transaction Type
+
+        </label>
+
+        <div class="grid grid-cols-2 gap-2">
+
+          <button
+            type="button"
+            (click)="setTransactionType('credit')"
+            class="rounded-lg border px-3 py-2 text-sm font-medium transition"
+            [class.border-emerald-600]="form.value.type==='credit'"
+            [class.bg-emerald-50]="form.value.type==='credit'">
+
+            ➕ Credit
+
+          </button>
+
+          <button
+            type="button"
+            (click)="setTransactionType('debit')"
+            class="rounded-lg border px-3 py-2 text-sm font-medium transition"
+            [class.border-red-600]="form.value.type==='debit'"
+            [class.bg-red-50]="form.value.type==='debit'">
+
+            ➖ Debit
+
+          </button>
+
+        </div>
+
+      </div>
+
+      <!-- Description -->
+
+      <div>
+
+        <label
+          class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+
+          Description / Payee
+
+        </label>
+
+        <input
+          formControlName="description"
+          placeholder="e.g. AWS Infrastructure Billing"
+          class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-red-700">
+
+      </div>
+
+      <!-- Category + Amount -->
+
+      <div class="grid grid-cols-2 gap-3">
+
+        <div>
+
+          <label
+            class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+
+            Category
+
+          </label>
+
+          <select
+            formControlName="category"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+            @for (item of categories; track item) {
+
+              <option>{{ item }}</option>
+
+            }
+
+          </select>
+
+        </div>
+
+        <div>
+
+          <label
+            class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+
+            Amount (₹)
+
+          </label>
+
+          <input
+            type="number"
+            formControlName="amount"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+        </div>
+
+      </div>
+
+      <!-- Account -->
+
+      <div>
+
+        <label
+          class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+
+          Destination Bank Account
+
+        </label>
+
+        <select
+          formControlName="account"
+          class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+          @for (account of accounts; track account) {
+
+            <option>{{ account }}</option>
+
+          }
+
+        </select>
+
+      </div>
+
+      <!-- Footer -->
+
+      <div class="flex gap-3 border-t border-gray-200 pt-4">
+
+        <button
+          type="button"
+          (click)="cancel()"
+          class="flex-1 rounded-lg bg-gray-100 py-2 text-sm font-medium hover:bg-gray-200">
+
+          Cancel
+
+        </button>
+
+        <button
+          type="submit"
+          class="flex-1 rounded-lg bg-red-800 py-2 text-sm font-medium text-white hover:bg-red-900">
+
+          Post Transaction
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

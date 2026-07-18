@@ -1,0 +1,163 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+
+  <div
+    class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+
+    <div>
+
+      <h2 class="text-lg font-semibold text-slate-900">
+        General Ledger
+      </h2>
+
+      <p class="mt-0.5 text-xs text-slate-500">
+        Detailed account-wise ledger with running balances
+      </p>
+
+    </div>
+
+    <div
+      class="rounded-full border border-gray-200 bg-slate-50 px-3 py-1.5 text-xs font-medium text-slate-700">
+
+      Entries :
+      <span class="font-semibold">
+
+        {{ ledgerEntries.length }}
+
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- Table -->
+
+  <div class="overflow-x-auto">
+
+    <table class="min-w-full">
+
+      <thead class="bg-slate-50">
+
+        <tr>
+
+          <th
+            class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Date
+
+          </th>
+
+          <th
+            class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Reference
+
+          </th>
+
+          <th
+            class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Account
+
+          </th>
+
+          <th
+            class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Description
+
+          </th>
+
+          <th
+            class="px-4 py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Debit
+
+          </th>
+
+          <th
+            class="px-4 py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Credit
+
+          </th>
+
+          <th
+            class="px-4 py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Balance
+
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        @for (item of ledgerEntries; track item.reference) {
+
+          <tr
+            class="border-t border-gray-100 transition hover:bg-slate-50">
+
+            <td
+              class="px-4 py-3 text-xs text-slate-700">
+
+              {{ item.date }}
+
+            </td>
+
+            <td
+              class="px-4 py-3 font-mono text-xs font-semibold text-red-700">
+
+              {{ item.reference }}
+
+            </td>
+
+            <td
+              class="px-4 py-3 text-sm font-medium text-slate-900">
+
+              {{ item.account }}
+
+            </td>
+
+            <td
+              class="px-4 py-3 text-xs text-slate-600">
+
+              {{ item.description }}
+
+            </td>
+
+            <td
+              class="px-4 py-3 text-right text-sm font-semibold text-blue-700">
+
+              {{ item.debit > 0 ? ('₹' + (item.debit | number)) : '-' }}
+
+            </td>
+
+            <td
+              class="px-4 py-3 text-right text-sm font-semibold text-purple-700">
+
+              {{ item.credit > 0 ? ('₹' + (item.credit | number)) : '-' }}
+
+            </td>
+
+            <td
+              class="px-4 py-3 text-right font-mono text-sm font-semibold text-slate-900">
+
+              ₹{{ item.balance | number }}
+
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
