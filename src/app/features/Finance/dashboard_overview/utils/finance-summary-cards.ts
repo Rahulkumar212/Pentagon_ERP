@@ -14,48 +14,84 @@ export interface FinanceSummaryCard {
 
   color: string;
 
+  bgColor: string;
+
+  subtitle: string;
+
 }
 
 export const FinanceSummaryCards: FinanceSummaryCard[] = [
 
   {
     id: 1,
-    title: 'Total Revenue',
-    value: 2450000,
-    change: 12.5,
+    title: 'TOTAL REVENUE',
+    value: 51250,
+    change: 18.4,
     positive: true,
-    icon: 'payments',
-    color: 'text-green-600'
+    icon: 'trending_up',
+    color: 'text-emerald-700',
+    bgColor: 'bg-emerald-50',
+    subtitle: 'from last month'
   },
 
   {
     id: 2,
-    title: 'Total Expenses',
-    value: 1680000,
-    change: 4.2,
+    title: 'TOTAL EXPENSES',
+    value: 21750,
+    change: 6.2,
     positive: false,
-    icon: 'account_balance_wallet',
-    color: 'text-red-600'
+    icon: 'trending_down',
+    color: 'text-red-700',
+    bgColor: 'bg-red-50',
+    subtitle: 'from last month'
   },
 
   {
     id: 3,
-    title: 'Net Profit',
-    value: 770000,
-    change: 8.7,
+    title: 'NET PROFIT',
+    value: 29500,
+    change: 57.6,
     positive: true,
-    icon: 'trending_up',
-    color: 'text-blue-600'
+    icon: 'currency_rupee',
+    color: 'text-white',
+    bgColor: 'bg-red-900',
+    subtitle: 'Margin : 57.6%'
   },
 
   {
     id: 4,
-    title: 'Pending Payments',
-    value: 315000,
-    change: 2.1,
+    title: 'CASH IN BANK',
+    value: 541700,
+    change: 0,
+    positive: true,
+    icon: 'account_balance',
+    color: 'text-amber-700',
+    bgColor: 'bg-amber-50',
+    subtitle: '4 Connected Accounts'
+  },
+
+  {
+    id: 5,
+    title: 'PENDING PAYMENTS',
+    value: 17050,
+    change: 0,
     positive: false,
     icon: 'schedule',
-    color: 'text-orange-600'
+    color: 'text-orange-700',
+    bgColor: 'bg-orange-50',
+    subtitle: 'Accounts Payable Outstanding'
+  },
+
+  {
+    id: 6,
+    title: 'OUTSTANDING INVOICES',
+    value: 65800,
+    change: 0,
+    positive: false,
+    icon: 'request_quote',
+    color: 'text-red-700',
+    bgColor: 'bg-red-50',
+    subtitle: 'Accounts Receivable Unpaid'
   }
 
 ];

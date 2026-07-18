@@ -1,0 +1,221 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+
+  <div class="flex flex-col gap-3 border-b border-gray-200 p-4 lg:flex-row lg:items-center lg:justify-between">
+
+    <div>
+
+      <h2 class="text-lg font-semibold text-slate-900">
+        Real-time General Ledger Feed
+      </h2>
+
+      <p class="mt-0.5 text-xs text-slate-500">
+        Most recent debit/credit records processed through ERP nodes
+      </p>
+
+    </div>
+
+    <div class="flex flex-wrap items-center gap-2">
+
+      <!-- Search -->
+
+      <div class="relative">
+
+        <input
+          type="text"
+          [(ngModel)]="searchText"
+          placeholder="Search transactions..."
+          class="w-48 rounded-full border border-gray-200 bg-slate-50 py-1.5 pl-9 pr-3 text-xs outline-none transition focus:border-red-700 focus:bg-white" />
+
+        <svg
+          class="absolute left-3 top-2 h-4 w-4 text-slate-400"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+          viewBox="0 0 24 24">
+
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M21 21l-4.3-4.3m1.3-5.2a6.5 6.5 0 11-13 0a6.5 6.5 0 0113 0z">
+          </path>
+
+        </svg>
+
+      </div>
+
+      <!-- Filters -->
+
+      <div class="flex rounded-full bg-slate-100 p-1">
+
+        <button
+          (click)="setFilter('all')"
+          class="rounded-full px-3 py-1 text-xs transition"
+          [class.bg-red-800]="activeFilter==='all'"
+          [class.text-white]="activeFilter==='all'">
+
+          All
+
+        </button>
+
+        <button
+          (click)="setFilter('credit')"
+          class="rounded-full px-3 py-1 text-xs transition"
+          [class.bg-red-800]="activeFilter==='credit'"
+          [class.text-white]="activeFilter==='credit'">
+
+          Credits
+
+        </button>
+
+        <button
+          (click)="setFilter('debit')"
+          class="rounded-full px-3 py-1 text-xs transition"
+          [class.bg-red-800]="activeFilter==='debit'"
+          [class.text-white]="activeFilter==='debit'">
+
+          Debits
+
+        </button>
+
+      </div>
+
+      <!-- Action -->
+
+      <button
+       (click)="openManualEntry()"
+        class="rounded-full bg-red-800 px-4 py-1.5 text-xs font-medium text-white transition hover:bg-red-900">
+
+        + Record Txn
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Table -->
+
+  <div class="overflow-x-auto">
+
+    <table class="min-w-full">
+
+      <thead class="bg-slate-50">
+
+        <tr class="border-b border-gray-200">
+
+          <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+            Txn ID
+          </th>
+
+          <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+            Date
+          </th>
+
+          <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+            Description
+          </th>
+
+          <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+            Category
+          </th>
+
+          <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+            Account
+          </th>
+
+          <th class="px-4 py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+            Amount
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        @for (item of filteredTransactions; track trackByTransaction($index, item)) {
+
+          <tr class="border-b border-gray-100 transition hover:bg-slate-50">
+
+            <td class="px-4 py-3 text-sm font-medium text-red-700">
+
+              {{ item.id }}
+
+            </td>
+
+            <td class="px-4 py-3 text-sm text-slate-600">
+
+              {{ item.date }}
+
+            </td>
+
+            <td class="px-4 py-3 text-sm font-medium text-slate-900">
+
+              {{ item.description }}
+
+            </td>
+
+            <td class="px-4 py-3">
+
+              <span
+                class="rounded-full border border-gray-200 bg-slate-100 px-2.5 py-0.5 text-[11px] text-slate-600">
+
+                {{ item.category }}
+
+              </span>
+
+            </td>
+
+            <td class="px-4 py-3 text-sm text-slate-600">
+
+              {{ item.account }}
+
+            </td>
+
+            <td
+              class="px-4 py-3 text-right text-sm font-semibold"
+              [class.text-emerald-600]="item.type==='credit'"
+              [class.text-red-600]="item.type==='debit'">
+
+              {{ item.type === 'credit' ? '+' : '-' }}₹{{ item.amount | number:'1.0-0' }}
+
+            </td>
+
+          </tr>
+
+        }
+
+        @if (filteredTransactions.length === 0) {
+
+          <tr>
+
+            <td
+              colspan="6"
+              class="py-6 text-center text-sm text-slate-500">
+
+              No transactions found.
+
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>
+
+
+@if (showManualEntry) {
+
+  <app-manual-ledger-entry
+    (close)="closeManualEntry()">
+  </app-manual-ledger-entry>
+
+}

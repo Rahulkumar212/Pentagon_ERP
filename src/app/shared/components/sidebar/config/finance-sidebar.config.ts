@@ -35,21 +35,21 @@ export const FINANCE_SIDEBAR: SidebarModule = {
 
 
         {
-          label:'Accounting',
+          label:'Accounting & Ledger',
           icon:'📒',
           route:'/finance/accounting'
         },
 
 
-        {
-          label:'Payments',
-          icon:'💳',
-          route:'/finance/payments'
-        },
+        // {
+        //   label:'Payments',
+        //   icon:'💳',
+        //   route:'/finance/payments'
+        // },
 
 
         {
-          label:'Receivables',
+          label:'Receivables & Billing',
           icon:'💰',
           route:'/finance/receivables'
         },
