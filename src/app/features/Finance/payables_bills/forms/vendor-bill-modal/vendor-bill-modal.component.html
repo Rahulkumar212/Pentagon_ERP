@@ -1,0 +1,150 @@
+<!-- Backdrop -->
+
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+
+  <!-- Modal -->
+
+  <div class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
+
+    <!-- Header -->
+
+    <div class="flex items-center justify-between border-b border-gray-200 px-5 py-5">
+
+      <h2 class="text-xl font-semibold text-slate-900">
+
+        Record Incoming Bill
+
+      </h2>
+
+      <button
+        type="button"
+        (click)="cancel()"
+        class="text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-slate-700">
+
+        Close
+
+      </button>
+
+    </div>
+
+    <!-- Body -->
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      class="space-y-5 p-5">
+
+      <!-- Vendor -->
+
+      <div>
+
+        <label
+          class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+
+          Vendor / Provider Name
+
+        </label>
+
+        <input
+          formControlName="vendor"
+          placeholder="e.g. Amazon Web Services"
+          class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:border-red-700">
+
+      </div>
+
+      <!-- Due Date + Category -->
+
+      <div class="grid grid-cols-2 gap-3">
+
+        <div>
+
+          <label
+            class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+
+            Due Date
+
+          </label>
+
+          <input
+            type="date"
+            formControlName="dueDate"
+            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm">
+
+        </div>
+
+        <div>
+
+          <label
+            class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+
+            Cost Category
+
+          </label>
+
+          <select
+            formControlName="category"
+            class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm">
+
+            @for (category of categories; track category) {
+
+              <option>
+
+                {{ category }}
+
+              </option>
+
+            }
+
+          </select>
+
+        </div>
+
+      </div>
+
+      <!-- Amount -->
+
+      <div>
+
+        <label
+          class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+
+          Invoice Value ($)
+
+        </label>
+
+        <input
+          type="number"
+          formControlName="amount"
+          placeholder="0.00"
+          class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:border-red-700">
+
+      </div>
+
+      <!-- Footer -->
+
+      <div class="flex gap-3 pt-2">
+
+        <button
+          type="button"
+          (click)="cancel()"
+          class="flex-1 rounded-xl bg-slate-100 py-3 text-sm font-medium hover:bg-slate-200">
+
+          Cancel
+
+        </button>
+
+        <button
+          type="submit"
+          class="flex-1 rounded-xl bg-red-800 py-3 text-sm font-semibold text-white hover:bg-red-900">
+
+          File Bill
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
