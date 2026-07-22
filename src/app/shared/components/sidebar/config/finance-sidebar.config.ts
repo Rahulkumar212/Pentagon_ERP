@@ -56,7 +56,7 @@ export const FINANCE_SIDEBAR: SidebarModule = {
 
 
         {
-          label:'Payables',
+          label:'Payables & Bills',
           icon:'🧾',
           route:'/finance/payables'
         },

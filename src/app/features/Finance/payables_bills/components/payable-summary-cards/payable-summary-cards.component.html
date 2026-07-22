@@ -1,0 +1,103 @@
+<div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+
+  @for (card of cards; track card.title) {
+
+    <div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
+
+      <div class="flex items-start justify-between">
+
+        <!-- Left -->
+
+        <div>
+
+          <p
+            class="text-[10px] font-semibold uppercase tracking-[0.18em] text-slate-500">
+
+            {{ card.title }}
+
+          </p>
+
+          <h2
+            class="mt-2 text-2xl font-bold"
+            [class]="card.valueClass">
+
+            {{ card.value }}
+
+          </h2>
+
+        </div>
+
+        <!-- Right Icon -->
+
+        <div>
+
+          @switch (card.icon) {
+
+            @case ('bill') {
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-9 w-9 text-slate-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.7">
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M8 7h8M8 11h8M8 15h5M6 3h12a1 1 0 011 1v16l-2-1-2 1-2-1-2 1-2-1-2 1V4a1 1 0 011-1z"/>
+
+              </svg>
+
+            }
+
+            @case ('warning') {
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-9 w-9 text-red-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.7">
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M12 9v4m0 4h.01M10.29 3.86L1.82 18a2 2 0 001.71 3h16.94a2 2 0 001.71-3L13.71 3.86a2 2 0 00-3.42 0z"/>
+
+              </svg>
+
+            }
+
+            @case ('paid') {
+
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="h-9 w-9 text-emerald-300"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                stroke-width="1.7">
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M9 12l2 2 4-4m6 2A9 9 0 1112 3a9 9 0 019 9z"/>
+
+              </svg>
+
+            }
+
+          }
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

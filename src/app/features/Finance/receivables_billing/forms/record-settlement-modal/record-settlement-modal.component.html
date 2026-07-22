@@ -1,0 +1,164 @@
+<!-- Backdrop -->
+
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+
+  <!-- Modal -->
+
+  <div
+    class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
+
+    <!-- Header -->
+
+    <div
+      class="flex items-center justify-between border-b border-gray-200 px-6 py-5">
+
+      <h2
+        class="text-xl font-semibold text-slate-900">
+
+        Record Settlement
+
+      </h2>
+
+      <button
+        type="button"
+        (click)="cancel()"
+        class="text-xs font-semibold uppercase tracking-wider text-slate-400 hover:text-red-700">
+
+        Close
+
+      </button>
+
+    </div>
+
+    <!-- Body -->
+
+    <div class="space-y-5 p-5">
+
+      <!-- Invoice Summary -->
+
+      <div
+        class="rounded-xl border border-gray-200 bg-slate-50 p-4">
+
+        <div
+          class="mb-2 flex items-center justify-between">
+
+          <span class="text-sm text-slate-500">
+
+            Invoice Ref:
+
+          </span>
+
+          <span class="font-mono font-semibold text-red-700">
+
+            {{ invoice.id }}
+
+          </span>
+
+        </div>
+
+        <div
+          class="mb-2 flex items-center justify-between">
+
+          <span class="text-sm text-slate-500">
+
+            Customer Name:
+
+          </span>
+
+          <span class="font-medium text-slate-900">
+
+            {{ invoice.customer }}
+
+          </span>
+
+        </div>
+
+        <div
+          class="flex items-center justify-between border-t border-gray-200 pt-3">
+
+          <span
+            class="font-medium text-slate-600">
+
+            Total Dues to Deposit:
+
+          </span>
+
+          <span
+            class="text-2xl font-bold text-emerald-700">
+
+            ₹{{ invoice.amount | number }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- Account -->
+
+      <div>
+
+        <label
+          class="mb-2 block text-[10px] font-semibold uppercase tracking-widest text-slate-500">
+
+          Select Deposit Bank Account
+
+        </label>
+
+        <select
+          [formControl]="account"
+          class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm outline-none focus:border-emerald-600">
+
+          <option>
+
+            HDFC Corporate Checking (Balance: ₹345,200)
+
+          </option>
+
+          <option>
+
+            Silicon Valley Operating (Balance: ₹185,600)
+
+          </option>
+
+          <option>
+
+            ICICI Business Account (Balance: ₹92,400)
+
+          </option>
+
+        </select>
+
+      </div>
+
+      <!-- Footer -->
+
+      <div
+        class="flex justify-end gap-3 border-t border-gray-200 pt-5">
+
+        <button
+          type="button"
+          (click)="cancel()"
+          class="rounded-xl bg-slate-200 px-6 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-300">
+
+          Cancel
+
+        </button>
+
+        <button
+          type="button"
+          (click)="processDeposit()"
+          class="rounded-xl bg-emerald-700 px-7 py-2.5 text-sm font-medium text-white hover:bg-emerald-800">
+
+          Process Deposit
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

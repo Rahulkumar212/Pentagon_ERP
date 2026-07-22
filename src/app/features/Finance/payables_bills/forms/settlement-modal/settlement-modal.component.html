@@ -1,0 +1,146 @@
+<!-- Backdrop -->
+
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+
+  <!-- Modal -->
+
+  <div class="w-full max-w-md overflow-hidden rounded-2xl bg-white shadow-2xl">
+
+    <!-- Header -->
+
+    <div class="flex items-center justify-between border-b border-gray-200 px-5 py-5">
+
+      <h2 class="text-xl font-semibold text-slate-900">
+
+        Settle Vendor Invoice
+
+      </h2>
+
+      <button
+        type="button"
+        (click)="cancel()"
+        class="text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-slate-700">
+
+        Close
+
+      </button>
+
+    </div>
+
+    <!-- Body -->
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      class="space-y-5 p-5">
+
+      <!-- Invoice Details -->
+
+      <div class="rounded-xl border border-gray-200 bg-slate-50">
+
+        <div class="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+
+          <span class="text-sm text-slate-500">
+
+            Vendor Invoice Ref:
+
+          </span>
+
+          <span class="font-mono font-semibold text-red-700">
+
+            {{ form.value.invoiceRef }}
+
+          </span>
+
+        </div>
+
+        <div class="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+
+          <span class="text-sm text-slate-500">
+
+            Payee / Supplier:
+
+          </span>
+
+          <span class="font-semibold text-slate-900">
+
+            {{ form.value.supplier }}
+
+          </span>
+
+        </div>
+
+        <div class="flex items-center justify-between px-4 py-3">
+
+          <span class="text-sm text-slate-500">
+
+            Total Liability:
+
+          </span>
+
+          <span class="text-2xl font-bold text-red-700">
+
+            {{ form.value.liability }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- Bank Account -->
+
+      <div>
+
+        <label class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+
+          Select Bank Account For Disbursement
+
+        </label>
+
+        <select
+          formControlName="bankAccount"
+          class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm">
+
+          @for (account of bankAccounts; track account) {
+
+            <option>
+
+              {{ account }}
+
+            </option>
+
+          }
+
+        </select>
+
+      </div>
+
+      <!-- Footer -->
+
+      <div class="flex gap-3 pt-2">
+
+        <button
+          type="button"
+          (click)="cancel()"
+          class="flex-1 rounded-xl bg-slate-100 py-3 text-sm font-medium hover:bg-slate-200">
+
+          Cancel
+
+        </button>
+
+        <button
+          type="submit"
+          class="flex-1 rounded-xl bg-red-800 py-3 text-sm font-semibold text-white hover:bg-red-900">
+
+          Disburse Funds
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

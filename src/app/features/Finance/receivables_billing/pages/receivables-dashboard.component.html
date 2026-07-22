@@ -1,0 +1,21 @@
+<app-receivables-header
+  (createInvoice)="openInvoiceModal()">
+</app-receivables-header>
+
+<div class="mt-6">
+  <app-receivable-summary-cards>
+  </app-receivable-summary-cards>
+</div>
+
+<div class="mt-6">
+  <app-invoice-table>
+  </app-invoice-table>
+</div>
+
+@if (showInvoiceModal) {
+
+  <app-customer-invoice-modal
+    (close)="closeInvoiceModal()">
+  </app-customer-invoice-modal>
+
+}

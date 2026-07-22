@@ -70,14 +70,14 @@ export class SidebarComponent implements OnInit {
   constructor(
     private readonly router: Router,
     private readonly auth: AuthService
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
-    this.currentRole = 
+    this.currentRole =
       this.auth.getRole() ?? '';
 
-      
+
 
     this.user = {
 
@@ -93,7 +93,7 @@ export class SidebarComponent implements OnInit {
   }
 
 
-  
+
   private getSidebarKey(
     role: string
   ): keyof typeof SIDEBAR_CONFIG {
@@ -109,8 +109,10 @@ export class SidebarComponent implements OnInit {
         return 'HR';
 
       case 'SALES_MANAGER':
-      case 'SALES_EXECUTIVE':
         return 'CRM';
+
+      case 'SALES_EXECUTIVE':
+        return 'EXECUTIVE';
 
       case 'SCM_MANAGER':
       case 'SCM_EXECUTIVE':
@@ -132,7 +134,7 @@ export class SidebarComponent implements OnInit {
 
   }
 
-   getSections(
+  getSections(
     role: string
   ): SidebarSection[] {
 
@@ -154,14 +156,14 @@ export class SidebarComponent implements OnInit {
 
   }
 
-  
+
   getDashboardRoute(): string {
 
 
     const role =
       this.auth.getRole();
 
-    switch(role) {
+    switch (role) {
 
 
       case 'SALES_EXECUTIVE':
@@ -224,28 +226,28 @@ export class SidebarComponent implements OnInit {
 
   }
 
-  logout():void {
+  logout(): void {
 
 
     this.auth.logout()
-    .subscribe({
+      .subscribe({
 
 
-      next:()=>{
+        next: () => {
 
 
-        localStorage.clear();
+          localStorage.clear();
 
 
-        this.router.navigate([
-          '/login'
-        ]);
+          this.router.navigate([
+            '/login'
+          ]);
 
 
-      }
+        }
 
 
-    });
+      });
 
 
   }

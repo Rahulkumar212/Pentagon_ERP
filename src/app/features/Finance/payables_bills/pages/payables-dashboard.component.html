@@ -1,0 +1,42 @@
+<div class="space-y-8">
+
+  <!-- Header -->
+
+  <app-payables-header
+    (recordVendorBill)="openVendorBillModal()">
+  </app-payables-header>
+
+  <!-- Summary Cards -->
+  <div class="mt-6">
+  <app-payable-summary-cards>
+  </app-payable-summary-cards>
+  </div>
+
+  <!-- Vendor Bills Table -->
+  <div class="mt-6">
+  <app-vendor-bills-table
+    (settleBill)="openSettlementModal()">
+  </app-vendor-bills-table>
+  </div>
+
+  <!-- Record Vendor Bill Modal -->
+
+  @if (showVendorBillModal) {
+
+    <app-vendor-bill-modal
+      (close)="closeVendorBillModal()">
+    </app-vendor-bill-modal>
+
+  }
+
+  <!-- Settlement Modal -->
+
+  @if (showSettlementModal) {
+
+    <app-settlement-modal
+      (close)="closeSettlementModal()">
+    </app-settlement-modal>
+
+  }
+
+</div>

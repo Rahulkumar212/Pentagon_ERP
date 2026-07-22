@@ -1,0 +1,231 @@
+<!-- Backdrop -->
+
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+
+  <!-- Modal -->
+
+  <div
+    class="w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+
+    <!-- Header -->
+
+    <div
+      class="flex items-center justify-between border-b border-gray-200 px-6 py-5">
+
+      <h2
+        class="text-xl font-semibold text-slate-900">
+
+        Draft Outbound Invoice
+
+      </h2>
+
+      <button
+        (click)="cancel()"
+        class="text-xs font-semibold uppercase tracking-wider text-slate-500 hover:text-red-700">
+
+        Close
+
+      </button>
+
+    </div>
+
+    <!-- Form -->
+
+    <form
+      [formGroup]="invoiceForm"
+      (ngSubmit)="submit()"
+      class="space-y-5 p-6">
+
+      <!-- Top -->
+
+      <div
+        class="grid grid-cols-2 gap-4">
+
+        <div>
+
+          <label
+            class="mb-2 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Customer / Enterprise Name
+
+          </label>
+
+          <input
+            formControlName="customer"
+            placeholder="Globex Corporation"
+            class="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-red-700">
+
+        </div>
+
+        <div>
+
+          <label
+            class="mb-2 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Due Date
+
+          </label>
+
+          <input
+            type="date"
+            formControlName="dueDate"
+            class="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-red-700">
+
+        </div>
+
+      </div>
+
+      <!-- Invoice Items -->
+
+      <div>
+
+        <div
+          class="mb-3 flex items-center justify-between">
+
+          <h3
+            class="font-medium text-slate-800">
+
+            Invoice Line Items
+
+          </h3>
+
+          <button
+            type="button"
+            (click)="addRow()"
+            class="text-xs font-semibold uppercase tracking-wide text-red-700 hover:text-red-900">
+
+            + Add Row
+
+          </button>
+
+        </div>
+
+        <!-- Header -->
+
+        <div
+          class="mb-2 grid grid-cols-12 gap-3 px-1 text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+          <div class="col-span-6">
+
+            Description
+
+          </div>
+
+          <div class="col-span-2">
+
+            Qty
+
+          </div>
+
+          <div class="col-span-3">
+
+            Price (₹)
+
+          </div>
+
+          <div class="col-span-1">
+
+          </div>
+
+        </div>
+
+        <!-- Rows -->
+
+        <div
+          formArrayName="items"
+          class="space-y-3">
+
+          @for (item of items.controls; track $index) {
+
+            <div
+              [formGroupName]="$index"
+              class="grid grid-cols-12 gap-3">
+
+              <input
+                formControlName="description"
+                placeholder="API Integration Consulting"
+                class="col-span-6 rounded-xl border border-gray-300 px-3 py-2 text-sm">
+
+              <input
+                type="number"
+                formControlName="quantity"
+                class="col-span-2 rounded-xl border border-gray-300 px-3 py-2 text-sm">
+
+              <input
+                type="number"
+                formControlName="price"
+                class="col-span-3 rounded-xl border border-gray-300 px-3 py-2 text-sm">
+
+              <button
+                type="button"
+                (click)="removeRow($index)"
+                class="col-span-1 rounded-lg text-lg text-slate-500 hover:text-red-700">
+
+                🗑
+
+              </button>
+
+            </div>
+
+          }
+
+        </div>
+
+      </div>
+
+      <!-- Total -->
+
+      <div
+        class="rounded-xl bg-slate-100 px-5 py-4">
+
+        <div
+          class="flex items-center justify-between">
+
+          <span
+            class="font-medium text-slate-600">
+
+            Cumulative Invoice Value
+
+          </span>
+
+          <span
+            class="text-xl font-bold text-slate-900">
+
+            ₹{{ getTotal() | number }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- Footer -->
+
+      <div
+        class="flex justify-end gap-3 border-t border-gray-200 pt-5">
+
+        <button
+          type="button"
+          (click)="cancel()"
+          class="rounded-xl bg-slate-200 px-6 py-2.5 text-sm font-medium hover:bg-slate-300">
+
+          Discard
+
+        </button>
+
+        <button
+          type="submit"
+          class="rounded-xl bg-red-800 px-7 py-2.5 text-sm font-medium text-white hover:bg-red-900">
+
+          Issue Invoice
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

@@ -5,19 +5,14 @@ import {
   SidebarConfig
 } from './sidebar.types';
 
-/* ===========================================================
-   EXECUTIVE
-=========================================================== */
-
-const EXECUTIVE = {
+const CRM = {
 
   consoleTitle: 'Main Console',
 
   sections: [
-
+    
     {
-
-      heading: 'Main Console',
+      heading: '',
 
       items: [
 
@@ -29,11 +24,40 @@ const EXECUTIVE = {
 
       ]
 
+    },
+    {
+      heading: 'CRM & Sales',
+
+      items: [
+
+        {
+          label: 'Sales Hub',
+          icon: '⌗',
+          route: '/crm'
+        },
+
+        {
+          label: 'Billing Orders',
+          icon: '🧾',
+          route: '/billing-orders'
+        },
+
+        {
+          label: 'Visit Planner',
+          icon: '🏫',
+          route: '/institution-visit-planner'
+        }
+
+      ]
+
     }
 
   ]
 
 };
+
+
+const EXECUTIVE = CRM;
 
 /* ===========================================================
    APPROVALS
@@ -65,47 +89,6 @@ const APPROVALS = {
 
 };
 
-/* ===========================================================
-   CRM
-=========================================================== */
-
-const CRM = {
-
-  consoleTitle: 'Main Console',
-
-  sections: [
-
-    {
-
-      heading: 'CRM & Sales',
-
-      items: [
-
-        {
-          label: 'Sales Hub',
-          icon: '⌗',
-          route: '/crm'
-        },
-
-        {
-          label: 'Billing Orders',
-          icon: '🧾',
-          route: '/billing-orders'
-        },
-
-        {
-          label: 'Visit Planner',
-          icon: '🏫',
-          route: '/institution-visit-planner'
-        }
-
-      ]
-
-    }
-
-  ]
-
-};
 
 /* ===========================================================
    ORDERS

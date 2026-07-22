@@ -26,21 +26,21 @@ export const FINANCE_ROUTES: Routes = [
 //         .then(m => m.PaymentsComponent)
 //   },
 
-//   // Receivables
-//   {
-//     path: 'receivables',
-//     loadComponent: () =>
-//       import('./receivables/pages/receivables.component')
-//         .then(m => m.ReceivablesComponent)
-//   },
+  // Receivables
+  {
+    path: 'finance/receivables',
+    loadComponent: () =>
+      import('./receivables_billing/pages/receivables-dashboard.component')
+        .then(m => m.ReceivablesDashboardComponent)
+  },
 
-//   // Payables
-//   {
-//     path: 'payables',
-//     loadComponent: () =>
-//       import('./payables/pages/payables.component')
-//         .then(m => m.PayablesComponent)
-//   },
+  // Payables
+  {
+    path: 'finance/payables',
+    loadComponent: () =>
+      import('./payables_bills/pages/payables-dashboard.component')
+        .then(m => m.PayablesDashboardComponent)
+  },
 
 //   // Banking
 //   {
@@ -106,10 +106,5 @@ export const FINANCE_ROUTES: Routes = [
 //         .then(m => m.ConfigurationComponent)
 //   },
 
-  // Fallback
-  {
-    path: '**',
-    redirectTo: ''
-  }
 
 ];
