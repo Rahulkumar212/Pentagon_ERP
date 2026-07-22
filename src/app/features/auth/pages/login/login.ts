@@ -93,7 +93,7 @@ export class LoginComponent {
 
         case 'FINANCE_MANAGER':
         case 'ACCOUNTANT':
-          this.router.navigate(['/finance']);
+          this.router.navigate(['/finance/dashboard']);
           break;
 
         case 'GEM_MANAGER':
