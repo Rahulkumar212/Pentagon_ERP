@@ -1,0 +1,232 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+
+  <div class="border-b border-gray-200 px-5 py-4">
+
+    <h2 class="text-base font-semibold text-slate-900">
+
+      Cash Flow Statement
+
+    </h2>
+
+    <p class="mt-1 text-xs text-slate-500">
+
+      Operating, Investing & Financing Cash Activities
+
+    </p>
+
+  </div>
+
+  <!-- Sections -->
+
+  <div class="grid gap-5 p-5 lg:grid-cols-3">
+
+    <!-- Operating -->
+
+    <div class="rounded-xl border border-green-200 bg-green-50">
+
+      <div class="border-b border-green-200 px-4 py-3">
+
+        <h3 class="text-sm font-semibold text-green-800">
+
+          Operating Activities
+
+        </h3>
+
+      </div>
+
+      <div class="space-y-3 p-4">
+
+        @for(item of operatingActivities(); track item.title){
+
+          <div class="flex items-center justify-between">
+
+            <span class="text-sm text-slate-700">
+
+              {{ item.title }}
+
+            </span>
+
+            <span
+              class="font-semibold"
+              [class.text-green-700]="item.amount >= 0"
+              [class.text-red-700]="item.amount < 0">
+
+              ₹{{ item.amount | number }}
+
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+      <div
+        class="flex items-center justify-between border-t border-green-200 bg-white px-4 py-3">
+
+        <span class="font-semibold">
+
+          Net Operating
+
+        </span>
+
+        <span class="font-bold text-green-700">
+
+          ₹{{ operatingTotal() | number }}
+
+        </span>
+
+      </div>
+
+    </div>
+
+    <!-- Investing -->
+
+    <div class="rounded-xl border border-amber-200 bg-amber-50">
+
+      <div class="border-b border-amber-200 px-4 py-3">
+
+        <h3 class="text-sm font-semibold text-amber-800">
+
+          Investing Activities
+
+        </h3>
+
+      </div>
+
+      <div class="space-y-3 p-4">
+
+        @for(item of investingActivities(); track item.title){
+
+          <div class="flex items-center justify-between">
+
+            <span class="text-sm text-slate-700">
+
+              {{ item.title }}
+
+            </span>
+
+            <span
+              class="font-semibold"
+              [class.text-green-700]="item.amount >= 0"
+              [class.text-red-700]="item.amount < 0">
+
+              ₹{{ item.amount | number }}
+
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+      <div
+        class="flex items-center justify-between border-t border-amber-200 bg-white px-4 py-3">
+
+        <span class="font-semibold">
+
+          Net Investing
+
+        </span>
+
+        <span class="font-bold text-amber-700">
+
+          ₹{{ investingTotal() | number }}
+
+        </span>
+
+      </div>
+
+    </div>
+
+    <!-- Financing -->
+
+    <div class="rounded-xl border border-blue-200 bg-blue-50">
+
+      <div class="border-b border-blue-200 px-4 py-3">
+
+        <h3 class="text-sm font-semibold text-blue-800">
+
+          Financing Activities
+
+        </h3>
+
+      </div>
+
+      <div class="space-y-3 p-4">
+
+        @for(item of financingActivities(); track item.title){
+
+          <div class="flex items-center justify-between">
+
+            <span class="text-sm text-slate-700">
+
+              {{ item.title }}
+
+            </span>
+
+            <span
+              class="font-semibold"
+              [class.text-green-700]="item.amount >= 0"
+              [class.text-red-700]="item.amount < 0">
+
+              ₹{{ item.amount | number }}
+
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+      <div
+        class="flex items-center justify-between border-t border-blue-200 bg-white px-4 py-3">
+
+        <span class="font-semibold">
+
+          Net Financing
+
+        </span>
+
+        <span class="font-bold text-blue-700">
+
+          ₹{{ financingTotal() | number }}
+
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+
+  <div class="border-t border-gray-200 bg-slate-50 px-5 py-4">
+
+    <div class="flex items-center justify-between">
+
+      <span class="text-base font-semibold text-slate-700">
+
+        Net Cash Flow
+
+      </span>
+
+      <span
+        class="text-xl font-bold"
+        [class.text-green-700]="netCashFlow() >= 0"
+        [class.text-red-700]="netCashFlow() < 0">
+
+        ₹{{ netCashFlow() | number }}
+
+      </span>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,94 @@
+<div class="grid grid-cols-1 gap-4 md:grid-cols-2 xl:grid-cols-3">
+
+  @for (bank of banks(); track bank.id) {
+
+    <div
+      (click)="selectBank(bank.id)"
+      class="cursor-pointer rounded-xl border bg-white p-4 shadow-sm transition-all duration-300 hover:-translate-y-0.5 hover:shadow-md"
+
+      [class.border-red-700]="selectedBank() === bank.id"
+      [class.ring-2]="selectedBank() === bank.id"
+      [class.ring-red-200]="selectedBank() === bank.id"
+      [class.border-gray-200]="selectedBank() !== bank.id">
+
+      <!-- Header -->
+
+      <div class="flex items-start justify-between">
+
+        <span
+          class="rounded-md bg-blue-50 px-2 py-0.5 text-[9px] font-bold tracking-wider text-blue-700">
+
+          {{ bank.type }}
+
+        </span>
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4 text-slate-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2">
+
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M17 7l1.5-1.5a2.121 2.121 0 013 3L20 10m-3-3l-8.5 8.5L6 18l2.5-.5L17 9z"/>
+
+        </svg>
+
+      </div>
+
+      <!-- Bank Name -->
+
+      <div class="mt-3">
+
+        <h3 class="text-sm font-semibold text-slate-900">
+
+          {{ bank.name }}
+
+        </h3>
+
+        <p class="mt-1 text-[11px] tracking-wide text-slate-500">
+
+          {{ bank.accountNo }}
+
+        </p>
+
+      </div>
+
+      <!-- Divider -->
+
+      <div class="my-3 border-t border-gray-200"></div>
+
+      <!-- Balance -->
+
+      <div class="flex items-center justify-between">
+
+        <div>
+
+          <p class="text-[10px] uppercase tracking-wider text-slate-400">
+
+            Vault Balance
+
+          </p>
+
+        </div>
+
+        <div>
+
+          <span class="text-lg font-bold text-slate-900">
+
+            ₹{{ bank.balance | number }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

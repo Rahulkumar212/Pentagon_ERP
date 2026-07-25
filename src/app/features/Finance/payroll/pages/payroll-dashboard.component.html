@@ -1,0 +1,51 @@
+<div class="flex flex-col gap-6">
+
+  <!-- ===================================================== -->
+  <!-- Payroll Header -->
+  <!-- ===================================================== -->
+
+  <app-payroll-header
+    (bankChanged)="onBankChanged($event)">
+  </app-payroll-header>
+
+  <!-- ===================================================== -->
+  <!-- Payroll Summary -->
+  <!-- ===================================================== -->
+
+  <app-payroll-summary-cards>
+  </app-payroll-summary-cards>
+
+  <!-- ===================================================== -->
+  <!-- Payroll Register -->
+  <!-- ===================================================== -->
+
+  <app-payroll-register
+    (disburseSalary)="openSalaryDisbursementModal()"
+    (viewPayslip)="openPayslipModal()">
+  </app-payroll-register>
+
+  <!-- ===================================================== -->
+  <!-- Salary Disbursement Modal -->
+  <!-- ===================================================== -->
+
+  @if (showSalaryDisbursementModal) {
+
+    <app-salary-disbursement-modal
+      (close)="closeSalaryDisbursementModal()">
+    </app-salary-disbursement-modal>
+
+  }
+
+  <!-- ===================================================== -->
+  <!-- Employee Payslip Modal -->
+  <!-- ===================================================== -->
+
+  @if (showPayslipModal) {
+
+    <app-employee-payslip-modal
+      (close)="closePayslipModal()">
+    </app-employee-payslip-modal>
+
+  }
+
+</div>

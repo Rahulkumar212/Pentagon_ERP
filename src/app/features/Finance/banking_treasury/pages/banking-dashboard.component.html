@@ -1,0 +1,22 @@
+<div>
+
+  <!-- Treasury Header -->
+  <div class="mb-5">
+    <app-treasury-header
+      (bankChanged)="onBankChanged($event)">
+    </app-treasury-header>
+  </div>
+
+  <!-- Bank Accounts -->
+  <div class="mb-5">
+    <app-bank-accounts>
+    </app-bank-accounts>
+  </div>
+
+  <!-- Reconciliation Center -->
+  <div>
+    <app-reconciliation-center>
+    </app-reconciliation-center>
+  </div>
+
+</div>

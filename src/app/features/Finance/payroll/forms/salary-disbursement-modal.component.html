@@ -1,0 +1,275 @@
+<!-- Backdrop -->
+
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+
+  <!-- Modal -->
+
+  <div class="w-full max-w-2xl overflow-hidden rounded-xl bg-white shadow-2xl">
+
+    <!-- Header -->
+
+    <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+
+      <div>
+
+        <h2 class="text-lg font-semibold text-slate-900">
+          Salary Disbursement
+        </h2>
+
+        <p class="mt-1 text-xs text-slate-500">
+          Release salary to employee account
+        </p>
+
+      </div>
+
+      <button
+        (click)="cancel()"
+        class="text-xl text-slate-400 hover:text-slate-700">
+
+        ×
+
+      </button>
+
+    </div>
+
+    <!-- Form -->
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      class="space-y-4 p-5">
+
+      <!-- Employee -->
+
+      <div class="grid grid-cols-2 gap-4">
+
+        <div>
+
+          <label class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Employee
+
+          </label>
+
+          <input
+            formControlName="employee"
+            readonly
+            class="w-full rounded-lg border border-gray-300 bg-slate-50 px-3 py-2 text-sm">
+
+        </div>
+
+        <div>
+
+          <label class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Employee ID
+
+          </label>
+
+          <input
+            formControlName="employeeId"
+            readonly
+            class="w-full rounded-lg border border-gray-300 bg-slate-50 px-3 py-2 text-sm">
+
+        </div>
+
+      </div>
+
+      <!-- Department -->
+
+      <div class="grid grid-cols-2 gap-4">
+
+        <div>
+
+          <label class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Department
+
+          </label>
+
+          <input
+            formControlName="department"
+            readonly
+            class="w-full rounded-lg border border-gray-300 bg-slate-50 px-3 py-2 text-sm">
+
+        </div>
+
+        <div>
+
+          <label class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Salary Month
+
+          </label>
+
+          <input
+            formControlName="month"
+            readonly
+            class="w-full rounded-lg border border-gray-300 bg-slate-50 px-3 py-2 text-sm">
+
+        </div>
+
+      </div>
+
+      <!-- Salary -->
+
+      <div class="grid grid-cols-3 gap-4">
+
+        <div>
+
+          <label class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Gross Salary
+
+          </label>
+
+          <input
+            formControlName="grossSalary"
+            readonly
+            class="w-full rounded-lg border border-gray-300 bg-slate-50 px-3 py-2 text-sm">
+
+        </div>
+
+        <div>
+
+          <label class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Deductions
+
+          </label>
+
+          <input
+            formControlName="deductions"
+            readonly
+            class="w-full rounded-lg border border-gray-300 bg-slate-50 px-3 py-2 text-sm">
+
+        </div>
+
+        <div>
+
+          <label class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Net Salary
+
+          </label>
+
+          <input
+            formControlName="netSalary"
+            readonly
+            class="w-full rounded-lg border border-gray-300 bg-green-50 px-3 py-2 text-sm font-semibold text-green-700">
+
+        </div>
+
+      </div>
+
+      <!-- Payment -->
+
+      <div class="grid grid-cols-2 gap-4">
+
+        <div>
+
+          <label class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Payment Date
+
+          </label>
+
+          <input
+            type="date"
+            formControlName="paymentDate"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+        </div>
+
+        <div>
+
+          <label class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Payment Method
+
+          </label>
+
+          <select
+            formControlName="paymentMethod"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+            @for(method of paymentMethods; track method){
+
+              <option [value]="method">
+
+                {{ method }}
+
+              </option>
+
+            }
+
+          </select>
+
+        </div>
+
+      </div>
+
+      <!-- Reference -->
+
+      <div>
+
+        <label class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+          Transaction Reference
+
+        </label>
+
+        <input
+          formControlName="referenceNo"
+          placeholder="UTR / Transaction ID"
+          class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+      </div>
+
+      <!-- Remarks -->
+
+      <div>
+
+        <label class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+          Remarks
+
+        </label>
+
+        <textarea
+          rows="3"
+          formControlName="remarks"
+          placeholder="Optional remarks..."
+          class="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm">
+        </textarea>
+
+      </div>
+
+      <!-- Footer -->
+
+      <div class="flex justify-end gap-3 border-t border-gray-200 pt-4">
+
+        <button
+          type="button"
+          (click)="cancel()"
+          class="rounded-lg bg-gray-100 px-5 py-2 text-sm font-medium hover:bg-gray-200">
+
+          Cancel
+
+        </button>
+
+        <button
+          type="submit"
+          class="rounded-lg bg-red-800 px-6 py-2 text-sm font-medium text-white hover:bg-red-900">
+
+          Disburse Salary
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

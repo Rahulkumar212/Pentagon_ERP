@@ -1,0 +1,221 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+
+  <div class="border-b border-gray-200 px-5 py-4">
+
+    <h2 class="text-base font-semibold text-slate-900">
+
+      Balance Sheet
+
+    </h2>
+
+    <p class="mt-1 text-xs text-slate-500">
+
+      Statement of Assets, Liabilities & Equity
+
+    </p>
+
+  </div>
+
+  <!-- Body -->
+
+  <div class="grid gap-5 p-5 lg:grid-cols-2">
+
+    <!-- ================= Assets ================= -->
+
+    <div class="rounded-xl border border-green-200 bg-green-50">
+
+      <div class="border-b border-green-200 px-4 py-3">
+
+        <h3 class="text-sm font-semibold text-green-800">
+
+          Assets
+
+        </h3>
+
+      </div>
+
+      <div class="space-y-3 p-4">
+
+        @for(item of assets(); track item.title){
+
+          <div class="flex items-center justify-between">
+
+            <span class="text-sm text-slate-700">
+
+              {{ item.title }}
+
+            </span>
+
+            <span class="font-semibold text-slate-900">
+
+              ₹{{ item.amount | number }}
+
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+      <div class="flex items-center justify-between border-t border-green-200 bg-white px-4 py-3">
+
+        <span class="font-semibold">
+
+          Total Assets
+
+        </span>
+
+        <span class="text-base font-bold text-green-700">
+
+          ₹{{ totalAssets() | number }}
+
+        </span>
+
+      </div>
+
+    </div>
+
+    <!-- ================= Liability ================= -->
+
+    <div class="space-y-5">
+
+      <div class="rounded-xl border border-red-200 bg-red-50">
+
+        <div class="border-b border-red-200 px-4 py-3">
+
+          <h3 class="text-sm font-semibold text-red-800">
+
+            Liabilities
+
+          </h3>
+
+        </div>
+
+        <div class="space-y-3 p-4">
+
+          @for(item of liabilities(); track item.title){
+
+            <div class="flex items-center justify-between">
+
+              <span class="text-sm text-slate-700">
+
+                {{ item.title }}
+
+              </span>
+
+              <span class="font-semibold">
+
+                ₹{{ item.amount | number }}
+
+              </span>
+
+            </div>
+
+          }
+
+        </div>
+
+        <div class="flex items-center justify-between border-t border-red-200 bg-white px-4 py-3">
+
+          <span class="font-semibold">
+
+            Total Liabilities
+
+          </span>
+
+          <span class="font-bold text-red-700">
+
+            ₹{{ totalLiabilities() | number }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+      <!-- Equity -->
+
+      <div class="rounded-xl border border-blue-200 bg-blue-50">
+
+        <div class="border-b border-blue-200 px-4 py-3">
+
+          <h3 class="text-sm font-semibold text-blue-800">
+
+            Shareholder's Equity
+
+          </h3>
+
+        </div>
+
+        <div class="space-y-3 p-4">
+
+          @for(item of equity(); track item.title){
+
+            <div class="flex items-center justify-between">
+
+              <span class="text-sm text-slate-700">
+
+                {{ item.title }}
+
+              </span>
+
+              <span class="font-semibold">
+
+                ₹{{ item.amount | number }}
+
+              </span>
+
+            </div>
+
+          }
+
+        </div>
+
+        <div class="flex items-center justify-between border-t border-blue-200 bg-white px-4 py-3">
+
+          <span class="font-semibold">
+
+            Total Equity
+
+          </span>
+
+          <span class="font-bold text-blue-700">
+
+            ₹{{ totalEquity() | number }}
+
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <!-- Footer -->
+
+  <div class="border-t border-gray-200 bg-slate-50 px-5 py-4">
+
+    <div class="flex items-center justify-between">
+
+      <span class="font-semibold text-slate-700">
+
+        Liabilities + Equity
+
+      </span>
+
+      <span class="text-lg font-bold text-slate-900">
+
+        ₹{{ totalLiabilities() + totalEquity() | number }}
+
+      </span>
+
+    </div>
+
+  </div>
+
+</div>

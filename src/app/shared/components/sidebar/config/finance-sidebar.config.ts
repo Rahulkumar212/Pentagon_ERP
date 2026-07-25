@@ -63,59 +63,43 @@ export const FINANCE_SIDEBAR: SidebarModule = {
 
 
         {
-          label:'Banking',
+          label:'Banking & Treasury',
           icon:'🏦',
           route:'/finance/banking'
         },
 
 
         {
-          label:'Payroll',
+          label:'Payroll Finance',
           icon:'👨‍💼',
-          route:'/finance/payroll'
+          route:'/payroll-finance'
         },
 
 
         {
-          label:'Budget',
+          label:'Budget & Assets',
           icon:'📑',
           route:'/finance/budget'
         },
 
 
         {
-          label:'Reports',
-          icon:'📈',
-          route:'/finance/reports'
-        },
-
-
-        {
-          label:'Expenses',
+          label:'Expenses & Payments',
           icon:'💸',
           route:'/finance/expenses'
         },
 
-
-        {
-          label:'Assets',
-          icon:'🏢',
-          route:'/finance/assets'
+         {
+          label:'Reports & Statements',
+          icon:'📈',
+          route:'/finance/reports'
         },
 
-
-        {
-          label:'Taxation',
-          icon:'🧮',
-          route:'/finance/taxation'
-        },
-
-
-        {
-          label:'Configuration',
-          icon:'⚙️',
-          route:'/finance/configuration'
-        }
+        // {
+        //   label:'Configuration',
+        //   icon:'⚙️',
+        //   route:'/finance/configuration'
+        // }
 
 
       ]

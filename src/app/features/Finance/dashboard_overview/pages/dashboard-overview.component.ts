@@ -46,5 +46,5 @@ export class DashboardOverviewComponent {
       budgets: BudgetOverview[] = BUDGET_OVERVIEW;
       cashflowChart = CashflowChart;
        revenueExpenseChart = RevenueExpenseChart;
-        summaryCards: FinanceSummaryCard[] = FinanceSummaryCards;
+      summaryCards: FinanceSummaryCard[] = FinanceSummaryCards;
 }

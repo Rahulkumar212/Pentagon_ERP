@@ -1,0 +1,276 @@
+<!-- Overlay -->
+
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-5">
+
+  <!-- Modal -->
+
+  <div
+    class="w-full max-w-3xl rounded-2xl bg-white shadow-2xl">
+
+    <!-- Header -->
+
+    <div
+      class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+
+      <div>
+
+        <h2 class="text-lg font-bold text-slate-900">
+
+          Create Journal Entry
+
+        </h2>
+
+        <p class="text-sm text-slate-500">
+
+          Record a double-entry accounting transaction.
+
+        </p>
+
+      </div>
+
+      <button
+        (click)="closeModal()"
+        class="text-2xl text-slate-500 hover:text-red-700">
+
+        ×
+
+      </button>
+
+    </div>
+
+    <!-- Form -->
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      class="space-y-5 p-6">
+
+      <div class="grid grid-cols-2 gap-4">
+
+        <!-- Voucher -->
+
+        <div>
+
+          <label class="mb-1 block text-sm font-medium">
+
+            Voucher Number
+
+          </label>
+
+          <input
+            formControlName="voucherNo"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+        </div>
+
+        <!-- Date -->
+
+        <div>
+
+          <label class="mb-1 block text-sm font-medium">
+
+            Journal Date
+
+          </label>
+
+          <input
+            type="date"
+            formControlName="journalDate"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+        </div>
+
+        <!-- Reference -->
+
+        <div>
+
+          <label class="mb-1 block text-sm font-medium">
+
+            Reference
+
+          </label>
+
+          <input
+            formControlName="reference"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+        </div>
+
+        <!-- Amount -->
+
+        <div>
+
+          <label class="mb-1 block text-sm font-medium">
+
+            Amount
+
+          </label>
+
+          <input
+            type="number"
+            formControlName="amount"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+        </div>
+
+      </div>
+
+      <!-- Description -->
+
+      <div>
+
+        <label class="mb-1 block text-sm font-medium">
+
+          Description
+
+        </label>
+
+        <input
+          formControlName="description"
+          class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+      </div>
+
+      <!-- Debit Credit -->
+
+      <div class="grid grid-cols-2 gap-4">
+
+        <div>
+
+          <label class="mb-1 block text-sm font-medium text-green-700">
+
+            Debit Account
+
+          </label>
+
+          <select
+            formControlName="debitAccount"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+            <option value="">Select Account</option>
+
+            @for(account of accounts; track account){
+
+              <option [value]="account">
+
+                {{ account }}
+
+              </option>
+
+            }
+
+          </select>
+
+        </div>
+
+        <div>
+
+          <label class="mb-1 block text-sm font-medium text-red-700">
+
+            Credit Account
+
+          </label>
+
+          <select
+            formControlName="creditAccount"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+            <option value="">Select Account</option>
+
+            @for(account of accounts; track account){
+
+              <option [value]="account">
+
+                {{ account }}
+
+              </option>
+
+            }
+
+          </select>
+
+        </div>
+
+      </div>
+
+      <!-- Narration -->
+
+      <div>
+
+        <label class="mb-1 block text-sm font-medium">
+
+          Narration
+
+        </label>
+
+        <textarea
+          rows="3"
+          formControlName="narration"
+          class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+        </textarea>
+
+      </div>
+
+      <!-- Attachment -->
+
+      <div>
+
+        <label class="mb-1 block text-sm font-medium">
+
+          Attachment
+
+        </label>
+
+        <input
+          type="file"
+          class="w-full rounded-lg border border-gray-300 p-2">
+
+      </div>
+
+      <!-- Checkbox -->
+
+      <div class="flex items-center gap-2">
+
+        <input
+          type="checkbox"
+          formControlName="postImmediately">
+
+        <label class="text-sm text-slate-700">
+
+          Post journal immediately after saving
+
+        </label>
+
+      </div>
+
+      <!-- Footer -->
+
+      <div
+        class="flex justify-end gap-3 border-t border-gray-200 pt-5">
+
+        <button
+          type="button"
+          (click)="closeModal()"
+          class="rounded-lg border border-gray-300 px-5 py-2">
+
+          Cancel
+
+        </button>
+
+        <button
+          type="submit"
+          class="rounded-lg bg-red-800 px-6 py-2 font-semibold text-white hover:bg-red-900">
+
+          Save Journal Entry
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

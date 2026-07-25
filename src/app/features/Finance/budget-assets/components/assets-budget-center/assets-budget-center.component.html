@@ -1,0 +1,179 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+
+  <div class="border-b border-gray-200 px-5 py-4">
+
+    <div class="flex items-center justify-between">
+
+      <div>
+
+        <h2 class="text-base font-semibold text-slate-900">
+
+          Fixed Assets Register
+
+        </h2>
+
+        <p class="mt-1 text-xs text-slate-500">
+
+          Monitor organizational assets, depreciation and ownership records.
+
+        </p>
+
+      </div>
+
+      <button
+        class="rounded-lg bg-red-800 px-4 py-2 text-xs font-semibold text-white hover:bg-red-900">
+
+        + Register Asset
+
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Table -->
+
+  <div class="overflow-x-auto">
+
+    <table class="min-w-full">
+
+      <thead class="border-b border-gray-200 bg-slate-50">
+
+        <tr>
+
+          <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+            Asset
+
+          </th>
+
+          <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+            Category
+
+          </th>
+
+          <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+            Department
+
+          </th>
+
+          <th class="px-5 py-3 text-right text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+            Asset Value
+
+          </th>
+
+          <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+            Depreciation
+
+          </th>
+
+          <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+            Status
+
+          </th>
+
+          <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+            Action
+
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        @for(asset of assets(); track asset.id){
+
+          <tr class="border-b border-gray-100 hover:bg-slate-50">
+
+            <td class="px-5 py-4">
+
+              <div>
+
+                <p class="text-sm font-semibold text-slate-900">
+
+                  {{ asset.name }}
+
+                </p>
+
+                <p class="text-xs text-slate-500">
+
+                  Asset ID : AST-{{ asset.id }}
+
+                </p>
+
+              </div>
+
+            </td>
+
+            <td class="px-5 py-4 text-sm text-slate-600">
+
+              {{ asset.category }}
+
+            </td>
+
+            <td class="px-5 py-4 text-sm text-slate-600">
+
+              {{ asset.department }}
+
+            </td>
+
+            <td class="px-5 py-4 text-right font-semibold text-slate-900">
+
+              ₹{{ asset.value | number }}
+
+            </td>
+
+            <td class="px-5 py-4 text-center">
+
+              <span class="font-semibold text-orange-600">
+
+                {{ asset.depreciation }}%
+
+              </span>
+
+            </td>
+
+            <td class="px-5 py-4 text-center">
+
+              <span
+                class="rounded-full bg-emerald-100 px-3 py-1 text-[10px] font-semibold text-emerald-700">
+
+                {{ asset.status }}
+
+              </span>
+
+            </td>
+
+            <td class="px-5 py-4 text-center">
+
+              <button
+                (click)="viewAsset(asset)"
+                class="rounded-md bg-slate-100 px-3 py-1 text-xs font-medium hover:bg-slate-200">
+
+                View
+
+              </button>
+
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

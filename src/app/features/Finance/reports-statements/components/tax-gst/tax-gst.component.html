@@ -1,0 +1,205 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+
+  <div class="border-b border-gray-200 px-5 py-4">
+
+    <h2 class="text-base font-semibold text-slate-900">
+
+      Tax & GST Summary
+
+    </h2>
+
+    <p class="mt-1 text-xs text-slate-500">
+
+      GST liability, statutory taxes and filing compliance
+
+    </p>
+
+  </div>
+
+  <!-- Body -->
+
+  <div class="grid gap-5 p-5 lg:grid-cols-3">
+
+    <!-- GST -->
+
+    <div class="rounded-xl border border-green-200 bg-green-50">
+
+      <div class="border-b border-green-200 px-4 py-3">
+
+        <h3 class="text-sm font-semibold text-green-800">
+
+          GST Summary
+
+        </h3>
+
+      </div>
+
+      <div class="space-y-3 p-4">
+
+        @for(item of gstSummary(); track item.title){
+
+          <div class="flex items-center justify-between">
+
+            <span class="text-sm text-slate-700">
+
+              {{ item.title }}
+
+            </span>
+
+            <span class="font-semibold text-slate-900">
+
+              ₹{{ item.amount | number }}
+
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+      <div
+        class="flex items-center justify-between border-t border-green-200 bg-white px-4 py-3">
+
+        <span class="font-semibold">
+
+          Net GST Payable
+
+        </span>
+
+        <span
+          class="font-bold"
+          [class.text-red-700]="gstPayable() > 0"
+          [class.text-green-700]="gstPayable() <= 0">
+
+          ₹{{ gstPayable() | number }}
+
+        </span>
+
+      </div>
+
+    </div>
+
+    <!-- Taxes -->
+
+    <div class="rounded-xl border border-blue-200 bg-blue-50">
+
+      <div class="border-b border-blue-200 px-4 py-3">
+
+        <h3 class="text-sm font-semibold text-blue-800">
+
+          Tax Summary
+
+        </h3>
+
+      </div>
+
+      <div class="space-y-3 p-4">
+
+        @for(item of taxSummary(); track item.title){
+
+          <div class="flex items-center justify-between">
+
+            <span class="text-sm text-slate-700">
+
+              {{ item.title }}
+
+            </span>
+
+            <span class="font-semibold">
+
+              ₹{{ item.amount | number }}
+
+            </span>
+
+          </div>
+
+        }
+
+      </div>
+
+      <div
+        class="flex items-center justify-between border-t border-blue-200 bg-white px-4 py-3">
+
+        <span class="font-semibold">
+
+          Total Taxes
+
+        </span>
+
+        <span class="font-bold text-blue-700">
+
+          ₹{{ totalTaxes() | number }}
+
+        </span>
+
+      </div>
+
+    </div>
+
+    <!-- Compliance -->
+
+    <div class="rounded-xl border border-amber-200 bg-amber-50">
+
+      <div class="border-b border-amber-200 px-4 py-3">
+
+        <h3 class="text-sm font-semibold text-amber-800">
+
+          Compliance Status
+
+        </h3>
+
+      </div>
+
+      <div class="space-y-3 p-4">
+
+        @for(item of filingStatus(); track item.name){
+
+          <div
+            class="rounded-lg border border-white bg-white p-3 shadow-sm">
+
+            <div class="flex items-center justify-between">
+
+              <span class="text-sm font-medium text-slate-800">
+
+                {{ item.name }}
+
+              </span>
+
+              <span
+                class="rounded-full px-2 py-1 text-[10px] font-semibold"
+                [class.bg-green-100]="item.status === 'Filed'"
+                [class.text-green-700]="item.status === 'Filed'"
+                [class.bg-red-100]="item.status === 'Pending'"
+                [class.text-red-700]="item.status === 'Pending'">
+
+                {{ item.status }}
+
+              </span>
+
+            </div>
+
+            <p class="mt-2 text-xs text-slate-500">
+
+              Due Date :
+              <span class="font-medium">
+
+                {{ item.dueDate }}
+
+              </span>
+
+            </p>
+
+          </div>
+
+        }
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,34 @@
+<app-reports-header
+  (tabChanged)="changeTab($event)">
+</app-reports-header>
+
+
+@if (selectedTab() === 'Profit & Loss') {
+
+  <app-statement-report>
+  </app-statement-report>
+
+}
+
+@if (selectedTab() === 'Balance Sheet') {
+
+  <app-balance-sheet>
+  </app-balance-sheet>
+
+}
+
+@if (selectedTab() === 'Cash Flow') {
+
+  <app-cash-flow>
+  </app-cash-flow>
+
+}
+
+@if (selectedTab() === 'Tax & GST') {
+
+  <app-tax-gst>
+  </app-tax-gst>
+
+}
+
+

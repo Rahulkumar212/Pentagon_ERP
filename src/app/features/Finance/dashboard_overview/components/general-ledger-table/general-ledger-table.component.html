@@ -141,14 +141,13 @@
 
             <td class="px-4 py-3 text-sm font-medium text-red-700">
 
-              {{ item.id }}
+              {{ item.transactionId }}
 
             </td>
 
             <td class="px-4 py-3 text-sm text-slate-600">
 
-              {{ item.date }}
-
+               {{ item.date | date:'dd/MM/yyyy' }}
             </td>
 
             <td class="px-4 py-3 text-sm font-medium text-slate-900">

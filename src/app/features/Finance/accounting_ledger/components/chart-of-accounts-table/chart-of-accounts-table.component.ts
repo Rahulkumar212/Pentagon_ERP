@@ -1,19 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit
+} from '@angular/core';
 
-interface ChartAccount {
-
-  code: string;
-
-  accountName: string;
-
-  classification: string;
-
-  balanceType: 'Debit' | 'Credit';
-
-  balance: number;
-
-}
+import { ChartAccountService } from '../../../../../core/services/finance/chart-account.service';
+import { ChartAccount } from '../../../../../core/models/finance/chart-account.model';
 
 @Component({
   selector: 'app-chart-of-accounts-table',
@@ -23,98 +16,76 @@ interface ChartAccount {
   ],
   templateUrl: './chart-of-accounts-table.component.html'
 })
-export class ChartOfAccountsComponent {
+export class ChartOfAccountsComponent implements OnInit {
 
-  accounts: ChartAccount[] = [
+  accounts: ChartAccount[] = [];
 
-    {
-      code: '1110',
-      accountName: 'HDFC Corporate Checking',
-      classification: 'Assets (Current)',
-      balanceType: 'Debit',
-      balance: 345200
-    },
+  loading = false;
 
-    {
-      code: '1120',
-      accountName: 'Silicon Valley Operating',
-      classification: 'Assets (Current)',
-      balanceType: 'Debit',
-      balance: 185600
-    },
+  constructor(
+    private readonly chartAccountService: ChartAccountService,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
-    {
-      code: '1200',
-      accountName: 'Accounts Receivable',
-      classification: 'Assets (Current)',
-      balanceType: 'Debit',
-      balance: 65800
-    },
+  ngOnInit(): void {
 
-    {
-      code: '1600',
-      accountName: 'Fixed Assets (MacBook / Servers)',
-      classification: 'Assets (Non-Current)',
-      balanceType: 'Debit',
-      balance: 2600000
-    },
+    this.loadChartAccounts();
 
-    {
-      code: '2100',
-      accountName: 'Accounts Payable',
-      classification: 'Liabilities (Current)',
-      balanceType: 'Credit',
-      balance: 17050
-    },
+  }
 
-    {
-      code: '2210',
-      accountName: 'TDS Payable',
-      classification: 'Liabilities (Current)',
-      balanceType: 'Credit',
-      balance: 25000
-    },
+  loadChartAccounts(): void {
 
-    {
-      code: '2220',
-      accountName: 'PF Payable',
-      classification: 'Liabilities (Current)',
-      balanceType: 'Credit',
-      balance: 11000
-    },
+    this.loading = true;
 
-    {
-      code: '3100',
-      accountName: 'Owner Equity & Retained Earnings',
-      classification: 'Equity',
-      balanceType: 'Credit',
-      balance: 3100000
-    },
+    this.chartAccountService
+      .getChartAccounts()
+      .subscribe({
 
-    {
-      code: '4100',
-      accountName: 'Software License Sales',
-      classification: 'Revenue',
-      balanceType: 'Credit',
-      balance: 125000
-    },
+        next: (response: any) => {
 
-    {
-      code: '5100',
-      accountName: 'Rent Expense',
-      classification: 'Expenses',
-      balanceType: 'Debit',
-      balance: 12000
-    },
+          // Backend Response:
+          // {
+          //   success: true,
+          //   data: [...]
+          // }
 
-    {
-      code: '5200',
-      accountName: 'Software Subscriptions',
-      classification: 'Expenses',
-      balanceType: 'Debit',
-      balance: 2450
-    }
+          this.accounts = response.data;
 
-  ];
+          console.log(
+            'Chart Accounts',
+            this.accounts
+          );
+
+          this.loading = false;
+
+          this.cdr.detectChanges();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Failed to load chart accounts',
+            error
+          );
+
+          this.loading = false;
+
+          this.cdr.detectChanges();
+
+        }
+
+      });
+
+  }
+
+  trackByAccount(
+    index: number,
+    item: ChartAccount
+  ): string {
+
+    return item._id ?? item.code;
+
+  }
 
 }

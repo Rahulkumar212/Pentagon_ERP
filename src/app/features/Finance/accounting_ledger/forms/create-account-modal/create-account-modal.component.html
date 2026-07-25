@@ -1,0 +1,233 @@
+<!-- Backdrop -->
+
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4">
+
+  <!-- Modal -->
+
+  <div class="w-full max-w-2xl rounded-2xl bg-white shadow-2xl">
+
+    <!-- Header -->
+
+    <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+
+      <div>
+
+        <h2 class="text-lg font-bold text-slate-900">
+
+          Create Chart Of Account
+
+        </h2>
+
+        <p class="text-sm text-slate-500">
+
+          Add a new General Ledger account.
+
+        </p>
+
+      </div>
+
+      <button (click)="closeModal()" class="text-2xl text-slate-500 hover:text-red-700">
+
+        ×
+
+      </button>
+
+    </div>
+
+    <!-- Form -->
+
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-5 p-6">
+
+      <div class="grid grid-cols-2 gap-4">
+
+        <!-- Account Code -->
+
+        <div>
+
+          <label class="mb-1 block text-sm font-medium">
+
+            Account Code
+
+          </label>
+
+          <input formControlName="code"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-red-700">
+
+        </div>
+
+        <!-- Account Name -->
+
+        <div>
+
+          <label class="mb-1 block text-sm font-medium">
+
+            Account Name
+
+          </label>
+
+          <input formControlName="accountName"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 outline-none focus:border-red-700">
+
+        </div>
+
+        <!-- Classification -->
+
+        <div>
+
+          <label class="mb-1 block text-sm font-medium">
+
+            Classification
+
+          </label>
+
+          <select formControlName="classification" class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+            @for(item of classifications; track item){
+
+            <option [value]="item">
+
+              {{ item }}
+
+            </option>
+
+            }
+
+          </select>
+
+        </div>
+
+        <!-- Sub Classification -->
+
+        <div>
+
+          <label class="mb-1 block text-sm font-medium">
+
+            Sub Classification
+
+          </label>
+
+          <select formControlName="subClassification" class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+            @for(item of subClassifications; track item){
+
+            <option [value]="item">
+
+              {{ item }}
+
+            </option>
+
+            }
+
+          </select>
+
+        </div>
+
+        <!-- Balance Type -->
+
+        <div>
+
+          <label class="mb-1 block text-sm font-medium">
+
+            Balance Type
+
+          </label>
+
+          <select formControlName="balanceType" class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+            @for(item of balanceTypes; track item){
+
+            <option [value]="item">
+
+              {{ item }}
+
+            </option>
+
+            }
+
+          </select>
+
+        </div>
+
+        <!-- Opening Balance -->
+
+        <div>
+
+          <label class="mb-1 block text-sm font-medium">
+
+            Opening Balance
+
+          </label>
+
+          <input type="number" formControlName="openingBalance"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+        </div>
+
+      </div>
+
+      <!-- Description -->
+
+      <div>
+
+        <label class="mb-1 block text-sm font-medium">
+
+          Description
+
+        </label>
+
+        <textarea rows="3" formControlName="description" class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+        </textarea>
+
+      </div>
+
+      <!-- Status -->
+
+      <div>
+
+        <label class="mb-1 block text-sm font-medium">
+
+          Status
+
+        </label>
+
+        <select formControlName="status" class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+          @for(item of statuses; track item){
+
+          <option [value]="item">
+
+            {{ item }}
+
+          </option>
+
+          }
+
+        </select>
+
+      </div>
+
+      <!-- Footer -->
+
+      <div class="flex justify-end gap-3 border-t border-gray-200 pt-5">
+
+        <button type="button" (click)="closeModal()" class="rounded-lg border border-gray-300 px-5 py-2 font-medium">
+
+          Cancel
+
+        </button>
+
+        <button type="submit" [disabled]="isSubmitting"
+          class="rounded-lg bg-red-700 px-5 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-60">
+
+          {{ isSubmitting ? 'Saving...' : 'Create Account' }}
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

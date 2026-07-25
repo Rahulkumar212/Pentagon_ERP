@@ -1,8 +1,19 @@
 <div class="space-y-6">
-<app-accounting-header
-  [activeTab]="activeTab"
-  (tabChange)="setTab($event)">
-</app-accounting-header>
+
+  <!-- ===================================================== -->
+  <!-- Header -->
+  <!-- ===================================================== -->
+
+  <app-accounting-header
+    [activeTab]="activeTab"
+    (tabChange)="setTab($event)"
+    (createAccount)="openCreateAccountModal()"
+    (createJournal)="openJournalEntryModal()">
+  </app-accounting-header>
+
+  <!-- ===================================================== -->
+  <!-- Content -->
+  <!-- ===================================================== -->
 
   @switch (activeTab) {
 
@@ -33,6 +44,32 @@
       </app-trial-balance-table>
 
     }
+
+  }
+
+  <!-- ===================================================== -->
+  <!-- Create Account Modal -->
+  <!-- ===================================================== -->
+
+  @if (showCreateAccountModal) {
+
+    <app-create-account-modal
+      (close)="closeCreateAccountModal()"
+      (save)="saveAccount($event)">
+    </app-create-account-modal>
+
+  }
+
+  <!-- ===================================================== -->
+  <!-- Journal Entry Modal -->
+  <!-- ===================================================== -->
+
+  @if (showJournalEntryModal) {
+
+    <app-journal-entry-modal
+      (close)="closeJournalEntryModal()"
+      (save)="saveJournal($event)">
+    </app-journal-entry-modal>
 
   }
 
