@@ -1,0 +1,311 @@
+<!-- Backdrop -->
+
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+
+  <!-- Modal -->
+
+  <div class="w-full max-w-4xl overflow-hidden rounded-xl bg-white shadow-2xl">
+
+    <!-- Header -->
+
+    <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+
+      <div>
+
+        <h2 class="text-lg font-semibold text-slate-900">
+
+          Employee Payslip
+
+        </h2>
+
+        <p class="mt-1 text-xs text-slate-500">
+
+          Monthly Salary Statement
+
+        </p>
+
+      </div>
+
+      <button
+        (click)="closeModal()"
+        class="text-xl text-slate-400 hover:text-slate-700">
+
+        ×
+
+      </button>
+
+    </div>
+
+    <!-- Body -->
+
+    <div class="space-y-6 p-6">
+
+      <!-- Employee Info -->
+
+      <div class="grid grid-cols-2 gap-5 rounded-xl border border-gray-200 bg-slate-50 p-4">
+
+        <div>
+
+          <p class="text-[11px] uppercase text-slate-500">
+
+            Employee
+
+          </p>
+
+          <p class="font-semibold">
+
+            {{ payslip.employee }}
+
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-[11px] uppercase text-slate-500">
+
+            Employee ID
+
+          </p>
+
+          <p class="font-semibold">
+
+            {{ payslip.employeeId }}
+
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-[11px] uppercase text-slate-500">
+
+            Department
+
+          </p>
+
+          <p>
+
+            {{ payslip.department }}
+
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-[11px] uppercase text-slate-500">
+
+            Designation
+
+          </p>
+
+          <p>
+
+            {{ payslip.designation }}
+
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-[11px] uppercase text-slate-500">
+
+            Salary Month
+
+          </p>
+
+          <p>
+
+            {{ payslip.month }}
+
+          </p>
+
+        </div>
+
+        <div>
+
+          <p class="text-[11px] uppercase text-slate-500">
+
+            Salary Account
+
+          </p>
+
+          <p>
+
+            {{ payslip.bank }} • {{ payslip.account }}
+
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- Salary Details -->
+
+      <div class="grid grid-cols-2 gap-5">
+
+        <!-- Earnings -->
+
+        <div class="rounded-xl border border-green-200">
+
+          <div class="border-b border-green-200 bg-green-50 px-4 py-3">
+
+            <h3 class="font-semibold text-green-700">
+
+              Earnings
+
+            </h3>
+
+          </div>
+
+          <div class="divide-y">
+
+            @for(item of payslip.earnings; track item.name){
+
+              <div class="flex justify-between px-4 py-3">
+
+                <span>
+
+                  {{ item.name }}
+
+                </span>
+
+                <span class="font-medium">
+
+                  ₹{{ item.amount | number }}
+
+                </span>
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+        <!-- Deductions -->
+
+        <div class="rounded-xl border border-red-200">
+
+          <div class="border-b border-red-200 bg-red-50 px-4 py-3">
+
+            <h3 class="font-semibold text-red-700">
+
+              Deductions
+
+            </h3>
+
+          </div>
+
+          <div class="divide-y">
+
+            @for(item of payslip.deductions; track item.name){
+
+              <div class="flex justify-between px-4 py-3">
+
+                <span>
+
+                  {{ item.name }}
+
+                </span>
+
+                <span class="font-medium">
+
+                  ₹{{ item.amount | number }}
+
+                </span>
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- Summary -->
+
+      <div class="grid grid-cols-3 gap-4">
+
+        <div class="rounded-xl bg-slate-100 p-4">
+
+          <p class="text-xs uppercase text-slate-500">
+
+            Gross Salary
+
+          </p>
+
+          <h3 class="mt-1 text-xl font-bold">
+
+            ₹{{ grossSalary | number }}
+
+          </h3>
+
+        </div>
+
+        <div class="rounded-xl bg-red-50 p-4">
+
+          <p class="text-xs uppercase text-red-600">
+
+            Total Deduction
+
+          </p>
+
+          <h3 class="mt-1 text-xl font-bold text-red-700">
+
+            ₹{{ totalDeduction | number }}
+
+          </h3>
+
+        </div>
+
+        <div class="rounded-xl bg-green-50 p-4">
+
+          <p class="text-xs uppercase text-green-700">
+
+            Net Salary
+
+          </p>
+
+          <h3 class="mt-1 text-xl font-bold text-green-700">
+
+            ₹{{ netSalary | number }}
+
+          </h3>
+
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Footer -->
+
+    <div class="flex justify-end gap-3 border-t border-gray-200 px-6 py-4">
+
+      <button
+        (click)="closeModal()"
+        class="rounded-lg bg-gray-100 px-5 py-2 text-sm font-medium hover:bg-gray-200">
+
+        Close
+
+      </button>
+
+      <button
+        (click)="download()"
+        class="rounded-lg bg-red-800 px-6 py-2 text-sm font-medium text-white hover:bg-red-900">
+
+        Download PDF
+
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

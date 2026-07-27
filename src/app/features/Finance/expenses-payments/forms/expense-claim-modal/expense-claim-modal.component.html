@@ -1,0 +1,183 @@
+<!-- Backdrop -->
+
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+
+  <!-- Modal -->
+
+  <div class="w-full max-w-2xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+
+    <!-- Header -->
+
+    <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+
+      <div>
+
+        <h2 class="text-lg font-semibold text-slate-900">
+
+          Submit Expense Claim
+
+        </h2>
+
+        <p class="mt-1 text-xs text-slate-500">
+
+          Record employee expenses for reimbursement approval.
+
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        (click)="cancel()"
+        class="text-xs font-semibold uppercase text-slate-400 hover:text-slate-700">
+
+        Close
+
+      </button>
+
+    </div>
+
+    <!-- Body -->
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      class="space-y-5 p-5">
+
+      <!-- Row -->
+
+      <div class="grid grid-cols-2 gap-4">
+
+        <div>
+
+          <label
+            class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Employee
+
+          </label>
+
+          <input
+            formControlName="employee"
+            placeholder="Employee Name"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-red-700">
+
+        </div>
+
+        <div>
+
+          <label
+            class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Category
+
+          </label>
+
+          <select
+            formControlName="category"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+            @for(category of categories; track category){
+
+              <option [value]="category">
+
+                {{ category }}
+
+              </option>
+
+            }
+
+          </select>
+
+        </div>
+
+      </div>
+
+      <!-- Row -->
+
+      <div class="grid grid-cols-2 gap-4">
+
+        <div>
+
+          <label
+            class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Expense Date
+
+          </label>
+
+          <input
+            type="date"
+            formControlName="expenseDate"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+        </div>
+
+        <div>
+
+          <label
+            class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Amount (₹)
+
+          </label>
+
+          <input
+            type="number"
+            formControlName="amount"
+            placeholder="0"
+            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+        </div>
+
+      </div>
+
+      <!-- Description -->
+
+      <div>
+
+        <label
+          class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+          Description
+
+        </label>
+
+        <textarea
+          rows="4"
+          formControlName="description"
+          placeholder="Describe your expense..."
+          class="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-red-700">
+
+        </textarea>
+
+      </div>
+
+      <!-- Footer -->
+
+      <div class="flex justify-end gap-3 border-t border-gray-200 pt-4">
+
+        <button
+          type="button"
+          (click)="cancel()"
+          class="rounded-lg bg-gray-100 px-6 py-2 text-sm font-medium hover:bg-gray-200">
+
+          Cancel
+
+        </button>
+
+        <button
+          type="submit"
+          class="rounded-lg bg-red-800 px-6 py-2 text-sm font-medium text-white hover:bg-red-900">
+
+          Submit Claim
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>

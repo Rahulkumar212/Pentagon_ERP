@@ -12,8 +12,7 @@
 
       <div class="flex items-center gap-3">
 
-        <div
-          class="flex h-8 w-8 items-center justify-center rounded-lg bg-red-800 text-sm text-white">
+        <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-red-800 text-sm text-white">
 
           🧾
 
@@ -25,9 +24,7 @@
 
       </div>
 
-      <button
-        (click)="cancel()"
-        class="text-xl text-gray-400 transition hover:text-gray-700">
+      <button (click)="cancel()" class="text-xl text-gray-400 transition hover:text-gray-700">
 
         ×
 
@@ -37,17 +34,13 @@
 
     <!-- Body -->
 
-    <form
-      [formGroup]="form"
-      (ngSubmit)="submit()"
-      class="space-y-4 p-5">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-4 p-5">
 
       <!-- Transaction Type -->
 
       <div>
 
-        <label
-          class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+        <label class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
 
           Transaction Type
 
@@ -55,23 +48,17 @@
 
         <div class="grid grid-cols-2 gap-2">
 
-          <button
-            type="button"
-            (click)="setTransactionType('credit')"
+          <button type="button" (click)="setTransactionType('credit')"
             class="rounded-lg border px-3 py-2 text-sm font-medium transition"
-            [class.border-emerald-600]="form.value.type==='credit'"
-            [class.bg-emerald-50]="form.value.type==='credit'">
+            [class.border-emerald-600]="form.value.type==='credit'" [class.bg-emerald-50]="form.value.type==='credit'">
 
             ➕ Credit
 
           </button>
 
-          <button
-            type="button"
-            (click)="setTransactionType('debit')"
+          <button type="button" (click)="setTransactionType('debit')"
             class="rounded-lg border px-3 py-2 text-sm font-medium transition"
-            [class.border-red-600]="form.value.type==='debit'"
-            [class.bg-red-50]="form.value.type==='debit'">
+            [class.border-red-600]="form.value.type==='debit'" [class.bg-red-50]="form.value.type==='debit'">
 
             ➖ Debit
 
@@ -81,20 +68,40 @@
 
       </div>
 
+      <!-- Transaction ID -->
+
+      <div>
+
+        <label class="mb-1 block text-sm font-medium">
+
+          Transaction ID
+
+        </label>
+
+        <input formControlName="transactionId" 
+          class="w-full cursor-not-allowed rounded-lg border border-gray-300 bg-slate-100 px-3 py-2 text-slate-600">
+
+      </div>
+
+      <div>
+        <label class="mb-1 block text-sm font-medium">
+          Transaction Date
+        </label>
+
+        <input type="date" formControlName="date" class="w-full rounded-lg border border-gray-300 px-3 py-2">
+      </div>
+
       <!-- Description -->
 
       <div>
 
-        <label
-          class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+        <label class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
 
           Description / Payee
 
         </label>
 
-        <input
-          formControlName="description"
-          placeholder="e.g. AWS Infrastructure Billing"
+        <input formControlName="description" placeholder="e.g. AWS Infrastructure Billing"
           class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-red-700">
 
       </div>
@@ -105,20 +112,17 @@
 
         <div>
 
-          <label
-            class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+          <label class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
 
             Category
 
           </label>
 
-          <select
-            formControlName="category"
-            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+          <select formControlName="category" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
 
             @for (item of categories; track item) {
 
-              <option>{{ item }}</option>
+            <option>{{ item }}</option>
 
             }
 
@@ -128,16 +132,13 @@
 
         <div>
 
-          <label
-            class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+          <label class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
 
             Amount (₹)
 
           </label>
 
-          <input
-            type="number"
-            formControlName="amount"
+          <input type="number" formControlName="amount"
             class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
 
         </div>
@@ -148,20 +149,17 @@
 
       <div>
 
-        <label
-          class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
+        <label class="mb-2 block text-[11px] font-semibold uppercase tracking-widest text-slate-500">
 
           Destination Bank Account
 
         </label>
 
-        <select
-          formControlName="account"
-          class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+        <select formControlName="account" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
 
           @for (account of accounts; track account) {
 
-            <option>{{ account }}</option>
+          <option>{{ account }}</option>
 
           }
 
@@ -173,20 +171,17 @@
 
       <div class="flex gap-3 border-t border-gray-200 pt-4">
 
-        <button
-          type="button"
-          (click)="cancel()"
+        <button type="button" (click)="cancel()"
           class="flex-1 rounded-lg bg-gray-100 py-2 text-sm font-medium hover:bg-gray-200">
 
           Cancel
 
         </button>
 
-        <button
-          type="submit"
-          class="flex-1 rounded-lg bg-red-800 py-2 text-sm font-medium text-white hover:bg-red-900">
+        <button type="submit" [disabled]="isSubmitting"
+          class="rounded-lg bg-red-700 px-6 py-2 font-semibold text-white disabled:cursor-not-allowed disabled:opacity-60">
 
-          Post Transaction
+          {{ isSubmitting ? 'Saving...' : 'Save Transaction' }}
 
         </button>
 

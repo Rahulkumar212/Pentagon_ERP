@@ -1,0 +1,83 @@
+<div class="rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
+
+  <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+
+    <!-- Left -->
+
+    <div class="flex items-start gap-3">
+
+      <!-- Icon -->
+
+      <div
+        class="flex h-9 w-9 items-center justify-center rounded-lg bg-red-50 text-red-800">
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-5 w-5"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2">
+
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M9 17v-6m3 6V7m3 10v-3m4 7H5a2 2 0 01-2-2V5a2 2 0 012-2h14a2 2 0 012 2v14a2 2 0 01-2 2z"/>
+
+        </svg>
+
+      </div>
+
+      <!-- Title -->
+
+      <div>
+
+        <h1 class="text-xl font-bold text-slate-900">
+
+          Financial Statements & Compliance Reports
+
+        </h1>
+
+        <p class="mt-1 text-sm text-slate-500">
+
+          Generate statutory financial reports, balance sheets, cash flow
+          statements and taxation reports.
+
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- Right Tabs -->
+
+    <div
+      class="inline-flex overflow-hidden rounded-xl border border-gray-200 bg-gray-50">
+
+      @for(tab of tabs; track tab){
+
+        <button
+
+          (click)="selectTab(tab)"
+
+          class="px-4 py-2 text-xs font-semibold transition-all"
+
+          [class.bg-red-800]="selectedTab()===tab"
+
+          [class.text-white]="selectedTab()===tab"
+
+          [class.text-slate-600]="selectedTab()!==tab"
+
+          [class.hover:bg-gray-100]="selectedTab()!==tab">
+
+          {{ tab }}
+
+        </button>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>

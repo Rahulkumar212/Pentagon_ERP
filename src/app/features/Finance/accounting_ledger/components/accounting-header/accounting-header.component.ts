@@ -15,6 +15,13 @@ export class AccountingHeaderComponent {
   activeTab!: 'accounts' | 'journal' | 'ledger' | 'trialBalance';
 
   @Output()
+createAccount = new EventEmitter<void>();
+
+@Output()
+createJournal = new EventEmitter<void>();
+
+
+  @Output()
   tabChange = new EventEmitter<
     'accounts' | 'journal' | 'ledger' | 'trialBalance'
   >();

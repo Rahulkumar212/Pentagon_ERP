@@ -1,0 +1,84 @@
+<div class="rounded-xl border border-gray-200 bg-white px-4 py-3 shadow-sm">
+
+  <div class="flex flex-col gap-3 lg:flex-row lg:items-center lg:justify-between">
+
+    <!-- Left -->
+
+    <div class="flex items-start gap-3">
+
+      <!-- Icon -->
+
+      <div
+        class="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-800">
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="h-4 w-4"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="2">
+
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M3 7h18M6 7v13m12-13v13M8 3h8M5 20h14"/>
+
+        </svg>
+
+      </div>
+
+      <!-- Title -->
+
+      <div>
+
+        <h1 class="text-lg font-semibold text-slate-900">
+
+          Budgets, Assets & Capital Planning
+
+        </h1>
+
+        <p class="mt-0.5 text-xs text-slate-500">
+
+          Monitor departmental budgets, manage fixed assets and
+          track depreciation across the organization.
+
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- Right -->
+
+    <div class="flex items-center gap-3">
+
+      <label
+        class="text-xs font-medium text-slate-600">
+
+        Financial Year
+
+      </label>
+
+      <select
+        [(ngModel)]="selectedYear"
+        (change)="onYearChange()"
+        class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs outline-none transition focus:border-red-700">
+
+        @for (year of financialYears; track year) {
+
+          <option [value]="year">
+
+            {{ year }}
+
+          </option>
+
+        }
+
+      </select>
+
+    </div>
+
+  </div>
+
+</div>

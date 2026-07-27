@@ -42,45 +42,45 @@ export const FINANCE_ROUTES: Routes = [
         .then(m => m.PayablesDashboardComponent)
   },
 
-//   // Banking
-//   {
-//     path: 'banking',
-//     loadComponent: () =>
-//       import('./banking/pages/banking.component')
-//         .then(m => m.BankingComponent)
-//   },
+  // Banking
+  {
+    path: 'finance/banking',
+    loadComponent: () =>
+      import('./banking_treasury/pages/banking-dashboard.component')
+        .then(m => m.BankingDashboardComponent)
+  },
 
-//   // Payroll Finance
-//   {
-//     path: 'payroll-finance',
-//     loadComponent: () =>
-//       import('./payroll-finance/pages/payroll-finance.component')
-//         .then(m => m.PayrollFinanceComponent)
-//   },
+  // Payroll Finance
+  {
+    path: 'payroll-finance',
+    loadComponent: () =>
+      import('./payroll/pages/payroll-dashboard.component')
+        .then(m => m.PayrollDashboardComponent)
+  },
 
-//   // Budget
-//   {
-//     path: 'budget',
-//     loadComponent: () =>
-//       import('./budget/pages/budget.component')
-//         .then(m => m.BudgetComponent)
-//   },
+  // Budget
+  {
+    path: 'finance/budget',
+    loadComponent: () =>
+      import('./budget-assets/pages/budget-assets-dashboard.component')
+        .then(m => m.BudgetAssetsDashboardComponent)
+  },
 
-//   // Reports
-//   {
-//     path: 'reports',
-//     loadComponent: () =>
-//       import('./reports/pages/reports.component')
-//         .then(m => m.ReportsComponent)
-//   },
+  // Reports
+  {
+    path: 'finance/reports',
+    loadComponent: () =>
+      import('./reports-statements/pages/reports-dashboard.component')
+        .then(m => m.ReportsDashboardComponent)
+  },
 
-//   // Expenses
-//   {
-//     path: 'expenses',
-//     loadComponent: () =>
-//       import('./expenses/pages/expenses.component')
-//         .then(m => m.ExpensesComponent)
-//   },
+  // Expenses
+  {
+    path: 'finance/expenses',
+    loadComponent: () =>
+      import('./expenses-payments/pages/expenses-dashboard.component')
+        .then(m => m.ExpensesDashboardComponent)
+  },
 
 //   // Assets
 //   {

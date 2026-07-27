@@ -1,0 +1,214 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+
+  <div class="border-b border-gray-200 px-5 py-4">
+
+    <h2 class="text-base font-semibold text-slate-900">
+
+      Monthly Payroll Reconciliation Register
+
+    </h2>
+
+    <p class="mt-1 text-xs text-slate-500">
+
+      Review employee salaries, statutory deductions and process salary disbursements.
+
+    </p>
+
+  </div>
+
+  <!-- Table -->
+
+  <div class="overflow-x-auto">
+
+    <table class="min-w-full">
+
+      <thead class="border-b border-gray-200 bg-slate-50">
+
+        <tr>
+
+          <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            Employee
+          </th>
+
+          <th class="px-4 py-3 text-left text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            Department
+          </th>
+
+          <th class="px-4 py-3 text-right text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            Gross
+          </th>
+
+          <th class="px-4 py-3 text-right text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            TDS
+          </th>
+
+          <th class="px-4 py-3 text-right text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            PF
+          </th>
+
+          <th class="px-4 py-3 text-right text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            Net Salary
+          </th>
+
+          <th class="px-4 py-3 text-center text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            Status
+          </th>
+
+          <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-widest text-slate-500">
+            Workflow
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        @for(employee of employees(); track employee.id){
+
+        <tr class="border-b border-gray-100 hover:bg-slate-50">
+
+          <!-- Employee -->
+
+          <td class="px-5 py-4">
+
+            <div class="flex items-center gap-3">
+
+              <div
+                class="flex h-9 w-9 items-center justify-center rounded-full bg-red-50 text-xs font-bold text-red-700">
+
+                {{ employee.initials }}
+
+              </div>
+
+              <div>
+
+                <h3 class="text-sm font-semibold text-slate-900">
+
+                  {{ employee.name }}
+
+                </h3>
+
+                <p class="text-[11px] text-slate-500">
+
+                  {{ employee.designation }}
+
+                </p>
+
+              </div>
+
+            </div>
+
+          </td>
+
+          <!-- Department -->
+
+          <td class="px-4 py-4 text-sm text-slate-600">
+
+            {{ employee.department }}
+
+          </td>
+
+          <!-- Gross -->
+
+          <td class="px-4 py-4 text-right text-sm font-semibold">
+
+            ₹{{ employee.grossSalary | number }}
+
+          </td>
+
+          <!-- TDS -->
+
+          <td class="px-4 py-4 text-right text-sm font-semibold text-violet-700">
+
+            -₹{{ employee.tds | number }}
+
+          </td>
+
+          <!-- PF -->
+
+          <td class="px-4 py-4 text-right text-sm font-semibold text-emerald-700">
+
+            -₹{{ employee.pf | number }}
+
+          </td>
+
+          <!-- Net -->
+
+          <td class="px-4 py-4 text-right text-sm font-bold text-red-700">
+
+            ₹{{ employee.netSalary | number }}
+
+          </td>
+
+          <!-- Status -->
+
+          <td class="px-4 py-4 text-center">
+
+            @if(employee.status === 'DISBURSED'){
+
+            <span
+              class="rounded-full bg-emerald-50 px-3 py-1 text-[10px] font-bold tracking-wider text-emerald-700">
+
+              DISBURSED
+
+            </span>
+
+            }
+
+            @else {
+
+            <span
+              class="rounded-full bg-yellow-50 px-3 py-1 text-[10px] font-bold tracking-wider text-yellow-700">
+
+              PENDING
+
+            </span>
+
+            }
+
+          </td>
+
+          <!-- Action -->
+
+          <td class="px-5 py-4 text-center">
+
+            @if(employee.status === 'DISBURSED'){
+
+            <button
+              (click)="onPayslip(employee)"
+              class="rounded-md bg-slate-100 px-3 py-1.5 text-xs font-semibold text-slate-700 hover:bg-slate-200">
+
+              Payslip
+
+            </button>
+
+            }
+
+            @else {
+
+            <button
+              (click)="onDisburse(employee)"
+              class="rounded-md bg-red-800 px-4 py-1.5 text-xs font-semibold text-white hover:bg-red-900">
+
+              Disburse
+
+            </button>
+
+            }
+
+          </td>
+
+        </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

@@ -1,0 +1,196 @@
+<!-- Backdrop -->
+
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+
+  <!-- Modal -->
+
+  <div class="w-full max-w-xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+
+    <!-- Header -->
+
+    <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+
+      <div>
+
+        <h2 class="text-lg font-semibold text-slate-900">
+
+          Expense Claim Approval
+
+        </h2>
+
+        <p class="mt-1 text-xs text-slate-500">
+
+          Review employee expense claim before approval.
+
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        (click)="cancel()"
+        class="text-xl text-slate-400 hover:text-slate-700">
+
+        ×
+
+      </button>
+
+    </div>
+
+    <!-- Body -->
+
+    <form
+      [formGroup]="form"
+      (ngSubmit)="submit()"
+      class="space-y-5 p-5">
+
+      <!-- Employee -->
+
+      <div>
+
+        <label
+          class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+          Employee
+
+        </label>
+
+        <input
+          formControlName="employee"
+          readonly
+          class="w-full rounded-lg border border-gray-300 bg-slate-50 px-3 py-2 text-sm">
+
+      </div>
+
+      <!-- Claim -->
+
+      <div class="grid grid-cols-3 gap-4">
+
+        <div>
+
+          <label
+            class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Claim ID
+
+          </label>
+
+          <input
+            formControlName="claimId"
+            readonly
+            class="w-full rounded-lg border border-gray-300 bg-slate-50 px-3 py-2 text-sm">
+
+        </div>
+
+        <div>
+
+          <label
+            class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Category
+
+          </label>
+
+          <input
+            formControlName="category"
+            readonly
+            class="w-full rounded-lg border border-gray-300 bg-slate-50 px-3 py-2 text-sm">
+
+        </div>
+
+        <div>
+
+          <label
+            class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Amount
+
+          </label>
+
+          <input
+            formControlName="amount"
+            readonly
+            class="w-full rounded-lg border border-gray-300 bg-slate-50 px-3 py-2 text-sm">
+
+        </div>
+
+      </div>
+
+      <!-- Decision -->
+
+      <div>
+
+        <label
+          class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+          Decision
+
+        </label>
+
+        <select
+          formControlName="decision"
+          class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+          @for(option of decisionOptions; track option){
+
+            <option [value]="option">
+
+              {{ option }}
+
+            </option>
+
+          }
+
+        </select>
+
+      </div>
+
+      <!-- Remarks -->
+
+      <div>
+
+        <label
+          class="mb-1 block text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+
+          Remarks
+
+        </label>
+
+        <textarea
+          rows="4"
+          formControlName="remarks"
+          placeholder="Approval / rejection remarks..."
+          class="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+        </textarea>
+
+      </div>
+
+      <!-- Footer -->
+
+      <div class="flex justify-end gap-3 border-t border-gray-200 pt-4">
+
+        <button
+          type="button"
+          (click)="cancel()"
+          class="rounded-lg bg-gray-100 px-5 py-2 text-sm font-medium hover:bg-gray-200">
+
+          Cancel
+
+        </button>
+
+        <button
+          type="submit"
+          class="rounded-lg bg-red-800 px-6 py-2 text-sm font-medium text-white hover:bg-red-900">
+
+          Save Decision
+
+        </button>
+
+      </div>
+
+    </form>
+
+  </div>
+
+</div>
