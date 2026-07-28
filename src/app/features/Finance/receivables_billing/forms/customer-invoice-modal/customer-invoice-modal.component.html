@@ -1,27 +1,22 @@
 <!-- Backdrop -->
 
-<div
-  class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
 
   <!-- Modal -->
 
-  <div
-    class="w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl">
+  <div class="w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl">
 
     <!-- Header -->
 
-    <div
-      class="flex items-center justify-between border-b border-gray-200 px-6 py-5">
+    <div class="flex items-center justify-between border-b border-gray-200 px-6 py-5">
 
-      <h2
-        class="text-xl font-semibold text-slate-900">
+      <h2 class="text-xl font-semibold text-slate-900">
 
         Draft Outbound Invoice
 
       </h2>
 
-      <button
-        (click)="cancel()"
+      <button (click)="cancel()"
         class="text-xs font-semibold uppercase tracking-wider text-slate-500 hover:text-red-700">
 
         Close
@@ -32,44 +27,47 @@
 
     <!-- Form -->
 
-    <form
-      [formGroup]="invoiceForm"
-      (ngSubmit)="submit()"
-      class="space-y-5 p-6">
+    <form [formGroup]="invoiceForm" (ngSubmit)="submit()" class="space-y-5 p-6">
 
       <!-- Top -->
 
-      <div
-        class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-2 gap-4">
 
         <div>
 
-          <label
-            class="mb-2 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+          <label class="mb-2 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+            Invoice ID
+
+          </label>
+
+          <input formControlName="invoiceId" 
+            class="w-full rounded-xl border border-gray-300 bg-slate-100 px-4 py-2.5 text-sm">
+
+        </div>
+
+        <div>
+
+          <label class="mb-2 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
 
             Customer / Enterprise Name
 
           </label>
 
-          <input
-            formControlName="customer"
-            placeholder="Globex Corporation"
+          <input formControlName="customer" placeholder="Globex Corporation"
             class="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-red-700">
 
         </div>
 
         <div>
 
-          <label
-            class="mb-2 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+          <label class="mb-2 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
 
             Due Date
 
           </label>
 
-          <input
-            type="date"
-            formControlName="dueDate"
+          <input type="date" formControlName="dueDate"
             class="w-full rounded-xl border border-gray-300 px-4 py-2.5 text-sm outline-none focus:border-red-700">
 
         </div>
@@ -80,19 +78,15 @@
 
       <div>
 
-        <div
-          class="mb-3 flex items-center justify-between">
+        <div class="mb-3 flex items-center justify-between">
 
-          <h3
-            class="font-medium text-slate-800">
+          <h3 class="font-medium text-slate-800">
 
             Invoice Line Items
 
           </h3>
 
-          <button
-            type="button"
-            (click)="addRow()"
+          <button type="button" (click)="addRow()"
             class="text-xs font-semibold uppercase tracking-wide text-red-700 hover:text-red-900">
 
             + Add Row
@@ -132,41 +126,29 @@
 
         <!-- Rows -->
 
-        <div
-          formArrayName="items"
-          class="space-y-3">
+        <div formArrayName="items" class="space-y-3">
 
           @for (item of items.controls; track $index) {
 
-            <div
-              [formGroupName]="$index"
-              class="grid grid-cols-12 gap-3">
+          <div [formGroupName]="$index" class="grid grid-cols-12 gap-3">
 
-              <input
-                formControlName="description"
-                placeholder="API Integration Consulting"
-                class="col-span-6 rounded-xl border border-gray-300 px-3 py-2 text-sm">
+            <input formControlName="description" placeholder="API Integration Consulting"
+              class="col-span-6 rounded-xl border border-gray-300 px-3 py-2 text-sm">
 
-              <input
-                type="number"
-                formControlName="quantity"
-                class="col-span-2 rounded-xl border border-gray-300 px-3 py-2 text-sm">
+            <input type="number" formControlName="quantity"
+              class="col-span-2 rounded-xl border border-gray-300 px-3 py-2 text-sm">
 
-              <input
-                type="number"
-                formControlName="price"
-                class="col-span-3 rounded-xl border border-gray-300 px-3 py-2 text-sm">
+            <input type="number" formControlName="price"
+              class="col-span-3 rounded-xl border border-gray-300 px-3 py-2 text-sm">
 
-              <button
-                type="button"
-                (click)="removeRow($index)"
-                class="col-span-1 rounded-lg text-lg text-slate-500 hover:text-red-700">
+            <button type="button" (click)="removeRow($index)"
+              class="col-span-1 rounded-lg text-lg text-slate-500 hover:text-red-700">
 
-                🗑
+              🗑
 
-              </button>
+            </button>
 
-            </div>
+          </div>
 
           }
 
@@ -176,21 +158,17 @@
 
       <!-- Total -->
 
-      <div
-        class="rounded-xl bg-slate-100 px-5 py-4">
+      <div class="rounded-xl bg-slate-100 px-5 py-4">
 
-        <div
-          class="flex items-center justify-between">
+        <div class="flex items-center justify-between">
 
-          <span
-            class="font-medium text-slate-600">
+          <span class="font-medium text-slate-600">
 
             Cumulative Invoice Value
 
           </span>
 
-          <span
-            class="text-xl font-bold text-slate-900">
+          <span class="text-xl font-bold text-slate-900">
 
             ₹{{ getTotal() | number }}
 
@@ -202,21 +180,16 @@
 
       <!-- Footer -->
 
-      <div
-        class="flex justify-end gap-3 border-t border-gray-200 pt-5">
+      <div class="flex justify-end gap-3 border-t border-gray-200 pt-5">
 
-        <button
-          type="button"
-          (click)="cancel()"
+        <button type="button" (click)="cancel()"
           class="rounded-xl bg-slate-200 px-6 py-2.5 text-sm font-medium hover:bg-slate-300">
 
           Discard
 
         </button>
 
-        <button
-          type="submit"
-          class="rounded-xl bg-red-800 px-7 py-2.5 text-sm font-medium text-white hover:bg-red-900">
+        <button type="submit" class="rounded-xl bg-red-800 px-7 py-2.5 text-sm font-medium text-white hover:bg-red-900">
 
           Issue Invoice
 

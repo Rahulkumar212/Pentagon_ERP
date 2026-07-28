@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
 import { RecordSettlementModalComponent } from '../../forms/record-settlement-modal/record-settlement-modal.component';
+import { InvoiceDetailsModalComponent } from '../invoice-details-modal/invoice-details-modal.component';
 
 interface Invoice {
 
@@ -32,7 +34,8 @@ type InvoiceTab =
   imports: [
     CommonModule,
     FormsModule,
-    RecordSettlementModalComponent
+    RecordSettlementModalComponent,
+    InvoiceDetailsModalComponent
   ],
   templateUrl: './invoice-table.component.html'
 })
@@ -107,7 +110,8 @@ export class InvoiceTableComponent {
         this.activeTab === 'All' ||
         invoice.status === this.activeTab;
 
-      const search = this.searchText.trim().toLowerCase();
+      const search =
+        this.searchText.trim().toLowerCase();
 
       const matchesSearch =
         invoice.id.toLowerCase().includes(search) ||
@@ -125,23 +129,54 @@ export class InvoiceTableComponent {
 
   }
 
+  // ===================================
+  // Shared Selected Invoice
+  // ===================================
+
+  selectedInvoice: Invoice | null = null;
+
+  // ===================================
+  // Record Payment Modal
+  // ===================================
 
   showSettlementModal = false;
 
-selectedInvoice!: Invoice;
+  openSettlement(invoice: Invoice): void {
 
-openSettlement(invoice: Invoice): void {
+    this.selectedInvoice = invoice;
 
-  this.selectedInvoice = invoice;
+    this.showSettlementModal = true;
 
-  this.showSettlementModal = true;
+  }
 
-}
+  closeSettlement(): void {
 
-closeSettlement(): void {
+    this.showSettlementModal = false;
 
-  this.showSettlementModal = false;
+    this.selectedInvoice = null;
 
-}
+  }
+
+  // ===================================
+  // Invoice Details Modal
+  // ===================================
+
+  showInvoiceModal = false;
+
+  viewInvoice(invoice: Invoice): void {
+
+    this.selectedInvoice = invoice;
+
+    this.showInvoiceModal = true;
+
+  }
+
+  closeInvoiceModal(): void {
+
+    this.showInvoiceModal = false;
+
+    this.selectedInvoice = null;
+
+  }
 
 }

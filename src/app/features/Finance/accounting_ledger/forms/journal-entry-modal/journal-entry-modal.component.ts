@@ -4,12 +4,15 @@ import {
   EventEmitter,
   Output
 } from '@angular/core';
+
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+
+import { JournalEntryService } from '../../../../../core/services/finance/journal-entry.service';
 
 @Component({
   selector: 'app-journal-entry-modal',
@@ -25,54 +28,76 @@ export class JournalEntryModalComponent {
   @Output()
   close = new EventEmitter<void>();
 
-  @Output()
-  save = new EventEmitter<any>();
-
   form!: FormGroup;
 
-  accounts = [
+  isSubmitting = false;
 
-    'Cash In Hand',
+  selectedFile: File | null = null;
 
-    'HDFC Corporate Checking',
+ accounts = [
 
-    'Silicon Valley Operating',
+  // ==========================
+  // Bank Accounts
+  // ==========================
 
-    'Accounts Receivable',
+  'ICICI Bank-CA(Pentagon)',
+  'ICICI Bank-OD(Pentagon)',
+  'IndusInd Bank-CA(Smart)',
+  'IndusInd Bank-CA(Pentagon)',
+  'ICICI Bank-CA(SEST)',
 
-    'Accounts Payable',
+  // ==========================
+  // Cash
+  // ==========================
 
-    'Software License Sales',
+  'Cash In Hand',
 
-    'Consulting Revenue',
+  // ==========================
+  // Assets
+  // ==========================
 
-    'Rent Expense',
+  'Accounts Receivable',
 
-    'Software Subscription',
+  // ==========================
+  // Liabilities
+  // ==========================
 
-    'Electricity Expense',
+  'Accounts Payable',
+  'TDS Payable',
+  'PF Payable',
 
-    'Salary Expense',
+  // ==========================
+  // Revenue
+  // ==========================
 
-    'TDS Payable',
+  'Software License Sales',
+  'Consulting Revenue',
 
-    'PF Payable'
+  // ==========================
+  // Expenses
+  // ==========================
 
-  ];
+  'Rent Expense',
+  'Software Subscription',
+  'Electricity Expense',
+  'Salary Expense'
+
+];
 
   constructor(
-    private fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly journalEntryService: JournalEntryService
   ) {
 
     this.form = this.fb.group({
 
       voucherNo: [
-        '',
+        this.generateVoucherNo(),
         Validators.required
       ],
 
       journalDate: [
-        '',
+        new Date().toISOString().substring(0, 10),
         Validators.required
       ],
 
@@ -111,6 +136,37 @@ export class JournalEntryModalComponent {
 
   }
 
+  private generateVoucherNo(): string {
+
+    const now = new Date();
+
+    const random = Math.floor(
+      1000 + Math.random() * 9000
+    );
+
+    return `JV-${now.getFullYear()}${(now.getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}-${random}`;
+
+  }
+
+  onFileSelected(event: Event): void {
+
+    const input =
+      event.target as HTMLInputElement;
+
+    if (
+      input.files &&
+      input.files.length > 0
+    ) {
+
+      this.selectedFile =
+        input.files[0];
+
+    }
+
+  }
+
   submit(): void {
 
     if (this.form.invalid) {
@@ -121,19 +177,138 @@ export class JournalEntryModalComponent {
 
     }
 
-    // Debit aur Credit account same nahi hone chahiye
     if (
       this.form.value.debitAccount ===
       this.form.value.creditAccount
     ) {
 
-      alert('Debit Account and Credit Account cannot be the same.');
+      alert(
+        'Debit Account and Credit Account cannot be the same.'
+      );
 
       return;
 
     }
 
-    this.save.emit(this.form.value);
+    this.isSubmitting = true;
+
+    const value = this.form.getRawValue();
+
+    const formData = new FormData();
+
+    formData.append(
+      'voucherNo',
+      value.voucherNo
+    );
+
+    formData.append(
+      'journalDate',
+      value.journalDate
+    );
+
+    formData.append(
+      'reference',
+      value.reference ?? ''
+    );
+
+    formData.append(
+      'description',
+      value.description
+    );
+
+    formData.append(
+      'debitAccount',
+      value.debitAccount
+    );
+
+    formData.append(
+      'creditAccount',
+      value.creditAccount
+    );
+
+    formData.append(
+      'amount',
+      value.amount.toString()
+    );
+
+    formData.append(
+      'narration',
+      value.narration ?? ''
+    );
+
+    formData.append(
+      'postImmediately',
+      value.postImmediately.toString()
+    );
+
+    if (this.selectedFile) {
+
+      formData.append(
+        'attachment',
+        this.selectedFile
+      );
+
+    }
+
+    this.journalEntryService
+      .createJournalEntry(formData)
+      .subscribe({
+
+        next: (response) => {
+
+          console.log(
+            'Journal Entry Created',
+            response
+          );
+
+          this.isSubmitting = false;
+
+          this.selectedFile = null;
+
+          this.form.reset({
+
+            voucherNo:
+              this.generateVoucherNo(),
+
+            journalDate:
+              new Date()
+                .toISOString()
+                .substring(0, 10),
+
+            reference: '',
+
+            description: '',
+
+            debitAccount: '',
+
+            creditAccount: '',
+
+            amount: 0,
+
+            narration: '',
+
+            attachment: '',
+
+            postImmediately: true
+
+          });
+
+          this.close.emit();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Failed to create Journal Entry',
+            error
+          );
+
+          this.isSubmitting = false;
+
+        }
+
+      });
 
   }
 

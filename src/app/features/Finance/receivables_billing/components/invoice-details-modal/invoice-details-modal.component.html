@@ -1,0 +1,282 @@
+<!-- Backdrop -->
+
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 backdrop-blur-sm">
+
+  <!-- Modal -->
+
+  <div
+    class="w-full max-w-3xl overflow-hidden rounded-xl bg-white shadow-xl">
+
+    <!-- Header -->
+
+    <div
+      class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+
+      <div>
+
+        <h2
+          class="text-lg font-semibold text-slate-900">
+
+          Invoice Details
+
+        </h2>
+
+        <p
+          class="mt-1 text-xs text-slate-500">
+
+          {{ invoice?.id }}
+
+        </p>
+
+      </div>
+
+      <button
+        type="button"
+        (click)="closeModal()"
+        class="rounded-md bg-red-700 px-3 py-1.5 text-xs font-medium text-white hover:bg-red-800">
+
+        Close
+
+      </button>
+
+    </div>
+
+    <!-- Information -->
+
+    <div
+      class="grid grid-cols-2 gap-4 border-b border-gray-200 p-5">
+
+      <div>
+
+        <p
+          class="text-[11px] font-medium uppercase tracking-wider text-slate-500">
+
+          Customer
+
+        </p>
+
+        <p
+          class="mt-1 text-sm font-semibold text-slate-900">
+
+          {{ invoice?.customer }}
+
+        </p>
+
+      </div>
+
+      <div>
+
+        <p
+          class="text-[11px] font-medium uppercase tracking-wider text-slate-500">
+
+          Status
+
+        </p>
+
+        <span
+          class="mt-1 inline-flex rounded-full px-2.5 py-1 text-[11px] font-semibold"
+
+          [class.bg-green-100]="invoice?.status==='Paid'"
+          [class.text-green-700]="invoice?.status==='Paid'"
+
+          [class.bg-red-100]="invoice?.status==='Overdue'"
+          [class.text-red-700]="invoice?.status==='Overdue'"
+
+          [class.bg-yellow-100]="invoice?.status==='Outstanding'"
+          [class.text-yellow-700]="invoice?.status==='Outstanding'"
+
+          [class.bg-slate-200]="invoice?.status==='Draft'"
+          [class.text-slate-700]="invoice?.status==='Draft'">
+
+          {{ invoice?.status }}
+
+        </span>
+
+      </div>
+
+      <div>
+
+        <p
+          class="text-[11px] font-medium uppercase tracking-wider text-slate-500">
+
+          Issue Date
+
+        </p>
+
+        <p
+          class="mt-1 text-sm text-slate-700">
+
+          {{ invoice?.issueDate | date }}
+
+        </p>
+
+      </div>
+
+      <div>
+
+        <p
+          class="text-[11px] font-medium uppercase tracking-wider text-slate-500">
+
+          Due Date
+
+        </p>
+
+        <p
+          class="mt-1 text-sm text-slate-700">
+
+          {{ invoice?.dueDate | date }}
+
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- Items -->
+
+    <div
+      class="overflow-x-auto">
+
+      <table
+        class="min-w-full">
+
+        <thead
+          class="bg-slate-100">
+
+          <tr>
+
+            <th
+              class="px-4 py-2 text-left text-xs font-semibold text-slate-600">
+
+              Description
+
+            </th>
+
+            <th
+              class="px-4 py-2 text-center text-xs font-semibold text-slate-600">
+
+              Qty
+
+            </th>
+
+            <th
+              class="px-4 py-2 text-right text-xs font-semibold text-slate-600">
+
+              Price
+
+            </th>
+
+            <th
+              class="px-4 py-2 text-right text-xs font-semibold text-slate-600">
+
+              Total
+
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody>
+
+          @for (item of invoice?.items ?? []; track $index) {
+
+          <tr
+            class="border-t border-gray-100 hover:bg-slate-50">
+
+            <td
+              class="px-4 py-2 text-sm text-slate-800">
+
+              {{ item.description }}
+
+            </td>
+
+            <td
+              class="px-4 py-2 text-center text-sm">
+
+              {{ item.quantity }}
+
+            </td>
+
+            <td
+              class="px-4 py-2 text-right text-sm">
+
+              ₹{{ item.price | number:'1.2-2' }}
+
+            </td>
+
+            <td
+              class="px-4 py-2 text-right text-sm font-semibold">
+
+              ₹{{ item.quantity * item.price | number:'1.2-2' }}
+
+            </td>
+
+          </tr>
+
+          }
+
+          @if ((invoice?.items?.length ?? 0) === 0) {
+
+          <tr>
+
+            <td
+              colspan="4"
+              class="py-8 text-center text-sm text-slate-500">
+
+              No invoice items found.
+
+            </td>
+
+          </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <!-- Footer -->
+
+    <div
+      class="flex items-center justify-between border-t border-gray-200 bg-slate-50 px-5 py-4">
+
+      <div
+        class="text-xs text-slate-500">
+
+        Total Items :
+        <span class="font-semibold text-slate-700">
+
+          {{ invoice?.items?.length ?? 0 }}
+
+        </span>
+
+      </div>
+
+      <div
+        class="rounded-lg bg-red-700 px-3 py-1 text-right text-white">
+
+        <p
+          class="text-[10px] uppercase tracking-wide">
+
+          Grand Total
+
+        </p>
+
+        <p
+          class="text-md font-bold">
+
+          ₹{{ getTotal() | number:'1.2-2' }}
+
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

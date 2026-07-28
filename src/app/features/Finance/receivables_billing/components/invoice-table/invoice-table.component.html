@@ -139,27 +139,39 @@
 
                     <td class="px-4 py-3 text-center">
 
-                        @if (invoice.status === 'Paid' || invoice.status === 'Draft') {
+                        <div class="flex items-center justify-center gap-2">
 
-                        <span class="text-[11px] text-slate-400">
+                            <!-- View Button -->
 
-                            No action pending
+                            <button type="button" (click)="viewInvoice(invoice)"
+                                class="rounded-md border border-blue-300 bg-blue-50 px-3 py-1 text-[11px] font-semibold text-blue-700 hover:bg-blue-100">
 
-                        </span>
+                                VIEW
 
-                        } @else {
+                            </button>
 
-                        <button (click)="openSettlement(invoice)"
-                            class="rounded-md border border-emerald-300 bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-700 hover:bg-emerald-100">
+                            @if (invoice.status === 'Paid' || invoice.status === 'Draft') {
 
-                            RECORD PAYMENT
+                            <span class="text-[11px] text-slate-400">
 
-                        </button>
+                                No action pending
 
-                        }
+                            </span>
+
+                            } @else {
+
+                            <button type="button" (click)="openSettlement(invoice)"
+                                class="rounded-md border border-emerald-300 bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-700 hover:bg-emerald-100">
+
+                                RECORD PAYMENT
+
+                            </button>
+
+                            }
+
+                        </div>
 
                     </td>
-
                 </tr>
 
                 }
@@ -187,6 +199,13 @@
 
         <app-record-settlement-modal [invoice]="selectedInvoice" (close)="closeSettlement()">
         </app-record-settlement-modal>
+
+        }
+
+        @if (showInvoiceModal && selectedInvoice) {
+
+        <app-invoice-details-modal [invoice]="selectedInvoice" (close)="closeInvoiceModal()">
+        </app-invoice-details-modal>
 
         }
 
