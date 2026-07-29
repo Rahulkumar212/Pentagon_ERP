@@ -3,7 +3,7 @@ import { Component, EventEmitter, Output, signal, computed } from '@angular/core
 
 interface ExpenseClaim {
 
-  id: string;
+  claimId: string;
 
   employee: string;
 
@@ -47,7 +47,7 @@ export class ExpensesClaimsTableComponent {
   readonly claims = signal<ExpenseClaim[]>([
 
     {
-      id: 'EXP-801',
+      claimId: 'EXP-801',
       employee: 'Aarav Sharma',
       category: 'Travel',
       description: 'Client onboarding flight & cab in Bangalore',
@@ -58,7 +58,7 @@ export class ExpensesClaimsTableComponent {
     },
 
     {
-      id: 'EXP-802',
+      claimId: 'EXP-802',
       employee: 'Kabir Mehta',
       category: 'Software',
       description: 'Docker Desktop annual personal license',
@@ -69,7 +69,7 @@ export class ExpensesClaimsTableComponent {
     },
 
     {
-      id: 'EXP-803',
+      claimId: 'EXP-803',
       employee: 'Vihaan Patel',
       category: 'Meals',
       description: 'Project success celebration dinner',
@@ -80,7 +80,7 @@ export class ExpensesClaimsTableComponent {
     },
 
     {
-      id: 'EXP-804',
+      claimId: 'EXP-804',
       employee: 'Meera Deshmukh',
       category: 'Office',
       description: 'Ergonomic keyboard & mouse purchase',
@@ -91,7 +91,7 @@ export class ExpensesClaimsTableComponent {
     },
 
     {
-      id: 'EXP-805',
+      claimId: 'EXP-805',
       employee: 'Ananya Iyer',
       category: 'Other',
       description: 'CFO Summit registration tickets',

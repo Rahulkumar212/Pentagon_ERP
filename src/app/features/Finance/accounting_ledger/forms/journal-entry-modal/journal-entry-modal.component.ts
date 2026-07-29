@@ -1,7 +1,9 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
+  OnInit,
   Output
 } from '@angular/core';
 
@@ -13,6 +15,9 @@ import {
 } from '@angular/forms';
 
 import { JournalEntryService } from '../../../../../core/services/finance/journal-entry.service';
+import { ChartAccountService } from '../../../../../core/services/finance/chart-account.service';
+
+import { ChartAccount } from '../../../../../core/models/finance/chart-account.model';
 
 @Component({
   selector: 'app-journal-entry-modal',
@@ -23,7 +28,7 @@ import { JournalEntryService } from '../../../../../core/services/finance/journa
   ],
   templateUrl: './journal-entry-modal.component.html'
 })
-export class JournalEntryModalComponent {
+export class JournalEntryModalComponent implements OnInit {
 
   @Output()
   close = new EventEmitter<void>();
@@ -34,59 +39,15 @@ export class JournalEntryModalComponent {
 
   selectedFile: File | null = null;
 
- accounts = [
+  debitAccounts: ChartAccount[] = [];
 
-  // ==========================
-  // Bank Accounts
-  // ==========================
-
-  'ICICI Bank-CA(Pentagon)',
-  'ICICI Bank-OD(Pentagon)',
-  'IndusInd Bank-CA(Smart)',
-  'IndusInd Bank-CA(Pentagon)',
-  'ICICI Bank-CA(SEST)',
-
-  // ==========================
-  // Cash
-  // ==========================
-
-  'Cash In Hand',
-
-  // ==========================
-  // Assets
-  // ==========================
-
-  'Accounts Receivable',
-
-  // ==========================
-  // Liabilities
-  // ==========================
-
-  'Accounts Payable',
-  'TDS Payable',
-  'PF Payable',
-
-  // ==========================
-  // Revenue
-  // ==========================
-
-  'Software License Sales',
-  'Consulting Revenue',
-
-  // ==========================
-  // Expenses
-  // ==========================
-
-  'Rent Expense',
-  'Software Subscription',
-  'Electricity Expense',
-  'Salary Expense'
-
-];
+  creditAccounts: ChartAccount[] = [];
 
   constructor(
     private readonly fb: FormBuilder,
-    private readonly journalEntryService: JournalEntryService
+    private readonly journalEntryService: JournalEntryService,
+    private readonly chartAccountService: ChartAccountService,
+    private readonly cdr: ChangeDetectorRef
   ) {
 
     this.form = this.fb.group({
@@ -133,6 +94,74 @@ export class JournalEntryModalComponent {
       postImmediately: [true]
 
     });
+
+  }
+
+  ngOnInit(): void {
+
+    this.loadDebitAccounts();
+
+    this.loadCreditAccounts();
+
+  }
+
+  loadDebitAccounts(): void {
+
+    this.chartAccountService
+      .getChartByAccount('Debit')
+      .subscribe({
+
+        next: (response: any) => {
+
+          console.log('Debit Accounts', response);
+
+          this.debitAccounts = response.data ?? [];
+
+          this.cdr.detectChanges();
+
+        },
+
+        error: (error) => {
+
+          console.error(error);
+
+          this.debitAccounts = [];
+
+          this.cdr.detectChanges();
+
+        }
+
+      });
+
+  }
+
+  loadCreditAccounts(): void {
+
+    this.chartAccountService
+      .getChartByAccount('Credit')
+      .subscribe({
+
+        next: (response: any) => {
+
+          console.log('Credit Accounts', response);
+
+          this.creditAccounts = response.data ?? [];
+
+          this.cdr.detectChanges();
+
+        },
+
+        error: (error) => {
+
+          console.error(error);
+
+          this.creditAccounts = [];
+
+          this.cdr.detectChanges();
+
+        }
+
+      });
 
   }
 

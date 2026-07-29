@@ -8,8 +8,13 @@ import {
   OnInit
 } from '@angular/core';
 
-import { JournalEntryService } from '../../../../../core/services/finance/journal-entry.service';
-import { JournalEntry } from '../../../../../core/models/finance/journal-entry.model';
+import {
+  JournalEntryService
+} from '../../../../../core/services/finance/journal-entry.service';
+
+import {
+  JournalEntry
+} from '../../../../../core/models/finance/journal-entry.model';
 
 @Component({
   selector: 'app-journal-table',
@@ -36,6 +41,10 @@ export class JournalTableComponent implements OnInit {
 
   }
 
+  // ======================================
+  // Load Journal Entries
+  // ======================================
+
   loadJournalEntries(): void {
 
     this.loading = true;
@@ -46,7 +55,7 @@ export class JournalTableComponent implements OnInit {
 
         next: (response: any) => {
 
-          this.journals = response.data.map((item: any) => ({
+          this.journals = (response.data ?? []).map((item: any) => ({
 
             ...item,
 
@@ -54,7 +63,10 @@ export class JournalTableComponent implements OnInit {
 
           }));
 
-          console.log('Journal Entries', this.journals);
+          console.log(
+            'Journal Entries',
+            this.journals
+          );
 
           this.loading = false;
 
@@ -78,6 +90,53 @@ export class JournalTableComponent implements OnInit {
       });
 
   }
+
+  // ======================================
+  // View Attachment
+  // ======================================
+
+  viewAttachment(id: string): void {
+
+     console.log('Clicked ID:', id);
+
+    this.journalEntryService
+      .viewJournalAttachment(id)
+      .subscribe({
+
+        next: (blob: Blob) => {
+
+          const fileUrl =
+            window.URL.createObjectURL(blob);
+
+          window.open(
+            fileUrl,
+            '_blank'
+          );
+
+          setTimeout(() => {
+
+            window.URL.revokeObjectURL(fileUrl);
+
+          }, 1000);
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Failed to open attachment',
+            error
+          );
+
+        }
+
+      });
+
+  }
+
+  // ======================================
+  // Track By
+  // ======================================
 
   trackByJournal(
     index: number,

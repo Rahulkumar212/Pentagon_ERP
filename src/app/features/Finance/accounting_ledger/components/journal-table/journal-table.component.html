@@ -81,102 +81,96 @@
 
         @for (item of journals; track trackByJournal($index, item)) {
 
-          <tr class="border-t border-gray-100 transition hover:bg-slate-50">
+        <tr class="border-t border-gray-100 transition hover:bg-slate-50">
 
-            <!-- Voucher -->
+          <!-- Voucher -->
 
-            <td class="px-4 py-3 font-mono text-xs font-semibold text-red-700">
-              {{ item.voucherNo }}
-            </td>
+          <td class="px-4 py-3 font-mono text-xs font-semibold text-red-700">
+            {{ item.voucherNo }}
+          </td>
 
-            <!-- Date -->
+          <!-- Date -->
 
-            <td class="px-4 py-3 text-sm text-slate-700">
-              {{ item.journalDate | date:'dd/MM/yyyy' }}
-            </td>
+          <td class="px-4 py-3 text-sm text-slate-700">
+            {{ item.journalDate | date:'dd/MM/yyyy' }}
+          </td>
 
-            <!-- Reference -->
+          <!-- Reference -->
 
-            <td class="px-4 py-3 text-sm text-slate-700">
-              {{ item.reference }}
-            </td>
+          <td class="px-4 py-3 text-sm text-slate-700">
+            {{ item.reference }}
+          </td>
 
-            <!-- Description -->
+          <!-- Description -->
 
-            <td class="px-4 py-3 text-sm font-medium text-slate-900">
-              {{ item.description }}
-            </td>
+          <td class="px-4 py-3 text-sm font-medium text-slate-900">
+            {{ item.description }}
+          </td>
 
-            <!-- Debit -->
+          <!-- Debit -->
 
-            <td class="px-4 py-3 text-sm font-medium text-blue-700">
-              {{ item.debitAccount }}
-            </td>
+          <td class="px-4 py-3 text-sm font-medium text-blue-700">
+            {{ item.debitAccount }}
+          </td>
 
-            <!-- Credit -->
+          <!-- Credit -->
 
-            <td class="px-4 py-3 text-sm font-medium text-purple-700">
-              {{ item.creditAccount }}
-            </td>
+          <td class="px-4 py-3 text-sm font-medium text-purple-700">
+            {{ item.creditAccount }}
+          </td>
 
-            <!-- Amount -->
+          <!-- Amount -->
 
-            <td class="px-4 py-3 text-right font-semibold text-slate-900">
-              ₹{{ item.amount | number:'1.0-0' }}
-            </td>
+          <td class="px-4 py-3 text-right font-semibold text-slate-900">
+            ₹{{ item.amount | number:'1.0-0' }}
+          </td>
 
-            <!-- Narration -->
+          <!-- Narration -->
 
-            <td
-              class="max-w-xs truncate px-4 py-3 text-sm text-slate-600"
-              [title]="item.narration">
+          <td class="max-w-xs truncate px-4 py-3 text-sm text-slate-600" [title]="item.narration">
 
-              {{ item.narration }}
+            {{ item.narration }}
 
-            </td>
+          </td>
 
-            <!-- Attachment -->
+          <!-- Attachment -->
 
-            <td class="px-4 py-3 text-center">
+          <td class="px-4 py-3 text-center">
 
-              @if (item.attachment) {
+            @if (item.attachment) {
 
-                <a
-                  [href]="item.attachment"
-                  target="_blank"
-                  class="rounded bg-blue-100 px-2 py-1 text-[10px] font-medium text-blue-700 hover:bg-blue-200">
+            <button type="button" (click)="viewAttachment(item._id!)"
+              class="rounded bg-blue-100 px-2 py-1 text-[10px] font-medium text-blue-700 transition hover:bg-blue-200">
 
-                  📎 View
+              📎 View
 
-                </a>
+            </button>
 
-              } @else {
+            } @else {
 
-                <span class="text-slate-400">
-                  —
-                </span>
+            <span class="text-slate-400">
+              —
+            </span>
 
-              }
+            }
 
-            </td>
+          </td>
 
-          </tr>
+        </tr>
 
         }
 
         @if (journals.length === 0) {
 
-          <tr>
+        <tr>
 
-            <td
-              colspan="9"
-              class="py-6 text-center text-sm text-slate-500">
+          <td colspan="9" class="py-6 text-center text-sm text-slate-500">
 
-              No journal entries found.
+            No journal entries found.
 
-            </td>
+          </td>
 
-          </tr>
+        </tr>
 
         }
 

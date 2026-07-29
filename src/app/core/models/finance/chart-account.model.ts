@@ -1,3 +1,5 @@
+export type BalanceType = 'Debit' | 'Credit';
+
 export interface ChartAccount {
 
   _id?: string;
@@ -10,7 +12,7 @@ export interface ChartAccount {
 
   subClassification: string;
 
-  balanceType: 'Debit' | 'Credit';
+  balanceType: BalanceType;
 
   openingBalance: number;
 

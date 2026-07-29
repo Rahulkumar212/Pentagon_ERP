@@ -82,13 +82,13 @@
 
       <tbody>
 
-        @for (claim of filteredClaims(); track claim.id) {
+        @for (claim of filteredClaims(); track claim.claimId) {
 
           <tr class="border-b border-gray-100 hover:bg-slate-50">
 
             <td class="px-5 py-4 text-xs font-semibold text-red-700">
 
-              {{ claim.id }}
+              {{ claim.claimId }}
 
             </td>
 
