@@ -1,9 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import {
+  Component,
+  OnInit
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import { RecordSettlementModalComponent } from '../../forms/record-settlement-modal/record-settlement-modal.component';
 import { InvoiceDetailsModalComponent } from '../invoice-details-modal/invoice-details-modal.component';
+
+import { InvoiceService } from '../../../../../core/services/finance/invoice.service';
 
 interface Invoice {
 
@@ -18,6 +23,8 @@ interface Invoice {
   status: 'Paid' | 'Outstanding' | 'Overdue' | 'Draft';
 
   amount: number;
+
+  items?: any[];
 
 }
 
@@ -39,7 +46,7 @@ type InvoiceTab =
   ],
   templateUrl: './invoice-table.component.html'
 })
-export class InvoiceTableComponent {
+export class InvoiceTableComponent implements OnInit {
 
   searchText = '';
 
@@ -53,71 +60,106 @@ export class InvoiceTableComponent {
     'Draft'
   ];
 
-  invoices: Invoice[] = [
+  invoices: Invoice[] = [];
 
-    {
-      id: 'INV-2026-001',
-      customer: 'Acme Corporation',
-      issueDate: '2026-07-01',
-      dueDate: '2026-07-31',
-      status: 'Paid',
-      amount: 14500
-    },
+  constructor(
+    private readonly invoiceService: InvoiceService
+  ) {}
 
-    {
-      id: 'INV-2026-002',
-      customer: 'Globex Holdings',
-      issueDate: '2026-07-05',
-      dueDate: '2026-08-05',
-      status: 'Paid',
-      amount: 22000
-    },
+  ngOnInit(): void {
 
-    {
-      id: 'INV-2026-003',
-      customer: 'Initech Systems',
-      issueDate: '2026-06-15',
-      dueDate: '2026-07-15',
-      status: 'Overdue',
-      amount: 9800
-    },
+    this.getInvoices();
 
-    {
-      id: 'INV-2026-004',
-      customer: 'Umbrella Corp',
-      issueDate: '2026-07-10',
-      dueDate: '2026-08-10',
-      status: 'Outstanding',
-      amount: 34000
-    },
+  }
 
-    {
-      id: 'INV-2026-005',
-      customer: 'Stark Industries',
-      issueDate: '2026-07-14',
-      dueDate: '2026-08-14',
-      status: 'Draft',
-      amount: 45000
-    }
+  getInvoices(): void {
 
-  ];
+    this.invoiceService
+      .getAllInvoices()
+      .subscribe({
+
+        next: (response: any) => {
+
+          console.log(
+            'Invoices',
+            response
+          );
+
+          this.invoices =
+            (response.data ?? []).map((item: any) => ({
+
+              id:
+                item.invoiceId,
+
+              customer:
+                item.customer,
+
+              issueDate:
+                item.issueDate ??
+                item.createdAt,
+
+              dueDate:
+                item.dueDate,
+
+              status:
+                item.status,
+
+              amount:
+                item.totalAmount ??
+                item.amount,
+
+              items:
+                item.items ?? []
+
+            }));
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Failed to load invoices',
+            error
+          );
+
+        }
+
+      });
+
+  }
 
   get filteredInvoices(): Invoice[] {
 
     return this.invoices.filter(invoice => {
 
       const matchesTab =
+
         this.activeTab === 'All' ||
+
         invoice.status === this.activeTab;
 
       const search =
-        this.searchText.trim().toLowerCase();
+
+        this.searchText
+          .trim()
+          .toLowerCase();
 
       const matchesSearch =
-        invoice.id.toLowerCase().includes(search) ||
-        invoice.customer.toLowerCase().includes(search);
 
-      return matchesTab && matchesSearch;
+        invoice.id
+          .toLowerCase()
+          .includes(search) ||
+
+        invoice.customer
+          .toLowerCase()
+          .includes(search);
+
+      return (
+
+        matchesTab &&
+        matchesSearch
+
+      );
 
     });
 
@@ -129,53 +171,67 @@ export class InvoiceTableComponent {
 
   }
 
-  // ===================================
+  // ==========================================
   // Shared Selected Invoice
-  // ===================================
+  // ==========================================
 
   selectedInvoice: Invoice | null = null;
 
-  // ===================================
-  // Record Payment Modal
-  // ===================================
+  // ==========================================
+  // Record Payment
+  // ==========================================
 
   showSettlementModal = false;
 
-  openSettlement(invoice: Invoice): void {
+  openSettlement(
+    invoice: Invoice
+  ): void {
 
-    this.selectedInvoice = invoice;
+    this.selectedInvoice =
+      invoice;
 
-    this.showSettlementModal = true;
+    this.showSettlementModal =
+      true;
 
   }
 
   closeSettlement(): void {
 
-    this.showSettlementModal = false;
+    this.showSettlementModal =
+      false;
 
-    this.selectedInvoice = null;
+    this.selectedInvoice =
+      null;
+
+    this.getInvoices();
 
   }
 
-  // ===================================
-  // Invoice Details Modal
-  // ===================================
+  // ==========================================
+  // Invoice Details
+  // ==========================================
 
   showInvoiceModal = false;
 
-  viewInvoice(invoice: Invoice): void {
+  viewInvoice(
+    invoice: Invoice
+  ): void {
 
-    this.selectedInvoice = invoice;
+    this.selectedInvoice =
+      invoice;
 
-    this.showInvoiceModal = true;
+    this.showInvoiceModal =
+      true;
 
   }
 
   closeInvoiceModal(): void {
 
-    this.showInvoiceModal = false;
+    this.showInvoiceModal =
+      false;
 
-    this.selectedInvoice = null;
+    this.selectedInvoice =
+      null;
 
   }
 

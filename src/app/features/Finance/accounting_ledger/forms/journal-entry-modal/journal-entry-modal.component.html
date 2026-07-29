@@ -116,23 +116,30 @@
 
       <div class="grid grid-cols-2 gap-4">
 
+        <!-- Debit -->
+
         <div>
 
-          <label class="mb-1 block text-sm font-medium text-green-700">
+          <label class="mb-2 block text-sm font-medium text-green-700">
 
             Debit Account
 
           </label>
 
-          <select formControlName="debitAccount" class="w-full rounded-lg border border-gray-300 px-3 py-2">
+          <select formControlName="debitAccount"
+            class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-none transition focus:border-green-600 focus:ring-2 focus:ring-green-100">
 
-            <option value="">Select Account</option>
+            <option value="" disabled>
 
-            @for(account of accounts; track account){
+              Select Debit Account
 
-            <option [value]="account">
+            </option>
 
-              {{ account }}
+            @for(account of debitAccounts; track account._id){
+
+            <option [value]="account.accountName">
+
+              {{ account.accountName }}
 
             </option>
 
@@ -142,23 +149,30 @@
 
         </div>
 
+        <!-- Credit -->
+
         <div>
 
-          <label class="mb-1 block text-sm font-medium text-red-700">
+          <label class="mb-2 block text-sm font-medium text-red-700">
 
             Credit Account
 
           </label>
 
-          <select formControlName="creditAccount" class="w-full rounded-lg border border-gray-300 px-3 py-2">
+          <select formControlName="creditAccount"
+            class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm outline-none transition focus:border-red-600 focus:ring-2 focus:ring-red-100">
 
-            <option value="">Select Account</option>
+            <option value="" disabled>
 
-            @for(account of accounts; track account){
+              Select Credit Account
 
-            <option [value]="account">
+            </option>
 
-              {{ account }}
+            @for(account of creditAccounts; track account._id){
+
+            <option [value]="account.accountName">
+
+              {{ account.accountName }}
 
             </option>
 

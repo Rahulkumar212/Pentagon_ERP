@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
-import { ChartAccount } from '../../models/finance/chart-account.model';
+import { BalanceType, ChartAccount } from '../../models/finance/chart-account.model';
 import { BaseApiService } from '../base-api.service';
 
 @Injectable({
@@ -48,6 +48,19 @@ export class ChartAccountService extends BaseApiService {
     );
 
   }
+
+ getChartByAccount(balanceType: BalanceType) {
+
+  return this.http.get<ChartAccount[]>(
+    `${this.API_URL}/getChartByAccount`,
+    {
+      params: {
+        balanceType
+      }
+    }
+  );
+
+}
 
   /**
    * Update Chart Account

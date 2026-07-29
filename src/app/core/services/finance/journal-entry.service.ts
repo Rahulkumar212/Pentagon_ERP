@@ -9,8 +9,6 @@ import { BaseApiService } from '../base-api.service';
 })
 export class JournalEntryService extends BaseApiService {
 
-  
-
   createJournalEntry(
     payload: FormData
   ): Observable<any> {
@@ -40,6 +38,23 @@ export class JournalEntryService extends BaseApiService {
 
   }
 
+  // ===========================
+  // View Journal Attachment
+  // ===========================
+
+  viewJournalAttachment(
+    id: string
+  ): Observable<Blob> {
+
+    return this.http.get(
+      `${this.API_URL}/viewJournalAttachment/${1}`,
+      {
+        responseType: 'blob'
+      }
+    );
+
+  }
+
   updateJournalEntry(
     id: string,
     payload: Partial<JournalEntry>
@@ -62,20 +77,20 @@ export class JournalEntryService extends BaseApiService {
 
   }
 
-getGeneralLedger(): Observable<any> {
+  getGeneralLedger(): Observable<any> {
 
-  return this.http.get(
-    `${this.API_URL}/fetchJournalEntrys`
-  );
+    return this.http.get(
+      `${this.API_URL}/fetchJournalEntrys`
+    );
 
-}
+  }
 
-getTrialBalance(): Observable<any> {
+  getTrialBalance(): Observable<any> {
 
-  return this.http.get(
-    `${this.API_URL}/fetchTrialBalance`
-  );
+    return this.http.get(
+      `${this.API_URL}/fetchTrialBalance`
+    );
 
-}
+  }
 
 }
