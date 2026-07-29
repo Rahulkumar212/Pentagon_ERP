@@ -1,17 +1,14 @@
 <!-- Overlay -->
 
-<div
-  class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-5">
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-5">
 
   <!-- Modal -->
 
-  <div
-    class="w-full max-w-3xl rounded-2xl bg-white shadow-2xl">
+  <div class="w-full max-w-3xl rounded-2xl bg-white shadow-2xl">
 
     <!-- Header -->
 
-    <div
-      class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+    <div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
 
       <div>
 
@@ -29,9 +26,7 @@
 
       </div>
 
-      <button
-        (click)="closeModal()"
-        class="text-2xl text-slate-500 hover:text-red-700">
+      <button (click)="closeModal()" class="text-2xl text-slate-500 hover:text-red-700">
 
         ×
 
@@ -41,10 +36,7 @@
 
     <!-- Form -->
 
-    <form
-      [formGroup]="form"
-      (ngSubmit)="submit()"
-      class="space-y-5 p-6">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-5 p-6">
 
       <div class="grid grid-cols-2 gap-4">
 
@@ -58,9 +50,7 @@
 
           </label>
 
-          <input
-            formControlName="voucherNo"
-            class="w-full rounded-lg border border-gray-300 px-3 py-2">
+          <input formControlName="voucherNo" class="w-full rounded-lg border border-gray-300 px-3 py-2">
 
         </div>
 
@@ -74,10 +64,7 @@
 
           </label>
 
-          <input
-            type="date"
-            formControlName="journalDate"
-            class="w-full rounded-lg border border-gray-300 px-3 py-2">
+          <input type="date" formControlName="journalDate" class="w-full rounded-lg border border-gray-300 px-3 py-2">
 
         </div>
 
@@ -91,9 +78,7 @@
 
           </label>
 
-          <input
-            formControlName="reference"
-            class="w-full rounded-lg border border-gray-300 px-3 py-2">
+          <input formControlName="reference" class="w-full rounded-lg border border-gray-300 px-3 py-2">
 
         </div>
 
@@ -107,10 +92,7 @@
 
           </label>
 
-          <input
-            type="number"
-            formControlName="amount"
-            class="w-full rounded-lg border border-gray-300 px-3 py-2">
+          <input type="number" formControlName="amount" class="w-full rounded-lg border border-gray-300 px-3 py-2">
 
         </div>
 
@@ -126,9 +108,7 @@
 
         </label>
 
-        <input
-          formControlName="description"
-          class="w-full rounded-lg border border-gray-300 px-3 py-2">
+        <input formControlName="description" class="w-full rounded-lg border border-gray-300 px-3 py-2">
 
       </div>
 
@@ -144,19 +124,17 @@
 
           </label>
 
-          <select
-            formControlName="debitAccount"
-            class="w-full rounded-lg border border-gray-300 px-3 py-2">
+          <select formControlName="debitAccount" class="w-full rounded-lg border border-gray-300 px-3 py-2">
 
             <option value="">Select Account</option>
 
             @for(account of accounts; track account){
 
-              <option [value]="account">
+            <option [value]="account">
 
-                {{ account }}
+              {{ account }}
 
-              </option>
+            </option>
 
             }
 
@@ -172,19 +150,17 @@
 
           </label>
 
-          <select
-            formControlName="creditAccount"
-            class="w-full rounded-lg border border-gray-300 px-3 py-2">
+          <select formControlName="creditAccount" class="w-full rounded-lg border border-gray-300 px-3 py-2">
 
             <option value="">Select Account</option>
 
             @for(account of accounts; track account){
 
-              <option [value]="account">
+            <option [value]="account">
 
-                {{ account }}
+              {{ account }}
 
-              </option>
+            </option>
 
             }
 
@@ -204,38 +180,36 @@
 
         </label>
 
-        <textarea
-          rows="3"
-          formControlName="narration"
-          class="w-full rounded-lg border border-gray-300 px-3 py-2">
+        <textarea rows="3" formControlName="narration" class="w-full rounded-lg border border-gray-300 px-3 py-2">
 
         </textarea>
 
       </div>
 
-      <!-- Attachment -->
-
       <div>
-
         <label class="mb-1 block text-sm font-medium">
-
           Attachment
-
         </label>
 
-        <input
-          type="file"
-          class="w-full rounded-lg border border-gray-300 p-2">
+        <input type="file" (change)="onFileSelected($event)" accept=".pdf,.png,.jpg,.jpeg,.doc,.docx"
+          class="block w-full rounded-lg border border-gray-300 p-2 text-sm" />
 
+        @if (selectedFile) {
+
+        <p class="mt-2 text-xs text-green-700">
+
+          {{ selectedFile.name }}
+
+        </p>
+
+        }
       </div>
 
       <!-- Checkbox -->
 
       <div class="flex items-center gap-2">
 
-        <input
-          type="checkbox"
-          formControlName="postImmediately">
+        <input type="checkbox" formControlName="postImmediately">
 
         <label class="text-sm text-slate-700">
 
@@ -247,23 +221,18 @@
 
       <!-- Footer -->
 
-      <div
-        class="flex justify-end gap-3 border-t border-gray-200 pt-5">
+      <div class="flex justify-end gap-3 border-t border-gray-200 pt-5">
 
-        <button
-          type="button"
-          (click)="closeModal()"
-          class="rounded-lg border border-gray-300 px-5 py-2">
+        <button type="button" (click)="closeModal()" class="rounded-lg border border-gray-300 px-5 py-2">
 
           Cancel
 
         </button>
 
-        <button
-          type="submit"
-          class="rounded-lg bg-red-800 px-6 py-2 font-semibold text-white hover:bg-red-900">
+        <button type="submit" [disabled]="isSubmitting"
+          class="rounded-lg bg-red-700 px-5 py-2 font-medium text-white disabled:cursor-not-allowed disabled:opacity-60">
 
-          Save Journal Entry
+          {{ isSubmitting ? 'Saving...' : 'Save Journal Entry' }}
 
         </button>
 

@@ -1,17 +1,12 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  OnInit
+} from '@angular/core';
 
-interface TrialBalance {
-
-  accountCode: string;
-
-  accountName: string;
-
-  debit: number;
-
-  credit: number;
-
-}
+import { JournalEntryService } from '../../../../../core/services/finance/journal-entry.service';
+import { TrialBalance } from '../../../../../core/models/finance/journal-entry.model';
 
 @Component({
   selector: 'app-trial-balance-table',
@@ -21,94 +16,66 @@ interface TrialBalance {
   ],
   templateUrl: './trial-balance-table.component.html'
 })
-export class TrialBalanceTableComponent {
+export class TrialBalanceTableComponent implements OnInit {
 
-  trialBalance: TrialBalance[] = [
+  loading = false;
 
-    {
-      accountCode: '1110',
-      accountName: 'HDFC Corporate Checking',
-      debit: 345200,
-      credit: 0
-    },
+  trialBalance: TrialBalance[] = [];
 
-    {
-      accountCode: '1120',
-      accountName: 'Silicon Valley Operating',
-      debit: 185600,
-      credit: 0
-    },
+  constructor(
+    private readonly journalEntryService: JournalEntryService,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
 
-    {
-      accountCode: '1200',
-      accountName: 'Accounts Receivable',
-      debit: 65800,
-      credit: 0
-    },
+  ngOnInit(): void {
 
-    {
-      accountCode: '1600',
-      accountName: 'Fixed Assets',
-      debit: 2600000,
-      credit: 0
-    },
+    this.loadTrialBalance();
 
-    {
-      accountCode: '2100',
-      accountName: 'Accounts Payable',
-      debit: 0,
-      credit: 17050
-    },
+  }
 
-    {
-      accountCode: '2210',
-      accountName: 'TDS Payable',
-      debit: 0,
-      credit: 25000
-    },
+  loadTrialBalance(): void {
 
-    {
-      accountCode: '2220',
-      accountName: 'PF Payable',
-      debit: 0,
-      credit: 11000
-    },
+    this.loading = true;
 
-    {
-      accountCode: '3100',
-      accountName: 'Owner Equity',
-      debit: 0,
-      credit: 3100000
-    },
+    this.journalEntryService
+      .getTrialBalance()
+      .subscribe({
 
-    {
-      accountCode: '4100',
-      accountName: 'Software License Sales',
-      debit: 0,
-      credit: 125000
-    },
+        next: (response: any) => {
 
-    {
-      accountCode: '5100',
-      accountName: 'Rent Expense',
-      debit: 12000,
-      credit: 0
-    },
+          this.trialBalance = response.data ?? [];
 
-    {
-      accountCode: '5200',
-      accountName: 'Software Subscription',
-      debit: 2450,
-      credit: 0
-    }
+          this.loading = false;
 
-  ];
+          this.cdr.detectChanges();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Failed to load trial balance',
+            error
+          );
+
+          this.loading = false;
+
+          this.cdr.detectChanges();
+
+        }
+
+      });
+
+  }
 
   get totalDebit(): number {
 
     return this.trialBalance.reduce(
+
       (sum, item) => sum + item.debit,
+
       0
+
     );
 
   }
@@ -116,9 +83,21 @@ export class TrialBalanceTableComponent {
   get totalCredit(): number {
 
     return this.trialBalance.reduce(
+
       (sum, item) => sum + item.credit,
+
       0
+
     );
+
+  }
+
+  trackByAccount(
+    index: number,
+    item: TrialBalance
+  ): string {
+
+    return item.accountCode;
 
   }
 
