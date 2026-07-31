@@ -1,20 +1,18 @@
-import {
-  CommonModule
-} from '@angular/common';
-
+import { CommonModule } from '@angular/common';
 import {
   ChangeDetectorRef,
   Component,
+  OnDestroy,
   OnInit
 } from '@angular/core';
 
 import {
-  JournalEntryService
-} from '../../../../../core/services/finance/journal-entry.service';
+  DomSanitizer,
+  SafeResourceUrl
+} from '@angular/platform-browser';
 
-import {
-  JournalEntry
-} from '../../../../../core/models/finance/journal-entry.model';
+import { JournalEntryService } from '../../../../../core/services/finance/journal-entry.service';
+import { JournalEntry } from '../../../../../core/models/finance/journal-entry.model';
 
 @Component({
   selector: 'app-journal-table',
@@ -24,20 +22,40 @@ import {
   ],
   templateUrl: './journal-table.component.html'
 })
-export class JournalTableComponent implements OnInit {
+export class JournalTableComponent
+  implements OnInit, OnDestroy {
 
   journals: JournalEntry[] = [];
 
   loading = false;
 
+  showAttachmentModal = false;
+
+  attachmentUrl!: SafeResourceUrl;
+
+  attachmentType: 'pdf' | 'image' | 'other' = 'other';
+
+  private objectUrl = '';
+
   constructor(
     private readonly journalEntryService: JournalEntryService,
-    private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef,
+    private readonly sanitizer: DomSanitizer
   ) {}
 
   ngOnInit(): void {
 
     this.loadJournalEntries();
+
+  }
+
+  ngOnDestroy(): void {
+
+    if (this.objectUrl) {
+
+      URL.revokeObjectURL(this.objectUrl);
+
+    }
 
   }
 
@@ -97,7 +115,7 @@ export class JournalTableComponent implements OnInit {
 
   viewAttachment(id: string): void {
 
-     console.log('Clicked ID:', id);
+    console.log('Clicked Id : ', id);
 
     this.journalEntryService
       .viewJournalAttachment(id)
@@ -105,19 +123,38 @@ export class JournalTableComponent implements OnInit {
 
         next: (blob: Blob) => {
 
-          const fileUrl =
-            window.URL.createObjectURL(blob);
+          if (this.objectUrl) {
 
-          window.open(
-            fileUrl,
-            '_blank'
-          );
+            URL.revokeObjectURL(this.objectUrl);
 
-          setTimeout(() => {
+          }
 
-            window.URL.revokeObjectURL(fileUrl);
+          this.objectUrl = URL.createObjectURL(blob);
 
-          }, 1000);
+          this.attachmentUrl =
+            this.sanitizer.bypassSecurityTrustResourceUrl(
+              this.objectUrl
+            );
+
+          if (blob.type.includes('pdf')) {
+
+            this.attachmentType = 'pdf';
+
+          }
+          else if (blob.type.includes('image')) {
+
+            this.attachmentType = 'image';
+
+          }
+          else {
+
+            this.attachmentType = 'other';
+
+          }
+
+          this.showAttachmentModal = true;
+
+          this.cdr.detectChanges();
 
         },
 
@@ -131,6 +168,24 @@ export class JournalTableComponent implements OnInit {
         }
 
       });
+
+  }
+
+  // ======================================
+  // Close Modal
+  // ======================================
+
+  closeAttachmentModal(): void {
+
+    this.showAttachmentModal = false;
+
+    if (this.objectUrl) {
+
+      URL.revokeObjectURL(this.objectUrl);
+
+      this.objectUrl = '';
+
+    }
 
   }
 

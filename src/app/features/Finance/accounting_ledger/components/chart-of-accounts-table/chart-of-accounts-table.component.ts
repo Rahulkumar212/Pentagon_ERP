@@ -22,16 +22,22 @@ export class ChartOfAccountsComponent implements OnInit {
 
   loading = false;
 
+  deletingId: number | null = null;
+
   constructor(
     private readonly chartAccountService: ChartAccountService,
     private readonly cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
     this.loadChartAccounts();
 
   }
+
+  // ==========================================
+  // Load Accounts
+  // ==========================================
 
   loadChartAccounts(): void {
 
@@ -43,18 +49,7 @@ export class ChartOfAccountsComponent implements OnInit {
 
         next: (response: any) => {
 
-          // Backend Response:
-          // {
-          //   success: true,
-          //   data: [...]
-          // }
-
-          this.accounts = response.data;
-
-          console.log(
-            'Chart Accounts',
-            this.accounts
-          );
+          this.accounts = response.data ?? [];
 
           this.loading = false;
 
@@ -79,12 +74,63 @@ export class ChartOfAccountsComponent implements OnInit {
 
   }
 
+  // ==========================================
+  // Delete Account
+  // ==========================================
+
+  deleteAccount(account: ChartAccount): void {
+
+    const confirmed = confirm(
+      `Delete "${account.accountName}" ?`
+    );
+
+    if (!confirmed) {
+      return;
+    }
+
+    this.deletingId = account.id;
+
+    this.chartAccountService
+      .deleteChartAccount(account.id.toString())
+      .subscribe({
+
+        next: () => {
+
+          console.log('Deleted');
+
+          this.accounts =
+            this.accounts.filter(
+              item => item.id !== account.id
+            );
+
+          this.deletingId = null;
+
+          this.cdr.detectChanges();
+
+        },
+
+        error: (error) => {
+
+          console.error(error);
+
+          this.deletingId = null;
+
+        }
+
+      });
+
+  }
+
+  // ==========================================
+  // Track By
+  // ==========================================
+
   trackByAccount(
     index: number,
     item: ChartAccount
-  ): string {
+  ): number {
 
-    return item._id ?? item.code;
+    return item.id;
 
   }
 

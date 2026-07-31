@@ -43,11 +43,13 @@ export class ManualLedgerEntryComponent {
   ];
 
   accounts = [
-    'ICICI Bank-CA(Pentagon)',
-    'ICICI Bank-OD(Pentagon)',
-    'IndusInd Bank-CA(Smart)',
-    'IndusInd Bank-CA(Pentagon)',
-    'ICICI Bank-CA(SEST)'
+    'ICICI Bank - Pentagon Current Account',
+    'ICICI Bank - Pentagon Overdraft Account',
+
+    'IndusInd Bank - Smart Current Account',
+    'IndusInd Bank - Pentagon Current Account',
+
+    'ICICI Bank - SEST Current Account'
   ];
 
   constructor(
