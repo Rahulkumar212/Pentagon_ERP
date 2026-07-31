@@ -1,4 +1,4 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://pentagon-erp.onrender.com'
+  apiUrl: 'https://pentagon-erp.onrender.com/api/v1'
 };
