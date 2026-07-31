@@ -135,7 +135,7 @@
 
             </option>
 
-            @for(account of debitAccounts; track account._id){
+            @for(account of debitAccounts; track account.id){
 
             <option [value]="account.accountName">
 
@@ -168,7 +168,7 @@
 
             </option>
 
-            @for(account of creditAccounts; track account._id){
+            @for(account of creditAccounts; track account.id){
 
             <option [value]="account.accountName">
 
