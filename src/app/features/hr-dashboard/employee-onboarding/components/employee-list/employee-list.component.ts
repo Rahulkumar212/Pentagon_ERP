@@ -10,8 +10,8 @@ import { CommonModule } from '@angular/common';
 
 import {
   EmployeeOnboard
-} from '../../../../../core/models/employee-onboard.type';
-import { EmployeeOnboardService } from '../../../../../core/services/employee-onboard.service';
+} from '../../../../../core/models/hr/employee-onboard.type';
+import { EmployeeOnboardService } from '../../../../../core/services/hr/employee-onboard.service';
 
 @Component({
   selector: 'app-employee-list',

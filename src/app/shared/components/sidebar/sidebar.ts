@@ -18,7 +18,7 @@ import {
 
 import {
   AuthService
-} from '../../../core/services/auth.service';
+} from '../../../core/services/auth/auth.service';
 
 import {
   ROLES

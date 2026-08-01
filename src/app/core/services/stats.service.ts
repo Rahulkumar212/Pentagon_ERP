@@ -7,7 +7,7 @@ import {
   ApiResponse,
   DashboardOverview
 } from '../models/stats.model';
-import { BaseApiService } from './base-api.service';
+import { BaseApiService } from './base-api/base-api.service';
 
 @Injectable({
   providedIn: 'root'

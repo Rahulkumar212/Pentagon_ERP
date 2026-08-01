@@ -33,11 +33,11 @@ import {
 import {
   TaskChecklist,
   EmployeeOnboard
-} from '../../../../core/models/employee-onboard.type';
+} from '../../../../core/models/hr/employee-onboard.type';
 
 import {
   EmployeeOnboardService
-} from '../../../../core/services/employee-onboard.service';
+} from '../../../../core/services/hr/employee-onboard.service';
 
 @Component({
   selector: 'app-onboarding-milestones',

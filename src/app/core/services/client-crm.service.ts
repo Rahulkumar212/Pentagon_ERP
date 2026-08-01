@@ -7,7 +7,7 @@ import {
   SalesVisitResponse,
   UpdateSalesVisitPayload
 } from '../models/client-crm.type';
-import { BaseApiService } from './base-api.service';
+import { BaseApiService } from './base-api/base-api.service';
 
 @Injectable({
   providedIn: 'root'

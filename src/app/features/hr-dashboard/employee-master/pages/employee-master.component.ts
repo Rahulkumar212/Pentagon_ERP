@@ -34,11 +34,11 @@ import {
   CreateEmployeePayload,
   Employee,
   EmployeesResponse
-} from '../../../../core/models/employee.type';
+} from '../../../../core/models/hr/employee.type';
 
 import {
   EmployeeService
-} from '../../../../core/services/employee.service';
+} from '../../../../core/services/hr/employee.service';
 
 @Component({
   selector: 'app-employee-master',

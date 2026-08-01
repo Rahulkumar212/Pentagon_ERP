@@ -11,7 +11,7 @@ import {
 
 import {
   EmployeeOnboard
-} from '../../../../../core/models/employee-onboard.type';
+} from '../../../../../core/models/hr/employee-onboard.type';
 
 @Component({
   selector: 'app-employee-profile',

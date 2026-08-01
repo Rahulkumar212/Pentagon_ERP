@@ -13,7 +13,7 @@ import {
   CreateBillingOrderPayload,
   UpdateBillingOrderPayload
 } from '../models/billing-order.type';
-import { BaseApiService } from './base-api.service';
+import { BaseApiService } from './base-api/base-api.service';
 
 @Injectable({
   providedIn: 'root'

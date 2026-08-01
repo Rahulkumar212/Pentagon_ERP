@@ -28,13 +28,13 @@ import {
 
 import {
   HiringRequirementService
-} from '../../../../core/services/hiring-requirement.service';
+} from '../../../../core/services/hr/hiring-requirement.service';
 
 import {
   HiringRequirementsResponse,
   CreateHiringRequirementPayload,
   HiringRequirement
-} from '../../../../core/models/hiring-requirement.type';
+} from '../../../../core/models/hr/hiring-requirement.type';
 
 @Component({
   selector: 'app-recruitment-dashboard',

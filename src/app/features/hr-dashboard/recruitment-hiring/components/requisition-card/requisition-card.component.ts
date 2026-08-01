@@ -8,7 +8,7 @@ import {
 import {
   CommonModule
 } from '@angular/common';
-import { HiringRequirement } from '../../../../../core/models/hiring-requirement.type';
+import { HiringRequirement } from '../../../../../core/models/hr/hiring-requirement.type';
 
 
 @Component({

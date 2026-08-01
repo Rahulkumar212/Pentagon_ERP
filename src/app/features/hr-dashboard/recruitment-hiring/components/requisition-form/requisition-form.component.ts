@@ -7,8 +7,8 @@ import {
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HiringRequirementService } from '../../../../../core/services/hiring-requirement.service';
-import { CreateHiringRequirementPayload } from '../../../../../core/models/hiring-requirement.type';
+import { HiringRequirementService } from '../../../../../core/services/hr/hiring-requirement.service';
+import { CreateHiringRequirementPayload } from '../../../../../core/models/hr/hiring-requirement.type';
 
 
 @Component({
