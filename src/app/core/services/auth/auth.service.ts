@@ -1,8 +1,8 @@
 import { Injectable} from '@angular/core';
 import { Observable, tap } from 'rxjs';
 
-import { LogoutResponse } from '../models/login-request.model';
-import { BaseApiService } from './base-api.service';
+import { LogoutResponse } from '../../models/auth/auth.model';
+import { BaseApiService } from '../base-api/base-api.service';
 
 @Injectable({
   providedIn: 'root'

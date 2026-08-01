@@ -5,7 +5,7 @@ import {
 import {
   CommonModule
 } from '@angular/common';
-import { EmployeeOnboardService } from '../../../../../core/services/employee-onboard.service';
+import { EmployeeOnboardService } from '../../../../../core/services/hr/employee-onboard.service';
 import { Router } from '@angular/router';
 import { EmployeeListComponent } from '../../../employee-onboarding/components/employee-list/employee-list.component';
 

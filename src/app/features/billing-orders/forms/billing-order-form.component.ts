@@ -27,7 +27,7 @@ import {
   BillingResponse,
   CreateBillingOrderPayload
 } from '../../../core/models/billing-order.type';
-import { ToastService } from '../../../core/services/toast.service';
+import { ToastService } from '../../../core/services/toast/toast.service';
 
 @Component({
   selector: 'app-billing-order-form',

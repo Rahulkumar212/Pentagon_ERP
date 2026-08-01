@@ -13,7 +13,7 @@ import {
   InstitutionVisitListResponse,
   InstitutionVisitResponse
 } from '../models/institution-visit.type';
-import { BaseApiService } from './base-api.service';
+import { BaseApiService } from './base-api/base-api.service';
 
 @Injectable({
   providedIn: 'root'

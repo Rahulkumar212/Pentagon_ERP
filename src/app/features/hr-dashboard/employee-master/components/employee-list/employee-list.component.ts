@@ -15,7 +15,7 @@ import {
 
 import {
   Employee
-} from '../../../../../core/models/employee.type';
+} from '../../../../../core/models/hr/employee.type';
 
 @Component({
   selector: 'app-employee-list',

@@ -12,7 +12,7 @@ import {
   UpdateLeaveRequest,
   ApiResponse
 } from '../models/leave.model';
-import { BaseApiService } from './base-api.service';
+import { BaseApiService } from './base-api/base-api.service';
 
 @Injectable({
   providedIn: 'root'

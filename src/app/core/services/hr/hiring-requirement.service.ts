@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
-import { CreateHiringRequirementPayload, HiringRequirementResponse, HiringRequirementsResponse } from "../models/hiring-requirement.type";
+import { CreateHiringRequirementPayload, HiringRequirementResponse, HiringRequirementsResponse } from "../../models/hr/hiring-requirement.type";
 import { Observable } from "rxjs";
-import { BaseApiService } from "./base-api.service";
+import { BaseApiService } from "../base-api/base-api.service";
 
 @Injectable({providedIn:'root'})
 

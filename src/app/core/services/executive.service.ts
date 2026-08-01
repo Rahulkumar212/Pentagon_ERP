@@ -5,7 +5,7 @@ import {
   DashboardStatsResponse,
   NotificationResponse
 } from '../models/executive.type';
-import { BaseApiService } from './base-api.service';
+import { BaseApiService } from './base-api/base-api.service';
 
 @Injectable({
   providedIn: 'root'

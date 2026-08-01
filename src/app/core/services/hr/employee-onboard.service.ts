@@ -15,8 +15,8 @@ import {
   EmployeeOnboardsResponse,
   TaskChecklist,
   TaskChecklistResponse
-} from '../models/employee-onboard.type';
-import { BaseApiService } from './base-api.service';
+} from '../../models/hr/employee-onboard.type';
+import { BaseApiService } from '../base-api/base-api.service';
 
 @Injectable({
   providedIn: 'root'

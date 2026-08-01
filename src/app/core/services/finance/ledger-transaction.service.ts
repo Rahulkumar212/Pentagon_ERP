@@ -2,7 +2,7 @@ import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
 import { LedgerTransaction } from '../../models/finance/ledger-transaction.model';
-import { BaseApiService } from '../base-api.service';
+import { BaseApiService } from '../base-api/base-api.service';
 
 
 @Injectable({

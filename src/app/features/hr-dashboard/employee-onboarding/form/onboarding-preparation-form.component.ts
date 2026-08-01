@@ -17,12 +17,12 @@ import {
 
 import {
   EmployeeOnboardService
-} from '../../../../core/services/employee-onboard.service';
+} from '../../../../core/services/hr/employee-onboard.service';
 
 import {
   EmployeeNameDesignation,
   EmployeeOnboardPayload
-} from '../../../../core/models/employee-onboard.type';
+} from '../../../../core/models/hr/employee-onboard.type';
 
 export interface PreparationForm {
 

@@ -28,7 +28,7 @@ import {
   InstitutionVisit,
   InstitutionVisitResponse
 } from '../../../core/models/institution-visit.type';
-import { ToastService } from '../../../core/services/toast.service';
+import { ToastService } from '../../../core/services/toast/toast.service';
 
 @Component({
   selector: 'app-institution-visit-form',

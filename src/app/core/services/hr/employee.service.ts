@@ -10,9 +10,9 @@ import {
   CreateEmployeePayload,
   EmployeeResponse,
   EmployeesResponse
-} from '../models/employee.type';
+} from '../../models/hr/employee.type';
 
-import { BaseApiService } from './base-api.service';
+import { BaseApiService } from '../base-api/base-api.service';
 
 @Injectable({
   providedIn: 'root'

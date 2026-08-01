@@ -8,7 +8,7 @@ import {
 import {
   CommonModule
 } from '@angular/common';
-import { TaskChecklist } from '../../../../../core/models/employee-onboard.type';
+import { TaskChecklist } from '../../../../../core/models/hr/employee-onboard.type';
 
 
 
