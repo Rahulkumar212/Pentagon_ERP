@@ -1,5 +1,27 @@
 export type BalanceType = 'Debit' | 'Credit';
 
+export type AccountType =
+  | 'Bank'
+  | 'Cash'
+  | 'Customer'
+  | 'Vendor'
+  | 'Expense'
+  | 'Revenue'
+  | 'Asset'
+  | 'Liability'
+  | 'Equity'
+  | 'Tax'
+  | 'Loan'
+  | 'Other';
+
+export type OwnerType =
+  | 'Company'
+  | 'Customer'
+  | 'Vendor'
+  | 'Employee'
+  | 'Government'
+  | 'Other';
+
 export interface ChartAccount {
 
   id: number;
@@ -12,7 +34,11 @@ export interface ChartAccount {
 
   subClassification: string;
 
-  balanceType: 'Debit' | 'Credit';
+  accountType: AccountType;
+
+  ownerType: OwnerType;
+
+  normalBalance: BalanceType;
 
   openingBalance: number;
 

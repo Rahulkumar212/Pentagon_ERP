@@ -26,7 +26,7 @@ import {
 
 import {
   AlertService
-} from '../../../core/alert/alert.service';
+} from '../../../core/services/alert/alert.service';
 
 @Component({
   selector: 'app-institution-visit-table',

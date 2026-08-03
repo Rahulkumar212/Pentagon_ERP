@@ -25,7 +25,7 @@ import { ChartAccountService } from '../../../../../core/services/finance/chart-
 export class CreateAccountModalComponent {
 
   @Output()
-  close = new EventEmitter<void>();
+  close = new EventEmitter();
 
   form!: FormGroup;
 
@@ -50,9 +50,26 @@ export class CreateAccountModalComponent {
     'Indirect Expenses'
   ];
 
-  balanceTypes = [
-    'Debit',
-    'Credit'
+  accountTypes = [
+    'Bank',
+    'Cash',
+    'Customer',
+    'Vendor',
+    'Tax',
+    'Loan',
+    'Investment',
+    'Inventory',
+    'Fixed Asset',
+    'Other'
+  ];
+
+  ownerTypes = [
+    'Company',
+    'Customer',
+    'Vendor',
+    'Employee',
+    'Government',
+    'Other'
   ];
 
   statuses = [
@@ -87,8 +104,13 @@ export class CreateAccountModalComponent {
         Validators.required
       ],
 
-      balanceType: [
-        'Debit',
+      accountType: [
+        'Bank',
+        Validators.required
+      ],
+
+      ownerType: [
+        'Company',
         Validators.required
       ],
 
@@ -140,7 +162,7 @@ export class CreateAccountModalComponent {
 
           this.form.reset({
 
-          code: '',
+            code: '',
 
             accountName: '',
 
@@ -148,7 +170,9 @@ export class CreateAccountModalComponent {
 
             subClassification: 'Current Assets',
 
-            balanceType: 'Debit',
+            accountType: 'Bank',
+
+            ownerType: 'Company',
 
             openingBalance: 0,
 
