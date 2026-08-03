@@ -103,7 +103,7 @@
 
                     <td class="px-4 py-3 text-sm text-slate-600">
 
-                        {{ invoice.issueDate | date:'dd/MM/yyyy'  }}
+                        {{ invoice.issueDate | date:'dd/MM/yyyy' }}
 
                     </td>
 
@@ -197,7 +197,8 @@
 
         @if (showSettlementModal) {
 
-        <app-record-settlement-modal [invoice]="selectedInvoice" (close)="closeSettlement()">
+        <app-record-settlement-modal *ngIf="showSettlementModal" [invoice]="selectedInvoice"
+            (close)="closeSettlement($event)">
         </app-record-settlement-modal>
 
         }

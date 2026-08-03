@@ -22,6 +22,14 @@ export interface CreateInvoicePayload {
 
 }
 
+export interface UpdateInvoicePayload {
+
+  status: 'Draft' | 'Outstanding' | 'Paid' | 'Overdue';
+
+  bankAccount: string;
+
+}
+
 export interface Invoice {
 
   id?: number;

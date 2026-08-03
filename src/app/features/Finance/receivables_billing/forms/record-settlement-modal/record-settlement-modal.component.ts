@@ -7,7 +7,6 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-
 import {
   FormControl,
   ReactiveFormsModule,
@@ -15,6 +14,11 @@ import {
 } from '@angular/forms';
 
 import { BankAccountService } from '../../../../../core/services/finance/bank-account.service';
+import { InvoiceService } from '../../../../../core/services/finance/invoice.service';
+
+import {
+  UpdateInvoicePayload
+} from '../../../../../core/models/finance/invoice.model';
 
 @Component({
   selector: 'app-record-settlement-modal',
@@ -27,25 +31,28 @@ import { BankAccountService } from '../../../../../core/services/finance/bank-ac
 })
 export class RecordSettlementModalComponent implements OnInit {
 
-  @Input() invoice: any;
+  @Input()
+  invoice: any;
 
-  @Output() close =
-    new EventEmitter<void>();
+  @Output()
+  close = new EventEmitter<boolean>();
 
-  account =
-    new FormControl(
-      '',
-      Validators.required
-    );
+  account = new FormControl(
+    '',
+    Validators.required
+  );
 
   bankAccounts: any[] = [];
 
   loading = false;
 
+  isSubmitting = false;
+
   constructor(
     private readonly bankAccountService: BankAccountService,
-     private readonly cdr: ChangeDetectorRef
-  ) {}
+    private readonly invoiceService: InvoiceService,
+    private readonly cdr: ChangeDetectorRef
+  ) { }
 
   ngOnInit(): void {
 
@@ -63,16 +70,12 @@ export class RecordSettlementModalComponent implements OnInit {
 
         next: (response: any) => {
 
-          this.bankAccounts =
-            response.data ?? [];
-
-          console.log(
-            'Bank Accounts',
-            this.bankAccounts
-          );
+          this.bankAccounts = response.data ?? [];
 
           this.loading = false;
-           this.cdr.detectChanges();
+
+          this.cdr.detectChanges();
+
         },
 
         error: (error) => {
@@ -83,7 +86,9 @@ export class RecordSettlementModalComponent implements OnInit {
           );
 
           this.loading = false;
-            this.cdr.detectChanges();
+
+          this.cdr.detectChanges();
+
         }
 
       });
@@ -100,16 +105,56 @@ export class RecordSettlementModalComponent implements OnInit {
 
     }
 
-    console.log(
-      'Selected Bank Account',
-      this.account.value
-    );
+    this.isSubmitting = true;
+
+    const payload: UpdateInvoicePayload = {
+
+      status: 'Paid',
+
+      bankAccount: this.account.value!
+
+    };
+
+    this.invoiceService
+      .updateInvoice(
+        this.invoice.id,
+        payload
+      )
+      .subscribe({
+
+        next: (response: any) => {
+
+          console.log(
+            'Invoice Updated Successfully',
+            response
+          );
+
+          this.isSubmitting = false;
+
+          this.close.emit(true);
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Failed to update invoice',
+            error
+          );
+
+          this.isSubmitting = false;
+
+          this.cdr.detectChanges();
+
+        }
+
+      });
 
   }
 
   cancel(): void {
 
-    this.close.emit();
+    this.close.emit(false);
 
   }
 

@@ -12,21 +12,13 @@ import { InvoiceDetailsModalComponent } from '../invoice-details-modal/invoice-d
 import { InvoiceService } from '../../../../../core/services/finance/invoice.service';
 
 interface Invoice {
-
   id: string;
-
   customer: string;
-
   issueDate: string;
-
   dueDate: string;
-
   status: 'Paid' | 'Outstanding' | 'Overdue' | 'Draft';
-
   amount: number;
-
   items?: any[];
-
 }
 
 type InvoiceTab =
@@ -65,7 +57,7 @@ export class InvoiceTableComponent implements OnInit {
 
   constructor(
     private readonly invoiceService: InvoiceService,
-     private readonly cdr: ChangeDetectorRef
+    private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -90,11 +82,9 @@ export class InvoiceTableComponent implements OnInit {
           this.invoices =
             (response.data ?? []).map((item: any) => ({
 
-              id:
-                item.invoiceId,
+              id: item.invoiceId,
 
-              customer:
-                item.customer,
+              customer: item.customer,
 
               issueDate:
                 item.issueDate ??
@@ -114,8 +104,9 @@ export class InvoiceTableComponent implements OnInit {
                 item.items ?? []
 
             }));
-            
-              this.cdr.detectChanges();
+
+          this.cdr.detectChanges();
+
         },
 
         error: (error) => {
@@ -124,7 +115,9 @@ export class InvoiceTableComponent implements OnInit {
             'Failed to load invoices',
             error
           );
-             this.cdr.detectChanges();
+
+          this.cdr.detectChanges();
+
         }
 
       });
@@ -181,7 +174,7 @@ export class InvoiceTableComponent implements OnInit {
   selectedInvoice: Invoice | null = null;
 
   // ==========================================
-  // Record Payment
+  // Record Settlement
   // ==========================================
 
   showSettlementModal = false;
@@ -190,23 +183,23 @@ export class InvoiceTableComponent implements OnInit {
     invoice: Invoice
   ): void {
 
-    this.selectedInvoice =
-      invoice;
+    this.selectedInvoice = invoice;
 
-    this.showSettlementModal =
-      true;
+    this.showSettlementModal = true;
 
   }
 
-  closeSettlement(): void {
+  closeSettlement(refresh = false): void {
 
-    this.showSettlementModal =
-      false;
+    this.showSettlementModal = false;
 
-    this.selectedInvoice =
-      null;
+    this.selectedInvoice = null;
 
-    this.getInvoices();
+    if (refresh) {
+
+      this.getInvoices();
+
+    }
 
   }
 
@@ -220,21 +213,17 @@ export class InvoiceTableComponent implements OnInit {
     invoice: Invoice
   ): void {
 
-    this.selectedInvoice =
-      invoice;
+    this.selectedInvoice = invoice;
 
-    this.showInvoiceModal =
-      true;
+    this.showInvoiceModal = true;
 
   }
 
   closeInvoiceModal(): void {
 
-    this.showInvoiceModal =
-      false;
+    this.showInvoiceModal = false;
 
-    this.selectedInvoice =
-      null;
+    this.selectedInvoice = null;
 
   }
 
