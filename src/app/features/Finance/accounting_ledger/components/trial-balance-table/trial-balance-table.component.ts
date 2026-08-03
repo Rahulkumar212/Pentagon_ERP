@@ -43,6 +43,8 @@ export class TrialBalanceTableComponent implements OnInit {
 
         next: (response: any) => {
 
+           console.log(response);
+
           this.trialBalance = response.data ?? [];
 
           this.loading = false;

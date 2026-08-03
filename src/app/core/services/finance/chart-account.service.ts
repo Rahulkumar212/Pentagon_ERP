@@ -49,13 +49,13 @@ export class ChartAccountService extends BaseApiService {
 
   }
 
- getChartByAccount(balanceType: BalanceType) {
+ getChartByAccount(normalBalance: BalanceType) {
 
   return this.http.get<ChartAccount[]>(
     `${this.API_URL}/getChartByAccount`,
     {
       params: {
-        balanceType
+        normalBalance
       }
     }
   );

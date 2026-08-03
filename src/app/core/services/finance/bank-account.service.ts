@@ -14,7 +14,7 @@ export class BankAccountService extends BaseApiService {
   getBankAccounts(): Observable<any> {
 
     return this.http.get(
-      `${this.API_URL}/fetchBankAccounts`
+      `${this.API_URL}/filterChartAccount`
     );
 
   }

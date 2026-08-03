@@ -122,24 +122,40 @@
 
         </div>
 
-        <!-- Balance Type -->
 
         <div>
 
           <label class="mb-1 block text-sm font-medium">
-
-            Balance Type
-
+            Account Type
           </label>
 
-          <select formControlName="balanceType" class="w-full rounded-lg border border-gray-300 px-3 py-2">
+          <select formControlName="accountType" class="w-full rounded-lg border border-gray-300 px-3 py-2">
 
-            @for(item of balanceTypes; track item){
+            @for(item of accountTypes; track item){
 
             <option [value]="item">
-
               {{ item }}
+            </option>
 
+            }
+
+          </select>
+
+        </div>
+
+
+        <div>
+
+          <label class="mb-1 block text-sm font-medium">
+            Owner Type
+          </label>
+
+          <select formControlName="ownerType" class="w-full rounded-lg border border-gray-300 px-3 py-2">
+
+            @for(item of ownerTypes; track item){
+
+            <option [value]="item">
+              {{ item }}
             </option>
 
             }

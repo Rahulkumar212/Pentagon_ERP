@@ -129,10 +129,10 @@
 
           <!-- Balance Type -->
 
-          <td class="px-4 py-3 text-center text-sm font-semibold" [class.text-blue-700]="item.balanceType === 'Debit'"
-            [class.text-purple-700]="item.balanceType === 'Credit'">
+          <td class="px-4 py-3 text-center text-sm font-semibold" [class.text-blue-700]="item.normalBalance === 'Debit'"
+            [class.text-purple-700]="item.normalBalance === 'Credit'">
 
-            {{ item.balanceType }}
+            {{ item.normalBalance }}
 
           </td>
 

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   Input,
@@ -42,7 +43,8 @@ export class RecordSettlementModalComponent implements OnInit {
   loading = false;
 
   constructor(
-    private readonly bankAccountService: BankAccountService
+    private readonly bankAccountService: BankAccountService,
+     private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -70,7 +72,7 @@ export class RecordSettlementModalComponent implements OnInit {
           );
 
           this.loading = false;
-
+           this.cdr.detectChanges();
         },
 
         error: (error) => {
@@ -81,7 +83,7 @@ export class RecordSettlementModalComponent implements OnInit {
           );
 
           this.loading = false;
-
+            this.cdr.detectChanges();
         }
 
       });

@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import {
+  ChangeDetectorRef,
   Component,
   OnInit
 } from '@angular/core';
@@ -63,7 +64,8 @@ export class InvoiceTableComponent implements OnInit {
   invoices: Invoice[] = [];
 
   constructor(
-    private readonly invoiceService: InvoiceService
+    private readonly invoiceService: InvoiceService,
+     private readonly cdr: ChangeDetectorRef
   ) {}
 
   ngOnInit(): void {
@@ -112,7 +114,8 @@ export class InvoiceTableComponent implements OnInit {
                 item.items ?? []
 
             }));
-
+            
+              this.cdr.detectChanges();
         },
 
         error: (error) => {
@@ -121,7 +124,7 @@ export class InvoiceTableComponent implements OnInit {
             'Failed to load invoices',
             error
           );
-
+             this.cdr.detectChanges();
         }
 
       });
