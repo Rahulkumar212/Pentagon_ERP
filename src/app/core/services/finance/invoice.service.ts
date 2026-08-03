@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-
 import { BaseApiService } from '../base-api/base-api.service';
 import {
   CreateInvoicePayload,
-  Invoice
+  Invoice,
+  UpdateInvoicePayload
 } from '../../models/finance/invoice.model';
 
 @Injectable({
@@ -14,9 +14,9 @@ export class InvoiceService extends BaseApiService {
 
   createInvoice(
     payload: CreateInvoicePayload
-  ): Observable<any> {
+  ): Observable<Invoice> {
 
-    return this.http.post(
+    return this.http.post<Invoice>(
       `${this.API_URL}/createInvoiceItem`,
       payload
     );
@@ -25,10 +25,22 @@ export class InvoiceService extends BaseApiService {
 
   getAllInvoices(): Observable<any> {
 
-    return this.http.get(
+    return this.http.get<any>(
       `${this.API_URL}/fetchAllInvoiceItem`
     );
 
   }
+
+  updateInvoice(
+  id: number | string,
+  payload: UpdateInvoicePayload
+): Observable<any> {
+
+  return this.http.patch<any>(
+    `${this.API_URL}/updateInvoiceItem/${id}`,
+    payload
+  );
+
+}
 
 }
