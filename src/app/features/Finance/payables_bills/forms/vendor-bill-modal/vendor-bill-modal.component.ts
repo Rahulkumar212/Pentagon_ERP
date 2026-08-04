@@ -1,11 +1,19 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Output
+} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+
+import { IncomingBillService } from '../../../../../core/services/finance/incoming-bill.service';
+import { CreateIncomingBillPayload } from '../../../../../core/models/finance/incoming-bill.model';
 
 @Component({
   selector: 'app-vendor-bill-modal',
@@ -19,9 +27,11 @@ import {
 export class VendorBillModalComponent {
 
   @Output()
-  close = new EventEmitter<void>();
+  close = new EventEmitter<boolean>();
 
   form: FormGroup;
+
+  isSubmitting = false;
 
   categories = [
 
@@ -44,7 +54,9 @@ export class VendorBillModalComponent {
   ];
 
   constructor(
-    private fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly incomingBillService: IncomingBillService,
+    private readonly cdr: ChangeDetectorRef
   ) {
 
     this.form = this.fb.group({
@@ -86,15 +98,57 @@ export class VendorBillModalComponent {
 
     }
 
-    console.log(this.form.value);
+    this.isSubmitting = true;
 
-    this.close.emit();
+    const payload: CreateIncomingBillPayload = {
+
+      vendor: this.form.value.vendor,
+
+      dueDate: this.form.value.dueDate,
+
+      costCategory: this.form.value.category,
+
+      invoiceValue: this.form.value.amount.toString()
+
+    };
+
+    this.incomingBillService
+      .createIncomingBill(payload)
+      .subscribe({
+
+        next: (response) => {
+
+          console.log(
+            'Incoming Bill Created Successfully',
+            response
+          );
+
+          this.isSubmitting = false;
+
+          this.close.emit(true);
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Failed to create incoming bill',
+            error
+          );
+
+          this.isSubmitting = false;
+
+          this.cdr.detectChanges();
+
+        }
+
+      });
 
   }
 
   cancel(): void {
 
-    this.close.emit();
+    this.close.emit(false);
 
   }
 

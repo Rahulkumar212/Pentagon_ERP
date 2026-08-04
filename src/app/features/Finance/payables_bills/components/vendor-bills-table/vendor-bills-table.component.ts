@@ -1,6 +1,14 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  OnInit,
+  Output
+} from '@angular/core';
 import { FormsModule } from '@angular/forms';
+
+import { IncomingBillService } from '../../../../../core/services/finance/incoming-bill.service';
 
 type BillTab =
   | 'All'
@@ -10,7 +18,9 @@ type BillTab =
 
 interface VendorBill {
 
-  id: string;
+  id: number;
+
+  billNumber:string;
 
   vendor: string;
 
@@ -33,12 +43,19 @@ interface VendorBill {
   ],
   templateUrl: './vendor-bills-table.component.html'
 })
-export class VendorBillsTableComponent {
+export class VendorBillsTableComponent implements OnInit {
 
   @Output()
   settleBill = new EventEmitter<VendorBill>();
 
+  constructor(
+    private readonly incomingBillService: IncomingBillService,
+    private readonly cdr: ChangeDetectorRef
+  ) {}
+
   searchText = '';
+
+  loading = false;
 
   tabs: BillTab[] = [
     'All',
@@ -49,70 +66,102 @@ export class VendorBillsTableComponent {
 
   activeTab: BillTab = 'All';
 
-  bills: VendorBill[] = [
+  bills: VendorBill[] = [];
 
-    {
-      id: 'BILL-501',
-      vendor: 'AWS Cloud Services',
-      category: 'Software Subscription',
-      dueDate: '2026-07-20',
-      status: 'Paid',
-      balance: 2450
-    },
+  ngOnInit(): void {
 
-    {
-      id: 'BILL-502',
-      vendor: 'Vertex Logistix',
-      category: 'Logistics & Shipping',
-      dueDate: '2026-07-16',
-      status: 'Paid',
-      balance: 5800
-    },
+    this.getIncomingBills();
 
-    {
-      id: 'BILL-503',
-      vendor: 'BlueSky Office Rentals',
-      category: 'Rent & Office Space',
-      dueDate: '2026-07-25',
-      status: 'Due Soon',
-      balance: 12000
-    },
+  }
 
-    {
-      id: 'BILL-504',
-      vendor: 'Global Telecom Networks',
-      category: 'Utilities',
-      dueDate: '2026-07-22',
-      status: 'Due Soon',
-      balance: 1850
-    },
+  getIncomingBills(): void {
 
-    {
-      id: 'BILL-505',
-      vendor: 'Prime Catering Services',
-      category: 'Office Expenses',
-      dueDate: '2026-07-10',
-      status: 'Overdue',
-      balance: 3200
-    }
+    this.loading = true;
 
-  ];
+    this.incomingBillService
+      . getAllIncomingBills()
+      .subscribe({
+
+        next: (response: any) => {
+
+          console.log(
+            'Incoming Bills',
+            response
+          );
+
+          this.bills = (response.data ?? []).map((item: any) => ({
+
+            id: item.id,
+
+            billNumber:item.billNumber,
+
+            vendor: item.vendor,
+
+            category: item.costCategory,
+
+            dueDate: item.dueDate,
+
+            status: item.status,
+
+            balance: Number(item.invoiceValue)
+
+          }));
+
+          this.loading = false;
+
+          this.cdr.detectChanges();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Failed to load incoming bills',
+            error
+          );
+
+          this.loading = false;
+
+          this.cdr.detectChanges();
+
+        }
+
+      });
+
+  }
 
   get filteredBills(): VendorBill[] {
 
     return this.bills.filter(bill => {
 
       const matchesTab =
+
         this.activeTab === 'All' ||
+
         bill.status === this.activeTab;
 
-      const search = this.searchText.toLowerCase();
+      const search =
+
+        this.searchText
+          .trim()
+          .toLowerCase();
 
       const matchesSearch =
-        bill.vendor.toLowerCase().includes(search) ||
-        bill.category.toLowerCase().includes(search);
 
-      return matchesTab && matchesSearch;
+        bill.vendor
+          .toLowerCase()
+          .includes(search) ||
+
+        bill.category
+          .toLowerCase()
+          .includes(search);
+
+      return (
+
+        matchesTab &&
+        matchesSearch
+
+      );
 
     });
 
@@ -124,7 +173,9 @@ export class VendorBillsTableComponent {
 
   }
 
-  onSettleBill(bill: VendorBill): void {
+  onSettleBill(
+    bill: VendorBill
+  ): void {
 
     this.settleBill.emit(bill);
 

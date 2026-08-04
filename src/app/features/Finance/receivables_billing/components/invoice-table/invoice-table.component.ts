@@ -13,6 +13,7 @@ import { InvoiceService } from '../../../../../core/services/finance/invoice.ser
 
 interface Invoice {
   id: string;
+   invoiceId: string;
   customer: string;
   issueDate: string;
   dueDate: string;
@@ -58,7 +59,7 @@ export class InvoiceTableComponent implements OnInit {
   constructor(
     private readonly invoiceService: InvoiceService,
     private readonly cdr: ChangeDetectorRef
-  ) {}
+  ) { }
 
   ngOnInit(): void {
 
@@ -79,31 +80,32 @@ export class InvoiceTableComponent implements OnInit {
             response
           );
 
-          this.invoices =
-            (response.data ?? []).map((item: any) => ({
+          this.invoices = (response.data ?? []).map((item: any) => ({
 
-              id: item.invoiceId,
+            id: item.id, 
 
-              customer: item.customer,
+            invoiceId: item.invoiceId,   
 
-              issueDate:
-                item.issueDate ??
-                item.createdAt,
+            customer: item.customer,
 
-              dueDate:
-                item.dueDate,
+            issueDate:
+              item.issueDate ??
+              item.createdAt,
 
-              status:
-                item.status,
+            dueDate:
+              item.dueDate,
 
-              amount:
-                item.totalAmount ??
-                item.amount,
+            status:
+              item.status,
 
-              items:
-                item.items ?? []
+            amount:
+              item.totalAmount ??
+              item.amount,
 
-            }));
+            items:
+              item.items ?? []
+
+          }));
 
           this.cdr.detectChanges();
 
@@ -142,13 +144,13 @@ export class InvoiceTableComponent implements OnInit {
 
       const matchesSearch =
 
-        invoice.id
-          .toLowerCase()
-          .includes(search) ||
+  invoice.invoiceId
+    .toLowerCase()
+    .includes(search) ||
 
-        invoice.customer
-          .toLowerCase()
-          .includes(search);
+  invoice.customer
+    .toLowerCase()
+    .includes(search);
 
       return (
 

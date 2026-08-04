@@ -16,9 +16,7 @@
 
       </h2>
 
-      <button
-        type="button"
-        (click)="cancel()"
+      <button type="button" (click)="cancel()"
         class="text-xs font-bold uppercase tracking-wider text-slate-400 hover:text-slate-700">
 
         Close
@@ -29,10 +27,7 @@
 
     <!-- Body -->
 
-    <form
-      [formGroup]="form"
-      (ngSubmit)="submit()"
-      class="space-y-5 p-5">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-5 p-5">
 
       <!-- Invoice Details -->
 
@@ -98,17 +93,19 @@
 
         </label>
 
-        <select
-          formControlName="bankAccount"
-          class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm">
+        <select formControlName="bankAccount" class="w-full rounded-xl border border-gray-300 px-4 py-3 text-sm">
 
-          @for (account of bankAccounts; track account) {
+          <option value="">
+            Select Bank Account
+          </option>
 
-            <option>
+          @for (bank of bankAccounts; track bank.id) {
 
-              {{ account }}
+          <option [value]="bank.accountName">
 
-            </option>
+            {{ bank.accountName }}
+
+          </option>
 
           }
 
@@ -120,17 +117,14 @@
 
       <div class="flex gap-3 pt-2">
 
-        <button
-          type="button"
-          (click)="cancel()"
+        <button type="button" (click)="cancel()"
           class="flex-1 rounded-xl bg-slate-100 py-3 text-sm font-medium hover:bg-slate-200">
 
           Cancel
 
         </button>
 
-        <button
-          type="submit"
+        <button type="submit"
           class="flex-1 rounded-xl bg-red-800 py-3 text-sm font-semibold text-white hover:bg-red-900">
 
           Disburse Funds

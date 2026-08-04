@@ -32,15 +32,15 @@ export class InvoiceService extends BaseApiService {
   }
 
   updateInvoice(
-  id: number | string,
-  payload: UpdateInvoicePayload
-): Observable<any> {
+    id: number | string,
+    payload: UpdateInvoicePayload
+  ): Observable<Invoice> {
 
-  return this.http.patch<any>(
-    `${this.API_URL}/updateInvoiceItem/${id}`,
-    payload
-  );
+    return this.http.patch<Invoice>(
+      `${this.API_URL}/updateInvoiceItem/${id}`,
+      payload
+    );
 
-}
+  }
 
 }
