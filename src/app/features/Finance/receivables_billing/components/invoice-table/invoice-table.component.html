@@ -1,156 +1,168 @@
-<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+<!-- Header -->
 
-    <!-- Header -->
+<div class="flex items-center justify-between border-b border-gray-200 px-4 py-3">
 
-    <div class="flex items-center justify-between border-b border-gray-200 px-4 py-3">
+    <!-- Tabs -->
 
-        <!-- Tabs -->
+    <div class="flex rounded-lg bg-slate-100 p-1">
 
-        <div class="flex rounded-lg bg-slate-100 p-1">
+        @for (tab of tabs; track tab) {
 
-            @for (tab of tabs; track tab) {
+        <button
+            (click)="setTab(tab)"
+            class="rounded-md px-3 py-1 text-xs font-medium transition"
+            [class.bg-red-800]="activeTab === tab"
+            [class.text-white]="activeTab === tab"
+            [class.text-slate-600]="activeTab !== tab">
 
-            <button (click)="setTab(tab)" class="rounded-md px-3 py-1 text-xs font-medium transition"
-                [class.bg-red-800]="activeTab === tab" [class.text-white]="activeTab === tab"
-                [class.text-slate-600]="activeTab !== tab">
+            {{ tab }}
 
-                {{ tab }}
+        </button>
 
-            </button>
-
-            }
-
-        </div>
-
-        <!-- Search -->
-
-        <div class="relative">
-
-            <input type="text" [(ngModel)]="searchText" placeholder="Search invoice or customer..."
-                class="w-60 rounded-lg border border-gray-200 py-2 pl-9 pr-3 text-xs outline-none focus:border-red-700">
-
-            <svg xmlns="http://www.w3.org/2000/svg" class="absolute left-3 top-2.5 h-4 w-4 text-slate-400" fill="none"
-                viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-
-                <path stroke-linecap="round" stroke-linejoin="round"
-                    d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15a7.5 7.5 0 000 15z" />
-
-            </svg>
-
-        </div>
+        }
 
     </div>
 
-    <!-- Table -->
+    <!-- Search -->
 
-    <div class="overflow-x-auto">
+    <div class="relative">
 
-        <table class="min-w-full">
+        <input
+            type="text"
+            [(ngModel)]="searchText"
+            placeholder="Search invoice or customer..."
+            class="w-60 rounded-lg border border-gray-200 py-2 pl-9 pr-3 text-xs outline-none focus:border-red-700">
 
-            <thead class="bg-slate-50">
+        <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="absolute left-3 top-2.5 h-4 w-4 text-slate-400"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="2">
 
-                <tr>
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M21 21l-4.35-4.35M10.5 18a7.5 7.5 0 100-15a7.5 7.5 0 000 15z" />
 
-                    <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                        Invoice ID
-                    </th>
+        </svg>
 
-                    <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                        Customer
-                    </th>
+    </div>
 
-                    <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                        Issue Date
-                    </th>
+</div>
 
-                    <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                        Due Date
-                    </th>
+<!-- Table -->
 
-                    <th class="px-4 py-3 text-center text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                        Status
-                    </th>
+<div class="overflow-x-auto">
 
-                    <th class="px-4 py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                        Total Amount
-                    </th>
+    <table class="min-w-full">
 
-                    <th class="px-4 py-3 text-center text-[11px] font-semibold uppercase tracking-wider text-slate-500">
-                        Actions
-                    </th>
+        <thead class="bg-slate-50">
 
-                </tr>
+            <tr>
 
-            </thead>
+                <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                    Invoice ID
+                </th>
 
-            <tbody>
+                <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                    Customer
+                </th>
 
-                @for (invoice of filteredInvoices; track invoice.id) {
+                <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                    Issue Date
+                </th>
 
-                <tr class="border-t border-gray-100 hover:bg-slate-50">
+                <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                    Due Date
+                </th>
 
-                    <td class="px-4 py-3 text-xs font-semibold text-red-700">
+                <th class="px-4 py-3 text-center text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                    Status
+                </th>
 
-                        {{ invoice.id }}
+                <th class="px-4 py-3 text-right text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                    Total Amount
+                </th>
 
-                    </td>
+                <th class="px-4 py-3 text-center text-[11px] font-semibold uppercase tracking-wider text-slate-500">
+                    Actions
+                </th>
 
-                    <td class="px-4 py-3 text-sm font-medium">
+            </tr>
 
-                        {{ invoice.customer }}
+        </thead>
 
-                    </td>
+        <tbody>
 
-                    <td class="px-4 py-3 text-sm text-slate-600">
+            @for (invoice of filteredInvoices; track invoice.invoiceId) {
 
-                        {{ invoice.issueDate | date:'dd/MM/yyyy' }}
+            <tr class="border-t border-gray-100 hover:bg-slate-50">
 
-                    </td>
+                <td class="px-4 py-3 text-xs font-semibold text-red-700">
 
-                    <td class="px-4 py-3 text-sm text-slate-600">
+                    {{ invoice.invoiceId }}
 
-                        {{ invoice.dueDate }}
+                </td>
 
-                    </td>
+                <td class="px-4 py-3 text-sm font-medium">
 
-                    <td class="px-4 py-3 text-center">
+                    {{ invoice.customer }}
 
-                        <span class="rounded-full px-3 py-1 text-[10px] font-semibold"
-                            [class.bg-green-100]="invoice.status==='Paid'"
-                            [class.text-green-700]="invoice.status==='Paid'"
-                            [class.bg-red-100]="invoice.status==='Overdue'"
-                            [class.text-red-700]="invoice.status==='Overdue'"
-                            [class.bg-yellow-100]="invoice.status==='Outstanding'"
-                            [class.text-yellow-700]="invoice.status==='Outstanding'"
-                            [class.bg-slate-200]="invoice.status==='Draft'"
-                            [class.text-slate-700]="invoice.status==='Draft'">
+                </td>
 
-                            {{ invoice.status }}
+                <td class="px-4 py-3 text-sm text-slate-600">
 
-                        </span>
+                    {{ invoice.issueDate | date:'dd/MM/yyyy' }}
 
-                    </td>
+                </td>
 
-                    <td class="px-4 py-3 text-right text-sm font-semibold">
+                <td class="px-4 py-3 text-sm text-slate-600">
 
-                        ₹{{ invoice.amount | number }}
+                    {{ invoice.dueDate }}
 
-                    </td>
+                </td>
 
-                    <td class="px-4 py-3 text-center">
+                <td class="px-4 py-3 text-center">
 
-                        <div class="flex items-center justify-center gap-2">
+                    <span
+                        class="rounded-full px-3 py-1 text-[10px] font-semibold"
+                        [class.bg-green-100]="invoice.status === 'Paid'"
+                        [class.text-green-700]="invoice.status === 'Paid'"
+                        [class.bg-red-100]="invoice.status === 'Overdue'"
+                        [class.text-red-700]="invoice.status === 'Overdue'"
+                        [class.bg-yellow-100]="invoice.status === 'Outstanding'"
+                        [class.text-yellow-700]="invoice.status === 'Outstanding'"
+                        [class.bg-slate-200]="invoice.status === 'Draft'"
+                        [class.text-slate-700]="invoice.status === 'Draft'">
 
-                            <!-- View Button -->
+                        {{ invoice.status }}
 
-                            <button type="button" (click)="viewInvoice(invoice)"
-                                class="rounded-md border border-blue-300 bg-blue-50 px-3 py-1 text-[11px] font-semibold text-blue-700 hover:bg-blue-100">
+                    </span>
 
-                                VIEW
+                </td>
 
-                            </button>
+                <td class="px-4 py-3 text-right text-sm font-semibold">
 
-                            @if (invoice.status === 'Paid' || invoice.status === 'Draft') {
+                    ₹{{ invoice.amount | number }}
+
+                </td>
+
+                <td class="px-4 py-3 text-center">
+
+                    <div class="flex items-center justify-center gap-2">
+
+                        <button
+                            type="button"
+                            (click)="viewInvoice(invoice)"
+                            class="rounded-md border border-blue-300 bg-blue-50 px-3 py-1 text-[11px] font-semibold text-blue-700 hover:bg-blue-100">
+
+                            VIEW
+
+                        </button>
+
+                        @if (invoice.status === 'Paid' || invoice.status === 'Draft') {
 
                             <span class="text-[11px] text-slate-400">
 
@@ -158,58 +170,61 @@
 
                             </span>
 
-                            } @else {
+                        } @else {
 
-                            <button type="button" (click)="openSettlement(invoice)"
+                            <button
+                                type="button"
+                                (click)="openSettlement(invoice)"
                                 class="rounded-md border border-emerald-300 bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-700 hover:bg-emerald-100">
 
                                 RECORD PAYMENT
 
                             </button>
 
-                            }
+                        }
 
-                        </div>
+                    </div>
 
-                    </td>
-                </tr>
+                </td>
 
-                }
+            </tr>
 
-                @if (filteredInvoices.length===0) {
+            }
 
-                <tr>
+            @if (filteredInvoices.length === 0) {
 
-                    <td colspan="7" class="py-8 text-center text-sm text-slate-500">
+            <tr>
 
-                        No invoices found.
+                <td colspan="7" class="py-8 text-center text-sm text-slate-500">
 
-                    </td>
+                    No invoices found.
 
-                </tr>
+                </td>
 
-                }
+            </tr>
 
-            </tbody>
+            }
 
-        </table>
+        </tbody>
 
+    </table>
 
-        @if (showSettlementModal) {
+    @if (showSettlementModal) {
 
-        <app-record-settlement-modal *ngIf="showSettlementModal" [invoice]="selectedInvoice"
+        <app-record-settlement-modal
+            [invoice]="selectedInvoice"
             (close)="closeSettlement($event)">
         </app-record-settlement-modal>
 
-        }
+    }
 
-        @if (showInvoiceModal && selectedInvoice) {
+    @if (showInvoiceModal && selectedInvoice) {
 
-        <app-invoice-details-modal [invoice]="selectedInvoice" (close)="closeInvoiceModal()">
+        <app-invoice-details-modal
+            [invoice]="selectedInvoice"
+            (close)="closeInvoiceModal()">
         </app-invoice-details-modal>
 
-        }
-
-    </div>
+    }
 
 </div>

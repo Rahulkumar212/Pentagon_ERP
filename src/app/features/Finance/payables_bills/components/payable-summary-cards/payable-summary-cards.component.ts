@@ -27,21 +27,21 @@ export class PayableSummaryCardsComponent {
 
     {
       title: 'Total Operational Liabilities',
-      value: '$25,300',
+      value: ' ₹25,300',
       icon: 'bill',
       valueClass: 'text-slate-900'
     },
 
     {
       title: 'Immediate Dues',
-      value: '$17,050',
+      value: ' ₹17,050',
       icon: 'warning',
       valueClass: 'text-red-800'
     },
 
     {
       title: 'Settled Liabilities',
-      value: '$8,250',
+      value: ' ₹8,250',
       icon: 'paid',
       valueClass: 'text-emerald-700'
     }

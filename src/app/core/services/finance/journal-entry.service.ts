@@ -88,7 +88,7 @@ export class JournalEntryService extends BaseApiService {
   getTrialBalance(): Observable<any> {
 
     return this.http.get(
-      `${this.API_URL}/fetchTrialBalance`
+      `${this.API_URL}/filterTrialBalance`
     );
 
   }

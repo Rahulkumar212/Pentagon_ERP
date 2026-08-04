@@ -32,8 +32,8 @@ export interface UpdateInvoicePayload {
 
 export interface Invoice {
 
-  id?: number;
-
+   id: number;
+   
   invoiceId: string;
 
   customer: string;

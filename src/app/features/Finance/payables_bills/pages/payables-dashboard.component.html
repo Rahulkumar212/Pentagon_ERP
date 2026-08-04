@@ -15,8 +15,8 @@
   <!-- Vendor Bills Table -->
   <div class="mt-6">
   <app-vendor-bills-table
-    (settleBill)="openSettlementModal()">
-  </app-vendor-bills-table>
+    (settleBill)="openSettlementModal($event)">
+</app-vendor-bills-table>
   </div>
 
   <!-- Record Vendor Bill Modal -->
@@ -31,12 +31,13 @@
 
   <!-- Settlement Modal -->
 
-  @if (showSettlementModal) {
+ @if (showSettlementModal) {
 
-    <app-settlement-modal
-      (close)="closeSettlementModal()">
-    </app-settlement-modal>
+<app-settlement-modal
+  [bill]="selectedBill"
+  (close)="closeSettlementModal($event)">
+</app-settlement-modal>
 
-  }
+}
 
 </div>
