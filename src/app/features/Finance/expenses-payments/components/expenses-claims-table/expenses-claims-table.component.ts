@@ -1,146 +1,107 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output, signal, computed } from '@angular/core';
+import {
+  Component,
+  EventEmitter,
+  Output,
+  computed,
+  inject,
+  signal,
+  OnInit,
+} from '@angular/core';
 
-interface ExpenseClaim {
-
-  claimId: string;
-
-  employee: string;
-
-  category: string;
-
-  description: string;
-
-  date: string;
-
-  status: 'APPROVED' | 'PENDING' | 'REJECTED';
-
-  amount: number;
-
-  workflow: string;
-
-}
+import { ExpenseClaimService } from '../../../../../core/services/finance/expense-claim.service';
+import { ExpenseClaim } from '../../../../../core/models/finance/expense-claim.model';
 
 @Component({
   selector: 'app-expenses-claims-table',
   standalone: true,
-  imports: [
-    CommonModule
-  ],
-  templateUrl: './expenses-claims-table.component.html'
+  imports: [CommonModule],
+  templateUrl: './expenses-claims-table.component.html',
 })
-export class ExpensesClaimsTableComponent {
+export class ExpensesClaimsTableComponent implements OnInit {
+  @Output() approve = new EventEmitter<ExpenseClaim>();
+  @Output() reject = new EventEmitter<ExpenseClaim>();
+  @Output() viewPayslip = new EventEmitter<ExpenseClaim>();
 
-  @Output()
-  approve = new EventEmitter<ExpenseClaim>();
-
-  @Output()
-  reject = new EventEmitter<ExpenseClaim>();
-
-  @Output()
-  viewPayslip = new EventEmitter<ExpenseClaim>();
+  private readonly expenseClaimService = inject(ExpenseClaimService);
 
   readonly selectedTab = signal<
     'ALL' | 'PENDING' | 'APPROVED' | 'REJECTED'
   >('ALL');
 
-  readonly claims = signal<ExpenseClaim[]>([
+  readonly claims = signal<ExpenseClaim[]>([]);
 
-    {
-      claimId: 'EXP-801',
-      employee: 'Aarav Sharma',
-      category: 'Travel',
-      description: 'Client onboarding flight & cab in Bangalore',
-      date: '2026-07-10',
-      status: 'APPROVED',
-      amount: 14200,
-      workflow: 'Completed'
-    },
-
-    {
-      claimId: 'EXP-802',
-      employee: 'Kabir Mehta',
-      category: 'Software',
-      description: 'Docker Desktop annual personal license',
-      date: '2026-07-09',
-      status: 'APPROVED',
-      amount: 3600,
-      workflow: 'Completed'
-    },
-
-    {
-      claimId: 'EXP-803',
-      employee: 'Vihaan Patel',
-      category: 'Meals',
-      description: 'Project success celebration dinner',
-      date: '2026-07-11',
-      status: 'REJECTED',
-      amount: 8800,
-      workflow: 'Completed'
-    },
-
-    {
-      claimId: 'EXP-804',
-      employee: 'Meera Deshmukh',
-      category: 'Office',
-      description: 'Ergonomic keyboard & mouse purchase',
-      date: '2026-07-05',
-      status: 'APPROVED',
-      amount: 4500,
-      workflow: 'Completed'
-    },
-
-    {
-      claimId: 'EXP-805',
-      employee: 'Ananya Iyer',
-      category: 'Other',
-      description: 'CFO Summit registration tickets',
-      date: '2026-07-13',
-      status: 'PENDING',
-      amount: 15000,
-      workflow: 'Waiting Approval'
-    }
-
-  ]);
+  readonly loading = signal(false);
 
   readonly filteredClaims = computed(() => {
-
     if (this.selectedTab() === 'ALL') {
-
       return this.claims();
-
     }
 
     return this.claims().filter(
-
-      claim => claim.status === this.selectedTab()
-
+      (claim) =>
+        claim.status.toUpperCase() === this.selectedTab()
     );
-
   });
+
+  ngOnInit(): void {
+    this.getAllExpenseClaims();
+  }
+
+ getAllExpenseClaims(): void {
+
+  this.loading.set(true);
+
+  this.expenseClaimService
+    .fetchAllExpenseClaims()
+    .subscribe({
+
+      next: (response) => {
+
+        const claims = (response.data ?? []).map((claim: any) => ({
+
+          ...claim,
+
+          workflowStatus:
+            claim.status === 'APPROVED' ||
+            claim.status === 'REJECTED'
+              ? 'Completed'
+              : 'Pending'
+
+        }));
+
+        this.claims.set(claims);
+
+        this.loading.set(false);
+
+      },
+
+      error: (error) => {
+
+        console.error(
+          'Failed to fetch expense claims',
+          error
+        );
+
+        this.loading.set(false);
+
+      }
+
+    });
+
+}
 
   changeTab(
     tab: 'ALL' | 'PENDING' | 'APPROVED' | 'REJECTED'
   ): void {
-
     this.selectedTab.set(tab);
-
   }
 
-  approveClaim(
-    claim: ExpenseClaim
-  ): void {
-
+  approveClaim(claim: ExpenseClaim): void {
     this.approve.emit(claim);
-
   }
 
-  rejectClaim(
-    claim: ExpenseClaim
-  ): void {
-
+  rejectClaim(claim: ExpenseClaim): void {
     this.reject.emit(claim);
-
   }
-
 }

@@ -4,8 +4,7 @@
   <!-- Header -->
   <!-- ====================================================== -->
 
-  <app-expenses-header
-    (newClaim)="openExpenseClaimModal()">
+  <app-expenses-header (newClaim)="openExpenseClaimModal()">
   </app-expenses-header>
 
   <!-- ====================================================== -->
@@ -13,10 +12,10 @@
   <!-- ====================================================== -->
 
   <app-expenses-claims-table
-    (approve)="openApprovalModal()"
-    (reject)="openApprovalModal()"
-    (viewPayslip)="openReimbursementModal()">
-  </app-expenses-claims-table>
+  (approve)="openApprovalModal($event, 'Approved')"
+  (reject)="openApprovalModal($event, 'Rejected')"
+  (viewPayslip)="openReimbursementModal($event)">
+</app-expenses-claims-table>
 
   <!-- ====================================================== -->
   <!-- Expense Claim Modal -->
@@ -24,9 +23,8 @@
 
   @if (showExpenseClaimModal) {
 
-    <app-expense-claim-modal
-      (close)="closeExpenseClaimModal()">
-    </app-expense-claim-modal>
+  <app-expense-claim-modal (close)="closeExpenseClaimModal()">
+  </app-expense-claim-modal>
 
   }
 
@@ -34,24 +32,22 @@
   <!-- Approval Modal -->
   <!-- ====================================================== -->
 
-  @if (showApprovalModal) {
-
-    <app-approve-expense-modal
-      (close)="closeApprovalModal()">
-    </app-approve-expense-modal>
-
+  @if (showApprovalModal && selectedClaim) {
+<app-approve-expense-modal
+    [expenseClaim]="selectedClaim"
+    [decision]="selectedAction"
+    (close)="closeApprovalModal()">
+</app-approve-expense-modal>
   }
+
 
   <!-- ====================================================== -->
   <!-- Reimbursement Modal -->
   <!-- ====================================================== -->
 
-  @if (showReimbursementModal) {
-
-    <app-reimbursement-modal
-      (close)="closeReimbursementModal()">
-    </app-reimbursement-modal>
-
+  @if (showReimbursementModal && selectedClaim) {
+  <app-reimbursement-modal [expenseClaim]="selectedClaim" (close)="closeReimbursementModal()">
+  </app-reimbursement-modal>
   }
 
 </div>
