@@ -11,9 +11,6 @@ export class ChartAccountService extends BaseApiService {
 
   
 
-  /**
-   * Create Chart Account
-   */
   createChartAccount(
     payload: ChartAccount
   ): Observable<any> {
