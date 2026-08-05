@@ -1,6 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
+import { ExpenseClaim } from '../../../../core/models/finance/expense-claim.model';
+
 import { ExpensesHeaderComponent } from '../components/expenses-header/expenses-header.component';
 import { ExpensesClaimsTableComponent } from '../components/expenses-claims-table/expenses-claims-table.component';
 
@@ -13,10 +15,8 @@ import { ReimbursementModalComponent } from '../forms/reimbursement-modal/reimbu
   standalone: true,
   imports: [
     CommonModule,
-
     ExpensesHeaderComponent,
     ExpensesClaimsTableComponent,
-
     ExpenseClaimModalComponent,
     ApproveExpenseModalComponent,
     ReimbursementModalComponent
@@ -25,14 +25,18 @@ import { ReimbursementModalComponent } from '../forms/reimbursement-modal/reimbu
 })
 export class ExpensesDashboardComponent {
 
+  selectedAction: 'Approved' | 'Rejected' = 'Approved';
+  
   showExpenseClaimModal = false;
 
   showApprovalModal = false;
 
   showReimbursementModal = false;
 
+  selectedClaim: ExpenseClaim | null = null;
+
   /* ============================================
-      Expense Claim
+     Expense Claim
   ============================================ */
 
   openExpenseClaimModal(): void {
@@ -48,26 +52,37 @@ export class ExpensesDashboardComponent {
   }
 
   /* ============================================
-      Approval
+     Approval
   ============================================ */
 
-  openApprovalModal(): void {
+  openApprovalModal(
+  claim: ExpenseClaim,
+  action: 'Approved' | 'Rejected'
+): void {
 
-    this.showApprovalModal = true;
+  this.selectedClaim = claim;
 
-  }
+  this.selectedAction = action;
+
+  this.showApprovalModal = true;
+
+}
 
   closeApprovalModal(): void {
 
     this.showApprovalModal = false;
 
+    this.selectedClaim = null;
+
   }
 
   /* ============================================
-      Reimbursement
+     Reimbursement
   ============================================ */
 
-  openReimbursementModal(): void {
+  openReimbursementModal(claim: ExpenseClaim): void {
+
+    this.selectedClaim = claim;
 
     this.showReimbursementModal = true;
 
@@ -76,6 +91,8 @@ export class ExpensesDashboardComponent {
   closeReimbursementModal(): void {
 
     this.showReimbursementModal = false;
+
+    this.selectedClaim = null;
 
   }
 

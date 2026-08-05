@@ -2,7 +2,10 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
-  Output
+  Input,
+  OnChanges,
+  Output,
+  SimpleChanges
 } from '@angular/core';
 
 import {
@@ -11,6 +14,12 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+
+import { ExpenseClaimService } from '../../../../../core/services/finance/expense-claim.service';
+
+import {
+  UpdateExpenseClaimRequest
+} from '../../../../../core/models/finance/expense-claim.model';
 
 @Component({
   selector: 'app-approve-expense-modal',
@@ -21,48 +30,66 @@ import {
   ],
   templateUrl: './approve-expense-modal.component.html'
 })
-export class ApproveExpenseModalComponent {
+export class ApproveExpenseModalComponent implements OnChanges {
+
+  @Input()
+  decision: 'Approved' | 'Rejected' = 'Approved';
+
+  @Input()
+  expenseClaim: any;
 
   @Output()
-  close = new EventEmitter<void>();
+  close = new EventEmitter<boolean>();
 
   form: FormGroup;
 
-  decisionOptions = [
-    'Approved',
-    'Rejected'
-  ];
-
   constructor(
-    private fb: FormBuilder
+    private readonly fb: FormBuilder,
+    private readonly expenseClaimService: ExpenseClaimService
   ) {
 
     this.form = this.fb.group({
 
-      claimId: [
-        'EXP-801'
-      ],
+      claimId: [''],
 
-      employee: [
-        'Rahul Sharma'
-      ],
+      employee: [''],
 
-      category: [
-        'Travel'
-      ],
+      category: [''],
 
-      amount: [
-        14500
-      ],
+      amount: [''],
 
       decision: [
-        'Approved',
+        '',
         Validators.required
       ],
 
-      remarks: [
-        ''
-      ]
+      remarks: ['']
+
+    });
+
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+
+    if (!this.expenseClaim) {
+
+      return;
+
+    }
+
+    this.form.patchValue({
+
+      claimId: this.expenseClaim.claimId,
+
+      employee: this.expenseClaim.employee,
+
+      category: this.expenseClaim.category,
+
+      amount: this.expenseClaim.amount,
+
+      decision: this.decision,
+
+      remarks: this.expenseClaim.remarks ?? ''
 
     });
 
@@ -78,15 +105,48 @@ export class ApproveExpenseModalComponent {
 
     }
 
-    console.log(this.form.value);
+    const payload: UpdateExpenseClaimRequest = {
 
-    this.close.emit();
+      status: this.form.value.decision.toUpperCase(),
+
+      remarks: this.form.value.remarks
+
+    };
+
+    this.expenseClaimService
+      .updateExpenseClaim(
+        this.expenseClaim.id,
+        payload
+      )
+      .subscribe({
+
+        next: (response) => {
+
+          console.log(
+            'Expense Claim Updated',
+            response
+          );
+
+          this.close.emit(true);
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Failed to update expense claim',
+            error
+          );
+
+        }
+
+      });
 
   }
 
   cancel(): void {
 
-    this.close.emit();
+    this.close.emit(false);
 
   }
 

@@ -41,7 +41,7 @@ export class ExpenseClaimModalComponent {
   constructor() {
     this.form = this.fb.group({
       employee: ['', Validators.required],
-      category: ['Travel', Validators.required],
+      category: ['', Validators.required],
       expenseDate: ['', Validators.required],
       amount: ['', [Validators.required, Validators.min(1)]],
       description: ['', Validators.required],
@@ -72,7 +72,7 @@ export class ExpenseClaimModalComponent {
 
         // Optional
         this.form.reset({
-          category: 'Travel',
+          category: '',
         });
 
         this.close.emit();

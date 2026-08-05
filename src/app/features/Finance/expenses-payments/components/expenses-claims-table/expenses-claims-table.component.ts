@@ -48,21 +48,48 @@ export class ExpensesClaimsTableComponent implements OnInit {
     this.getAllExpenseClaims();
   }
 
-  getAllExpenseClaims(): void {
-    this.loading.set(true);
+ getAllExpenseClaims(): void {
 
-    this.expenseClaimService.fetchAllExpenseClaims().subscribe({
+  this.loading.set(true);
+
+  this.expenseClaimService
+    .fetchAllExpenseClaims()
+    .subscribe({
+
       next: (response) => {
-        this.claims.set(response.data);
+
+        const claims = (response.data ?? []).map((claim: any) => ({
+
+          ...claim,
+
+          workflowStatus:
+            claim.status === 'APPROVED' ||
+            claim.status === 'REJECTED'
+              ? 'Completed'
+              : 'Pending'
+
+        }));
+
+        this.claims.set(claims);
+
         this.loading.set(false);
+
       },
 
       error: (error) => {
-        console.error('Failed to fetch expense claims', error);
+
+        console.error(
+          'Failed to fetch expense claims',
+          error
+        );
+
         this.loading.set(false);
-      },
+
+      }
+
     });
-  }
+
+}
 
   changeTab(
     tab: 'ALL' | 'PENDING' | 'APPROVED' | 'REJECTED'

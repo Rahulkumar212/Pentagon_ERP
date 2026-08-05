@@ -2,6 +2,7 @@ import { CommonModule } from '@angular/common';
 import {
   Component,
   EventEmitter,
+  Input,
   Output
 } from '@angular/core';
 
@@ -11,6 +12,7 @@ import {
   ReactiveFormsModule,
   Validators
 } from '@angular/forms';
+import { ExpenseClaim } from '../../../../../core/models/finance/expense-claim.model';
 
 @Component({
   selector: 'app-reimbursement-modal',
@@ -23,8 +25,11 @@ import {
 })
 export class ReimbursementModalComponent {
 
+  @Input()
+expenseClaim!: ExpenseClaim;
+
   @Output()
-  close = new EventEmitter<void>();
+close = new EventEmitter<void>();
 
   form: FormGroup;
 

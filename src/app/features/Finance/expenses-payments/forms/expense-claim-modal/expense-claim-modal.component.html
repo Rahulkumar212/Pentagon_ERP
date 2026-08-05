@@ -26,9 +26,7 @@
 
       </div>
 
-      <button
-        type="button"
-        (click)="cancel()"
+      <button type="button" (click)="cancel()"
         class="text-xs font-semibold uppercase text-slate-400 hover:text-slate-700">
 
         Close
@@ -39,10 +37,7 @@
 
     <!-- Body -->
 
-    <form
-      [formGroup]="form"
-      (ngSubmit)="submit()"
-      class="space-y-5 p-5">
+    <form [formGroup]="form" (ngSubmit)="submit()" class="space-y-5 p-5">
 
       <!-- Row -->
 
@@ -50,40 +45,36 @@
 
         <div>
 
-          <label
-            class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+          <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
 
             Employee
 
           </label>
 
-          <input
-            formControlName="employee"
-            placeholder="Employee Name"
+          <input formControlName="employee" placeholder="Employee Name"
             class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-red-700">
 
         </div>
 
         <div>
 
-          <label
-            class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+          <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
 
             Category
 
           </label>
 
-          <select
-            formControlName="category"
-            class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+          <select formControlName="category" class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
 
-            @for(category of categories; track category){
+            <option value="" disabled>
+              Select Category
+            </option>
 
-              <option [value]="category">
+            @for (category of categories; track category) {
 
-                {{ category }}
-
-              </option>
+            <option [value]="category">
+              {{ category }}
+            </option>
 
             }
 
@@ -99,33 +90,26 @@
 
         <div>
 
-          <label
-            class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+          <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
 
             Expense Date
 
           </label>
 
-          <input
-            type="date"
-            formControlName="expenseDate"
+          <input type="date" formControlName="expenseDate"
             class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
 
         </div>
 
         <div>
 
-          <label
-            class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+          <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
 
             Amount (₹)
 
           </label>
 
-          <input
-            type="number"
-            formControlName="amount"
-            placeholder="0"
+          <input type="number" formControlName="amount" placeholder="0"
             class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
 
         </div>
@@ -136,17 +120,13 @@
 
       <div>
 
-        <label
-          class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+        <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
 
           Description
 
         </label>
 
-        <textarea
-          rows="4"
-          formControlName="description"
-          placeholder="Describe your expense..."
+        <textarea rows="4" formControlName="description" placeholder="Describe your expense..."
           class="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm outline-none focus:border-red-700">
 
         </textarea>
@@ -157,18 +137,14 @@
 
       <div class="flex justify-end gap-3 border-t border-gray-200 pt-4">
 
-        <button
-          type="button"
-          (click)="cancel()"
+        <button type="button" (click)="cancel()"
           class="rounded-lg bg-gray-100 px-6 py-2 text-sm font-medium hover:bg-gray-200">
 
           Cancel
 
         </button>
 
-        <button
-          type="submit"
-          class="rounded-lg bg-red-800 px-6 py-2 text-sm font-medium text-white hover:bg-red-900">
+        <button type="submit" class="rounded-lg bg-red-800 px-6 py-2 text-sm font-medium text-white hover:bg-red-900">
 
           Submit Claim
 
