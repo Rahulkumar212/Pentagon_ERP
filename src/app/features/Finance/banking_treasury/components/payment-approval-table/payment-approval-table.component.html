@@ -1,0 +1,236 @@
+<div class="rounded-xl border border-gray-200 bg-white">
+
+  <!-- Header -->
+
+  <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+
+    <div>
+
+      <h2 class="text-sm font-semibold text-slate-900">
+
+        Payment Approval Queue
+
+      </h2>
+
+      <p class="mt-1 text-xs text-slate-500">
+
+        Pending vendor payments awaiting finance approval.
+
+      </p>
+
+    </div>
+
+    <span
+      class="rounded-full bg-yellow-100 px-3 py-1 text-[11px] font-semibold text-yellow-700">
+
+      {{ payments().length }} Requests
+
+    </span>
+
+  </div>
+
+  <!-- Table -->
+
+  <table class="min-w-full">
+
+    <thead class="border-b border-gray-200 bg-slate-50">
+
+      <tr>
+
+        <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Vendor
+
+        </th>
+
+        <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Invoice
+
+        </th>
+
+        <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Type
+
+        </th>
+
+        <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Due Date
+
+        </th>
+
+        <th class="px-5 py-3 text-right text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Amount
+
+        </th>
+
+        <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Priority
+
+        </th>
+
+        <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Status
+
+        </th>
+
+        <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Action
+
+        </th>
+
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      @for(payment of payments(); track payment.id){
+
+      <tr class="border-b border-gray-100 hover:bg-slate-50">
+
+        <td class="px-5 py-4">
+
+          <p class="text-sm font-semibold">
+
+            {{ payment.vendor }}
+
+          </p>
+
+        </td>
+
+        <td class="px-5 py-4">
+
+          <p class="text-sm">
+
+            {{ payment.invoiceNo }}
+
+          </p>
+
+        </td>
+
+        <td class="px-5 py-4 text-sm text-slate-600">
+
+          {{ payment.paymentType }}
+
+        </td>
+
+        <td class="px-5 py-4 text-center text-sm">
+
+          {{ payment.dueDate }}
+
+        </td>
+
+        <td class="px-5 py-4 text-right font-semibold">
+
+          ₹{{ payment.amount | number }}
+
+        </td>
+
+        <td class="px-5 py-4 text-center">
+
+          <span
+
+            class="rounded-full px-3 py-1 text-[10px] font-semibold"
+
+            [ngClass]="{
+
+              'bg-red-100 text-red-700': payment.priority === 'High',
+
+              'bg-yellow-100 text-yellow-700': payment.priority === 'Medium',
+
+              'bg-green-100 text-green-700': payment.priority === 'Low'
+
+            }">
+
+            {{ payment.priority }}
+
+          </span>
+
+        </td>
+
+        <td class="px-5 py-4 text-center">
+
+          <span
+
+            class="rounded-full px-3 py-1 text-[10px] font-semibold"
+
+            [ngClass]="{
+
+              'bg-yellow-100 text-yellow-700': payment.status === 'Pending',
+
+              'bg-green-100 text-green-700': payment.status === 'Approved',
+
+              'bg-red-100 text-red-700': payment.status === 'Rejected'
+
+            }">
+
+            {{ payment.status }}
+
+          </span>
+
+        </td>
+
+        <td class="px-5 py-4">
+
+          @if(payment.status === 'Pending'){
+
+          <div class="flex justify-center gap-2">
+
+            <button
+
+              (click)="approve(payment)"
+
+              class="rounded bg-green-50 px-3 py-1 text-[11px] font-semibold text-green-700 hover:bg-green-100">
+
+              Approve
+
+            </button>
+
+            <button
+
+              (click)="reject(payment)"
+
+              class="rounded bg-red-50 px-3 py-1 text-[11px] font-semibold text-red-700 hover:bg-red-100">
+
+              Reject
+
+            </button>
+
+          </div>
+
+          } @else {
+
+          <div class="flex justify-center">
+
+            <button
+
+              (click)="view(payment)"
+
+              class="rounded bg-slate-100 px-3 py-1 text-[11px] font-medium hover:bg-slate-200">
+
+              View
+
+            </button>
+
+          </div>
+
+          }
+
+        </td>
+
+      </tr>
+
+      }
+
+    </tbody>
+
+  </table>
+
+</div>

@@ -1,16 +1,6 @@
-import {
-  Component,
-  EventEmitter,
-  Output
-} from '@angular/core';
-
-import {
-  CommonModule
-} from '@angular/common';
-
-import {
-  FormsModule
-} from '@angular/forms';
+import { Component, EventEmitter, Output } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
 
 @Component({
   selector: 'app-budget-assets-header',
@@ -24,8 +14,12 @@ import {
 export class BudgetAssetsHeaderComponent {
 
   @Output()
-  financialYearChanged =
-    new EventEmitter<string>();
+  financialYearChanged = new EventEmitter<string>();
+
+  @Output()
+  tabChanged = new EventEmitter<
+    'budget' | 'taxation' | 'assets'
+  >();
 
   financialYears = [
     'FY 2026-27',
@@ -33,14 +27,28 @@ export class BudgetAssetsHeaderComponent {
     'FY 2024-25'
   ];
 
-  selectedYear =
-    this.financialYears[0];
+  selectedYear = this.financialYears[0];
+
+  selectedTab:
+    | 'budget'
+    | 'taxation'
+    | 'assets' = 'assets';
 
   onYearChange(): void {
 
     this.financialYearChanged.emit(
       this.selectedYear
     );
+
+  }
+
+  changeTab(
+    tab: 'budget' | 'taxation' | 'assets'
+  ): void {
+
+    this.selectedTab = tab;
+
+    this.tabChanged.emit(tab);
 
   }
 

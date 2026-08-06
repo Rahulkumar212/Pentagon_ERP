@@ -1,0 +1,197 @@
+<div class="rounded-xl border border-gray-200 bg-white">
+
+  <!-- Header -->
+
+  <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+
+    <div>
+
+      <h2 class="text-sm font-semibold text-slate-900">
+
+        Reconciliation History
+
+      </h2>
+
+      <p class="mt-1 text-xs text-slate-500">
+
+        Previous bank reconciliation runs and matching summary.
+
+      </p>
+
+    </div>
+
+    <span
+      class="rounded-full bg-red-50 px-3 py-1 text-[11px] font-semibold text-red-700">
+
+      Last 30 Days
+
+    </span>
+
+  </div>
+
+  <!-- Table -->
+
+  <table class="min-w-full">
+
+    <thead class="border-b border-gray-200 bg-slate-50">
+
+      <tr>
+
+        <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Bank
+
+        </th>
+
+        <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Statement
+
+        </th>
+
+        <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Transactions
+
+        </th>
+
+        <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Matched
+
+        </th>
+
+        <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Unmatched
+
+        </th>
+
+        <th class="px-5 py-3 text-right text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Variance
+
+        </th>
+
+        <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Status
+
+        </th>
+
+        <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+          Action
+
+        </th>
+
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      @for(item of history(); track item.id){
+
+      <tr class="border-b border-gray-100 hover:bg-slate-50">
+
+        <td class="px-5 py-4">
+
+          <p class="text-sm font-semibold">
+
+            {{ item.bank }}
+
+          </p>
+
+          <p class="text-xs text-slate-500">
+
+            {{ item.account }}
+
+          </p>
+
+        </td>
+
+        <td class="px-5 py-4">
+
+          <p class="text-sm">
+
+            {{ item.statementDate }}
+
+          </p>
+
+          <p class="text-xs text-slate-500">
+
+            {{ item.uploadedBy }}
+
+          </p>
+
+        </td>
+
+        <td class="px-5 py-4 text-center">
+
+          {{ item.transactions }}
+
+        </td>
+
+        <td class="px-5 py-4 text-center font-semibold text-emerald-700">
+
+          {{ item.matched }}
+
+        </td>
+
+        <td class="px-5 py-4 text-center font-semibold text-red-700">
+
+          {{ item.unmatched }}
+
+        </td>
+
+        <td class="px-5 py-4 text-right font-semibold">
+
+          ₹{{ item.variance | number }}
+
+        </td>
+
+        <td class="px-5 py-4 text-center">
+
+          <span
+            class="rounded-full px-3 py-1 text-[10px] font-semibold"
+            [ngClass]="{
+
+              'bg-green-100 text-green-700':
+              item.status === 'Completed',
+
+              'bg-yellow-100 text-yellow-700':
+              item.status === 'Pending Review',
+
+              'bg-red-100 text-red-700':
+              item.status === 'Exception'
+
+            }">
+
+            {{ item.status }}
+
+          </span>
+
+        </td>
+
+        <td class="px-5 py-4 text-center">
+
+          <button
+            (click)="view(item)"
+            class="rounded-md bg-slate-100 px-3 py-1 text-xs font-medium hover:bg-slate-200">
+
+            View
+
+          </button>
+
+        </td>
+
+      </tr>
+
+      }
+
+    </tbody>
+
+  </table>
+
+</div>

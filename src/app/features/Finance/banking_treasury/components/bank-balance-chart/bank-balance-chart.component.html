@@ -1,0 +1,40 @@
+<div class="rounded-xl border border-gray-200 bg-white">
+
+  <!-- Header -->
+
+  <div class="flex items-center justify-between border-b border-gray-200 px-5 py-4">
+
+    <div>
+
+      <h2 class="text-sm font-semibold text-slate-900">
+
+        Bank Balance Trend
+
+      </h2>
+
+      <p class="mt-1 text-xs text-slate-500">
+
+        Closing bank balance across financial months.
+
+      </p>
+
+    </div>
+
+    <span
+      class="rounded-full bg-emerald-100 px-3 py-1 text-[11px] font-semibold text-emerald-700">
+
+      Current ₹12.84 Cr
+
+    </span>
+
+  </div>
+
+  <!-- Chart -->
+
+  <div
+    echarts
+    [options]="bankBalanceChart"
+    class="h-[340px] w-full">
+  </div>
+
+</div>
