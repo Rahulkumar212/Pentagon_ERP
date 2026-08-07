@@ -1,0 +1,179 @@
+<div class="space-y-5">
+
+  <!-- Summary Cards -->
+
+  <div class="grid grid-cols-3 gap-4">
+
+    <div class="rounded-xl border border-green-200 bg-green-50 p-5">
+
+      <p class="text-[11px] font-semibold uppercase tracking-wider text-green-700">
+
+        Total Cash Position
+
+      </p>
+
+      <h2 class="mt-2 text-2xl font-bold text-green-800">
+
+        ₹{{ totalCash() | number }}
+
+      </h2>
+
+    </div>
+
+    <div class="rounded-xl border border-blue-200 bg-blue-50 p-5">
+
+      <p class="text-[11px] font-semibold uppercase tracking-wider text-blue-700">
+
+        Available Balance
+
+      </p>
+
+      <h2 class="mt-2 text-2xl font-bold text-blue-800">
+
+        ₹{{ totalAvailable() | number }}
+
+      </h2>
+
+    </div>
+
+    <div class="rounded-xl border border-orange-200 bg-orange-50 p-5">
+
+      <p class="text-[11px] font-semibold uppercase tracking-wider text-orange-700">
+
+        Reserved Amount
+
+      </p>
+
+      <h2 class="mt-2 text-2xl font-bold text-orange-800">
+
+        ₹{{ totalReserved() | number }}
+
+      </h2>
+
+    </div>
+
+  </div>
+
+  <!-- Bank Position -->
+
+  <div class="rounded-xl border border-gray-200 bg-white">
+
+    <div class="border-b border-gray-200 px-5 py-4">
+
+      <h2 class="text-sm font-semibold text-slate-900">
+
+        Bank-wise Cash Position
+
+      </h2>
+
+      <p class="mt-1 text-xs text-slate-500">
+
+        Current balances available across all operational bank accounts.
+
+      </p>
+
+    </div>
+
+    <table class="min-w-full">
+
+      <thead class="border-b border-gray-200 bg-slate-50">
+
+        <tr>
+
+          <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+            Bank
+
+          </th>
+
+          <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+            Account
+
+          </th>
+
+          <th class="px-5 py-3 text-right text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+            Balance
+
+          </th>
+
+          <th class="px-5 py-3 text-right text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+            Available
+
+          </th>
+
+          <th class="px-5 py-3 text-right text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+            Reserved
+
+          </th>
+
+          <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
+
+            Last Updated
+
+          </th>
+
+        </tr>
+
+      </thead>
+
+      <tbody>
+
+        @for(account of accounts(); track account.bank){
+
+        <tr class="border-b border-gray-100 hover:bg-slate-50">
+
+          <td class="px-5 py-4">
+
+            <p class="text-sm font-semibold">
+
+              {{ account.bank }}
+
+            </p>
+
+          </td>
+
+          <td class="px-5 py-4 text-sm text-slate-600">
+
+            {{ account.account }}
+
+          </td>
+
+          <td class="px-5 py-4 text-right font-semibold">
+
+            ₹{{ account.balance | number }}
+
+          </td>
+
+          <td class="px-5 py-4 text-right font-semibold text-green-700">
+
+            ₹{{ account.available | number }}
+
+          </td>
+
+          <td class="px-5 py-4 text-right font-semibold text-orange-600">
+
+            ₹{{ account.reserved | number }}
+
+          </td>
+
+          <td class="px-5 py-4 text-center text-xs text-slate-500">
+
+            {{ account.lastUpdated }}
+
+          </td>
+
+        </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

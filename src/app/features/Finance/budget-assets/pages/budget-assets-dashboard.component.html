@@ -5,21 +5,34 @@
   <!-- ===================================================== -->
 
   <app-budget-assets-header
-    (financialYearChanged)="onFinancialYearChanged($event)">
+    (financialYearChanged)="onFinancialYearChanged($event)"
+    (tabChanged)="onTabChanged($event)">
   </app-budget-assets-header>
 
   <!-- ===================================================== -->
-  <!-- Summary Cards -->
+  <!-- Budget Tracking -->
   <!-- ===================================================== -->
 
-  <app-budget-summary-cards>
-  </app-budget-summary-cards>
+  @if (activeTab === 'budget') {
+
+    <app-budget-tracking>
+    </app-budget-tracking>
+
+  }
+
 
   <!-- ===================================================== -->
-  <!-- Assets & Budget Center -->
+  <!-- Fixed Asset Register -->
   <!-- ===================================================== -->
 
-  <app-assets-budget-center>
-  </app-assets-budget-center>
+  @if (activeTab === 'assets') {
+
+    <app-budget-summary-cards>
+    </app-budget-summary-cards>
+
+    <app-assets-budget-center>
+    </app-assets-budget-center>
+
+  }
 
 </div>

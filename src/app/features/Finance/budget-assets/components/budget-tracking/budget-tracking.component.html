@@ -1,0 +1,129 @@
+<!-- Summary Cards -->
+
+<div class="grid grid-cols-4 gap-3">
+
+  @for(card of summaryCards; track card.title){
+
+  <div class="rounded-lg border bg-white p-3 shadow-sm">
+
+    <p class="text-[10px] uppercase tracking-wide text-slate-500">
+      {{ card.title }}
+    </p>
+
+    <h2
+      class="mt-1 text-lg font-bold"
+      [class]="card.color">
+
+      {{ card.value }}
+
+    </h2>
+
+  </div>
+
+  }
+
+</div>
+
+<!-- Charts -->
+
+<div class="grid grid-cols-2 gap-4">
+
+  <div class="rounded-lg border bg-white p-3">
+
+    <h2 class="mb-2 text-xs font-semibold text-slate-700">
+      Department Budget Utilization
+    </h2>
+
+    <div
+      echarts
+      [options]="budgetUtilizationChart"
+      class="h-[260px] w-full">
+    </div>
+
+  </div>
+
+  <div class="rounded-lg border bg-white p-3">
+
+    <h2 class="mb-2 text-xs font-semibold text-slate-700">
+      Monthly Budget Consumption
+    </h2>
+
+    <div
+      echarts
+      [options]="monthlyExpenseChart"
+      class="h-[260px] w-full">
+    </div>
+
+  </div>
+
+</div>
+
+<!-- Budget Table -->
+
+<div class="rounded-lg border bg-white">
+
+  <div class="border-b px-4 py-3">
+
+    <h2 class="text-sm font-semibold text-slate-800">
+      Department Budget Summary
+    </h2>
+
+  </div>
+
+  <table class="min-w-full">
+
+    <thead class="bg-slate-50">
+
+      <tr>
+
+        <th class="px-4 py-2 text-left text-[11px] font-semibold uppercase text-slate-500">
+          Department
+        </th>
+
+        <th class="px-4 py-2 text-left text-[11px] font-semibold uppercase text-slate-500">
+          Budget
+        </th>
+
+        <th class="px-4 py-2 text-left text-[11px] font-semibold uppercase text-slate-500">
+          Spent
+        </th>
+
+        <th class="px-4 py-2 text-left text-[11px] font-semibold uppercase text-slate-500">
+          Remaining
+        </th>
+
+      </tr>
+
+    </thead>
+
+    <tbody>
+
+      @for(item of departmentBudgets; track item.department){
+
+      <tr class="border-t hover:bg-slate-50">
+
+        <td class="px-4 py-2 text-sm">
+          {{ item.department }}
+        </td>
+
+        <td class="px-4 py-2 text-sm">
+          {{ item.budget }}
+        </td>
+
+        <td class="px-4 py-2 text-sm">
+          {{ item.spent }}
+        </td>
+
+        <td class="px-4 py-2 text-sm font-semibold text-green-700">
+          {{ item.remaining }}
+        </td>
+
+      </tr>
+
+      }
+
+    </tbody>
+
+  </table>
+
+</div>

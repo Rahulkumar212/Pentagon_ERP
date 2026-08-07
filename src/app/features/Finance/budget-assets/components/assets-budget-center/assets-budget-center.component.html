@@ -22,7 +22,7 @@
 
       </div>
 
-      <button
+      <button (click)="openRegisterAssetModal()"
         class="rounded-lg bg-red-800 px-4 py-2 text-xs font-semibold text-white hover:bg-red-900">
 
         + Register Asset
@@ -93,86 +93,93 @@
 
         @for(asset of assets(); track asset.id){
 
-          <tr class="border-b border-gray-100 hover:bg-slate-50">
+        <tr class="border-b border-gray-100 hover:bg-slate-50">
 
-            <td class="px-5 py-4">
+          <td class="px-5 py-4">
 
-              <div>
+            <div>
 
-                <p class="text-sm font-semibold text-slate-900">
+              <p class="text-sm font-semibold text-slate-900">
 
-                  {{ asset.name }}
+                {{ asset.name }}
 
-                </p>
+              </p>
 
-                <p class="text-xs text-slate-500">
+              <p class="text-xs text-slate-500">
 
-                  Asset ID : AST-{{ asset.id }}
+                Asset ID : AST-{{ asset.id }}
 
-                </p>
+              </p>
 
-              </div>
+            </div>
 
-            </td>
+          </td>
 
-            <td class="px-5 py-4 text-sm text-slate-600">
+          <td class="px-5 py-4 text-sm text-slate-600">
 
-              {{ asset.category }}
+            {{ asset.category }}
 
-            </td>
+          </td>
 
-            <td class="px-5 py-4 text-sm text-slate-600">
+          <td class="px-5 py-4 text-sm text-slate-600">
 
-              {{ asset.department }}
+            {{ asset.department }}
 
-            </td>
+          </td>
 
-            <td class="px-5 py-4 text-right font-semibold text-slate-900">
+          <td class="px-5 py-4 text-right font-semibold text-slate-900">
 
-              ₹{{ asset.value | number }}
+            ₹{{ asset.value | number }}
 
-            </td>
+          </td>
 
-            <td class="px-5 py-4 text-center">
+          <td class="px-5 py-4 text-center">
 
-              <span class="font-semibold text-orange-600">
+            <span class="font-semibold text-orange-600">
 
-                {{ asset.depreciation }}%
+              {{ asset.depreciation }}%
 
-              </span>
+            </span>
 
-            </td>
+          </td>
 
-            <td class="px-5 py-4 text-center">
+          <td class="px-5 py-4 text-center">
 
-              <span
-                class="rounded-full bg-emerald-100 px-3 py-1 text-[10px] font-semibold text-emerald-700">
+            <span class="rounded-full bg-emerald-100 px-3 py-1 text-[10px] font-semibold text-emerald-700">
 
-                {{ asset.status }}
+              {{ asset.status }}
 
-              </span>
+            </span>
 
-            </td>
+          </td>
 
-            <td class="px-5 py-4 text-center">
+          <td class="px-5 py-4 text-center">
 
-              <button
-                (click)="viewAsset(asset)"
-                class="rounded-md bg-slate-100 px-3 py-1 text-xs font-medium hover:bg-slate-200">
+            <button (click)="viewAsset(asset)"
+              class="rounded-md bg-slate-100 px-3 py-1 text-xs font-medium hover:bg-slate-200">
 
-                View
+              View
 
-              </button>
+            </button>
 
-            </td>
+          </td>
 
-          </tr>
+        </tr>
 
         }
 
       </tbody>
 
     </table>
+
+
+    @if (showRegisterAssetModal) {
+
+  <app-register-asset-modal
+    (close)="closeRegisterAssetModal()">
+  </app-register-asset-modal>
+
+}
 
   </div>
 

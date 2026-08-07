@@ -1,6 +1,18 @@
-import { Component, EventEmitter, Output } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import {
+  Component,
+  EventEmitter,
+  Output
+} from '@angular/core';
+
 import { FormsModule } from '@angular/forms';
+
+export type TreasuryTab =
+  | 'Dashboard'
+  | 'Accounts'
+  | 'Reconciliation'
+  | 'Payments'
+  | 'Statements';
 
 @Component({
   selector: 'app-treasury-header',
@@ -16,17 +28,41 @@ export class TreasuryHeaderComponent {
   @Output()
   bankChanged = new EventEmitter<string>();
 
+  @Output()
+  tabChanged = new EventEmitter<TreasuryTab>();
+
   banks = [
-    'HDFC Corporate Checking',
-    'ICICI Business Current',
-    'SBI Treasury Account'
+    'All Banks',
+    'HDFC Bank',
+    'ICICI Bank',
+    'Axis Bank',
+    'SBI',
+    'PNB'
   ];
 
-  selectedBank = this.banks[0];
+  tabs: TreasuryTab[] = [
+    'Dashboard',
+    'Accounts',
+    'Reconciliation',
+    'Payments',
+    'Statements'
+  ];
+
+  selectedBank = 'All Banks';
+
+  selectedTab: TreasuryTab = 'Dashboard';
 
   onBankChange(): void {
 
     this.bankChanged.emit(this.selectedBank);
+
+  }
+
+  changeTab(tab: TreasuryTab): void {
+
+    this.selectedTab = tab;
+
+    this.tabChanged.emit(tab);
 
   }
 
