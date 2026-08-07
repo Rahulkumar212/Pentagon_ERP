@@ -1,0 +1,238 @@
+<!-- Header -->
+
+<div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+
+  <div>
+
+    <h2 class="text-lg font-semibold text-slate-900">
+
+      Reconciliation Adjustment
+
+    </h2>
+
+    <p class="mt-1 text-xs text-slate-500">
+
+      Create adjustment entries to resolve bank reconciliation differences.
+
+    </p>
+
+  </div>
+
+  <button
+    type="button"
+    (click)="cancel()"
+    class="text-xs font-semibold uppercase text-slate-400 hover:text-slate-700">
+
+    Close
+
+  </button>
+
+</div>
+
+<!-- Form -->
+
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+  class="space-y-5 p-6">
+
+  <!-- Row -->
+
+  <div class="grid grid-cols-2 gap-4">
+
+    <div>
+
+      <label
+        class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Bank Account
+
+      </label>
+
+      <input
+        type="text"
+        formControlName="bankAccount"
+        placeholder="HDFC Current Account"
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </div>
+
+    <div>
+
+      <label
+        class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Adjustment Type
+
+      </label>
+
+      <select
+        formControlName="adjustmentType"
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+        <option value="">
+
+          Select Adjustment
+
+        </option>
+
+        @for(type of adjustmentTypes; track type){
+
+        <option [value]="type">
+
+          {{ type }}
+
+        </option>
+
+        }
+
+      </select>
+
+    </div>
+
+  </div>
+
+  <!-- Row -->
+
+  <div class="grid grid-cols-2 gap-4">
+
+    <div>
+
+      <label
+        class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Transaction Date
+
+      </label>
+
+      <input
+        type="date"
+        formControlName="transactionDate"
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </div>
+
+    <div>
+
+      <label
+        class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Reference Number
+
+      </label>
+
+      <input
+        type="text"
+        formControlName="referenceNumber"
+        placeholder="UTR / Cheque No."
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </div>
+
+  </div>
+
+  <!-- Amount -->
+
+  <div>
+
+    <label
+      class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+      Adjustment Amount (₹)
+
+    </label>
+
+    <input
+      type="number"
+      formControlName="amount"
+      class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+  </div>
+
+  <!-- Description -->
+
+  <div>
+
+    <label
+      class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+      Description
+
+    </label>
+
+    <textarea
+      rows="3"
+      formControlName="description"
+      placeholder="Describe this adjustment..."
+      class="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </textarea>
+
+  </div>
+
+  <!-- Reason -->
+
+  <div>
+
+    <label
+      class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+      Adjustment Reason
+
+    </label>
+
+    <textarea
+      rows="3"
+      formControlName="adjustmentReason"
+      placeholder="Reason for reconciliation adjustment..."
+      class="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </textarea>
+
+  </div>
+
+  <!-- Remarks -->
+
+  <div>
+
+    <label
+      class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+      Remarks
+
+    </label>
+
+    <textarea
+      rows="2"
+      formControlName="remarks"
+      placeholder="Optional remarks..."
+      class="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </textarea>
+
+  </div>
+
+  <!-- Footer -->
+
+  <div class="flex justify-end gap-3 border-t border-gray-200 pt-5">
+
+    <button
+      type="button"
+      (click)="cancel()"
+      class="rounded-lg bg-gray-100 px-6 py-2 text-sm font-medium hover:bg-gray-200">
+
+      Cancel
+
+    </button>
+
+    <button
+      type="submit"
+      class="rounded-lg bg-red-800 px-6 py-2 text-sm font-medium text-white hover:bg-red-900">
+
+      Save Adjustment
+
+    </button>
+
+  </div>
+
+</form>

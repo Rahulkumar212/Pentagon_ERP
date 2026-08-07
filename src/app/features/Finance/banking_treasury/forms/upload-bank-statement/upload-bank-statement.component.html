@@ -1,0 +1,216 @@
+<!-- Header -->
+
+<div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+
+  <div>
+
+    <h2 class="text-lg font-semibold text-slate-900">
+
+      Upload Bank Statement
+
+    </h2>
+
+    <p class="mt-1 text-xs text-slate-500">
+
+      Upload monthly bank statements for automatic reconciliation.
+
+    </p>
+
+  </div>
+
+  <button
+    (click)="cancel()"
+    class="text-xs font-semibold uppercase text-slate-400 hover:text-slate-700">
+
+    Close
+
+  </button>
+
+</div>
+
+<!-- Form -->
+
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+  class="space-y-5 p-6">
+
+  <!-- Row -->
+
+  <div class="grid grid-cols-2 gap-4">
+
+    <div>
+
+      <label
+        class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Bank
+
+      </label>
+
+      <select
+        formControlName="bankName"
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+        <option value="">
+
+          Select Bank
+
+        </option>
+
+        @for(bank of banks; track bank){
+
+        <option [value]="bank">
+
+          {{ bank }}
+
+        </option>
+
+        }
+
+      </select>
+
+    </div>
+
+    <div>
+
+      <label
+        class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Account Number
+
+      </label>
+
+      <input
+        formControlName="accountNumber"
+        placeholder="XXXXXXXXXXXX"
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </div>
+
+  </div>
+
+  <!-- Row -->
+
+  <div class="grid grid-cols-2 gap-4">
+
+    <div>
+
+      <label
+        class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Statement Month
+
+      </label>
+
+      <input
+        type="month"
+        formControlName="statementMonth"
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </div>
+
+    <div>
+
+      <label
+        class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Statement Year
+
+      </label>
+
+      <input
+        type="number"
+        formControlName="statementYear"
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </div>
+
+  </div>
+
+  <!-- Upload -->
+
+  <div>
+
+    <label
+      class="mb-2 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+      Upload Statement
+
+    </label>
+
+    <label
+      class="flex cursor-pointer flex-col items-center justify-center rounded-xl border-2 border-dashed border-gray-300 bg-slate-50 px-6 py-10 transition hover:border-red-700 hover:bg-red-50">
+
+      <svg
+        xmlns="http://www.w3.org/2000/svg"
+        class="mb-3 h-10 w-10 text-red-700"
+        fill="none"
+        viewBox="0 0 24 24"
+        stroke="currentColor">
+
+        <path
+          stroke-linecap="round"
+          stroke-linejoin="round"
+          stroke-width="2"
+          d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1M8 9l4-4m0 0l4 4m-4-4v12"/>
+
+      </svg>
+
+      <span class="text-sm font-semibold text-slate-700">
+
+        Click to Upload
+
+      </span>
+
+      <span class="mt-1 text-xs text-slate-500">
+
+        PDF, XLS, XLSX or CSV
+
+      </span>
+
+      <input
+        type="file"
+        hidden
+        accept=".pdf,.csv,.xls,.xlsx"
+        (change)="onFileSelected($event)">
+
+    </label>
+
+    @if(selectedFile){
+
+    <div
+      class="mt-3 rounded-lg bg-green-50 px-4 py-3 text-sm text-green-700">
+
+      ✔ {{ selectedFile.name }}
+
+    </div>
+
+    }
+
+  </div>
+
+  <!-- Footer -->
+
+  <div class="flex justify-end gap-3 border-t border-gray-200 pt-5">
+
+    <button
+      type="button"
+      (click)="cancel()"
+      class="rounded-lg bg-gray-100 px-6 py-2 text-sm font-medium hover:bg-gray-200">
+
+      Cancel
+
+    </button>
+
+    <button
+      type="submit"
+      class="rounded-lg bg-red-800 px-6 py-2 text-sm font-medium text-white hover:bg-red-900">
+
+      Upload Statement
+
+    </button>
+
+  </div>
+
+</form>

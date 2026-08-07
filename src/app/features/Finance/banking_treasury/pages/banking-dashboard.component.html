@@ -1,22 +1,66 @@
-<div>
+<div class="flex flex-col gap-6">
 
-  <!-- Treasury Header -->
-  <div class="mb-5">
-    <app-treasury-header
-      (bankChanged)="onBankChanged($event)">
-    </app-treasury-header>
-  </div>
+  <!-- Header -->
 
-  <!-- Bank Accounts -->
-  <div class="mb-5">
-    <app-bank-accounts>
-    </app-bank-accounts>
-  </div>
+  <app-treasury-header
+    (bankChanged)="onBankChanged($event)"
+    (tabChanged)="changeTab($event)">
+  </app-treasury-header>
 
-  <!-- Reconciliation Center -->
-  <div>
-    <app-reconciliation-center>
-    </app-reconciliation-center>
-  </div>
+  <!-- ====================================================== -->
+  <!-- Dashboard -->
+  <!-- ====================================================== -->
+
+  @if (selectedTab() === 'Dashboard') {
+
+    <app-treasury-dashboard-cards></app-treasury-dashboard-cards>
+
+    <app-bank-balance-chart></app-bank-balance-chart>
+
+    <app-cash-position-summary></app-cash-position-summary>
+
+  }
+
+  <!-- ====================================================== -->
+  <!-- Accounts -->
+  <!-- ====================================================== -->
+
+  @if (selectedTab() === 'Accounts') {
+
+    <app-bank-accounts></app-bank-accounts>
+
+  }
+
+  <!-- ====================================================== -->
+  <!-- Reconciliation -->
+  <!-- ====================================================== -->
+
+  @if (selectedTab() === 'Reconciliation') {
+
+    <app-reconciliation-center></app-reconciliation-center>
+
+    <app-reconciliation-history></app-reconciliation-history>
+
+  }
+
+  <!-- ====================================================== -->
+  <!-- Payments -->
+  <!-- ====================================================== -->
+
+  @if (selectedTab() === 'Payments') {
+
+    <app-payment-approval-table></app-payment-approval-table>
+
+  }
+
+  <!-- ====================================================== -->
+  <!-- Statements -->
+  <!-- ====================================================== -->
+
+  @if (selectedTab() === 'Statements') {
+
+    <app-statement-upload></app-statement-upload>
+
+  }
 
 </div>

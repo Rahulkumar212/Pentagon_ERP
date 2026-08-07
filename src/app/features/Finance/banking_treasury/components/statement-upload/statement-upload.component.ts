@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 interface UploadedStatement {
@@ -22,6 +22,12 @@ interface UploadedStatement {
   templateUrl: './statement-upload.component.html'
 })
 export class StatementUploadComponent {
+
+   @Input()
+  bank: any = null;
+
+  @Output()
+  close = new EventEmitter<void>();
 
   banks = [
     'HDFC Corporate Checking',

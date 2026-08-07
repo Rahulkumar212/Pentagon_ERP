@@ -1,5 +1,11 @@
 import { CommonModule } from '@angular/common';
-import { Component, signal } from '@angular/core';
+import {
+  Component,
+  signal
+} from '@angular/core';
+
+import { AddBankAccountComponent } from '../../forms/add-bank-account/add-bank-account.component';
+import { UploadBankStatementComponent } from '../../forms/upload-bank-statement/upload-bank-statement.component';
 
 interface BankAccount {
 
@@ -19,14 +25,15 @@ interface BankAccount {
   selector: 'app-bank-accounts',
   standalone: true,
   imports: [
-    CommonModule
+    CommonModule,
+    AddBankAccountComponent,
+    UploadBankStatementComponent
   ],
   templateUrl: './bank-accounts.component.html'
 })
 export class BankAccountsComponent {
 
   banks = signal<BankAccount[]>([
-
     {
       id: 1,
       type: 'CHECKING',
@@ -34,7 +41,6 @@ export class BankAccountsComponent {
       accountNo: '**** **** **** 8820',
       balance: 340800
     },
-
     {
       id: 2,
       type: 'CURRENT',
@@ -42,7 +48,6 @@ export class BankAccountsComponent {
       accountNo: '**** **** **** 4572',
       balance: 215900
     },
-
     {
       id: 3,
       type: 'TREASURY',
@@ -50,14 +55,59 @@ export class BankAccountsComponent {
       accountNo: '**** **** **** 9914',
       balance: 152450
     }
-
   ]);
 
   selectedBank = signal(1);
 
+  selectedBankData = signal<BankAccount | null>(null);
+
+  showAddBankModal = signal(false);
+
+  showUploadStatementModal = signal(false);
+
   selectBank(id: number): void {
 
     this.selectedBank.set(id);
+
+  }
+
+  openAddBankAccount(): void {
+
+    this.selectedBankData.set(null);
+
+    this.showAddBankModal.set(true);
+
+  }
+
+  editBank(bank: BankAccount): void {
+
+    this.selectedBankData.set(bank);
+
+    this.showAddBankModal.set(true);
+
+  }
+
+  uploadStatement(bank: BankAccount): void {
+
+    this.selectedBankData.set(bank);
+
+    this.showUploadStatementModal.set(true);
+
+  }
+
+  viewBank(bank: BankAccount): void {
+
+    console.log(bank);
+
+  }
+
+  closeModals(): void {
+
+    this.showAddBankModal.set(false);
+
+    this.showUploadStatementModal.set(false);
+
+    this.selectedBankData.set(null);
 
   }
 

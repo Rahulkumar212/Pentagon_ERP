@@ -7,25 +7,31 @@
     <div>
 
       <h2 class="text-sm font-semibold text-slate-900">
-
         Payment Approval Queue
-
       </h2>
 
       <p class="mt-1 text-xs text-slate-500">
-
         Pending vendor payments awaiting finance approval.
-
       </p>
 
     </div>
 
-    <span
-      class="rounded-full bg-yellow-100 px-3 py-1 text-[11px] font-semibold text-yellow-700">
+    <div class="flex items-center gap-3">
 
-      {{ payments().length }} Requests
+      <span class="rounded-full bg-yellow-100 px-3 py-1 text-[11px] font-semibold text-yellow-700">
 
-    </span>
+        {{ payments().length }} Requests
+
+      </span>
+
+      <button (click)="openCreatePayment()"
+        class="rounded-lg bg-red-800 px-4 py-2 text-xs font-semibold text-white transition hover:bg-red-900">
+
+        + Create Payment
+
+      </button>
+
+    </div>
 
   </div>
 
@@ -38,51 +44,35 @@
       <tr>
 
         <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
-
           Vendor
-
         </th>
 
         <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
-
           Invoice
-
         </th>
 
         <th class="px-5 py-3 text-left text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
-
           Type
-
         </th>
 
         <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
-
           Due Date
-
         </th>
 
         <th class="px-5 py-3 text-right text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
-
           Amount
-
         </th>
 
         <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
-
           Priority
-
         </th>
 
         <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
-
           Status
-
         </th>
 
         <th class="px-5 py-3 text-center text-[10px] font-bold uppercase tracking-[0.18em] text-slate-500">
-
           Action
-
         </th>
 
       </tr>
@@ -96,57 +86,35 @@
       <tr class="border-b border-gray-100 hover:bg-slate-50">
 
         <td class="px-5 py-4">
-
           <p class="text-sm font-semibold">
-
             {{ payment.vendor }}
-
           </p>
-
         </td>
 
         <td class="px-5 py-4">
-
           <p class="text-sm">
-
             {{ payment.invoiceNo }}
-
           </p>
-
         </td>
 
         <td class="px-5 py-4 text-sm text-slate-600">
-
           {{ payment.paymentType }}
-
         </td>
 
         <td class="px-5 py-4 text-center text-sm">
-
           {{ payment.dueDate }}
-
         </td>
 
         <td class="px-5 py-4 text-right font-semibold">
-
           ₹{{ payment.amount | number }}
-
         </td>
 
         <td class="px-5 py-4 text-center">
 
-          <span
-
-            class="rounded-full px-3 py-1 text-[10px] font-semibold"
-
-            [ngClass]="{
-
+          <span class="rounded-full px-3 py-1 text-[10px] font-semibold" [ngClass]="{
               'bg-red-100 text-red-700': payment.priority === 'High',
-
               'bg-yellow-100 text-yellow-700': payment.priority === 'Medium',
-
               'bg-green-100 text-green-700': payment.priority === 'Low'
-
             }">
 
             {{ payment.priority }}
@@ -157,18 +125,10 @@
 
         <td class="px-5 py-4 text-center">
 
-          <span
-
-            class="rounded-full px-3 py-1 text-[10px] font-semibold"
-
-            [ngClass]="{
-
+          <span class="rounded-full px-3 py-1 text-[10px] font-semibold" [ngClass]="{
               'bg-yellow-100 text-yellow-700': payment.status === 'Pending',
-
               'bg-green-100 text-green-700': payment.status === 'Approved',
-
               'bg-red-100 text-red-700': payment.status === 'Rejected'
-
             }">
 
             {{ payment.status }}
@@ -183,20 +143,14 @@
 
           <div class="flex justify-center gap-2">
 
-            <button
-
-              (click)="approve(payment)"
-
+            <button (click)="approve(payment)"
               class="rounded bg-green-50 px-3 py-1 text-[11px] font-semibold text-green-700 hover:bg-green-100">
 
               Approve
 
             </button>
 
-            <button
-
-              (click)="reject(payment)"
-
+            <button (click)="reject(payment)"
               class="rounded bg-red-50 px-3 py-1 text-[11px] font-semibold text-red-700 hover:bg-red-100">
 
               Reject
@@ -207,15 +161,19 @@
 
           } @else {
 
-          <div class="flex justify-center">
+          <div class="flex justify-center gap-2">
 
-            <button
-
-              (click)="view(payment)"
-
+            <button (click)="view(payment)"
               class="rounded bg-slate-100 px-3 py-1 text-[11px] font-medium hover:bg-slate-200">
 
               View
+
+            </button>
+
+            <button (click)="editPayment(payment)"
+              class="rounded bg-blue-50 px-3 py-1 text-[11px] font-medium text-blue-700 hover:bg-blue-100">
+
+              Edit
 
             </button>
 
@@ -234,3 +192,21 @@
   </table>
 
 </div>
+
+<!-- Payment Form Modal -->
+
+@if(showPaymentApprovalModal()){
+
+<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-6">
+
+  <div class="max-h-[90vh] w-full max-w-4xl overflow-y-auto rounded-xl bg-white shadow-2xl">
+
+    <app-payment-approval-form [payment]="selectedPayment()" (close)="closeModal()">
+    </app-payment-approval-form>
+
+
+  </div>
+
+</div>
+
+}
