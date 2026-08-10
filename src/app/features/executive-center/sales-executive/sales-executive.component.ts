@@ -1,5 +1,4 @@
 import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
 
 import {
   ExecutiveCard,
@@ -11,16 +10,17 @@ import { CustomerDiscussionFormComponent } from './forms/customer-discussion-for
 import { DashboardService } from '../../../core/services/executive.service';
 import { ExecutiveLayoutComponent } from '../../../layouts/executive-layout/executive-layout.component';
 import { OrganizationTableComponent } from '../../client-crm/tables/organization-table.component';
+import { TelecallingTable } from "../../client-crm/tables/telecalling-table/telecalling-table";
 
 @Component({
   selector: 'app-sales-executive',
   standalone: true,
   imports: [
-    CommonModule,
     CustomerDiscussionFormComponent,
     ExecutiveLayoutComponent,
-    OrganizationTableComponent
-  ],
+    OrganizationTableComponent,
+    TelecallingTable
+],
   templateUrl: './sales-executive.component.html'
 })
 export class SalesExecutiveComponent implements OnInit {

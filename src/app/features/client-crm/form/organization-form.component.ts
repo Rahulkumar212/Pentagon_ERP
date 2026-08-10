@@ -1,41 +1,38 @@
-import {
-  Component,
-  EventEmitter,
-  Output,
-  inject
-} from '@angular/core';
 
-import {
-  FormBuilder,
-  ReactiveFormsModule,
-  Validators
-} from '@angular/forms';
+import { Component, EventEmitter, Output, inject } from '@angular/core';
+import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
+import { MatTabsModule } from '@angular/material/tabs';
+import { MatTabChangeEvent } from '@angular/material/tabs';
 
-import { CommonModule } from '@angular/common';
-
-import {
-  SalesVisitPayload,
-  VisitType,
-  LeadType
-} from '../../../core/models/client-crm.type';
+import { SalesVisitPayload, VisitType, LeadType } from '../../../core/models/client-crm.type';
 
 import { OrganizationService } from '../../../core/services/organization.service';
 
 @Component({
   selector: 'app-organization-form',
   standalone: true,
-  imports: [
-    CommonModule,
-    ReactiveFormsModule
-  ],
-  templateUrl: './organization-form.component.html'
+  imports: [ ReactiveFormsModule, MatTabsModule],
+  templateUrl: './organization-form.component.html',
 })
 export class OrganizationFormComponent {
+  selectedTab = 0;
 
+  onTabChange(event: MatTabChangeEvent): void {
+  this.selectedTab = event.index;
+
+  if (event.index === 0) {
+    this.organizationForm.patchValue({
+      visit_type: 'TELECALL'
+    });
+  } else {
+    this.organizationForm.patchValue({
+      visit_type: 'COLD'
+    });
+  }
+}
   private readonly fb = inject(FormBuilder);
 
-  private readonly organizationService =
-    inject(OrganizationService);
+  private readonly organizationService = inject(OrganizationService);
 
   @Output()
   save = new EventEmitter<SalesVisitPayload>();
@@ -44,172 +41,96 @@ export class OrganizationFormComponent {
 
   isSubmitting = false;
 
-  organizationForm =
-    this.fb.nonNullable.group({
+  organizationForm = this.fb.nonNullable.group({
+    executive_name: ['', Validators.required],
 
-      executive_name: [
-        '',
-        Validators.required
-      ],
+    designation: ['', Validators.required],
 
-      designation: [
-        '',
-        Validators.required
-      ],
+    visit_date: ['', Validators.required],
 
-      visit_date: [
-        '',
-        Validators.required
-      ],
+    visit_type: ['' as VisitType, Validators.required],
 
-      visit_type: [
-        '' as VisitType,
-        Validators.required
-      ],
+    lead_type: ['' as LeadType, Validators.required],
 
-      lead_type: [
-        '' as LeadType,
-        Validators.required
-      ],
+    customer_name: ['', Validators.required],
 
-      customer_name: [
-        '',
-        Validators.required
-      ],
+    customer_address: ['', Validators.required],
 
-      customer_address: [
-        '',
-        Validators.required
-      ],
+    contact_person: ['', Validators.required],
 
-      contact_person: [
-        '',
-        Validators.required
-      ],
+    contact_number: ['', Validators.required],
 
-      contact_number: [
-        '',
-        Validators.required
-      ],
+    customer_email: ['', [Validators.required, Validators.email]],
 
-      customer_email: [
-        '',
-        [
-          Validators.required,
-          Validators.email
-        ]
-      ],
+    product_type: ['', Validators.required],
 
-      product_type: [
-        '',
-        Validators.required
-      ],
+    product_description: ['', Validators.required],
 
-      product_description: [
-        '',
-        Validators.required
-      ],
+    quantity: [1, [Validators.required, Validators.min(1)]],
 
-      quantity: [
-        1,
-        [
-          Validators.required,
-          Validators.min(1)
-        ]
-      ],
-
-      remarks: ['']
-    });
+    remarks: [''],
+  });
 
   onSubmit(): void {
-
     if (this.organizationForm.invalid) {
-
       this.organizationForm.markAllAsTouched();
 
       return;
     }
 
-    const formValue =
-      this.organizationForm.getRawValue();
+    const formValue = this.organizationForm.getRawValue();
 
     const payload: SalesVisitPayload = {
+      executive_name: formValue.executive_name.trim(),
 
-      executive_name:
-        formValue.executive_name.trim(),
+      designation: formValue.executive_name.trim(),
 
-        designation:
-        formValue.executive_name.trim(),
+      visit_date: formValue.visit_date,
 
-      visit_date:
-        formValue.visit_date,
+      visit_type: formValue.visit_type as VisitType,
 
-      visit_type:
-        formValue.visit_type as VisitType,
+      lead_type: formValue.lead_type as LeadType,
 
-      lead_type:
-        formValue.lead_type as LeadType,
+      customer_name: formValue.customer_name.trim(),
 
-      customer_name:
-        formValue.customer_name.trim(),
+      customer_address: formValue.customer_address.trim(),
 
-      customer_address:
-        formValue.customer_address.trim(),
+      contact_person: formValue.contact_person.trim(),
 
-      contact_person:
-        formValue.contact_person.trim(),
+      contact_number: formValue.contact_number.trim(),
 
-      contact_number:
-        formValue.contact_number.trim(),
+      customer_email: formValue.customer_email.trim(),
 
-      customer_email:
-        formValue.customer_email.trim(),
+      product_type: formValue.product_type.trim(),
 
-      product_type:
-        formValue.product_type.trim(),
+      product_description: formValue.product_description.trim(),
 
-      product_description:
-        formValue.product_description.trim(),
+      quantity: formValue.quantity,
 
-      quantity:
-        formValue.quantity,
-
-      remarks:
-        formValue.remarks?.trim() ?? ''
+      remarks: formValue.remarks?.trim() ?? '',
     };
 
     this.isSubmitting = true;
 
-    this.organizationService
-      .createSalesVisit(payload)
-      .subscribe({
+    this.organizationService.createSalesVisit(payload).subscribe({
+      next: (response) => {
+        console.log('Sales Visit Created', response);
 
-        next: (response) => {
+        this.isSubmitting = false;
 
-          console.log(
-            'Sales Visit Created',
-            response
-          );
+        this.save.emit(payload);
 
-          this.isSubmitting = false;
+        this.resetForm();
 
-          this.save.emit(payload);
+        this.showOrganizationModal = false;
+      },
 
-          this.resetForm();
+      error: (error) => {
+        console.error('Create Sales Visit Error', error);
 
-          this.showOrganizationModal = false;
-        },
-
-        error: (error) => {
-
-          console.error(
-            'Create Sales Visit Error',
-            error
-          );
-
-          this.isSubmitting = false;
-        }
-      });
+        this.isSubmitting = false;
+      },
+    });
   }
 
   @Output()
@@ -220,18 +141,14 @@ export class OrganizationFormComponent {
   }
 
   private resetForm(): void {
-
     this.organizationForm.reset({
-
       executive_name: '',
-      designation:'',
+      designation: '',
       visit_date: '',
 
-      visit_type:
-        '' as VisitType,
+      visit_type: '' as VisitType,
 
-      lead_type:
-        '' as LeadType,
+      lead_type: '' as LeadType,
 
       customer_name: '',
       customer_address: '',
@@ -244,7 +161,7 @@ export class OrganizationFormComponent {
 
       quantity: 1,
 
-      remarks: ''
+      remarks: '',
     });
   }
 }

@@ -17,15 +17,17 @@ import {
 import {
   SalesVisitPayload
 } from '../../core/models/client-crm.type';
+import { TelecallingTable } from "./tables/telecalling-table/telecalling-table";
 
 @Component({
   selector: 'app-client-crm',
   standalone: true,
   imports: [
-    CommonModule,
     OrganizationFormComponent,
-    OrganizationTableComponent
-  ],
+    OrganizationTableComponent,
+    TelecallingTable,
+    CommonModule  
+],
   templateUrl: './client-crm.component.html'
 })
 export class ClientCrmComponent {

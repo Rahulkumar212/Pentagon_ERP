@@ -35,7 +35,6 @@ import {
   selector: 'app-organization-table',
   standalone: true,
   imports: [
-    CommonModule,
     CallDiscussionFormComponent,
     CallDiscussionViewComponent
   ],
