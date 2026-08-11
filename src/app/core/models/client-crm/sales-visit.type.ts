@@ -1,5 +1,5 @@
 export type VisitType = 'COLD'
-  
+
 
 export type VisitStatus =
   | 'OPEN'

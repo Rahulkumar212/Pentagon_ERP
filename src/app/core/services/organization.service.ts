@@ -35,15 +35,33 @@ export class OrganizationService extends BaseApiService {
   // CREATE SALES VISIT / TELECALLING
   // =====================================================
 
-  createSalesVisit(
-    payload: SalesVisitPayload | TelecallingPayload
-  ): Observable<SalesVisit> {
+ createSalesVisit(
+  payload: SalesVisitPayload | TelecallingPayload
+): Observable<SalesVisit> {
 
-    return this.http.post<SalesVisit>(
-      `${this.API_URL}/create`,
-      payload
-    );
-  }
+  const formData = new FormData();
+
+  Object.entries(payload).forEach(([key, value]) => {
+
+    if (key === 'meeting_photo') {
+
+      if (value instanceof File) {
+        formData.append('meeting_photo', value);
+      }
+
+      return;
+    }
+
+    if (value !== null && value !== undefined) {
+      formData.append(key, String(value));
+    }
+  });
+
+  return this.http.post<SalesVisit>(
+    `${this.API_URL}/create`,
+    formData
+  );
+}
 
   // =====================================================
   // GET SALES VISITS

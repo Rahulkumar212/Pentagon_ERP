@@ -35,6 +35,7 @@ import {
   selector: 'app-organization-table',
   standalone: true,
   imports: [
+    CommonModule,
     CallDiscussionFormComponent,
     CallDiscussionViewComponent
   ],
@@ -49,9 +50,6 @@ export class OrganizationTableComponent implements OnInit {
   status?: 'FAILED' | 'CONVERTED';
 
   @Input()
-  showBillingColumns = false;
-
-  @Input()
   fetchType: 'MY_VISITS' | 'ALL_VISITS' = 'MY_VISITS';
 
   salesVisits: SalesVisit[] = [];
@@ -60,7 +58,6 @@ export class OrganizationTableComponent implements OnInit {
 
   selectedDiscussion: CallDiscussion | null = null;
 
-  // Modals
   showCallModal = false;
 
   showViewModal = false;
@@ -74,11 +71,17 @@ export class OrganizationTableComponent implements OnInit {
   private readonly cdr =
     inject(ChangeDetectorRef);
 
+  // =====================================================
+  // INIT
+  // =====================================================
+
   ngOnInit(): void {
-
     this.loadSalesVisits();
-
   }
+
+  // =====================================================
+  // LOAD SALES VISITS
+  // =====================================================
 
   loadSalesVisits(): void {
 
@@ -93,100 +96,127 @@ export class OrganizationTableComponent implements OnInit {
 
         const data = response.data ?? [];
 
+        /*
+         * Physical Meeting table me sirf
+         * visit_type = COLD records dikhayenge.
+         */
+        let physicalVisits = data.filter(
+          visit => visit.visit_type === 'COLD'
+        );
+
+        /*
+         * Agar user/editor nahi hai,
+         * to sirf CONVERTED / FAILED records dikhayenge.
+         */
         if (!this.canEdit) {
 
-          this.salesVisits = data.filter(
+          physicalVisits = physicalVisits.filter(
             visit =>
               visit.status === 'CONVERTED' ||
               visit.status === 'FAILED'
           );
-
-        } else {
-
-          this.salesVisits = data;
-
         }
 
-        this.cdr.detectChanges();
+        /*
+         * Optional status filter.
+         *
+         * Agar parent component se status diya gaya hai,
+         * to uske according bhi filter karenge.
+         */
+        if (this.status) {
 
+          physicalVisits = physicalVisits.filter(
+            visit => visit.status === this.status
+          );
+        }
+
+        this.salesVisits = physicalVisits;
+
+        this.cdr.detectChanges();
       },
 
       error: err => {
-
-        console.error(err);
-
+        console.error(
+          'Failed to load physical sales visits:',
+          err
+        );
       }
 
     });
-
   }
 
-  // ==========================
-  // Add Call
-  // ==========================
+  // =====================================================
+  // ADD CALL
+  // =====================================================
 
-  addCall(
-    visit: SalesVisit
-  ): void {
+  addCall(visit: SalesVisit): void {
 
     this.selectedVisit = visit;
 
     this.showCallModal = true;
-
   }
+
+  // =====================================================
+  // CLOSE CALL MODAL
+  // =====================================================
 
   closeCallModal(): void {
 
     this.showCallModal = false;
 
     this.selectedVisit = null;
-
   }
 
-  // ==========================
-  // View Call History
-  // ==========================
+  // =====================================================
+  // VIEW CALL HISTORY
+  // =====================================================
 
   viewHistory(visit: SalesVisit): void {
 
-  this.organizationService
-    .getCallDiscussionHistory(visit.id)
-    .subscribe({
+    this.organizationService
+      .getCallDiscussionHistory(visit.id)
+      .subscribe({
 
-      next: (response: CallDiscussionResponse) => {
+        next: (response: CallDiscussionResponse) => {
 
-        this.selectedDiscussion = response.data[0] ?? null;
+          this.selectedDiscussion =
+            response.data?.[0] ?? null;
 
-        this.showViewModal = true;
+          this.showViewModal =
+            this.selectedDiscussion !== null;
+        },
 
-      },
+        error: err => {
 
-      error: err => {
+          console.error(
+            'Failed to load call discussion history:',
+            err
+          );
 
-        console.error(err);
+        }
 
-      }
+      });
+  }
 
-    });
-
-}
+  // =====================================================
+  // CLOSE VIEW MODAL
+  // =====================================================
 
   closeViewModal(): void {
 
-  this.showViewModal = false;
+    this.showViewModal = false;
 
-  this.selectedDiscussion = null;
+    this.selectedDiscussion = null;
+  }
 
-}
-
-  // ==========================
+  // =====================================================
+  // AFTER CALL UPDATED
+  // =====================================================
 
   onUpdated(): void {
 
     this.closeCallModal();
 
     this.loadSalesVisits();
-
   }
-
 }

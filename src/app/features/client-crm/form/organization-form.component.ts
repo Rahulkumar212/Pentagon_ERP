@@ -83,6 +83,14 @@ export class OrganizationFormComponent {
   ];
 
   // =====================================================
+  // MEETING PHOTO
+  // =====================================================
+
+  selectedMeetingPhoto: File | null = null;
+
+  meetingPhotoUrl: string | null = null;
+
+  // =====================================================
   // TAB CHANGE
   // =====================================================
 
@@ -303,7 +311,7 @@ export class OrganizationFormComponent {
     ],
 
     meeting_photo: [
-      null as File | null
+      ''
     ]
   });
 
@@ -496,9 +504,13 @@ export class OrganizationFormComponent {
       additional_remarks:
         formValue.additional_remarks.trim(),
 
-      meeting_photo:
-        formValue.meeting_photo
+     meeting_photo: this.selectedMeetingPhoto
     };
+
+    console.log(
+      'Sales Visit Payload:',
+      payload
+    );
 
     this.isSubmitting = true;
 
@@ -535,7 +547,7 @@ export class OrganizationFormComponent {
   }
 
   // =====================================================
-  // MEETING PHOTO
+  // MEETING PHOTO CHANGE
   // =====================================================
 
   onMeetingPhotoChange(event: Event): void {
@@ -546,9 +558,50 @@ export class OrganizationFormComponent {
     const file =
       input.files?.[0] ?? null;
 
-    this.salesVisitForm.patchValue({
-      meeting_photo: file
-    });
+    this.selectedMeetingPhoto = file;
+
+    if (!file) {
+
+      this.meetingPhotoUrl = null;
+
+      this.salesVisitForm.patchValue({
+        meeting_photo: ''
+      });
+
+      return;
+    }
+
+    /*
+     * IMPORTANT:
+     *
+     * File ko direct JSON payload me nahi bhejna.
+     *
+     * FileReader se temporary/local URL generate kar rahe hain.
+     *
+     * Lekin production me backend/cloud storage se
+     * actual URL milna chahiye.
+     */
+
+    const reader = new FileReader();
+
+    reader.onload = () => {
+
+      const result =
+        reader.result as string;
+
+      this.meetingPhotoUrl = result;
+
+      this.salesVisitForm.patchValue({
+        meeting_photo: result
+      });
+
+      console.log(
+        'Meeting Photo URL:',
+        this.meetingPhotoUrl
+      );
+    };
+
+    reader.readAsDataURL(file);
   }
 
   // =====================================================
@@ -605,6 +658,10 @@ export class OrganizationFormComponent {
 
   private resetSalesVisitForm(): void {
 
+    this.selectedMeetingPhoto = null;
+
+    this.meetingPhotoUrl = null;
+
     this.salesVisitForm.reset({
 
       executive_name: '',
@@ -654,7 +711,7 @@ export class OrganizationFormComponent {
 
       additional_remarks: '',
 
-      meeting_photo: null
+      meeting_photo: ''
     });
   }
 }

@@ -9,7 +9,7 @@ export interface TelecallingPayload {
 
   visit_date: string;
 
-  visit_type: 'TELECALL';
+ visit_type: 'TELECALL';
 
   customer_name: string;
 
