@@ -1,9 +1,7 @@
 export type VisitType =
   | 'COLD'
-  | 'REPEAT'
-  | 'TELECALL';
 
-  export type LeadType =
+export type LeadType =
   | 'HOT_PROSPECTS'
   | 'WARM_PROSPECTS';
 
@@ -16,34 +14,108 @@ export type VisitStatus =
   | 'CONVERTED'
   | 'FAILED';
 
+
+export type ClientType =
+  | 'NEW'
+  | 'EXISTING';
+
+export type LeadPriority =
+  | 'HOT'
+  | 'WARM'
+  | 'COLD';
+
+export type ProposalStatus =
+  | 'YES'
+  | 'NO';
+
+export type OrderStatus =
+  | 'YES'
+  | 'NO';
+
+export type ManagementSupport =
+  | 'YES'
+  | 'NO'
+  | 'OTHER';
+
+export type ActivityType =
+  | 'MEETING'
+  | 'FOLLOW_UP'
+  | 'PROPOSAL_SUBMISSION'
+  | 'PAYMENT_COLLECTION'
+  | 'SITE_VISIT'
+  | 'ORDER_CLOSING'
+  | 'COMPLAINT_RESOLUTION'
+  | 'INSTALLATION_COORDINATION'
+  | 'OTHER';
+
+export type SalesActivityStatus =
+  | 'INTERESTED'
+  | 'PROPOSAL_FOLLOW_UP'
+  | 'NEGOTIATION'
+  | 'PROPOSAL_SENT'
+  | 'ORDER_CLOSED'
+  | 'NOT_INTERESTED'
+  | 'FUTURE_OPPORTUNITY';
+
+
 export interface SalesVisitPayload {
 
   executive_name: string;
-
   designation: string;
 
   visit_date: string;
-
   visit_type: VisitType;
 
   customer_name: string;
-
   customer_address: string;
-
   contact_person: string;
-
   contact_number: string;
-
   customer_email: string;
+  city: string;
+  
 
   product_type: string;
-
   product_description: string;
-
   quantity: number;
 
   remarks: string;
   lead_type: LeadType;
+
+  // Missing fields
+  reporting_location: string;
+  activity_type: string;
+
+  client_type: 'NEW' | 'EXISTING';
+
+  lead_priority: LeadPriority;
+
+  discussion_summary: string;
+
+  current_status: string;
+
+  expected_business_value: number;
+
+  proposal_sent: 'YES' | 'NO';
+
+  order_closed: 'YES' | 'NO';
+
+  expected_closure_date: string;
+
+  next_followup_date: string;
+
+  management_support_required: 'YES' | 'NO' | 'OTHER';
+
+  additional_remarks: string;
+
+  meeting_photo?: File | null;
+
+  total_calls_made: number;
+
+  connected_calls: number;
+
+  meetings_scheduled: number;
+
+  new_leads_generated: number;
 }
 
 export interface SalesVisit
@@ -75,9 +147,9 @@ export type LeadResponse =
   SalesVisitResponse;
 
 
-  export interface UpdateSalesVisitPayload {
+export interface UpdateSalesVisitPayload {
 
-   status: string;
+  status: string;
 
   closure_date: string;
 
@@ -153,7 +225,7 @@ export interface CallDiscussionPayload {
 /* ================= CALL DISCUSSION ================= */
 
 export interface CallDiscussion
-extends CallDiscussionPayload {
+  extends CallDiscussionPayload {
 
   id: number;
 
@@ -163,11 +235,11 @@ extends CallDiscussionPayload {
 
   approval_status: ApprovalStatus;
 
-  approved_by:string;
+  approved_by: string;
 
-  approved_date:string;
+  approved_date: string;
 
-  management_remarks:string;
+  management_remarks: string;
 
   createdAt?: string;
 

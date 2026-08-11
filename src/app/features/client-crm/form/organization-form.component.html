@@ -1,15 +1,23 @@
-<form [formGroup]="organizationForm" (ngSubmit)="onSubmit()">
+<mat-tab-group
+  [selectedIndex]="selectedTab"
+  (selectedTabChange)="onTabChange($event)"
+>
 
-  <!-- ================= TABS ================= -->
-  <mat-tab-group (selectedTabChange)="onTabChange($event)">
+  <!-- ===================================================== -->
+  <!-- TELECALLING -->
+  <!-- ===================================================== -->
 
-    <mat-tab label="Sales Telecalling">
+  <mat-tab label="Sales Telecalling">
 
-      <!-- ================= SALES TELECALLING ================= -->
+    <form
+      [formGroup]="telecallingForm"
+      (ngSubmit)="onSubmit()"
+      novalidate
+    >
 
+      <!-- Employee Information -->
       <div class="flex-1 overflow-y-auto px-4 md:px-8 py-6 bg-gray-50">
 
-        <!-- Employee Information -->
         <div class="bg-white rounded-xl border p-5">
 
           <h3 class="text-lg font-semibold mb-5">
@@ -18,49 +26,84 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
+            <!-- Employee -->
             <div>
+
               <label class="block text-sm font-medium mb-2">
                 Employee Name *
               </label>
 
-              <select class="w-full rounded-lg border px-4 py-3">
+              <select
+                formControlName="executive_name"
+                class="w-full rounded-lg border px-4 py-3"
+              >
 
-                <option value="">Select Name</option>
-                <option value="Durga Shankar Mishra">Durga Shankar Mishra</option>
-                <option value="Gaurav Shukla">Gaurav Shukla</option>
-                <option value="Sheikh Rizwan Ali">Sheikh Rizwan Ali</option>
-                <option value="Sunil Patle">Sunil Patle</option>
-                <option value="Rajesh Pathak">Rajesh Pathak</option>
-                <option value="Monika">Monika</option>
-                <option value="Yatendra">Yatendra</option>
-                <option value="Shivam">Shivam</option>
-                <option value="Vanshika">Vanshika</option>
+                <option value="">
+                  Select Name
+                </option>
+
+                <option value="Durga Shankar Mishra">
+                  Durga Shankar Mishra
+                </option>
+
+                <option value="Gaurav Shukla">
+                  Gaurav Shukla
+                </option>
+
+                <option value="Sheikh Rizwan Ali">
+                  Sheikh Rizwan Ali
+                </option>
+
+                <option value="Sunil Patle">
+                  Sunil Patle
+                </option>
+
+                <option value="Rajesh Pathak">
+                  Rajesh Pathak
+                </option>
+
+                <option value="Monika">
+                  Monika
+                </option>
+
+                <option value="Yatendra">
+                  Yatendra
+                </option>
+
+                <option value="Shivam">
+                  Shivam
+                </option>
+
+                <option value="Vanshika">
+                  Vanshika
+                </option>
 
               </select>
+
             </div>
 
-            <!-- <div>
-              <label class="block text-sm font-medium mb-2">
-                Designation *
-              </label>
 
-              <input type="text" class="w-full rounded-lg border px-4 py-3">
-            </div> -->
-
+            <!-- Date -->
             <div>
+
               <label class="block text-sm font-medium mb-2">
                 Date of Activity Report *
               </label>
 
-              <input type="date" class="w-full rounded-lg border px-4 py-3">
+              <input
+                type="date"
+                formControlName="visit_date"
+                class="w-full rounded-lg border px-4 py-3"
+              />
+
             </div>
 
           </div>
 
         </div>
 
-        <!-- Daily Call Summary -->
 
+        <!-- Daily Call Summary -->
         <div class="bg-white rounded-xl border p-5 mt-6">
 
           <h3 class="text-lg font-semibold mb-5">
@@ -69,68 +112,79 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
+            <!-- Total Calls -->
             <div>
+
               <label class="block text-sm font-medium mb-2">
                 Total Calls Made *
               </label>
 
-              <input type="number" class="w-full rounded-lg border px-4 py-3">
+              <input
+                type="number"
+                formControlName="total_calls_made"
+                min="0"
+                class="w-full rounded-lg border px-4 py-3"
+              />
+
             </div>
 
+
+            <!-- Connected Calls -->
             <div>
+
               <label class="block text-sm font-medium mb-2">
                 Connected Calls *
               </label>
 
-              <input type="number" class="w-full rounded-lg border px-4 py-3">
+              <input
+                type="number"
+                formControlName="connected_calls"
+                min="0"
+                class="w-full rounded-lg border px-4 py-3"
+              />
+
             </div>
 
-            <!-- <div>
-              <label class="block text-sm font-medium mb-2">
-                Cold Calls *
-              </label>
 
-              <input type="number" class="w-full rounded-lg border px-4 py-3">
-            </div>
-
+            <!-- Meetings -->
             <div>
-              <label class="block text-sm font-medium mb-2">
-                Hot Lead Follow-ups *
-              </label>
 
-              <input type="number" class="w-full rounded-lg border px-4 py-3">
-            </div> -->
-
-            <div>
               <label class="block text-sm font-medium mb-2">
                 Meetings Scheduled *
               </label>
 
-              <input type="number" class="w-full rounded-lg border px-4 py-3">
+              <input
+                type="number"
+                formControlName="meetings_scheduled"
+                min="0"
+                class="w-full rounded-lg border px-4 py-3"
+              />
+
             </div>
 
-            <!-- <div>
-              <label class="block text-sm font-medium mb-2">
-                Meetings Done *
-              </label>
 
-              <input type="number" class="w-full rounded-lg border px-4 py-3">
-            </div> -->
-
+            <!-- Leads -->
             <div>
+
               <label class="block text-sm font-medium mb-2">
                 New Leads Generated *
               </label>
 
-              <input type="number" class="w-full rounded-lg border px-4 py-3">
+              <input
+                type="number"
+                formControlName="new_leads_generated"
+                min="0"
+                class="w-full rounded-lg border px-4 py-3"
+              />
+
             </div>
 
           </div>
 
         </div>
 
-        <!-- Client Information -->
 
+        <!-- Client Information -->
         <div class="bg-white rounded-xl border p-5 mt-6">
 
           <h3 class="text-lg font-semibold mb-5">
@@ -139,69 +193,132 @@
 
           <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
 
+            <!-- Client Name -->
             <div>
+
               <label class="block text-sm font-medium mb-2">
                 Client Name *
               </label>
 
-              <input type="text" class="w-full rounded-lg border px-4 py-3">
+              <input
+                type="text"
+                formControlName="customer_name"
+                class="w-full rounded-lg border px-4 py-3"
+              />
+
             </div>
 
+
+            <!-- Contact Person -->
             <div>
+
               <label class="block text-sm font-medium mb-2">
                 Contact Person *
               </label>
 
-              <input type="text" class="w-full rounded-lg border px-4 py-3">
+              <input
+                type="text"
+                formControlName="contact_person"
+                class="w-full rounded-lg border px-4 py-3"
+              />
+
             </div>
 
+
+            <!-- Contact Number -->
             <div>
+
               <label class="block text-sm font-medium mb-2">
                 Contact Number *
               </label>
 
-              <input type="text" class="w-full rounded-lg border px-4 py-3">
+              <input
+                type="text"
+                formControlName="contact_number"
+                class="w-full rounded-lg border px-4 py-3"
+              />
+
             </div>
+
+
+            <!-- Email -->
             <div>
+
               <label class="block text-sm font-medium mb-2">
-                Email id *
+                Email ID *
               </label>
 
-              <input type="email" class="w-full rounded-lg border px-4 py-3">
+              <input
+                type="email"
+                formControlName="customer_email"
+                class="w-full rounded-lg border px-4 py-3"
+              />
+
             </div>
 
+
+            <!-- City -->
             <div>
+
               <label class="block text-sm font-medium mb-2">
                 City *
               </label>
 
-              <input type="text" class="w-full rounded-lg border px-4 py-3">
+              <input
+                type="text"
+                formControlName="city"
+                class="w-full rounded-lg border px-4 py-3"
+              />
+
             </div>
 
+
+            <!-- Lead Category -->
             <div>
+
               <label class="block text-sm font-medium mb-2">
                 Lead Category *
               </label>
 
-              <select class="w-full rounded-lg border px-4 py-3">
+              <select
+                formControlName="lead_priority"
+                class="w-full rounded-lg border px-4 py-3"
+              >
 
-                <option value="">Select Type</option>
-                <option value="HOT_PROSPECTS">Hot </option>
-                <option value="WARM_PROSPECTS">Warm </option>
-                <option value="COLD_PROSPECTS">Cold </option>
+                <option value="">
+                  Select Type
+                </option>
+
+                <option value="HOT_PROSPECTS">
+                  Hot
+                </option>
+
+                <option value="WARM_PROSPECTS">
+                  Warm
+                </option>
+
+                <option value="COLD_PROSPECTS">
+                  Cold
+                </option>
 
               </select>
+
             </div>
 
-            <!-- Hidden Visit Type -->
-            <input type="hidden">
 
+            <!-- Remarks -->
             <div class="md:col-span-2">
+
               <label class="block text-sm font-medium mb-2">
                 Remarks *
               </label>
 
-              <textarea rows="4" class="w-full rounded-lg border px-4 py-3"></textarea>
+              <textarea
+                rows="4"
+                formControlName="remarks"
+                class="w-full rounded-lg border px-4 py-3"
+              ></textarea>
+
             </div>
 
           </div>
@@ -210,11 +327,47 @@
 
       </div>
 
-    </mat-tab>
 
-    <!-- ================= Sales Physical Meeting ================= -->
+      <!-- Footer -->
+      <div
+        class="flex items-center justify-end gap-3 mt-6 pt-4 border-t px-6 pb-6"
+      >
 
-    <mat-tab label="Sales Physical Meeting">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+        >
+          Cancel
+        </button>
+
+
+        <button
+          type="submit"
+          [disabled]="telecallingForm.invalid || isSubmitting"
+          class="px-5 py-2 rounded-lg bg-blue-600 text-white disabled:opacity-50"
+        >
+          {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+        </button>
+
+      </div>
+
+    </form>
+
+  </mat-tab>
+
+
+  <!-- ===================================================== -->
+  <!-- SALES PHYSICAL MEETING -->
+  <!-- ===================================================== -->
+
+  <mat-tab label="Sales Physical Meeting">
+
+    <form
+      [formGroup]="salesVisitForm"
+      (ngSubmit)="onSubmit()"
+      novalidate
+    >
 
       <div class="flex-1 overflow-y-auto px-4 md:px-8 py-6 bg-gray-50">
 
@@ -222,314 +375,566 @@
           Sales Physical Meeting
         </h3>
 
+
         <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-          <!-- Employee Name -->
+
+          <!-- Employee -->
           <div>
+
             <label class="block text-sm font-medium mb-2">
               Employee Name *
             </label>
 
-            <select class="w-full rounded-lg border px-4 py-3">
+            <select
+              formControlName="executive_name"
+              class="w-full rounded-lg border px-4 py-3"
+            >
 
-              <option value="">Select Name</option>
-              <option value="Durga Shankar Mishra">Durga Shankar Mishra</option>
-              <option value="Gaurav Shukla">Gaurav Shukla</option>
-              <option value="Sheikh Rizwan Ali">Sheikh Rizwan Ali</option>
-              <option value="Sunil Patle">Sunil Patle</option>
-              <option value="Rajesh Pathak">Rajesh Pathak</option>
-              <option value="Monika">Monika</option>
-              <option value="Yatendra">Yatendra</option>
-              <option value="Shivam">Shivam</option>
-              <option value="Vanshika">Vanshika</option>
+              <option value="">
+                Select Name
+              </option>
+
+              <option value="Durga Shankar Mishra">
+                Durga Shankar Mishra
+              </option>
+
+              <option value="Gaurav Shukla">
+                Gaurav Shukla
+              </option>
+
+              <option value="Sheikh Rizwan Ali">
+                Sheikh Rizwan Ali
+              </option>
+
+              <option value="Sunil Patle">
+                Sunil Patle
+              </option>
+
+              <option value="Rajesh Pathak">
+                Rajesh Pathak
+              </option>
+
+              <option value="Monika">
+                Monika
+              </option>
+
+              <option value="Yatendra">
+                Yatendra
+              </option>
+
+              <option value="Shivam">
+                Shivam
+              </option>
+
+              <option value="Vanshika">
+                Vanshika
+              </option>
 
             </select>
+
           </div>
+
 
           <!-- Reporting Location -->
           <div>
+
             <label class="block text-sm font-medium mb-2">
               Reporting - Location/Region *
             </label>
 
-            <select class="w-full rounded-lg border px-4 py-3">
-              <option value="">Select Location</option>
-              <option value="Base Location">Base Location</option>
-              <option value="On Tour">On Tour</option>
-              <option value="Other">Other</option>
+            <select
+              formControlName="reporting_location"
+              class="w-full rounded-lg border px-4 py-3"
+            >
+
+              <option value="">
+                Select Location
+              </option>
+
+              <option value="Base Location">
+                Base Location
+              </option>
+
+              <option value="On Tour">
+                On Tour
+              </option>
+
+              <option value="Other">
+                Other
+              </option>
+
             </select>
 
-            <!-- Show only when Other is selected -->
-            <!-- <input  *ngIf="organizationForm.get('reportingLocation')?.value === 'Other'" type="text"
-              formControlName="otherReportingLocation"  placeholder="Enter Location"
-              class="w-full rounded-lg border px-4 py-3 mt-3" /> -->
           </div>
+
 
           <!-- Date -->
           <div>
+
             <label class="block text-sm font-medium mb-2">
               Date of Activity Report *
             </label>
 
-            <input type="date" class="w-full rounded-lg border px-4 py-3">
+            <input
+              type="date"
+              formControlName="visit_date"
+              class="w-full rounded-lg border px-4 py-3"
+            />
+
           </div>
 
-          <!-- Activity Type -->
+
+          <!-- Activity -->
           <div>
+
             <label class="block text-sm font-medium mb-2">
               Activity Type *
             </label>
 
-            <select class="w-full rounded-lg border px-4 py-3">
+            <select
+              formControlName="activity_type"
+              class="w-full rounded-lg border px-4 py-3"
+            >
 
-              <option value="">Select Activity</option>
-              <option value="Meeting">Meeting</option>
-              <option value="FOLLOW_UP">Follow Up </option>
-              <option value="Proposal_Submission">Proposal Submission</option>
-              <option value="Payment_Collection">Payment Collection</option>
-              <option value="Site Visit">Site Visit</option>
-              <option value="Order Closing">Order Closing</option>
-              <option value="Complaint Resolution">Complaint Resolution</option>
-              <option value="Installation Coordination">Installation Coordination</option>
-              <option value="Other">Other</option>
+              <option value="">
+                Select Activity
+              </option>
 
-              <!-- <input  *ngIf="organizationForm.get('reportingLocation')?.value === 'Other'" type="text"
-                formControlName="otherReportingLocation"  placeholder="Enter Location"
-                class="w-full rounded-lg border px-4 py-3 mt-3" /> -->
+              <option value="Meeting">
+                Meeting
+              </option>
+
+              <option value="FOLLOW_UP">
+                Follow Up
+              </option>
+
+              <option value="Proposal_Submission">
+                Proposal Submission
+              </option>
+
+              <option value="Payment_Collection">
+                Payment Collection
+              </option>
+
+              <option value="Site Visit">
+                Site Visit
+              </option>
+
+              <option value="Order Closing">
+                Order Closing
+              </option>
+
+              <option value="Complaint Resolution">
+                Complaint Resolution
+              </option>
+
+              <option value="Installation Coordination">
+                Installation Coordination
+              </option>
+
+              <option value="Other">
+                Other
+              </option>
 
             </select>
+
           </div>
 
-          <!-- Client Name -->
+
+          <!-- Client -->
           <div>
+
             <label class="block text-sm font-medium mb-2">
               Client Name *
             </label>
 
-            <input type="text" class="w-full rounded-lg border px-4 py-3">
+            <input
+              type="text"
+              formControlName="customer_name"
+              class="w-full rounded-lg border px-4 py-3"
+            />
+
           </div>
 
-          <!-- Contact Person -->
+
+          <!-- Contact -->
           <div>
+
             <label class="block text-sm font-medium mb-2">
               Contact Person Name *
             </label>
 
-            <input type="text" class="w-full rounded-lg border px-4 py-3">
+            <input
+              type="text"
+              formControlName="contact_person"
+              class="w-full rounded-lg border px-4 py-3"
+            />
+
           </div>
+
 
           <!-- Contact Number -->
           <div>
+
             <label class="block text-sm font-medium mb-2">
               Contact Number *
             </label>
 
-            <input type="number" class="w-full rounded-lg border px-4 py-3">
+            <input
+              type="text"
+              formControlName="contact_number"
+              class="w-full rounded-lg border px-4 py-3"
+            />
+
           </div>
+
 
           <!-- City -->
           <div>
+
             <label class="block text-sm font-medium mb-2">
               City *
             </label>
 
-            <input type="text" class="w-full rounded-lg border px-4 py-3">
+            <input
+              type="text"
+              formControlName="city"
+              class="w-full rounded-lg border px-4 py-3"
+            />
+
           </div>
+
 
           <!-- Client Type -->
           <div>
+
             <label class="block text-sm font-medium mb-2">
               New or Existing Client *
             </label>
 
-            <select class="w-full rounded-lg border px-4 py-3">
+            <select
+              formControlName="client_type"
+              class="w-full rounded-lg border px-4 py-3"
+            >
 
-              <option value="">Select</option>
-              <option value="NEW">New Client</option>
-              <option value="EXISTING">Existing Client</option>
+              <option value="">
+                Select
+              </option>
+
+              <option value="NEW">
+                New Client
+              </option>
+
+              <option value="EXISTING">
+                Existing Client
+              </option>
 
             </select>
+
           </div>
+
 
           <!-- Lead Priority -->
           <div>
+
             <label class="block text-sm font-medium mb-2">
               Lead Priority *
             </label>
 
-            <select class="w-full rounded-lg border px-4 py-3">
+            <select
+              formControlName="lead_priority"
+              class="w-full rounded-lg border px-4 py-3"
+            >
 
-              <option value="">Select</option>
-              <option value="HOT">Hot</option>
-              <option value="WARM">Warm</option>
-              <option value="COLD">Cold</option>
+              <option value="">
+                Select
+              </option>
+
+              <option value="HOT">
+                Hot
+              </option>
+
+              <option value="WARM">
+                Warm
+              </option>
+
+              <option value="COLD">
+                Cold
+              </option>
 
             </select>
+
           </div>
 
-          <!-- Discussion Summary -->
+
+          <!-- Discussion -->
           <div class="md:col-span-2">
 
             <label class="block text-sm font-medium mb-2">
               Discussion Summary *
             </label>
 
-            <textarea rows="4" class="w-full rounded-lg border px-4 py-3"></textarea>
+            <textarea
+              rows="4"
+              formControlName="discussion_summary"
+              class="w-full rounded-lg border px-4 py-3"
+            ></textarea>
 
           </div>
 
-          <!-- Current Status -->
+
+          <!-- Status -->
           <div>
 
             <label class="block text-sm font-medium mb-2">
               Current Status *
             </label>
 
-            <select class="w-full rounded-lg border px-4 py-3">
+            <select
+              formControlName="current_status"
+              class="w-full rounded-lg border px-4 py-3"
+            >
 
-              <option value="">Select Status</option>
-              <option value="INTERESTED">Interested Need Follow-up</option>
-              <option value="Proposal_FOLLOW_UP">Proposal Follow-up</option>
-              <option value="NEGOTIATION">Negotiation</option>
-              <option value="PROPOSAL_SENT">Follow-up Pending</option>
-              <option value="ORDER_CLOSED">Order Closed</option>
-              <option value="NOT_INTERESTED">Not Interested</option>
-              <option value="Future_Opportunity">Future Opportunity</option>
+              <option value="">
+                Select Status
+              </option>
+
+              <option value="INTERESTED">
+                Interested Need Follow-up
+              </option>
+
+              <option value="Proposal_FOLLOW_UP">
+                Proposal Follow-up
+              </option>
+
+              <option value="NEGOTIATION">
+                Negotiation
+              </option>
+
+              <option value="PROPOSAL_SENT">
+                Follow-up Pending
+              </option>
+
+              <option value="ORDER_CLOSED">
+                Order Closed
+              </option>
+
+              <option value="NOT_INTERESTED">
+                Not Interested
+              </option>
+
+              <option value="Future_Opportunity">
+                Future Opportunity
+              </option>
 
             </select>
 
           </div>
 
-          <!-- Expected Business Value -->
+
+          <!-- Business -->
           <div>
 
             <label class="block text-sm font-medium mb-2">
               Expected Business Value *
             </label>
 
-            <input type="number" class="w-full rounded-lg border px-4 py-3">
+            <input
+              type="number"
+              formControlName="expected_business_value"
+              min="0"
+              class="w-full rounded-lg border px-4 py-3"
+            />
 
           </div>
 
-          <!-- Proposal Sent -->
+
+          <!-- Proposal -->
           <div>
 
             <label class="block text-sm font-medium mb-2">
               Proposal Sent *
             </label>
 
-            <select class="w-full rounded-lg border px-4 py-3">
+            <select
+              formControlName="proposal_sent"
+              class="w-full rounded-lg border px-4 py-3"
+            >
 
-              <option value="">Select</option>
-              <option value="YES">Yes</option>
-              <option value="NO">No</option>
+              <option value="">
+                Select
+              </option>
+
+              <option value="YES">
+                Yes
+              </option>
+
+              <option value="NO">
+                No
+              </option>
 
             </select>
 
           </div>
 
-          <!-- Order Closed -->
+
+          <!-- Order -->
           <div>
 
             <label class="block text-sm font-medium mb-2">
               Order Closed *
             </label>
 
-            <select class="w-full rounded-lg border px-4 py-3">
+            <select
+              formControlName="order_closed"
+              class="w-full rounded-lg border px-4 py-3"
+            >
 
-              <option value="">Select</option>
-              <option value="YES">Yes</option>
-              <option value="NO">No</option>
+              <option value="">
+                Select
+              </option>
+
+              <option value="YES">
+                Yes
+              </option>
+
+              <option value="NO">
+                No
+              </option>
 
             </select>
 
           </div>
 
-          <!-- Expected Closure Date -->
+
+          <!-- Closure Date -->
           <div>
 
             <label class="block text-sm font-medium mb-2">
               Expected Closure Date *
             </label>
 
-            <input type="date" class="w-full rounded-lg border px-4 py-3">
+            <input
+              type="date"
+              formControlName="expected_closure_date"
+              class="w-full rounded-lg border px-4 py-3"
+            />
 
           </div>
 
-          <!-- Next Follow-up Date -->
+
+          <!-- Followup -->
           <div>
 
             <label class="block text-sm font-medium mb-2">
               Next Follow-up Date *
             </label>
 
-            <input type="date" class="w-full rounded-lg border px-4 py-3">
+            <input
+              type="date"
+              formControlName="next_followup_date"
+              class="w-full rounded-lg border px-4 py-3"
+            />
 
           </div>
 
-          <!-- Support Required -->
+
+          <!-- Management Support -->
           <div class="md:col-span-2">
+
             <label class="block text-sm font-medium mb-2">
               Support Required From Management *
             </label>
 
-            <select class="w-full rounded-lg border px-4 py-3">
+            <select
+              formControlName="management_support_required"
+              class="w-full rounded-lg border px-4 py-3"
+            >
 
-              <option value="">Select</option>
-              <option value="YES">Yes</option>
-              <option value="NO">No</option>
-              <option value="Other:">Other</option>
+              <option value="">
+                Select
+              </option>
+
+              <option value="YES">
+                Yes
+              </option>
+
+              <option value="NO">
+                No
+              </option>
+
+              <option value="Other">
+                Other
+              </option>
 
             </select>
 
           </div>
 
-          <!-- Additional Remarks -->
+
+          <!-- Remarks -->
           <div class="md:col-span-2">
 
             <label class="block text-sm font-medium mb-2">
               Additional Remarks
             </label>
 
-            <textarea rows="3" class="w-full rounded-lg border px-4 py-3"></textarea>
+            <textarea
+              rows="3"
+              formControlName="additional_remarks"
+              class="w-full rounded-lg border px-4 py-3"
+            ></textarea>
 
           </div>
 
-          <!-- Upload Meeting Photo -->
+
+          <!-- Photo -->
           <div class="md:col-span-2">
 
             <label class="block text-sm font-medium mb-2">
               Upload Meeting Photo
             </label>
 
-            <input type="file" accept="image/*" class="w-full rounded-lg border px-4 py-3">
+            <input
+              type="file"
+              accept="image/*"
+              (change)="onMeetingPhotoChange($event)"
+              class="w-full rounded-lg border px-4 py-3"
+            />
 
           </div>
 
         </div>
 
       </div>
-    </mat-tab>
 
-  </mat-tab-group>
 
-  <!-- Footer -->
+      <!-- Footer -->
+      <div
+        class="flex items-center justify-end gap-3 mt-6 pt-4 border-t px-6 pb-6"
+      >
 
-  <div class="flex items-center justify-end gap-3 mt-6 pt-4 border-t px-6 pb-6">
+        <button
+          type="button"
+          (click)="onCancel()"
+          class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+        >
+          Cancel
+        </button>
 
-    <button type="button" (click)="onCancel()"
-      class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">
 
-      Cancel
+        <button
+          type="submit"
+          [disabled]="salesVisitForm.invalid || isSubmitting"
+          class="px-5 py-2 rounded-lg bg-blue-600 text-white disabled:opacity-50"
+        >
+          {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+        </button>
 
-    </button>
+      </div>
 
-    <button type="submit" [disabled]="organizationForm.invalid || isSubmitting"
-      class="px-5 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50">
+    </form>
 
-      {{ isSubmitting ? 'Saving...' : 'Save Visit' }}
+  </mat-tab>
 
-    </button>
-
-  </div>
-
-</form>
+</mat-tab-group>

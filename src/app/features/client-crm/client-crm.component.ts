@@ -1,5 +1,7 @@
 import {
-  Component
+  Component,
+  EventEmitter,
+  Output
 } from '@angular/core';
 
 import {
@@ -16,40 +18,103 @@ import {
 
 import {
   SalesVisitPayload
-} from '../../core/models/client-crm.type';
-import { TelecallingTable } from "./tables/telecalling-table/telecalling-table";
+} from '../../core/models/client-crm/sales-visit.type';
+
+import {
+  TelecallingPayload
+} from '../../core/models/client-crm/telecalling.type';
+
+import {
+  TelecallingTable
+} from './tables/telecalling-table/telecalling-table';
+
 
 @Component({
   selector: 'app-client-crm',
   standalone: true,
+
   imports: [
+    CommonModule,
     OrganizationFormComponent,
     OrganizationTableComponent,
-    TelecallingTable,
-    CommonModule  
-],
+    TelecallingTable
+  ],
+
   templateUrl: './client-crm.component.html'
 })
 export class ClientCrmComponent {
 
   showOrganizationModal = false;
 
-  openOrganizationModal(): void {
+  @Output()
+save = new EventEmitter<
+  TelecallingPayload | SalesVisitPayload
+>();
 
+
+  // =====================================================
+  // OPEN ORGANIZATION FORM
+  // =====================================================
+
+  openOrganizationModal(): void {
     this.showOrganizationModal = true;
   }
 
-  closeOrganizationModal(): void {
 
+  // =====================================================
+  // CLOSE ORGANIZATION FORM
+  // =====================================================
+
+  closeOrganizationModal(): void {
     this.showOrganizationModal = false;
   }
 
+
+  // =====================================================
+  // SAVE ORGANIZATION
+  // =====================================================
+
   saveOrganization(
-  salesVisit: SalesVisitPayload
-): void {
+    payload: TelecallingPayload | SalesVisitPayload
+  ): void {
 
-  console.log(salesVisit);
+    console.log(
+      'Organization saved:',
+      payload
+    );
 
-  this.closeOrganizationModal();
-}
+
+    // ============================================
+    // TELECALLING
+    // ============================================
+
+    if (payload.visit_type === 'TELECALL') {
+
+      console.log(
+        'Telecalling payload:',
+        payload
+      );
+
+      this.showOrganizationModal = false;
+
+      return;
+    }
+
+
+    // ============================================
+    // SALES PHYSICAL VISIT
+    // ============================================
+
+    if (payload.visit_type === 'COLD') {
+
+      console.log(
+        'Sales Visit payload:',
+        payload
+      );
+
+      this.showOrganizationModal = false;
+
+      return;
+    }
+  }
 }

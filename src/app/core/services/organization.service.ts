@@ -6,25 +6,37 @@ import {
   Observable
 } from 'rxjs';
 
-
 import {
   CallDiscussionPayload,
-  CallDiscussionResponse,
   SalesVisit,
-  SalesVisitPayload,
   SalesVisitResponse,
   UpdateSalesVisitPayload
 } from '../models/client-crm.type';
-import { BaseApiService } from './base-api/base-api.service';
+
+import {
+  SalesVisitPayload
+} from '../models/client-crm/sales-visit.type';
+
+import {
+  TelecallingPayload
+} from '../models/client-crm/telecalling.type';
+
+import {
+  BaseApiService
+} from './base-api/base-api.service';
+import { CallDiscussionResponse } from '../models/client-crm/call-discussion.type';
 
 @Injectable({
   providedIn: 'root'
 })
 export class OrganizationService extends BaseApiService {
 
+  // =====================================================
+  // CREATE SALES VISIT / TELECALLING
+  // =====================================================
 
   createSalesVisit(
-    payload: SalesVisitPayload
+    payload: SalesVisitPayload | TelecallingPayload
   ): Observable<SalesVisit> {
 
     return this.http.post<SalesVisit>(
@@ -33,12 +45,20 @@ export class OrganizationService extends BaseApiService {
     );
   }
 
+  // =====================================================
+  // GET SALES VISITS
+  // =====================================================
+
   getSalesVisits(): Observable<SalesVisitResponse> {
 
     return this.http.get<SalesVisitResponse>(
       `${this.API_URL}/fetchLeads`
     );
   }
+
+  // =====================================================
+  // GET SALES VISIT BY ID
+  // =====================================================
 
   getSalesVisitById(
     id: number
@@ -48,6 +68,10 @@ export class OrganizationService extends BaseApiService {
       `${this.API_URL}/${id}`
     );
   }
+
+  // =====================================================
+  // UPDATE SALES VISIT
+  // =====================================================
 
   updateSalesVisit(
     id: number,
@@ -60,22 +84,28 @@ export class OrganizationService extends BaseApiService {
     );
   }
 
+  // =====================================================
+  // CALL DISCUSSION
+  // =====================================================
+
   saveCallDiscussion(
-  visitId: number,
-  payload: CallDiscussionPayload
-): Observable<CallDiscussionResponse> {
+    visitId: number,
+    payload: CallDiscussionPayload
+  ): Observable<unknown> {
 
-  return this.http.post<CallDiscussionResponse>(
-    `${this.API_URL}/call-discussion/${visitId}`,
-    payload
-  );
+    return this.http.post(
+      `${this.API_URL}/call-discussion/${visitId}`,
+      payload
+    );
+  }
 
-}
+  // =====================================================
+  // CALL DISCUSSION HISTORY
+  // =====================================================
 
-
-getCallDiscussionHistory(
+  getCallDiscussionHistory(
   salesVisitId: number
-) {
+): Observable<CallDiscussionResponse> {
 
   return this.http.get<CallDiscussionResponse>(
     `${this.API_URL}/sales-visits/${salesVisitId}/call-discussions`
@@ -83,8 +113,9 @@ getCallDiscussionHistory(
 
 }
 
-
-  
+  // =====================================================
+  // DELETE
+  // =====================================================
 
   deleteSalesVisit(
     id: number
