@@ -385,16 +385,16 @@
                 Installation Coordination
               </option>
 
-              <option value="Order Closing">
+              <option value="DEMO">
                 Demo
               </option>
 
-              <option value="Complaint Resolution">
-                Event/Exebition
+              <option value="EVENT_EXHIBITION">
+                Event / Exhibition
               </option>
 
-              <option value="Installation Coordination">
-                Tander
+              <option value="TENDER">
+                Tender
               </option>
 
               <option value="Other">
@@ -675,58 +675,51 @@
           </div>
 
 
-        <!-- Order Status -->
-<div>
+          <!-- Order Status -->
+          <div>
 
-  <label class="block text-sm font-medium mb-2">
-    Order Status *
-  </label>
+            <label class="block text-sm font-medium mb-2">
+              Order Status *
+            </label>
 
-  <select
-    formControlName="order_closed"
-    class="w-full rounded-lg border px-4 py-3"
-  >
+            <select formControlName="order_closed" class="w-full rounded-lg border px-4 py-3">
 
-    <option value="">
-      Select
-    </option>
+              <option value="">
+                Select
+              </option>
 
-    <option value="YES">
-      Order Closed
-    </option>
+              <option value="YES">
+                Order Closed
+              </option>
 
-    <option value="NO">
-      Order Pending
-    </option>
+              <option value="NO">
+                Order Pending
+              </option>
 
-    <option value="ORDER_LOST">
-      Order Lost
-    </option>
+              <option value="ORDER_LOST">
+                Order Lost
+              </option>
 
-  </select>
+            </select>
 
-</div>
+          </div>
 
 
-<!-- Order Lost Reason -->
-@if (salesVisitForm.get('order_closed')?.value === 'ORDER_LOST') {
+          <!-- Order Lost Reason -->
+          @if (salesVisitForm.get('order_closed')?.value === 'ORDER_LOST') {
 
-  <div>
+          <div>
 
-    <label class="block text-sm font-medium mb-2">
-      Order Lost Reason *
-    </label>
+            <label class="block text-sm font-medium mb-2">
+              Order Lost Reason *
+            </label>
 
-    <textarea
-      rows="3"
-      formControlName="order_lost_reason"
-      placeholder="Enter reason why the order was lost..."
-      class="w-full rounded-lg border px-4 py-3"
-    ></textarea>
+            <textarea rows="3" formControlName="order_lost_reason" placeholder="Enter reason why the order was lost..."
+              class="w-full rounded-lg border px-4 py-3"></textarea>
 
-  </div>
+          </div>
 
-}
+          }
 
 
           <!-- Closure Date -->
