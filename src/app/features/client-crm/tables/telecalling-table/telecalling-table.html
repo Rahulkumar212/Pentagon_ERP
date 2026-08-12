@@ -13,11 +13,10 @@
 
   </div>
 
-
   <!-- Table -->
   <div class="overflow-x-auto">
 
-    <div class="max-h-112.5 overflow-y-auto">
+    <div class="max-h-[450px] overflow-y-auto">
 
       <table class="min-w-max w-full whitespace-nowrap">
 
@@ -83,24 +82,18 @@
 
         </thead>
 
-
         <!-- ================= TABLE BODY ================= -->
 
-        <tbody>
+        <!-- <tbody>
 
           @for (visit of salesVisits; track visit.id) {
 
-            <tr
-              class="border-b border-gray-100 hover:bg-blue-50 transition"
-            >
+            <tr class="border-b border-gray-100 hover:bg-blue-50 transition">
 
-              <!-- Employee Name -->
               <td class="px-5 py-4 font-semibold text-gray-800">
                 {{ visit.executive_name || '-' }}
               </td>
 
-
-              <!-- Date -->
               <td class="px-5 py-4">
                 {{
                   visit.visit_date
@@ -109,62 +102,42 @@
                 }}
               </td>
 
-
-              <!-- Total Calls -->
               <td class="px-5 py-4">
                 {{ visit.total_calls_made ?? 0 }}
               </td>
 
-
-              <!-- Connected Calls -->
               <td class="px-5 py-4">
                 {{ visit.connected_calls ?? 0 }}
               </td>
 
-
-              <!-- Meetings Scheduled -->
               <td class="px-5 py-4">
                 {{ visit.meetings_scheduled ?? 0 }}
               </td>
 
-
-              <!-- New Leads -->
               <td class="px-5 py-4">
                 {{ visit.new_leads_generated ?? 0 }}
               </td>
 
-
-              <!-- Client Name -->
               <td class="px-5 py-4 font-medium text-gray-800">
                 {{ visit.customer_name || '-' }}
               </td>
 
-
-              <!-- Contact Person -->
               <td class="px-5 py-4">
                 {{ visit.contact_person || '-' }}
               </td>
 
-
-              <!-- Contact Number -->
               <td class="px-5 py-4">
                 {{ visit.contact_number || '-' }}
               </td>
 
-
-              <!-- Email -->
               <td class="px-5 py-4">
                 {{ visit.customer_email || '-' }}
               </td>
 
-
-              <!-- City -->
               <td class="px-5 py-4">
                 {{ visit.city || '-' }}
               </td>
 
-
-              <!-- Lead Category -->
               <td class="px-5 py-4">
 
                 <span
@@ -185,8 +158,6 @@
 
               </td>
 
-
-              <!-- Remarks -->
               <td class="px-5 py-4 max-w-xs">
 
                 <div
@@ -200,13 +171,7 @@
 
             </tr>
 
-          }
-
-
-          <!-- ================= EMPTY STATE ================= -->
-
-          @empty {
-
+          } @empty {
             <tr>
 
               <td
@@ -214,9 +179,7 @@
                 class="py-12 text-center text-gray-500"
               >
 
-                <div
-                  class="flex flex-col items-center justify-center"
-                >
+                <div class="flex flex-col items-center justify-center">
 
                   <span class="text-3xl mb-2">
                     ☎️
@@ -238,7 +201,7 @@
 
           }
 
-        </tbody>
+        </tbody> -->
 
       </table>
 
