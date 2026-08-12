@@ -7,15 +7,13 @@ import {
 } from 'rxjs';
 
 import {
-  CallDiscussionPayload,
   SalesVisit,
   SalesVisitResponse,
-  UpdateSalesVisitPayload
-} from '../models/client-crm.type';
-
-import {
+  UpdateSalesVisitPayload,
   SalesVisitPayload
 } from '../models/client-crm/sales-visit.type';
+
+
 
 import {
   TelecallingPayload
@@ -24,7 +22,7 @@ import {
 import {
   BaseApiService
 } from './base-api/base-api.service';
-import { CallDiscussionResponse } from '../models/client-crm/call-discussion.type';
+import { CallDiscussionPayload, CallDiscussionResponse } from '../models/client-crm/call-discussion.type';
 
 @Injectable({
   providedIn: 'root'

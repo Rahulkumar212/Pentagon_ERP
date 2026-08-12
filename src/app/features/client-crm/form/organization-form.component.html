@@ -1,7 +1,4 @@
-<mat-tab-group
-  [selectedIndex]="selectedTab"
-  (selectedTabChange)="onTabChange($event)"
->
+<mat-tab-group [selectedIndex]="selectedTab" (selectedTabChange)="onTabChange($event)">
 
   <!-- ===================================================== -->
   <!-- TELECALLING -->
@@ -9,11 +6,7 @@
 
   <mat-tab label="Sales Telecalling">
 
-    <form
-      [formGroup]="telecallingForm"
-      (ngSubmit)="onSubmit()"
-      novalidate
-    >
+    <form [formGroup]="telecallingForm" (ngSubmit)="onSubmit()" novalidate>
 
       <!-- Employee Information -->
       <div class="flex-1 overflow-y-auto px-4 md:px-8 py-6 bg-gray-50">
@@ -33,10 +26,7 @@
                 Employee Name *
               </label>
 
-              <select
-                formControlName="executive_name"
-                class="w-full rounded-lg border px-4 py-3"
-              >
+              <select formControlName="executive_name" class="w-full rounded-lg border px-4 py-3">
 
                 <option value="">
                   Select Name
@@ -90,92 +80,7 @@
                 Date of Activity Report *
               </label>
 
-              <input
-                type="date"
-                formControlName="visit_date"
-                class="w-full rounded-lg border px-4 py-3"
-              />
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- Daily Call Summary -->
-        <div class="bg-white rounded-xl border p-5 mt-6">
-
-          <h3 class="text-lg font-semibold mb-5">
-            Daily Call Summary
-          </h3>
-
-          <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-            <!-- Total Calls -->
-            <div>
-
-              <label class="block text-sm font-medium mb-2">
-                Total Calls Made *
-              </label>
-
-              <input
-                type="number"
-                formControlName="total_calls_made"
-                min="0"
-                class="w-full rounded-lg border px-4 py-3"
-              />
-
-            </div>
-
-
-            <!-- Connected Calls -->
-            <div>
-
-              <label class="block text-sm font-medium mb-2">
-                Connected Calls *
-              </label>
-
-              <input
-                type="number"
-                formControlName="connected_calls"
-                min="0"
-                class="w-full rounded-lg border px-4 py-3"
-              />
-
-            </div>
-
-
-            <!-- Meetings -->
-            <div>
-
-              <label class="block text-sm font-medium mb-2">
-                Meetings Scheduled *
-              </label>
-
-              <input
-                type="number"
-                formControlName="meetings_scheduled"
-                min="0"
-                class="w-full rounded-lg border px-4 py-3"
-              />
-
-            </div>
-
-
-            <!-- Leads -->
-            <div>
-
-              <label class="block text-sm font-medium mb-2">
-                New Leads Generated *
-              </label>
-
-              <input
-                type="number"
-                formControlName="new_leads_generated"
-                min="0"
-                class="w-full rounded-lg border px-4 py-3"
-              />
+              <input type="date" formControlName="visit_date" class="w-full rounded-lg border px-4 py-3" />
 
             </div>
 
@@ -200,11 +105,7 @@
                 Client Name *
               </label>
 
-              <input
-                type="text"
-                formControlName="customer_name"
-                class="w-full rounded-lg border px-4 py-3"
-              />
+              <input type="text" formControlName="customer_name" class="w-full rounded-lg border px-4 py-3" />
 
             </div>
 
@@ -216,11 +117,7 @@
                 Contact Person *
               </label>
 
-              <input
-                type="text"
-                formControlName="contact_person"
-                class="w-full rounded-lg border px-4 py-3"
-              />
+              <input type="text" formControlName="contact_person" class="w-full rounded-lg border px-4 py-3" />
 
             </div>
 
@@ -232,11 +129,7 @@
                 Contact Number *
               </label>
 
-              <input
-                type="text"
-                formControlName="contact_number"
-                class="w-full rounded-lg border px-4 py-3"
-              />
+              <input type="text" formControlName="contact_number" class="w-full rounded-lg border px-4 py-3" />
 
             </div>
 
@@ -248,11 +141,7 @@
                 Email ID *
               </label>
 
-              <input
-                type="email"
-                formControlName="customer_email"
-                class="w-full rounded-lg border px-4 py-3"
-              />
+              <input type="email" formControlName="customer_email" class="w-full rounded-lg border px-4 py-3" />
 
             </div>
 
@@ -264,11 +153,7 @@
                 City *
               </label>
 
-              <input
-                type="text"
-                formControlName="city"
-                class="w-full rounded-lg border px-4 py-3"
-              />
+              <input type="text" formControlName="city" class="w-full rounded-lg border px-4 py-3" />
 
             </div>
 
@@ -280,10 +165,7 @@
                 Lead Category *
               </label>
 
-              <select
-                formControlName="lead_priority"
-                class="w-full rounded-lg border px-4 py-3"
-              >
+              <select formControlName="lead_priority" class="w-full rounded-lg border px-4 py-3">
 
                 <option value="">
                   Select Type
@@ -313,11 +195,7 @@
                 Remarks *
               </label>
 
-              <textarea
-                rows="4"
-                formControlName="remarks"
-                class="w-full rounded-lg border px-4 py-3"
-              ></textarea>
+              <textarea rows="4" formControlName="remarks" class="w-full rounded-lg border px-4 py-3"></textarea>
 
             </div>
 
@@ -329,24 +207,16 @@
 
 
       <!-- Footer -->
-      <div
-        class="flex items-center justify-end gap-3 mt-6 pt-4 border-t px-6 pb-6"
-      >
+      <div class="flex items-center justify-end gap-3 mt-6 pt-4 border-t px-6 pb-6">
 
-        <button
-          type="button"
-          (click)="onCancel()"
-          class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
-        >
+        <button type="button" (click)="onCancel()"
+          class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">
           Cancel
         </button>
 
 
-        <button
-          type="submit"
-          [disabled]="telecallingForm.invalid || isSubmitting"
-          class="px-5 py-2 rounded-lg bg-blue-600 text-white disabled:opacity-50"
-        >
+        <button type="submit" [disabled]="telecallingForm.invalid || isSubmitting"
+          class="px-5 py-2 rounded-lg bg-blue-600 text-white disabled:opacity-50">
           {{ isSubmitting ? 'Submitting...' : 'Submit' }}
         </button>
 
@@ -363,11 +233,7 @@
 
   <mat-tab label="Sales Physical Meeting">
 
-    <form
-      [formGroup]="salesVisitForm"
-      (ngSubmit)="onSubmit()"
-      novalidate
-    >
+    <form [formGroup]="salesVisitForm" (ngSubmit)="onSubmit()" novalidate>
 
       <div class="flex-1 overflow-y-auto px-4 md:px-8 py-6 bg-gray-50">
 
@@ -385,10 +251,7 @@
               Employee Name *
             </label>
 
-            <select
-              formControlName="executive_name"
-              class="w-full rounded-lg border px-4 py-3"
-            >
+            <select formControlName="executive_name" class="w-full rounded-lg border px-4 py-3">
 
               <option value="">
                 Select Name
@@ -442,10 +305,7 @@
               Reporting - Location/Region *
             </label>
 
-            <select
-              formControlName="reporting_location"
-              class="w-full rounded-lg border px-4 py-3"
-            >
+            <select formControlName="reporting_location" class="w-full rounded-lg border px-4 py-3">
 
               <option value="">
                 Select Location
@@ -475,11 +335,7 @@
               Date of Activity Report *
             </label>
 
-            <input
-              type="date"
-              formControlName="visit_date"
-              class="w-full rounded-lg border px-4 py-3"
-            />
+            <input type="date" formControlName="visit_date" class="w-full rounded-lg border px-4 py-3" />
 
           </div>
 
@@ -491,10 +347,7 @@
               Activity Type *
             </label>
 
-            <select
-              formControlName="activity_type"
-              class="w-full rounded-lg border px-4 py-3"
-            >
+            <select formControlName="activity_type" class="w-full rounded-lg border px-4 py-3">
 
               <option value="">
                 Select Activity
@@ -532,6 +385,18 @@
                 Installation Coordination
               </option>
 
+              <option value="Order Closing">
+                Demo
+              </option>
+
+              <option value="Complaint Resolution">
+                Event/Exebition
+              </option>
+
+              <option value="Installation Coordination">
+                Tander
+              </option>
+
               <option value="Other">
                 Other
               </option>
@@ -540,71 +405,6 @@
 
           </div>
 
-
-          <!-- Client -->
-          <div>
-
-            <label class="block text-sm font-medium mb-2">
-              Client Name *
-            </label>
-
-            <input
-              type="text"
-              formControlName="customer_name"
-              class="w-full rounded-lg border px-4 py-3"
-            />
-
-          </div>
-
-
-          <!-- Contact -->
-          <div>
-
-            <label class="block text-sm font-medium mb-2">
-              Contact Person Name *
-            </label>
-
-            <input
-              type="text"
-              formControlName="contact_person"
-              class="w-full rounded-lg border px-4 py-3"
-            />
-
-          </div>
-
-
-          <!-- Contact Number -->
-          <div>
-
-            <label class="block text-sm font-medium mb-2">
-              Contact Number *
-            </label>
-
-            <input
-              type="text"
-              formControlName="contact_number"
-              class="w-full rounded-lg border px-4 py-3"
-            />
-
-          </div>
-
-
-          <!-- City -->
-          <div>
-
-            <label class="block text-sm font-medium mb-2">
-              City *
-            </label>
-
-            <input
-              type="text"
-              formControlName="city"
-              class="w-full rounded-lg border px-4 py-3"
-            />
-
-          </div>
-
-
           <!-- Client Type -->
           <div>
 
@@ -612,10 +412,7 @@
               New or Existing Client *
             </label>
 
-            <select
-              formControlName="client_type"
-              class="w-full rounded-lg border px-4 py-3"
-            >
+            <select formControlName="client_type" class="w-full rounded-lg border px-4 py-3">
 
               <option value="">
                 Select
@@ -634,6 +431,122 @@
           </div>
 
 
+          <!-- Existing Client -->
+          @if (salesVisitForm.get('client_type')?.value === 'EXISTING') {
+
+          <div>
+
+            <label class="block text-sm font-medium mb-2">
+              Existing Client Name *
+            </label>
+
+            <select formControlName="existing_client" class="w-full rounded-lg border px-4 py-3">
+
+              <option value="">
+                Select Existing Client
+              </option>
+
+              <option value="ABC Industries">
+                ABC Industries
+              </option>
+
+              <option value="Sharma Enterprises">
+                Sharma Enterprises
+              </option>
+
+              <option value="Tata Solutions">
+                Tata Solutions
+              </option>
+
+              <option value="Reliance Industries">
+                Reliance Industries
+              </option>
+
+              <option value="Mahindra Enterprises">
+                Mahindra Enterprises
+              </option>
+
+              <option value="Sunrise Technologies">
+                Sunrise Technologies
+              </option>
+
+              <option value="Global Manufacturing Pvt Ltd">
+                Global Manufacturing Pvt Ltd
+              </option>
+
+              <option value="Shree Balaji Traders">
+                Shree Balaji Traders
+              </option>
+
+            </select>
+
+          </div>
+
+          }
+
+
+          <!-- Client -->
+          <div>
+
+            <label class="block text-sm font-medium mb-2">
+              Client Name *
+            </label>
+
+            <input type="text" formControlName="customer_name" class="w-full rounded-lg border px-4 py-3" />
+
+          </div>
+
+
+          <!-- Contact -->
+          <div>
+
+            <label class="block text-sm font-medium mb-2">
+              Contact Person Name *
+            </label>
+
+            <input type="text" formControlName="contact_person" class="w-full rounded-lg border px-4 py-3" />
+
+          </div>
+
+
+          <!-- Contact Number -->
+          <div>
+
+            <label class="block text-sm font-medium mb-2">
+              Contact Number *
+            </label>
+
+            <input type="text" formControlName="contact_number" class="w-full rounded-lg border px-4 py-3" />
+
+          </div>
+
+
+          <!-- Email -->
+          <div>
+
+            <label class="block text-sm font-medium mb-2">
+              Email ID *
+            </label>
+
+            <input type="email" class="w-full rounded-lg border px-4 py-3" />
+
+          </div>
+
+
+          <!-- City -->
+          <div>
+
+            <label class="block text-sm font-medium mb-2">
+              City *
+            </label>
+
+            <input type="text" formControlName="city" class="w-full rounded-lg border px-4 py-3" />
+
+          </div>
+
+
+
+
           <!-- Lead Priority -->
           <div>
 
@@ -641,10 +554,7 @@
               Lead Priority *
             </label>
 
-            <select
-              formControlName="lead_priority"
-              class="w-full rounded-lg border px-4 py-3"
-            >
+            <select formControlName="lead_priority" class="w-full rounded-lg border px-4 py-3">
 
               <option value="">
                 Select
@@ -674,11 +584,8 @@
               Discussion Summary *
             </label>
 
-            <textarea
-              rows="4"
-              formControlName="discussion_summary"
-              class="w-full rounded-lg border px-4 py-3"
-            ></textarea>
+            <textarea rows="4" formControlName="discussion_summary"
+              class="w-full rounded-lg border px-4 py-3"></textarea>
 
           </div>
 
@@ -690,10 +597,7 @@
               Current Status *
             </label>
 
-            <select
-              formControlName="current_status"
-              class="w-full rounded-lg border px-4 py-3"
-            >
+            <select formControlName="current_status" class="w-full rounded-lg border px-4 py-3">
 
               <option value="">
                 Select Status
@@ -739,12 +643,8 @@
               Expected Business Value *
             </label>
 
-            <input
-              type="number"
-              formControlName="expected_business_value"
-              min="0"
-              class="w-full rounded-lg border px-4 py-3"
-            />
+            <input type="number" formControlName="expected_business_value" min="0"
+              class="w-full rounded-lg border px-4 py-3" />
 
           </div>
 
@@ -756,10 +656,7 @@
               Proposal Sent *
             </label>
 
-            <select
-              formControlName="proposal_sent"
-              class="w-full rounded-lg border px-4 py-3"
-            >
+            <select formControlName="proposal_sent" class="w-full rounded-lg border px-4 py-3">
 
               <option value="">
                 Select
@@ -778,33 +675,58 @@
           </div>
 
 
-          <!-- Order -->
-          <div>
+        <!-- Order Status -->
+<div>
 
-            <label class="block text-sm font-medium mb-2">
-              Order Closed *
-            </label>
+  <label class="block text-sm font-medium mb-2">
+    Order Status *
+  </label>
 
-            <select
-              formControlName="order_closed"
-              class="w-full rounded-lg border px-4 py-3"
-            >
+  <select
+    formControlName="order_closed"
+    class="w-full rounded-lg border px-4 py-3"
+  >
 
-              <option value="">
-                Select
-              </option>
+    <option value="">
+      Select
+    </option>
 
-              <option value="YES">
-                Yes
-              </option>
+    <option value="YES">
+      Order Closed
+    </option>
 
-              <option value="NO">
-                No
-              </option>
+    <option value="NO">
+      Order Pending
+    </option>
 
-            </select>
+    <option value="ORDER_LOST">
+      Order Lost
+    </option>
 
-          </div>
+  </select>
+
+</div>
+
+
+<!-- Order Lost Reason -->
+@if (salesVisitForm.get('order_closed')?.value === 'ORDER_LOST') {
+
+  <div>
+
+    <label class="block text-sm font-medium mb-2">
+      Order Lost Reason *
+    </label>
+
+    <textarea
+      rows="3"
+      formControlName="order_lost_reason"
+      placeholder="Enter reason why the order was lost..."
+      class="w-full rounded-lg border px-4 py-3"
+    ></textarea>
+
+  </div>
+
+}
 
 
           <!-- Closure Date -->
@@ -814,11 +736,7 @@
               Expected Closure Date *
             </label>
 
-            <input
-              type="date"
-              formControlName="expected_closure_date"
-              class="w-full rounded-lg border px-4 py-3"
-            />
+            <input type="date" formControlName="expected_closure_date" class="w-full rounded-lg border px-4 py-3" />
 
           </div>
 
@@ -830,11 +748,7 @@
               Next Follow-up Date *
             </label>
 
-            <input
-              type="date"
-              formControlName="next_followup_date"
-              class="w-full rounded-lg border px-4 py-3"
-            />
+            <input type="date" formControlName="next_followup_date" class="w-full rounded-lg border px-4 py-3" />
 
           </div>
 
@@ -843,13 +757,10 @@
           <div class="md:col-span-2">
 
             <label class="block text-sm font-medium mb-2">
-              Support Required From Management *
+              Support Required From Team*
             </label>
 
-            <select
-              formControlName="management_support_required"
-              class="w-full rounded-lg border px-4 py-3"
-            >
+            <select formControlName="management_support_required" class="w-full rounded-lg border px-4 py-3">
 
               <option value="">
                 Select
@@ -879,11 +790,8 @@
               Additional Remarks
             </label>
 
-            <textarea
-              rows="3"
-              formControlName="additional_remarks"
-              class="w-full rounded-lg border px-4 py-3"
-            ></textarea>
+            <textarea rows="3" formControlName="additional_remarks"
+              class="w-full rounded-lg border px-4 py-3"></textarea>
 
           </div>
 
@@ -895,12 +803,8 @@
               Upload Meeting Photo
             </label>
 
-            <input
-              type="file"
-              accept="image/*"
-              (change)="onMeetingPhotoChange($event)"
-              class="w-full rounded-lg border px-4 py-3"
-            />
+            <input type="file" accept="image/*" (change)="onMeetingPhotoChange($event)"
+              class="w-full rounded-lg border px-4 py-3" />
 
           </div>
 
@@ -910,24 +814,16 @@
 
 
       <!-- Footer -->
-      <div
-        class="flex items-center justify-end gap-3 mt-6 pt-4 border-t px-6 pb-6"
-      >
+      <div class="flex items-center justify-end gap-3 mt-6 pt-4 border-t px-6 pb-6">
 
-        <button
-          type="button"
-          (click)="onCancel()"
-          class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
-        >
+        <button type="button" (click)="onCancel()"
+          class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">
           Cancel
         </button>
 
 
-        <button
-          type="submit"
-          [disabled]="salesVisitForm.invalid || isSubmitting"
-          class="px-5 py-2 rounded-lg bg-blue-600 text-white disabled:opacity-50"
-        >
+        <button type="submit" [disabled]="salesVisitForm.invalid || isSubmitting"
+          class="px-5 py-2 rounded-lg bg-blue-600 text-white disabled:opacity-50">
           {{ isSubmitting ? 'Submitting...' : 'Submit' }}
         </button>
 

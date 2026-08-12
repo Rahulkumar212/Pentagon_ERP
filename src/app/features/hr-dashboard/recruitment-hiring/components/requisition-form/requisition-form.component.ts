@@ -7,26 +7,40 @@ import {
 
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { HiringRequirementService } from '../../../../../core/services/hr/hiring-requirement.service';
-import { CreateHiringRequirementPayload } from '../../../../../core/models/hr/hiring-requirement.type';
+
+import {
+  HiringRequirementService
+} from '../../../../../core/services/hr/hiring-requirement.service';
+
+import {
+  CreateHiringRequirementPayload
+} from '../../../../../core/models/hr/hiring-requirement.type';
 
 
 @Component({
   selector: 'app-requisition-form',
   standalone: true,
+
   imports: [
     CommonModule,
     FormsModule
   ],
+
   templateUrl: './requisition-form.component.html'
 })
 export class RequisitionFormComponent {
 
-  private readonly hiringRequirementService = inject(HiringRequirementService)
+  // =====================================================
+  // SERVICE
+  // =====================================================
 
-  // ==========================
-  // Outputs
-  // ==========================
+  private readonly hiringRequirementService =
+    inject(HiringRequirementService);
+
+
+  // =====================================================
+  // OUTPUTS
+  // =====================================================
 
   @Output()
   close = new EventEmitter<void>();
@@ -35,56 +49,131 @@ export class RequisitionFormComponent {
   created = new EventEmitter<void>();
 
   @Output()
-submit =
-  new EventEmitter<CreateHiringRequirementPayload>();
+  submit =
+    new EventEmitter<CreateHiringRequirementPayload>();
 
-  // ==========================
-  // Form Fields
-  // ==========================
+
+  // =====================================================
+  // FORM FIELDS
+  // =====================================================
 
   jobTitle = '';
 
-  department = 'Engineering';
+  department = '';
 
-  employmentType = 'Full-time';
+  employmentType = '';
+
+  openings = 1;
+
+  priority:
+    'LOW' |
+    'MEDIUM' |
+    'HIGH' |
+    'URGENT' = 'MEDIUM';
+
+  experienceRequired = '';
+
+  qualification = '';
+
+  location = '';
+
+  salaryRange = '';
+
+  applicationDeadline = '';
+
+  hiringManager = '';
 
   description = '';
 
-  // ==========================
-  // Close Form
-  // ==========================
+
+  // =====================================================
+  // CLOSE
+  // =====================================================
 
   onClose(): void {
+
     this.close.emit();
+
   }
 
-  // ==========================
-  // Submit Form
-  // ==========================
+
+  // =====================================================
+  // SUBMIT
+  // =====================================================
 
   onSubmit(): void {
 
-    const payload: CreateHiringRequirementPayload = {
+    if (
+      !this.jobTitle.trim() ||
+      !this.department ||
+      !this.employmentType ||
+      !this.description.trim()
+    ) {
 
-      jobTitle: this.jobTitle.trim(),
+      return;
 
-      department: this.department,
+    }
 
-      employmentType: this.employmentType,
 
-      description: this.description.trim()
+   const payload: CreateHiringRequirementPayload = {
+  jobTitle: this.jobTitle.trim(),
 
-    };
+  department: this.department,
 
-    this.hiringRequirementService.createHiringRequirement(payload).subscribe({
-      next:() => {
-        this.created.emit();
-        this.onClose();
-      },
-      error:err => {
-        console.log(err);
-      }
-    })
+  employmentType: this.employmentType,
+
+  openings: Number(this.openings),
+
+  priority: this.priority,
+
+  experienceRequired:
+    this.experienceRequired.trim(),
+
+  qualification:
+    this.qualification.trim(),
+
+  location:
+    this.location.trim(),
+
+  salaryRange:
+    this.salaryRange.trim(),
+
+  applicationDeadline:
+    this.applicationDeadline,
+
+  hiringManager:
+    this.hiringManager.trim(),
+
+  description:
+    this.description.trim()
+};
+
+    // ===================================================
+    // API CALL
+    // ===================================================
+
+    this.hiringRequirementService
+      .createHiringRequirement(payload)
+      .subscribe({
+
+        next: () => {
+
+          this.created.emit();
+
+          this.onClose();
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Failed to create hiring requirement:',
+            error
+          );
+
+        }
+
+      });
 
   }
 

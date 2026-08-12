@@ -83,6 +83,34 @@ export class OrganizationFormComponent {
   ];
 
   // =====================================================
+// EXIT CLIENTS
+// =====================================================
+
+readonly exitClients = [
+  'ABC Industries',
+  'XYZ Enterprises',
+  'Tata Solutions',
+  'Reliance Industries',
+  'Global Tech Pvt Ltd',
+  'Sharma Enterprises',
+  'Apex Technologies'
+];
+
+// =====================================================
+// ORDER LOST REASONS
+// =====================================================
+
+readonly orderLostReasons = [
+  'PRICE / BUDGET ISSUE',
+  'COMPETITOR SELECTED',
+  'CUSTOMER NOT INTERESTED',
+  'REQUIREMENT CHANGED',
+  'TIMELINE ISSUE',
+  'CUSTOMER NOT RESPONDING',
+  'OTHER'
+];
+
+  // =====================================================
   // MEETING PHOTO
   // =====================================================
 
@@ -107,7 +135,7 @@ export class OrganizationFormComponent {
     } else {
 
       this.salesVisitForm.patchValue({
-        visit_type: 'COLD'
+        visit_type: 'PHYSICAL_MEETING'
       });
     }
   }
@@ -215,7 +243,7 @@ export class OrganizationFormComponent {
     ],
 
     visit_type: [
-      'COLD' as VisitType
+      'PHYSICAL_MEETING' as VisitType
     ],
 
     reporting_location: [
@@ -289,6 +317,15 @@ export class OrganizationFormComponent {
     order_closed: [
       '' as OrderStatus,
       Validators.required
+    ],
+
+    exit_client: [
+      '',
+      Validators.required
+    ],
+
+    order_lost_reason: [
+      ''
     ],
 
     expected_closure_date: [
@@ -492,6 +529,8 @@ export class OrganizationFormComponent {
       order_closed:
         formValue.order_closed,
 
+
+
       expected_closure_date:
         formValue.expected_closure_date,
 
@@ -504,7 +543,7 @@ export class OrganizationFormComponent {
       additional_remarks:
         formValue.additional_remarks.trim(),
 
-     meeting_photo: this.selectedMeetingPhoto
+      meeting_photo: this.selectedMeetingPhoto
     };
 
     console.log(
@@ -666,7 +705,7 @@ export class OrganizationFormComponent {
 
       executive_name: '',
 
-      visit_type: 'COLD',
+      visit_type: 'PHYSICAL_MEETING',
 
       reporting_location: '',
 

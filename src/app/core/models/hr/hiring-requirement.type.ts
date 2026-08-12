@@ -8,6 +8,22 @@ export interface HiringRequirement {
 
   employmentType: string;
 
+  openings: number;
+
+  priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
+
+  experienceRequired: string;
+
+  qualification: string;
+
+  location: string;
+
+  salaryRange: string;
+
+  applicationDeadline: string;
+
+  hiringManager: string;
+
   description: string;
 
   status: 'OPEN' | 'CLOSED' | 'DRAFT';
@@ -19,8 +35,12 @@ export interface HiringRequirement {
   createdAt?: string;
 
   updatedAt?: string;
-
 }
+
+
+// =====================================================
+// CREATE HIRING REQUIREMENT
+// =====================================================
 
 export interface CreateHiringRequirementPayload {
 
@@ -30,9 +50,29 @@ export interface CreateHiringRequirementPayload {
 
   employmentType: string;
 
-  description: string;
+  openings: number;
 
+  priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
+
+  experienceRequired: string;
+
+  qualification: string;
+
+  location: string;
+
+  salaryRange: string;
+
+  applicationDeadline: string;
+
+  hiringManager: string;
+
+  description: string;
 }
+
+
+// =====================================================
+// SINGLE RESPONSE
+// =====================================================
 
 export interface HiringRequirementResponse {
 
@@ -41,8 +81,12 @@ export interface HiringRequirementResponse {
   message: string;
 
   data: HiringRequirement;
-
 }
+
+
+// =====================================================
+// LIST RESPONSE
+// =====================================================
 
 export interface HiringRequirementsResponse {
 
@@ -51,5 +95,4 @@ export interface HiringRequirementsResponse {
   message: string;
 
   data: HiringRequirement[];
-
 }
