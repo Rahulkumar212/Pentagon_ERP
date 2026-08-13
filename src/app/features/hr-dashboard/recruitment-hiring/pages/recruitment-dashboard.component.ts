@@ -218,50 +218,32 @@ filteredJobs: HiringRequirement[] = [];
   // ==========================
 
   submitRequisition(
-    data: CreateHiringRequirementPayload
-  ): void {
+  data: CreateHiringRequirementPayload
+): void {
 
-    const payload:
-      CreateHiringRequirementPayload = {
+  this.hiringRequirementService
+    .createHiringRequirement(data)
+    .subscribe({
 
-      jobTitle:
-        data.jobTitle,
+      next: () => {
 
-      department:
-        data.department,
+        this.closeRequisitionModal();
 
-      employmentType:
-        data.employmentType,
+        this.loadHiringRequirements();
 
-      description:
-        data.description
+      },
 
-    };
+      error: err => {
 
-    this.hiringRequirementService
-      .createHiringRequirement(payload)
-      .subscribe({
+        console.error(
+          'Failed to create hiring requirement',
+          err
+        );
 
-        next: () => {
+      }
 
-          this.closeRequisitionModal();
-
-          this.loadHiringRequirements();
-
-        },
-
-        error: err => {
-
-          console.error(
-            'Failed to create hiring requirement',
-            err
-          );
-
-        }
-
-      });
-
-  }
+    });
+}
 
   // ==========================
   // Candidate List

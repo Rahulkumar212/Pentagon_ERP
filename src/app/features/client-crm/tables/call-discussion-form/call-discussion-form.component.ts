@@ -1,11 +1,10 @@
-
 import {
   Component,
   EventEmitter,
   Input,
   Output,
   OnInit,
-  inject
+  inject,
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -13,39 +12,53 @@ import { CommonModule } from '@angular/common';
 import {
   FormBuilder,
   ReactiveFormsModule,
-  Validators
+  Validators,
 } from '@angular/forms';
 
 import {
-  SalesVisit,
-  CallDiscussionPayload,
   CallType,
   DiscussionOutcome,
-  FollowupMode
-} from '../../../../core/models/client-crm.type';
+  FollowupMode,
+  CallDiscussionPayload,
+} from '../../../../core/models/client-crm/call-discussion.type';
 
 import {
-  OrganizationService
-} from '../../../../core/services/organization.service';
+  CallDiscussionService
+} from '../../../../core/services/call-discussion.service';
 
 import {
   ToastService
 } from '../../../../core/services/toast/toast.service';
 
+import {
+  SalesVisit
+} from '../../../../core/models/client-crm/sales-visit.type';
+
+
 @Component({
   selector: 'app-call-discussion-form',
   standalone: true,
+
   imports: [
     CommonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
   ],
-  templateUrl: './call-discussion-form.component.html'
+
+  templateUrl: './call-discussion-form.component.html',
 })
-export class CallDiscussionFormComponent
-implements OnInit {
+export class CallDiscussionFormComponent implements OnInit {
+
+  // =====================================================
+  // INPUT
+  // =====================================================
 
   @Input({ required: true })
   lead!: SalesVisit;
+
+
+  // =====================================================
+  // OUTPUTS
+  // =====================================================
 
   @Output()
   close = new EventEmitter<void>();
@@ -53,85 +66,106 @@ implements OnInit {
   @Output()
   saved = new EventEmitter<void>();
 
+
+  // =====================================================
+  // SERVICES
+  // =====================================================
+
   private readonly fb =
     inject(FormBuilder);
 
-  private readonly organizationService =
-    inject(OrganizationService);
+  private readonly callDiscussionService =
+    inject(CallDiscussionService);
 
   private readonly toast =
     inject(ToastService);
 
+
+  // =====================================================
+  // STATE
+  // =====================================================
+
   isSubmitting = false;
 
-  form = this.fb.nonNullable.group({
 
-    call_date: [
-      '',
-      Validators.required
-    ],
+  // =====================================================
+  // FORM
+  // =====================================================
 
-    call_time: [
-      '',
-      Validators.required
-    ],
+  form =
+    this.fb.nonNullable.group({
 
-    call_type: [
-      'PHONE',
-      Validators.required
-    ],
-
-    duration: [
-      5,
-      [
+      call_date: [
+        '',
         Validators.required,
-        Validators.min(1)
-      ]
-    ],
+      ],
 
-    discussion: [
-      '',
-      Validators.required
-    ],
-
-    requirement: [
-      '',
-      Validators.required
-    ],
-
-    solution: [
-      '',
-      Validators.required
-    ],
-
-    outcome: [
-      '',
-      Validators.required
-    ],
-
-    expected_amount: [
-      0,
-      [
+      call_time: [
+        '',
         Validators.required,
-        Validators.min(0)
-      ]
-    ],
+      ],
 
-    next_followup_date: [
-      '',
-      Validators.required
-    ],
+      call_type: [
+        'PHONE' as CallType,
+        Validators.required,
+      ],
 
-    followup_mode: [
-      '',
-      Validators.required
-    ],
+      duration: [
+        5,
+        [
+          Validators.required,
+          Validators.min(1),
+        ],
+      ],
 
-    remarks: [
-      ''
-    ]
+      discussion: [
+        '',
+        Validators.required,
+      ],
 
-  });
+      requirement: [
+        '',
+        Validators.required,
+      ],
+
+      solution: [
+        '',
+        Validators.required,
+      ],
+
+      outcome: [
+        '' as DiscussionOutcome,
+        Validators.required,
+      ],
+
+      expected_amount: [
+        0,
+        [
+          Validators.required,
+          Validators.min(0),
+        ],
+      ],
+
+      next_followup_date: [
+        '',
+        Validators.required,
+      ],
+
+      followup_mode: [
+        '' as FollowupMode,
+        Validators.required,
+      ],
+
+      remarks: [
+        '',
+      ],
+
+    });
+
+
+  // =====================================================
+  // INIT
+  // =====================================================
 
   ngOnInit(): void {
 
@@ -140,16 +174,25 @@ implements OnInit {
     this.form.patchValue({
 
       call_date:
-        now.toISOString().substring(0, 10),
+        now.toISOString().split('T')[0],
 
       call_time:
-        now.toTimeString().substring(0, 5)
+        now.toTimeString().slice(0, 5),
 
     });
 
   }
 
+
+  // =====================================================
+  // SAVE CALL DISCUSSION
+  // =====================================================
+
   save(): void {
+
+    // ---------------------------------------------------
+    // Validate
+    // ---------------------------------------------------
 
     if (this.form.invalid) {
 
@@ -160,18 +203,34 @@ implements OnInit {
       );
 
       return;
-
     }
 
+
+    // ---------------------------------------------------
+    // Prevent Multiple Submission
+    // ---------------------------------------------------
+
+    if (this.isSubmitting) {
+      return;
+    }
+
+
     this.isSubmitting = true;
+
+
+    // ---------------------------------------------------
+    // Get Form Value
+    // ---------------------------------------------------
 
     const raw =
       this.form.getRawValue();
 
-    const payload: CallDiscussionPayload = {
 
-      sales_visit_id:
-        this.lead.id,
+    // ---------------------------------------------------
+    // Create Payload
+    // ---------------------------------------------------
+
+    const payload: CallDiscussionPayload = {
 
       call_date:
         raw.call_date,
@@ -180,22 +239,22 @@ implements OnInit {
         raw.call_time,
 
       call_type:
-        raw.call_type as CallType,
+        raw.call_type,
 
       duration:
         Number(raw.duration),
 
       discussion:
-        raw.discussion,
+        raw.discussion.trim(),
 
       requirement:
-        raw.requirement,
+        raw.requirement.trim(),
 
       solution:
-        raw.solution,
+        raw.solution.trim(),
 
       outcome:
-        raw.outcome as DiscussionOutcome,
+        raw.outcome,
 
       expected_amount:
         Number(raw.expected_amount),
@@ -204,24 +263,48 @@ implements OnInit {
         raw.next_followup_date,
 
       followup_mode:
-        raw.followup_mode as FollowupMode,
+        raw.followup_mode,
 
       remarks:
-        raw.remarks
+        raw.remarks.trim(),
+
+      sales_visit_id:
+        this.lead.id
 
     };
 
-    this.organizationService
-      .saveCallDiscussion(
-        this.lead.id,
-        payload
-      )
+
+    // ---------------------------------------------------
+    // Debug
+    // ---------------------------------------------------
+
+    console.log(
+      'Call Discussion Payload:',
+      payload
+    );
+
+
+    // ---------------------------------------------------
+    // POST API
+    // ---------------------------------------------------
+
+    this.callDiscussionService
+      .createCallDiscussion(payload)
       .subscribe({
 
-        next: () => {
+        // -----------------------------------------------
+        // SUCCESS
+        // -----------------------------------------------
+
+        next: (response) => {
+
+          console.log(
+            'Call Discussion Created:',
+            response
+          );
 
           this.toast.success(
-            'Call discussion submitted for approval.'
+            'Call discussion submitted successfully.'
           );
 
           this.isSubmitting = false;
@@ -230,9 +313,17 @@ implements OnInit {
 
         },
 
-        error: (err) => {
 
-          console.error(err);
+        // -----------------------------------------------
+        // ERROR
+        // -----------------------------------------------
+
+        error: (error) => {
+
+          console.error(
+            'Create Call Discussion Error:',
+            error
+          );
 
           this.toast.error(
             'Unable to save call discussion.'
@@ -240,11 +331,16 @@ implements OnInit {
 
           this.isSubmitting = false;
 
-        }
+        },
 
       });
 
   }
+
+
+  // =====================================================
+  // CANCEL
+  // =====================================================
 
   cancel(): void {
 

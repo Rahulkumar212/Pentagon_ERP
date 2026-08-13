@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 
 import {
   CallDiscussion
-} from '../../../../core/models/client-crm.type';
+} from '../../../../core/models/client-crm/call-discussion.type';
 
 @Component({
   selector: 'app-call-discussion-view',

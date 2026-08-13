@@ -1,199 +1,33 @@
-<form [formGroup]="organizationForm" (ngSubmit)="onSubmit()">
+<mat-tab-group
+  [selectedIndex]="selectedTab"
+  (selectedIndexChange)="onTabChange($event)"
+>
 
-  <div class="flex-1 overflow-y-auto px-4 md:px-8 py-6 bg-gray-50">
+  <!-- ===================================================== -->
+  <!-- SALES TELECALLING -->
+  <!-- ===================================================== -->
 
-    <!-- ================= SALES VISIT INFO ================= -->
-    <div class="bg-white rounded-xl border p-5">
+  <mat-tab label="Sales Telecalling">
 
-      <h3 class="text-lg font-semibold mb-5">
-        Sales Visit Information
-      </h3>
+    <app-telecalling-form
+      (save)="onTelecallingSave($event)"
+      (cancel)="onCancel()"
+    />
+
+  </mat-tab>
 
 
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+  <!-- ===================================================== -->
+  <!-- SALES PHYSICAL MEETING -->
+  <!-- ===================================================== -->
 
-        <!-- Executive Name -->
-        <div>
-          <label class="block text-sm font-medium mb-2">
-            Executive Name *
-          </label>
+  <mat-tab label="Sales Physical Meeting">
 
-          <input type="text" formControlName="executive_name" class="w-full rounded-lg border px-4 py-3" />
-        </div>
+    <app-sales-physical-meeting-form
+      (save)="onSalesVisitSave($event)"
+      (cancel)="onCancel()"
+    />
 
-        <!-- Designation -->
-        <div>
-          <label class="block text-sm font-medium mb-2">
-            Designation *
-          </label>
+  </mat-tab>
 
-          <input type="text" formControlName="designation" placeholder="Enter designation"
-            class="w-full rounded-lg border px-4 py-3" />
-        </div>
-
-        <!-- Date -->
-        <div>
-          <label class="block text-sm font-medium mb-2">
-            Date *
-          </label>
-
-          <input type="date" formControlName="visit_date" class="w-full rounded-lg border px-4 py-3" />
-        </div>
-
-        <!-- Visit Type -->
-        <div>
-          <label class="block text-sm font-medium mb-2">
-            Cold / Repeat / Tele Call *
-          </label>
-
-          <select formControlName="visit_type" class="w-full rounded-lg border px-4 py-3">
-            <option value="">Select Type</option>
-            <option value="COLD">Cold Call</option>
-            <option value="REPEAT">Repeat Visit</option>
-            <option value="TELECALL">Tele Call</option>
-          </select>
-        </div>
-
-        <!-- Customer Name -->
-        <div>
-          <label class="block text-sm font-medium mb-2">
-            Customer Name *
-          </label>
-
-          <input type="text" formControlName="customer_name" class="w-full rounded-lg border px-4 py-3" />
-        </div>
-
-        <!-- 🔥 NEW DROPDOWN (Hot / Warm Prospects) -->
-        <div>
-          <label class="block text-sm font-medium mb-2">
-            Lead Category *
-          </label>
-
-          <select formControlName="lead_type" class="w-full rounded-lg border px-4 py-3">
-            <option value="">Select Lead Type</option>
-            <option value="HOT_PROSPECTS">Hot Prospects</option>
-            <option value="WARM_PROSPECTS">Warm Prospects</option>
-          </select>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ================= CUSTOMER INFO ================= -->
-    <div class="bg-white rounded-xl border p-5 mt-6">
-
-      <h3 class="text-lg font-semibold mb-5">
-        Customer Information
-      </h3>
-
-      <div class="space-y-5">
-
-        <!-- Address -->
-        <div>
-          <label class="block text-sm font-medium mb-2">
-            Customer Complete Address *
-          </label>
-
-          <textarea rows="3" formControlName="customer_address" class="w-full rounded-lg border px-4 py-3"></textarea>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-          <!-- Contact Person -->
-          <div>
-            <label class="block text-sm font-medium mb-2">
-              Contact Person *
-            </label>
-
-            <input type="text" formControlName="contact_person" class="w-full rounded-lg border px-4 py-3" />
-          </div>
-
-          <!-- Contact Number -->
-          <div>
-            <label class="block text-sm font-medium mb-2">
-              Contact Number *
-            </label>
-
-            <input type="text" formControlName="contact_number" class="w-full rounded-lg border px-4 py-3" />
-          </div>
-
-          <!-- Email -->
-          <div class="md:col-span-2">
-            <label class="block text-sm font-medium mb-2">
-              Customer Mail ID *
-            </label>
-
-            <input type="email" formControlName="customer_email" class="w-full rounded-lg border px-4 py-3" />
-          </div>
-
-        </div>
-      </div>
-    </div>
-
-    <!-- ================= PRODUCT INFO ================= -->
-    <div class="bg-white rounded-xl border p-5 mt-6">
-
-      <h3 class="text-lg font-semibold mb-5">
-        Product Information
-      </h3>
-
-      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
-
-        <!-- Product Type -->
-        <div>
-          <label class="block text-sm font-medium mb-2">
-            Type of Product / Item *
-          </label>
-
-          <input type="text" formControlName="product_type" class="w-full rounded-lg border px-4 py-3" />
-        </div>
-
-        <!-- Quantity -->
-        <div>
-          <label class="block text-sm font-medium mb-2">
-            Quantity *
-          </label>
-
-          <input type="number" formControlName="quantity" class="w-full rounded-lg border px-4 py-3" />
-        </div>
-
-        <!-- Description -->
-        <div class="md:col-span-2">
-          <label class="block text-sm font-medium mb-2">
-            Product / Item Description *
-          </label>
-
-          <textarea rows="4" formControlName="product_description"
-            class="w-full rounded-lg border px-4 py-3"></textarea>
-        </div>
-
-        <!-- Remarks -->
-        <div class="md:col-span-2">
-          <label class="block text-sm font-medium mb-2">
-            Remarks
-          </label>
-
-          <textarea rows="4" formControlName="remarks" class="w-full rounded-lg border px-4 py-3"></textarea>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ================= FOOTER BUTTONS ================= -->
-    <div class="flex items-center justify-end gap-3 mt-6 pt-4 border-t">
-
-      <button type="button" (click)="onCancel()"
-        class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100">
-        Cancel
-      </button>
-
-      <button type="submit" [disabled]="organizationForm.invalid || isSubmitting"
-        class="px-5 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 disabled:opacity-50">
-        {{ isSubmitting ? 'Saving...' : 'Save Visit' }}
-      </button>
-
-    </div>
-
-  </div>
-
-</form>
+</mat-tab-group>

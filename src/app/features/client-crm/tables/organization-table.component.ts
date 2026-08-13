@@ -10,14 +10,13 @@ import { CommonModule } from '@angular/common';
 
 import {
   SalesVisit,
-  SalesVisitResponse,
-  CallDiscussion,
-  CallDiscussionResponse
-} from '../../../core/models/client-crm.type';
+  SalesVisitResponse
+} from '../../../core/models/client-crm/sales-visit.type';
 
 import {
-  ClientCrmService
-} from '../../../core/services/client-crm.service';
+  CallDiscussion,
+  CallDiscussionResponse
+} from '../../../core/models/client-crm/call-discussion.type';
 
 import {
   OrganizationService
@@ -30,18 +29,27 @@ import {
 import {
   CallDiscussionViewComponent
 } from './call-discussion-view/call-discussion-view.component';
+import { CallDiscussionService } from '../../../core/services/call-discussion.service';
+
 
 @Component({
   selector: 'app-organization-table',
   standalone: true,
+
   imports: [
     CommonModule,
     CallDiscussionFormComponent,
     CallDiscussionViewComponent
   ],
+
   templateUrl: './organization-table.component.html'
 })
-export class OrganizationTableComponent implements OnInit {
+export class OrganizationTableComponent
+  implements OnInit {
+
+  // =====================================================
+  // INPUTS
+  // =====================================================
 
   @Input()
   canEdit = false;
@@ -50,30 +58,44 @@ export class OrganizationTableComponent implements OnInit {
   status?: 'FAILED' | 'CONVERTED';
 
   @Input()
-  showBillingColumns = false;
+  fetchType:
+    'MY_VISITS' | 'ALL_VISITS' = 'MY_VISITS';
 
-  @Input()
-  fetchType: 'MY_VISITS' | 'ALL_VISITS' = 'MY_VISITS';
+
+  // =====================================================
+  // STATE
+  // =====================================================
 
   salesVisits: SalesVisit[] = [];
 
-  selectedVisit: SalesVisit | null = null;
+  selectedVisit:
+    SalesVisit | null = null;
 
-  selectedDiscussion: CallDiscussion | null = null;
+  selectedDiscussion:
+    CallDiscussion | null = null;
 
-  // Modals
   showCallModal = false;
 
   showViewModal = false;
 
-  private readonly clientCrmService =
-    inject(ClientCrmService);
+
+  // =====================================================
+  // SERVICES
+  // =====================================================
 
   private readonly organizationService =
     inject(OrganizationService);
 
+    private readonly callDiscussionService =
+  inject(CallDiscussionService);
+
   private readonly cdr =
     inject(ChangeDetectorRef);
+
+
+  // =====================================================
+  // INIT
+  // =====================================================
 
   ngOnInit(): void {
 
@@ -81,106 +103,209 @@ export class OrganizationTableComponent implements OnInit {
 
   }
 
+
+  // =====================================================
+  // LOAD SALES VISITS
+  // =====================================================
+
   loadSalesVisits(): void {
 
-    const request$ =
-      this.fetchType === 'ALL_VISITS'
-        ? this.clientCrmService.getSalesAllVisits()
-        : this.clientCrmService.getSalesVisits();
+    this.organizationService
+      .fetchSalesVisits()
+      .subscribe({
 
-    request$.subscribe({
+        // -----------------------------------------------
+        // SUCCESS
+        // -----------------------------------------------
 
-      next: (response: SalesVisitResponse) => {
+        next: (
+          response: SalesVisitResponse
+        ) => {
 
-        const data = response.data ?? [];
+          let salesVisits =
+            response.data ?? [];
 
-        if (!this.canEdit) {
 
-          this.salesVisits = data.filter(
-            visit =>
-              visit.status === 'CONVERTED' ||
-              visit.status === 'FAILED'
+          // ---------------------------------------------
+          // NON EDITOR USERS
+          // ---------------------------------------------
+          //
+          // Agar user editor nahi hai,
+          // to sirf CONVERTED / FAILED records
+          // dikhayenge.
+          //
+
+          if (!this.canEdit) {
+
+            salesVisits =
+              salesVisits.filter(
+                visit =>
+                  visit.status === 'CONVERTED' ||
+                  visit.status === 'FAILED'
+              );
+
+          }
+
+
+          // ---------------------------------------------
+          // STATUS FILTER
+          // ---------------------------------------------
+          //
+          // Parent se status diya gaya hai
+          // to uske according filter karenge.
+          //
+
+          if (this.status) {
+
+            salesVisits =
+              salesVisits.filter(
+                visit =>
+                  visit.status === this.status
+              );
+
+          }
+
+
+          // ---------------------------------------------
+          // SET DATA
+          // ---------------------------------------------
+
+          this.salesVisits =
+            salesVisits;
+
+
+          // ---------------------------------------------
+          // CHANGE DETECTION
+          // ---------------------------------------------
+
+          this.cdr.detectChanges();
+
+        },
+
+
+        // -----------------------------------------------
+        // ERROR
+        // -----------------------------------------------
+
+        error: (
+          error
+        ) => {
+
+          console.error(
+            'Failed to load sales visits:',
+            error
           );
 
-        } else {
+          this.salesVisits = [];
 
-          this.salesVisits = data;
+          this.cdr.detectChanges();
 
         }
 
-        this.cdr.detectChanges();
-
-      },
-
-      error: err => {
-
-        console.error(err);
-
-      }
-
-    });
+      });
 
   }
 
-  // ==========================
-  // Add Call
-  // ==========================
+
+  // =====================================================
+  // ADD CALL
+  // =====================================================
 
   addCall(
     visit: SalesVisit
   ): void {
 
-    this.selectedVisit = visit;
+    this.selectedVisit =
+      visit;
 
-    this.showCallModal = true;
+    this.showCallModal =
+      true;
 
   }
+
+
+  // =====================================================
+  // CLOSE CALL MODAL
+  // =====================================================
 
   closeCallModal(): void {
 
-    this.showCallModal = false;
+    this.showCallModal =
+      false;
 
-    this.selectedVisit = null;
+    this.selectedVisit =
+      null;
 
   }
 
-  // ==========================
-  // View Call History
-  // ==========================
 
-  viewHistory(visit: SalesVisit): void {
+  // =====================================================
+  // VIEW CALL HISTORY
+  // =====================================================
 
-  this.organizationService
-    .getCallDiscussionHistory(visit.id)
-    .subscribe({
+  viewHistory(
+    visit: SalesVisit
+  ): void {
 
-      next: (response: CallDiscussionResponse) => {
+    this.callDiscussionService
+      .getCallDiscussionHistory(visit.id)
+      .subscribe({
 
-        this.selectedDiscussion = response.data[0] ?? null;
+        // -----------------------------------------------
+        // SUCCESS
+        // -----------------------------------------------
 
-        this.showViewModal = true;
+        next: (
+          response: CallDiscussionResponse
+        ) => {
 
-      },
+          this.selectedDiscussion =
+            response.data?.[0] ?? null;
 
-      error: err => {
+          this.showViewModal =
+            this.selectedDiscussion !== null;
 
-        console.error(err);
+        },
 
-      }
 
-    });
+        // -----------------------------------------------
+        // ERROR
+        // -----------------------------------------------
 
-}
+        error: (
+          error
+        ) => {
+
+          console.error(
+            'Failed to load call discussion history:',
+            error
+          );
+
+        }
+
+      });
+
+  }
+
+
+  // =====================================================
+  // CLOSE VIEW MODAL
+  // =====================================================
 
   closeViewModal(): void {
 
-  this.showViewModal = false;
+    this.showViewModal =
+      false;
 
-  this.selectedDiscussion = null;
+    this.selectedDiscussion =
+      null;
 
-}
+  }
 
-  // ==========================
+
+  // =====================================================
+  // AFTER CALL UPDATED
+  // =====================================================
 
   onUpdated(): void {
 

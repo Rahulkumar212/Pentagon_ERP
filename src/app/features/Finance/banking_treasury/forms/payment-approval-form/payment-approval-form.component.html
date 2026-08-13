@@ -1,0 +1,268 @@
+<!-- Header -->
+
+<div class="flex items-center justify-between border-b border-gray-200 px-6 py-4">
+
+  <div>
+
+    <h2 class="text-lg font-semibold text-slate-900">
+
+      Create Payment Approval
+
+    </h2>
+
+    <p class="mt-1 text-xs text-slate-500">
+
+      Submit a payment request for finance approval workflow.
+
+    </p>
+
+  </div>
+
+  <button
+    type="button"
+    (click)="cancel()"
+    class="text-xs font-semibold uppercase text-slate-400 hover:text-slate-700">
+
+    Close
+
+  </button>
+
+</div>
+
+<!-- Form -->
+
+<form
+  [formGroup]="form"
+  (ngSubmit)="submit()"
+  class="space-y-5 p-6">
+
+  <!-- Row -->
+
+  <div class="grid grid-cols-2 gap-4">
+
+    <div>
+
+      <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Beneficiary Name
+
+      </label>
+
+      <input
+        type="text"
+        formControlName="beneficiaryName"
+        placeholder="ABC Pvt Ltd"
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </div>
+
+    <div>
+
+      <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Payment Type
+
+      </label>
+
+      <select
+        formControlName="paymentType"
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+        <option value="">
+
+          Select Payment Type
+
+        </option>
+
+        @for(type of paymentTypes; track type){
+
+        <option [value]="type">
+
+          {{ type }}
+
+        </option>
+
+        }
+
+      </select>
+
+    </div>
+
+  </div>
+
+  <!-- Row -->
+
+  <div class="grid grid-cols-2 gap-4">
+
+    <div>
+
+      <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Amount (₹)
+
+      </label>
+
+      <input
+        type="number"
+        formControlName="amount"
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </div>
+
+    <div>
+
+      <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Payment Date
+
+      </label>
+
+      <input
+        type="date"
+        formControlName="paymentDate"
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </div>
+
+  </div>
+
+  <!-- Row -->
+
+  <div class="grid grid-cols-2 gap-4">
+
+    <div>
+
+      <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Bank Account
+
+      </label>
+
+      <input
+        type="text"
+        formControlName="bankAccount"
+        placeholder="HDFC Current Account"
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </div>
+
+    <div>
+
+      <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+        Priority
+
+      </label>
+
+      <select
+        formControlName="priority"
+        class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+        @for(priority of priorities; track priority){
+
+        <option [value]="priority">
+
+          {{ priority }}
+
+        </option>
+
+        }
+
+      </select>
+
+    </div>
+
+  </div>
+
+  <!-- Approval -->
+
+  <div>
+
+    <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+      Approval Level
+
+    </label>
+
+    <select
+      formControlName="approvalLevel"
+      class="w-full rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+      @for(level of approvalLevels; track level){
+
+      <option [value]="level">
+
+        {{ level }}
+
+      </option>
+
+      }
+
+    </select>
+
+  </div>
+
+  <!-- Purpose -->
+
+  <div>
+
+    <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+      Payment Purpose
+
+    </label>
+
+    <textarea
+      rows="3"
+      formControlName="purpose"
+      placeholder="Purpose of this payment..."
+      class="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </textarea>
+
+  </div>
+
+  <!-- Remarks -->
+
+  <div>
+
+    <label class="mb-1 block text-[10px] font-semibold uppercase tracking-wider text-slate-500">
+
+      Remarks
+
+    </label>
+
+    <textarea
+      rows="3"
+      formControlName="remarks"
+      placeholder="Optional remarks..."
+      class="w-full resize-none rounded-lg border border-gray-300 px-3 py-2 text-sm">
+
+    </textarea>
+
+  </div>
+
+  <!-- Footer -->
+
+  <div class="flex justify-end gap-3 border-t border-gray-200 pt-5">
+
+    <button
+      type="button"
+      (click)="cancel()"
+      class="rounded-lg bg-gray-100 px-6 py-2 text-sm font-medium hover:bg-gray-200">
+
+      Cancel
+
+    </button>
+
+    <button
+      type="submit"
+      class="rounded-lg bg-red-800 px-6 py-2 text-sm font-medium text-white hover:bg-red-900">
+
+      Submit for Approval
+
+    </button>
+
+  </div>
+
+</form>
