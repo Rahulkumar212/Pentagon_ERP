@@ -46,10 +46,15 @@ export class ClientCrmComponent {
 
   showOrganizationModal = false;
 
+
+  // =====================================================
+  // OUTPUT
+  // =====================================================
+
   @Output()
-save = new EventEmitter<
-  TelecallingPayload | SalesVisitPayload
->();
+  save = new EventEmitter<
+    TelecallingPayload | SalesVisitPayload
+  >();
 
 
   // =====================================================
@@ -57,6 +62,7 @@ save = new EventEmitter<
   // =====================================================
 
   openOrganizationModal(): void {
+
     this.showOrganizationModal = true;
   }
 
@@ -66,6 +72,7 @@ save = new EventEmitter<
   // =====================================================
 
   closeOrganizationModal(): void {
+
     this.showOrganizationModal = false;
   }
 
@@ -83,38 +90,8 @@ save = new EventEmitter<
       payload
     );
 
+    this.save.emit(payload);
 
-    // ============================================
-    // TELECALLING
-    // ============================================
-
-    if (payload.visit_type === 'TELECALL') {
-
-      console.log(
-        'Telecalling payload:',
-        payload
-      );
-
-      this.showOrganizationModal = false;
-
-      return;
-    }
-
-
-    // ============================================
-    // SALES PHYSICAL VISIT
-    // ============================================
-
-    if (payload.visit_type === 'PHYSICAL_MEETING') {
-
-      console.log(
-        'Sales Visit payload:',
-        payload
-      );
-
-      this.showOrganizationModal = false;
-
-      return;
-    }
+    this.showOrganizationModal = false;
   }
 }

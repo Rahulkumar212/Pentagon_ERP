@@ -12,55 +12,95 @@ import {
   TelecallingResponse
 } from '../../../../core/models/client-crm/telecalling.type';
 
-import { ClientCrmService } from '../../../../core/services/client-crm.service';
+import {
+  OrganizationService
+} from '../../../../core/services/organization.service';
+
 
 @Component({
   selector: 'app-telecalling-table',
   standalone: true,
-  imports: [CommonModule],
+
+  imports: [
+    CommonModule
+  ],
+
   templateUrl: './telecalling-table.html'
 })
 export class TelecallingTable implements OnInit {
 
+  // =====================================================
+  // STATE
+  // =====================================================
+
   telecallingRecords: Telecalling[] = [];
 
-  private readonly clientCrmService =
-    inject(ClientCrmService);
+
+  // =====================================================
+  // SERVICES
+  // =====================================================
+
+  private readonly organizationService =
+    inject(OrganizationService);
 
   private readonly cdr =
     inject(ChangeDetectorRef);
 
+
+  // =====================================================
+  // INIT
+  // =====================================================
+
   ngOnInit(): void {
+
     this.loadTelecalling();
+
   }
 
-   loadTelecalling(): void {
 
-    this.clientCrmService.getTelecalling().subscribe({
+  // =====================================================
+  // LOAD TELECALLING
+  // =====================================================
 
-      next: (response: TelecallingResponse) => {
+  loadTelecalling(): void {
 
-        const data = response.data ?? [];
+    this.organizationService
+      .fetchTelecalling()
+      .subscribe({
 
-        this.telecallingRecords = data.filter(
-          record => record.visit_type === 'TELECALL'
-        );
+        // -------------------------------------------------
+        // SUCCESS
+        // -------------------------------------------------
 
-        this.cdr.detectChanges();
-      },
+        next: (response: TelecallingResponse) => {
 
-      error: (error) => {
+          this.telecallingRecords =
+            response.data ?? [];
 
-        console.error(
-          'Failed to load telecalling records:',
-          error
-        );
+          this.cdr.detectChanges();
 
-        this.telecallingRecords = [];
+        },
 
-        this.cdr.detectChanges();
-      }
 
-    });
+        // -------------------------------------------------
+        // ERROR
+        // -------------------------------------------------
+
+        error: (error) => {
+
+          console.error(
+            'Failed to load telecalling records:',
+            error
+          );
+
+          this.telecallingRecords = [];
+
+          this.cdr.detectChanges();
+
+        }
+
+      });
+
   }
+
 }

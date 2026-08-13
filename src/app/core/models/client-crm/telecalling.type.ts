@@ -9,8 +9,6 @@ export interface TelecallingPayload {
 
   visit_date: string;
 
- visit_type: 'TELECALL';
-
   customer_name: string;
 
   contact_person: string;
@@ -23,13 +21,6 @@ export interface TelecallingPayload {
 
   lead_priority: LeadPriority;
 
-  total_calls_made: number;
-
-  connected_calls: number;
-
-  meetings_scheduled: number;
-
-  new_leads_generated: number;
 
   remarks: string;
 }

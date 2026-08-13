@@ -65,11 +65,6 @@ export class RequisitionFormComponent {
 
   openings = 1;
 
-  priority:
-    'LOW' |
-    'MEDIUM' |
-    'HIGH' |
-    'URGENT' = 'MEDIUM';
 
   experienceRequired = '';
 
@@ -123,8 +118,6 @@ export class RequisitionFormComponent {
   employmentType: this.employmentType,
 
   openings: Number(this.openings),
-
-  priority: this.priority,
 
   experienceRequired:
     this.experienceRequired.trim(),

@@ -10,7 +10,6 @@ export interface HiringRequirement {
 
   openings: number;
 
-  priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
 
   experienceRequired: string;
 
@@ -51,8 +50,6 @@ export interface CreateHiringRequirementPayload {
   employmentType: string;
 
   openings: number;
-
-  priority: 'LOW' | 'MEDIUM' | 'HIGH' | 'URGENT';
 
   experienceRequired: string;
 

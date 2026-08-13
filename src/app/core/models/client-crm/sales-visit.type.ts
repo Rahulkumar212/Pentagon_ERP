@@ -1,8 +1,3 @@
-export type VisitType =
-  | 'PHYSICAL_MEETING'
-  | 'TELECALL';
-
-
 
 export type VisitStatus =
   | 'OPEN'
@@ -64,7 +59,6 @@ export interface SalesVisitPayload {
   reporting_location: string;
   visit_date: string;
   activity_type: ActivityType;
-  visit_type: VisitType;
   customer_name: string;
   contact_person: string;
   contact_number: string;

@@ -1,0 +1,233 @@
+<form
+  [formGroup]="telecallingForm"
+  (ngSubmit)="onSubmit()"
+  novalidate
+>
+
+  <!-- Employee Information -->
+  <div class="flex-1 overflow-y-auto px-4 md:px-8 py-6 bg-gray-50">
+
+    <div class="bg-white rounded-xl border p-5">
+
+      <h3 class="text-lg font-semibold mb-5">
+        Employee Information
+      </h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+        <!-- Employee -->
+        <div>
+
+          <label class="block text-sm font-medium mb-2">
+            Employee Name *
+          </label>
+
+          <select
+            formControlName="executive_name"
+            class="w-full rounded-lg border px-4 py-3"
+          >
+
+            <option value="">
+              Select Name
+            </option>
+
+            @for (employee of employees; track employee) {
+
+              <option [value]="employee">
+                {{ employee }}
+              </option>
+
+            }
+
+          </select>
+
+        </div>
+
+        <!-- Date -->
+        <div>
+
+          <label class="block text-sm font-medium mb-2">
+            Date of Activity Report *
+          </label>
+
+          <input
+            type="date"
+            formControlName="visit_date"
+            class="w-full rounded-lg border px-4 py-3"
+          />
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Client Information -->
+    <div class="bg-white rounded-xl border p-5 mt-6">
+
+      <h3 class="text-lg font-semibold mb-5">
+        Client Information
+      </h3>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+        <!-- Client Name -->
+        <div>
+
+          <label class="block text-sm font-medium mb-2">
+            Client Name *
+          </label>
+
+          <input
+            type="text"
+            formControlName="customer_name"
+            class="w-full rounded-lg border px-4 py-3"
+          />
+
+        </div>
+
+
+        <!-- Contact Person -->
+        <div>
+
+          <label class="block text-sm font-medium mb-2">
+            Contact Person *
+          </label>
+
+          <input
+            type="text"
+            formControlName="contact_person"
+            class="w-full rounded-lg border px-4 py-3"
+          />
+
+        </div>
+
+
+        <!-- Contact Number -->
+        <div>
+
+          <label class="block text-sm font-medium mb-2">
+            Contact Number *
+          </label>
+
+          <input
+            type="text"
+            formControlName="contact_number"
+            class="w-full rounded-lg border px-4 py-3"
+          />
+
+        </div>
+
+
+        <!-- Email -->
+        <div>
+
+          <label class="block text-sm font-medium mb-2">
+            Email ID *
+          </label>
+
+          <input
+            type="email"
+            formControlName="customer_email"
+            class="w-full rounded-lg border px-4 py-3"
+          />
+
+        </div>
+
+
+        <!-- City -->
+        <div>
+
+          <label class="block text-sm font-medium mb-2">
+            City *
+          </label>
+
+          <input
+            type="text"
+            formControlName="city"
+            class="w-full rounded-lg border px-4 py-3"
+          />
+
+        </div>
+
+
+        <!-- Lead Category -->
+        <div>
+
+          <label class="block text-sm font-medium mb-2">
+            Lead Category *
+          </label>
+
+          <select
+            formControlName="lead_priority"
+            class="w-full rounded-lg border px-4 py-3"
+          >
+
+            <option value="">
+              Select Type
+            </option>
+
+            <option value="HOT_PROSPECTS">
+              Hot
+            </option>
+
+            <option value="WARM_PROSPECTS">
+              Warm
+            </option>
+
+            <option value="COLD_PROSPECTS">
+              Cold
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- Remarks -->
+        <div class="md:col-span-2">
+
+          <label class="block text-sm font-medium mb-2">
+            Remarks *
+          </label>
+
+          <textarea
+            rows="4"
+            formControlName="remarks"
+            class="w-full rounded-lg border px-4 py-3"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Footer -->
+  <div
+    class="flex items-center justify-end gap-3 mt-6 pt-4 border-t px-6 pb-6"
+  >
+
+    <button
+      type="button"
+      (click)="onCancel()"
+      class="px-5 py-2 rounded-lg border border-gray-300 text-gray-700 hover:bg-gray-100"
+    >
+      Cancel
+    </button>
+
+    <button
+      type="submit"
+      [disabled]="telecallingForm.invalid || isSubmitting"
+      class="px-5 py-2 rounded-lg bg-blue-600 text-white disabled:opacity-50"
+    >
+      {{ isSubmitting ? 'Submitting...' : 'Submit' }}
+    </button>
+
+  </div>
+
+</form>
