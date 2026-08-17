@@ -1,0 +1,892 @@
+<!-- ===================================================== -->
+<!-- OVERLAY -->
+<!-- ===================================================== -->
+
+<div class="fixed inset-0 z-50
+         bg-slate-900/60
+         backdrop-blur-[2px]
+         flex items-center justify-center
+         p-3 sm:p-5">
+
+
+    <!-- =================================================== -->
+    <!-- MODAL -->
+    <!-- =================================================== -->
+
+    <div class="w-full
+           max-w-3xl
+           max-h-[94vh]
+           overflow-y-auto
+           bg-white
+           rounded-xl
+           shadow-2xl
+           border border-gray-200">
+
+
+        <!-- ================================================= -->
+        <!-- HEADER -->
+        <!-- ================================================= -->
+
+        <div class="flex items-center
+             justify-between
+             px-6 py-4
+             border-b border-gray-200">
+
+
+            <!-- LEFT -->
+
+            <div class="flex items-center gap-3">
+
+
+                <div class="w-9 h-9
+                 rounded-lg
+                 bg-red-50
+                 border border-red-100
+                 flex items-center
+                 justify-center">
+
+                    <span class="text-lg text-red-800">
+
+                        ◈
+
+                    </span>
+
+                </div>
+
+
+                <div>
+
+                    <h2 class="text-base
+                   md:text-lg
+                   font-semibold
+                   text-gray-900">
+
+                        Create New Customer Order
+
+                    </h2>
+
+                </div>
+
+            </div>
+
+
+            <!-- CLOSE -->
+
+            <button type="button" (click)="onClose()" class="w-8 h-8
+               rounded-lg
+               flex items-center
+               justify-center
+               text-gray-400
+               hover:bg-gray-100
+               hover:text-gray-700
+               text-2xl
+               transition">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- BODY -->
+        <!-- ================================================= -->
+
+        <div class="px-6 py-5
+             space-y-5">
+
+
+            <!-- ================================================= -->
+            <!-- CUSTOMER + ORDER DETAILS -->
+            <!-- ================================================= -->
+
+            <div class="grid
+               grid-cols-1
+               md:grid-cols-3
+               gap-4">
+
+
+                <!-- CUSTOMER NAME -->
+
+                <div>
+
+                    <label class="block
+                   mb-1.5
+                   text-xs
+                   font-semibold
+                   text-slate-700">
+
+                        Customer / Entity Name
+                        <span class="text-red-600">*</span>
+
+                    </label>
+
+                    <input type="text" [(ngModel)]="customerName" placeholder="e.g. Acme Corporation" class="w-full
+                   h-10
+                   px-3
+                   rounded-lg
+                   border border-slate-200
+                   bg-white
+                   text-sm
+                   text-slate-800
+                   placeholder:text-slate-400
+                   focus:outline-none
+                   focus:border-red-700
+                   focus:ring-2
+                   focus:ring-red-100">
+
+                </div>
+
+
+                <!-- PHONE -->
+
+                <div>
+
+                    <label class="block
+                   mb-1.5
+                   text-xs
+                   font-semibold
+                   text-slate-700">
+
+                        Phone Number
+
+                    </label>
+
+                    <input type="tel" [(ngModel)]="phone" placeholder="+1 (555) 019-2834" class="w-full
+                   h-10
+                   px-3
+                   rounded-lg
+                   border border-slate-200
+                   text-sm
+                   text-slate-800
+                   placeholder:text-slate-400
+                   focus:outline-none
+                   focus:border-red-700
+                   focus:ring-2
+                   focus:ring-red-100">
+
+                </div>
+
+
+                <!-- EMAIL -->
+
+                <div>
+
+                    <label class="block
+                   mb-1.5
+                   text-xs
+                   font-semibold
+                   text-slate-700">
+
+                        Email Address
+
+                    </label>
+
+                    <input type="email" [(ngModel)]="email" placeholder="finance@acme.com" class="w-full
+                   h-10
+                   px-3
+                   rounded-lg
+                   border border-slate-200
+                   text-sm
+                   text-slate-800
+                   placeholder:text-slate-400
+                   focus:outline-none
+                   focus:border-red-700
+                   focus:ring-2
+                   focus:ring-red-100">
+
+                </div>
+
+
+                <!-- PO NUMBER -->
+
+                <div>
+
+                    <label class="block
+                   mb-1.5
+                   text-xs
+                   font-semibold
+                   text-slate-700">
+
+                        Purchase Order / Order #
+
+                    </label>
+
+                    <input type="text" [(ngModel)]="purchaseOrderNumber" placeholder="e.g. PO-89211" class="w-full
+                   h-10
+                   px-3
+                   rounded-lg
+                   border border-slate-200
+                   text-sm
+                   text-slate-800
+                   placeholder:text-slate-400
+                   focus:outline-none
+                   focus:border-red-700
+                   focus:ring-2
+                   focus:ring-red-100">
+
+                </div>
+
+
+                <!-- ORDER DATE -->
+
+                <div>
+
+                    <label class="block
+                   mb-1.5
+                   text-xs
+                   font-semibold
+                   text-slate-700">
+
+                        Order Date
+
+                    </label>
+
+                    <input type="date" [(ngModel)]="orderDate" class="w-full
+                   h-10
+                   px-3
+                   rounded-lg
+                   border border-slate-200
+                   text-sm
+                   text-slate-800
+                   focus:outline-none
+                   focus:border-red-700
+                   focus:ring-2
+                   focus:ring-red-100">
+
+                </div>
+
+
+                <!-- DELIVERY DATE -->
+
+                <div>
+
+                    <label class="block
+                   mb-1.5
+                   text-xs
+                   font-semibold
+                   text-slate-700">
+
+                        Delivery Target Date
+                        <span class="text-red-600">*</span>
+
+                    </label>
+
+                    <input type="date" [(ngModel)]="deliveryTargetDate" class="w-full
+                   h-10
+                   px-3
+                   rounded-lg
+                   border border-slate-200
+                   text-sm
+                   text-slate-800
+                   focus:outline-none
+                   focus:border-red-700
+                   focus:ring-2
+                   focus:ring-red-100">
+
+                </div>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- DIVIDER -->
+            <!-- ================================================= -->
+
+            <div class="border-t border-gray-200">
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- DELIVERABLE HEADER -->
+            <!-- ================================================= -->
+
+            <div class="flex items-center
+               justify-between">
+
+
+                <h3 class="text-xs
+                 uppercase
+                 tracking-wider
+                 font-bold
+                 text-slate-700">
+
+                    Order Deliverables & Pricing
+
+                </h3>
+
+
+                <button type="button" (click)="addItem()" class="text-xs
+                 font-semibold
+                 text-red-800
+                 hover:text-red-900">
+
+                    + Add Item
+
+                </button>
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- ORDER ITEMS -->
+            <!-- ================================================= -->
+
+            <div class="space-y-2">
+
+
+                @for (
+                item of items;
+                track $index;
+                let i = $index
+                ) {
+
+
+                <div class="grid
+                   grid-cols-12
+                   gap-2">
+
+
+                    <!-- DESCRIPTION -->
+
+                    <div class="col-span-6
+                     md:col-span-7">
+
+                        <input type="text" [(ngModel)]="item.description" placeholder="Item or service description"
+                            class="w-full
+                       h-10
+                       px-3
+                       rounded-lg
+                       border border-slate-200
+                       text-sm
+                       focus:outline-none
+                       focus:border-red-700
+                       focus:ring-2
+                       focus:ring-red-100">
+
+                    </div>
+
+
+                    <!-- QUANTITY -->
+
+                    <div class="col-span-2">
+
+                        <input type="number" min="1" [(ngModel)]="item.quantity" class="w-full
+                       h-10
+                       px-3
+                       rounded-lg
+                       border border-slate-200
+                       text-sm
+                       focus:outline-none
+                       focus:border-red-700
+                       focus:ring-2
+                       focus:ring-red-100">
+
+                    </div>
+
+
+                    <!-- UNIT PRICE -->
+
+                    <div class="col-span-3">
+
+                        <input type="number" min="0" [(ngModel)]="item.unitPrice" placeholder="Unit Price" class="w-full
+                       h-10
+                       px-3
+                       rounded-lg
+                       border border-slate-200
+                       text-sm
+                       focus:outline-none
+                       focus:border-red-700
+                       focus:ring-2
+                       focus:ring-red-100">
+
+                    </div>
+
+
+                    <!-- REMOVE -->
+
+                    <div class="col-span-1
+                     flex items-center
+                     justify-center">
+
+                        @if (items.length > 1) {
+
+                        <button type="button" (click)="removeItem(i)" class="text-gray-400
+                         hover:text-red-700
+                         text-lg">
+
+                            ×
+
+                        </button>
+
+                        }
+
+                    </div>
+
+                </div>
+
+                }
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- TOTAL -->
+            <!-- ================================================= -->
+
+            <div class="flex items-center
+               justify-end
+               px-4 py-3
+               rounded-lg
+               border border-slate-200
+               bg-slate-50">
+
+                <p class="text-sm
+                 font-semibold
+                 text-slate-700">
+
+                    Total Contract Amount:
+
+                    <span class="ml-2
+                   font-bold
+                   text-slate-900">
+
+                        {{ formatAmount(getTotalAmount()) }}
+
+                    </span>
+
+                </p>
+
+            </div>
+
+
+            <!-- ===================================================== -->
+            <!-- UPFRONT ADVANCE PAYMENT -->
+            <!-- ===================================================== -->
+
+            <div class="border border-gray-200
+         rounded-lg
+         bg-gray-50
+         overflow-hidden">
+
+
+                <!-- ================================================= -->
+                <!-- CHECKBOX -->
+                <!-- ================================================= -->
+
+                <label class="flex items-center
+           justify-between
+           px-4 py-3
+           cursor-pointer
+           hover:bg-gray-100
+           transition">
+
+
+                    <div class="flex items-center gap-2">
+
+                        <input type="checkbox" [(ngModel)]="upfrontAdvancePayment" class="w-4 h-4
+               accent-red-800
+               cursor-pointer" />
+
+
+                        <span class="text-sm
+               font-semibold
+               text-gray-800">
+
+                            Record Upfront Advance Payment
+
+                        </span>
+
+                    </div>
+
+
+                    <!-- Remaining Balance -->
+
+                    @if (upfrontAdvancePayment) {
+
+                    <div class="text-xs
+               font-mono
+               text-gray-600">
+
+                        Remaining Balance:
+
+                        <span class="ml-1
+         font-semibold
+         text-red-700">
+
+                            {{ formatAmount(getRemainingBalance()) }}
+
+                        </span>
+
+                    </div>
+
+                    }
+
+                </label>
+
+
+                <!-- ================================================= -->
+                <!-- ADVANCE PAYMENT DETAILS -->
+                <!-- ================================================= -->
+
+                @if (upfrontAdvancePayment) {
+
+                <div class="border-t
+             border-gray-200
+             px-4 py-3">
+
+
+                    <div class="grid
+               grid-cols-1
+               md:grid-cols-4
+               gap-3">
+
+
+                        <!-- =========================================== -->
+                        <!-- ADVANCE AMOUNT -->
+                        <!-- =========================================== -->
+
+                        <div>
+
+                            <label class="block mb-1.5
+                   text-xs
+                   font-medium
+                   text-gray-700">
+
+                                Advance Amount
+
+                                <span class="text-red-600">
+                                    *
+                                </span>
+
+                            </label>
+
+
+                            <input type="number" min="0" [max]="getTotalAmount()" [(ngModel)]="advanceAmount"
+                                placeholder="₹0" class="w-full
+                   border border-gray-300
+                   rounded-lg
+                   px-3 py-2.5
+                   text-sm
+                   bg-white
+                   focus:outline-none
+                   focus:border-red-700
+                   focus:ring-1
+                   focus:ring-red-200" />
+
+                        </div>
+
+
+                        <!-- =========================================== -->
+                        <!-- DEPOSIT ACCOUNT -->
+                        <!-- =========================================== -->
+
+                        <div>
+
+                            <label class="block mb-1.5
+                   text-xs
+                   font-medium
+                   text-gray-700">
+
+                                Deposit Account
+
+                                <span class="text-red-600">
+                                    *
+                                </span>
+
+                            </label>
+
+
+                            <select [(ngModel)]="depositAccount" class="w-full
+                   border border-gray-300
+                   rounded-lg
+                   px-3 py-2.5
+                   text-sm
+                   bg-white
+                   focus:outline-none
+                   focus:border-red-700
+                   focus:ring-1
+                   focus:ring-red-200">
+
+
+                                <option value="">
+                                    Select Account
+                                </option>
+
+                                <option value="HDFC Corporate">
+                                    HDFC Corporate
+                                </option>
+
+                                <option value="ICICI Current Account">
+                                    ICICI Current Account
+                                </option>
+
+                                <option value="SBI Current Account">
+                                    SBI Current Account
+                                </option>
+
+                                <option value="Cash">
+                                    Cash
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- =========================================== -->
+                        <!-- PAYMENT MODE -->
+                        <!-- =========================================== -->
+
+                        <div>
+
+                            <label class="block mb-1.5
+                   text-xs
+                   font-medium
+                   text-gray-700">
+
+                                Payment Mode
+
+                                <span class="text-red-600">
+                                    *
+                                </span>
+
+                            </label>
+
+
+                            <select [(ngModel)]="paymentMode" class="w-full
+                   border border-gray-300
+                   rounded-lg
+                   px-3 py-2.5
+                   text-sm
+                   bg-white
+                   focus:outline-none
+                   focus:border-red-700
+                   focus:ring-1
+                   focus:ring-red-200">
+
+
+                                <option value="">
+                                    Select Mode
+                                </option>
+
+                                <option value="Bank Transfer">
+                                    Bank Transfer
+                                </option>
+
+                                <option value="UPI">
+                                    UPI
+                                </option>
+
+                                <option value="Cheque">
+                                    Cheque
+                                </option>
+
+                                <option value="Cash">
+                                    Cash
+                                </option>
+
+                                <option value="Card">
+                                    Card
+                                </option>
+
+                            </select>
+
+                        </div>
+
+
+                        <!-- =========================================== -->
+                        <!-- REFERENCE -->
+                        <!-- =========================================== -->
+
+                        <div>
+
+                            <label class="block mb-1.5
+                   text-xs
+                   font-medium
+                   text-gray-700">
+
+                                Reference #
+
+                                <span class="text-red-600">
+                                    *
+                                </span>
+
+                            </label>
+
+
+                            <input type="text" [(ngModel)]="paymentReference" placeholder="UTR / Transaction ID" class="w-full
+                   border border-gray-300
+                   rounded-lg
+                   px-3 py-2.5
+                   text-sm
+                   bg-white
+                   focus:outline-none
+                   focus:border-red-700
+                   focus:ring-1
+                   focus:ring-red-200" />
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- =============================================== -->
+                    <!-- PAYMENT SUMMARY -->
+                    <!-- =============================================== -->
+
+                    <div class="mt-3
+               flex
+               items-center
+               justify-between
+               text-xs
+               bg-white
+               border border-gray-200
+               rounded-lg
+               px-3 py-2">
+
+
+                        <span class="text-gray-500">
+
+                            Total Contract Amount
+
+                        </span>
+
+
+                        <span class="font-semibold
+                 text-gray-800">
+
+                            {{ formatAmount(getTotalAmount()) }}
+
+                        </span>
+
+
+                        <span class="text-gray-500">
+
+                            Advance
+
+                        </span>
+
+
+                        <span class="font-semibold
+                 text-green-700">
+
+                            {{ formatAmount(advanceAmount) }}
+
+                        </span>
+
+
+                        <span class="text-gray-500">
+
+                            Balance
+
+                        </span>
+
+
+                        <span class="font-semibold
+                 text-red-700">
+
+                            {{ formatAmount(getRemainingBalance()) }}
+
+                        </span>
+
+                    </div>
+
+                </div>
+
+                }
+
+            </div>
+
+
+            <!-- ================================================= -->
+            <!-- TERMS -->
+            <!-- ================================================= -->
+
+            <div>
+
+                <label class="block
+                 mb-1.5
+                 text-xs
+                 font-semibold
+                 text-slate-700">
+
+                    Terms & Project Notes
+
+                </label>
+
+                <textarea rows="3" [(ngModel)]="termsAndNotes"
+                    placeholder="e.g. 50% advance booking, 50% upon final delivery." class="w-full
+                 px-3
+                 py-2.5
+                 rounded-lg
+                 border border-slate-200
+                 text-sm
+                 resize-none
+                 placeholder:text-slate-400
+                 focus:outline-none
+                 focus:border-red-700
+                 focus:ring-2
+                 focus:ring-red-100"></textarea>
+
+            </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- FOOTER -->
+        <!-- ================================================= -->
+
+        <div class="flex items-center
+             justify-end
+             gap-3
+             px-6 py-4
+             border-t border-gray-200
+             bg-gray-50
+             rounded-b-xl">
+
+
+            <!-- CANCEL -->
+
+            <button type="button" (click)="onClose()" class="px-4 py-2
+               rounded-lg
+               bg-white
+               border border-gray-200
+               text-sm
+               font-medium
+               text-slate-700
+               hover:bg-gray-100
+               transition">
+
+                Cancel
+
+            </button>
+
+
+            <!-- SAVE -->
+
+            <button type="button" (click)="onSubmit()" [disabled]="isSubmitting" class="px-5 py-2
+               rounded-lg
+               bg-red-800
+               hover:bg-red-900
+               text-white
+               text-sm
+               font-semibold
+               disabled:opacity-50
+               disabled:cursor-not-allowed
+               transition">
+
+                {{ isSubmitting
+                ? 'Saving...'
+                : 'Save & Create Order'
+                }}
+
+            </button>
+
+        </div>
+
+    </div>
+
+</div>

@@ -1,0 +1,625 @@
+<div
+  class="w-full overflow-hidden
+         rounded-xl
+         border border-slate-200
+         bg-white
+         shadow-sm"
+>
+
+  <!-- ===================================================== -->
+  <!-- TABLE -->
+  <!-- ===================================================== -->
+
+  <div class="w-full overflow-x-auto">
+
+    <table
+      class="w-full
+             min-w-[1050px]
+             table-fixed
+             border-collapse"
+    >
+
+      <!-- ================================================= -->
+      <!-- HEADER -->
+      <!-- ================================================= -->
+
+      <thead>
+
+        <tr
+          class="h-[56px]
+                 border-b border-slate-200
+                 bg-slate-50/70"
+        >
+
+          <!-- ORDER -->
+          <th
+            class="w-[7%]
+                   px-5
+                   text-left
+                   align-middle
+                   font-mono
+                   text-[10px]
+                   font-medium
+                   leading-4
+                   text-slate-600"
+          >
+            <span class="block">
+              Order
+            </span>
+
+            <span class="block">
+              #
+            </span>
+          </th>
+
+
+          <!-- CUSTOMER -->
+          <th
+            class="w-[15%]
+                   px-3
+                   text-left
+                   align-middle
+                   font-mono
+                   text-[10px]
+                   font-medium
+                   text-slate-600"
+          >
+            Customer
+          </th>
+
+
+          <!-- ORDER DATE -->
+          <th
+            class="w-[8%]
+                   px-3
+                   text-left
+                   align-middle
+                   font-mono
+                   text-[10px]
+                   font-medium
+                   leading-4
+                   text-slate-600"
+          >
+            <span class="block">
+              Order
+            </span>
+
+            <span class="block">
+              Date
+            </span>
+          </th>
+
+
+          <!-- DELIVERY TARGET -->
+          <th
+            class="w-[10%]
+                   px-3
+                   text-left
+                   align-middle
+                   font-mono
+                   text-[10px]
+                   font-medium
+                   leading-4
+                   text-slate-600"
+          >
+            <span class="block">
+              Delivery
+            </span>
+
+            <span class="block">
+              Target
+            </span>
+          </th>
+
+
+          <!-- TOTAL VALUE -->
+          <th
+            class="w-[10%]
+                   px-3
+                   text-center
+                   align-middle
+                   font-mono
+                   text-[10px]
+                   font-medium
+                   leading-4
+                   text-slate-600"
+          >
+            <span class="block">
+              Total
+            </span>
+
+            <span class="block">
+              Value
+            </span>
+          </th>
+
+
+          <!-- PAYMENT PAID -->
+          <th
+            class="w-[10%]
+                   px-3
+                   text-center
+                   align-middle
+                   font-mono
+                   text-[10px]
+                   font-medium
+                   leading-4
+                   text-slate-600"
+          >
+            <span class="block">
+              Payment
+            </span>
+
+            <span class="block">
+              Paid
+            </span>
+          </th>
+
+
+          <!-- BALANCE DUE -->
+          <th
+            class="w-[10%]
+                   px-3
+                   text-center
+                   align-middle
+                   font-mono
+                   text-[10px]
+                   font-medium
+                   leading-4
+                   text-slate-600"
+          >
+            <span class="block">
+              Balance
+            </span>
+
+            <span class="block">
+              Due
+            </span>
+          </th>
+
+
+          <!-- PAYMENT STATUS -->
+          <th
+            class="w-[11%]
+                   px-3
+                   text-center
+                   align-middle
+                   font-mono
+                   text-[10px]
+                   font-medium
+                   leading-4
+                   text-slate-600"
+          >
+            <span class="block">
+              Payment
+            </span>
+
+            <span class="block">
+              Status
+            </span>
+          </th>
+
+
+          <!-- FULFILLMENT -->
+          <th
+            class="w-[11%]
+                   px-3
+                   text-center
+                   align-middle
+                   font-mono
+                   text-[10px]
+                   font-medium
+                   text-slate-600"
+          >
+            Fulfillment
+          </th>
+
+
+          <!-- ACTIONS -->
+          <th
+            class="w-[10%]
+                   px-5
+                   text-center
+                   align-middle
+                   font-mono
+                   text-[10px]
+                   font-medium
+                   text-slate-600"
+          >
+            Actions
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <!-- ================================================= -->
+      <!-- BODY -->
+      <!-- ================================================= -->
+
+      <tbody>
+
+        @for (
+          order of orders;
+          track order.id
+        ) {
+
+          <tr
+            class="h-[58px]
+                   border-b border-slate-100
+                   transition-colors
+                   hover:bg-slate-50/60"
+          >
+
+            <!-- =========================================== -->
+            <!-- ORDER NUMBER -->
+            <!-- =========================================== -->
+
+            <td
+              class="px-5
+                     align-middle"
+            >
+
+              <span
+                class="font-mono
+                       text-[11px]
+                       font-medium
+                       leading-4
+                       text-red-700"
+              >
+                {{ formatOrderNumber(order.orderNumber) }}
+              </span>
+
+            </td>
+
+
+            <!-- =========================================== -->
+            <!-- CUSTOMER -->
+            <!-- =========================================== -->
+
+            <td
+              class="px-3
+                     align-middle"
+            >
+
+              <div
+                class="max-w-[150px]
+                       text-[12px]
+                       font-medium
+                       leading-4
+                       text-slate-800"
+              >
+                {{ order.customerName }}
+              </div>
+
+            </td>
+
+
+            <!-- =========================================== -->
+            <!-- ORDER DATE -->
+            <!-- =========================================== -->
+
+            <td
+              class="px-3
+                     align-middle"
+            >
+
+              <span
+                class="font-mono
+                       text-[10px]
+                       leading-4
+                       text-slate-600"
+              >
+                {{ formatDate(order.orderDate) }}
+              </span>
+
+            </td>
+
+
+            <!-- =========================================== -->
+            <!-- DELIVERY DATE -->
+            <!-- =========================================== -->
+
+            <td
+              class="px-3
+                     align-middle"
+            >
+
+              <span
+                class="font-mono
+                       text-[10px]
+                       leading-4
+                       text-slate-600"
+              >
+                {{ formatDate(order.deliveryTargetDate) }}
+              </span>
+
+            </td>
+
+
+            <!-- =========================================== -->
+            <!-- TOTAL VALUE -->
+            <!-- =========================================== -->
+
+            <td
+              class="px-3
+                     text-center
+                     align-middle"
+            >
+
+              <span
+                class="font-mono
+                       text-[11px]
+                       font-semibold
+                       text-slate-800"
+              >
+                {{ formatAmount(getTotalAmount(order)) }}
+              </span>
+
+            </td>
+
+
+            <!-- =========================================== -->
+            <!-- PAYMENT PAID -->
+            <!-- =========================================== -->
+
+            <td
+              class="px-3
+                     text-center
+                     align-middle"
+            >
+
+              <span
+                class="font-mono
+                       text-[11px]
+                       font-semibold
+                       text-emerald-700"
+              >
+                {{ formatAmount(order.receivedAmount || 0) }}
+              </span>
+
+            </td>
+
+
+            <!-- =========================================== -->
+            <!-- BALANCE DUE -->
+            <!-- =========================================== -->
+
+            <td
+              class="px-3
+                     text-center
+                     align-middle"
+            >
+
+              <span
+                class="font-mono
+                       text-[11px]
+                       font-semibold
+                       text-red-600"
+              >
+                {{
+                  formatAmount(
+                    getBalanceDue(order)
+                  )
+                }}
+              </span>
+
+            </td>
+
+
+            <!-- =========================================== -->
+            <!-- PAYMENT STATUS -->
+            <!-- =========================================== -->
+
+            <td
+              class="px-3
+                     text-center
+                     align-middle"
+            >
+
+              <span
+                class="inline-flex
+                       min-w-[90px]
+                       items-center
+                       justify-center
+                       gap-1
+                       rounded-md
+                       border
+                       px-2.5
+                       py-1
+                       text-[10px]
+                       font-medium"
+                [ngClass]="
+                  getPaymentStatusClass(order)
+                "
+              >
+
+                <!-- ICON -->
+                <span class="text-[10px]">
+                  {{ getPaymentStatusIcon(order) }}
+                </span>
+
+                {{ getPaymentStatusText(order) }}
+
+              </span>
+
+            </td>
+
+
+            <!-- =========================================== -->
+            <!-- FULFILLMENT -->
+            <!-- =========================================== -->
+
+            <td
+              class="px-3
+                     text-center
+                     align-middle"
+            >
+
+              <span
+                class="inline-flex
+                       min-w-[78px]
+                       items-center
+                       justify-center
+                       rounded-md
+                       border
+                       px-2.5
+                       py-1
+                       text-[10px]
+                       font-medium"
+                [ngClass]="
+                  getFulfillmentStatusClass(
+                    order.deliveryStage
+                  )
+                "
+              >
+
+                {{
+                  getFulfillmentStatusText(
+                    order.deliveryStage
+                  )
+                }}
+
+              </span>
+
+            </td>
+
+
+            <!-- =========================================== -->
+            <!-- ACTIONS -->
+            <!-- =========================================== -->
+
+            <td
+              class="px-5
+                     align-middle"
+            >
+
+              <div
+                class="flex
+                       items-center
+                       justify-center
+                       gap-2"
+              >
+
+                <!-- PAY -->
+
+                @if (
+                  getBalanceDue(order) > 0
+                ) {
+
+                  <button
+                    type="button"
+                    (click)="onPay(order)"
+                    class="inline-flex
+                           h-6
+                           items-center
+                           justify-center
+                           rounded-md
+                           bg-emerald-700
+                           px-3
+                           text-[10px]
+                           font-semibold
+                           text-white
+                           transition
+                           hover:bg-emerald-800"
+                  >
+                    Pay
+                  </button>
+
+                }
+
+
+                <!-- DETAILS -->
+
+                <button
+                  type="button"
+                  (click)="onDetails(order)"
+                  class="inline-flex
+                         h-6
+                         items-center
+                         justify-center
+                         rounded-md
+                         bg-slate-100
+                         px-3
+                         text-[10px]
+                         font-medium
+                         text-slate-700
+                         transition
+                         hover:bg-slate-200"
+                >
+                  Details
+                </button>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        }
+
+
+        <!-- ================================================= -->
+        <!-- EMPTY STATE -->
+        <!-- ================================================= -->
+
+        @if (
+          orders.length === 0
+        ) {
+
+          <tr>
+
+            <td
+              colspan="10"
+              class="px-5
+                     py-12
+                     text-center"
+            >
+
+              <div
+                class="flex
+                       flex-col
+                       items-center
+                       justify-center"
+              >
+
+                <div
+                  class="text-3xl
+                         text-slate-300"
+                >
+                  📦
+                </div>
+
+                <p
+                  class="mt-2
+                         text-sm
+                         font-semibold
+                         text-slate-700"
+                >
+                  No orders found
+                </p>
+
+                <p
+                  class="mt-1
+                         text-xs
+                         text-slate-400"
+                >
+                  Try changing your search or filters.
+                </p>
+
+              </div>
+
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+</div>

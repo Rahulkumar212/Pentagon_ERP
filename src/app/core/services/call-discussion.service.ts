@@ -31,7 +31,7 @@ export class CallDiscussionService
   ): Observable<CallDiscussionResponse> {
 
     return this.http.post<CallDiscussionResponse>(
-      `${this.API_URL}/call-discussion`,
+      `${this.API_URL}/createCallDiscussion`,
       payload
     );
 

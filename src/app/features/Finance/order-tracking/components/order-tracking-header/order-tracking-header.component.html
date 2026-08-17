@@ -1,0 +1,116 @@
+<div
+  class="bg-white
+         border border-gray-200
+         rounded-xl
+         shadow-sm
+         px-5 py-4
+         flex
+         items-center
+         justify-between
+         gap-4">
+
+  <!-- ================================================= -->
+  <!-- LEFT -->
+  <!-- ================================================= -->
+
+  <div class="flex items-center gap-3 min-w-0">
+
+    <!-- Icon -->
+
+    <div
+      class="w-10 h-10
+             shrink-0
+             rounded-lg
+             bg-red-50
+             border border-red-100
+             flex items-center justify-center">
+
+      <span
+        class="text-xl text-red-800">
+
+        ◈
+
+      </span>
+
+    </div>
+
+
+    <!-- Title + Description -->
+
+    <div class="min-w-0">
+
+      <h1
+        class="text-lg
+               md:text-xl
+               font-semibold
+               text-gray-900
+               leading-tight">
+
+        Order Tracking & Receivables
+
+      </h1>
+
+
+      <p
+        class="mt-1
+               text-xs
+               md:text-sm
+               text-gray-500
+               leading-5">
+
+        Monitor client orders, collection progress,
+        payment milestones, and outstanding balances.
+
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- RIGHT -->
+  <!-- ================================================= -->
+
+  <button
+    type="button"
+    (click)="onCreateOrder()"
+    class="shrink-0
+           inline-flex
+           items-center
+           gap-2
+           px-4
+           py-2.5
+           rounded-lg
+           bg-red-800
+           hover:bg-red-900
+           text-white
+           text-xs
+           md:text-sm
+           font-semibold
+           shadow-sm
+           transition
+           duration-200
+           focus:outline-none
+           focus:ring-2
+           focus:ring-red-200">
+
+    <!-- Plus -->
+
+    <span
+      class="text-lg
+             leading-none
+             font-normal">
+
+      +
+
+    </span>
+
+
+    <span>
+      Create New Order
+    </span>
+
+  </button>
+
+</div>

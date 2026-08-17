@@ -1,0 +1,605 @@
+<div
+  class="w-full overflow-hidden
+         rounded-xl
+         border border-slate-200
+         bg-white
+         shadow-sm
+         transition-shadow duration-200
+         hover:shadow-md"
+>
+
+  <!-- ===================================================== -->
+  <!-- HEADER -->
+  <!-- ===================================================== -->
+
+  <div
+    class="flex items-center justify-between
+           gap-4
+           border-b border-slate-100
+           px-5 py-3.5"
+  >
+
+    <!-- LEFT SIDE -->
+    <div
+      class="flex min-w-0 items-center gap-3"
+    >
+
+      <!-- COMPANY INITIAL -->
+      <div
+        class="flex h-10 w-10 shrink-0
+               items-center justify-center
+               rounded-lg
+               border border-slate-200
+               bg-slate-50
+               text-xs font-semibold
+               text-slate-700"
+      >
+        {{ getInitials(order.customerName) }}
+      </div>
+
+
+      <!-- CUSTOMER INFO -->
+      <div class="min-w-0">
+
+        <!-- ORDER + CUSTOMER -->
+        <div
+          class="flex items-center
+                 gap-2"
+        >
+
+          <!-- PO NUMBER -->
+          <span
+            class="shrink-0
+                   rounded-md
+                   border border-red-200
+                   bg-red-50
+                   px-2 py-1
+                   text-[11px]
+                   font-semibold
+                   text-red-600"
+          >
+           {{ order.orderNumber }}
+          </span>
+
+
+          <!-- CUSTOMER NAME -->
+          <h3
+            class="truncate
+                   text-sm
+                   font-semibold
+                   text-slate-900"
+          >
+            {{ order.customerName }}
+          </h3>
+
+        </div>
+
+
+        <!-- META INFORMATION -->
+        <div
+          class="mt-1.5
+                 flex flex-wrap
+                 items-center
+                 gap-x-3
+                 gap-y-1
+                 text-[10px]
+                 text-slate-500"
+        >
+
+          <!-- PHONE -->
+          <span class="inline-flex items-center gap-1">
+            <span class="text-slate-400">♧</span>
+            {{ order.phone }}
+          </span>
+
+
+          <!-- EMAIL -->
+          <span class="inline-flex items-center gap-1">
+            <span class="text-slate-400">✉</span>
+            {{ order.email }}
+          </span>
+
+
+          <!-- ORDER DATE -->
+          <span class="inline-flex items-center gap-1">
+            <span class="text-slate-400">▣</span>
+
+            Order:
+
+            <strong
+              class="font-medium text-slate-700"
+            >
+              {{ order.orderDate }}
+            </strong>
+          </span>
+
+
+          <!-- DELIVERY DATE -->
+          <span class="inline-flex items-center gap-1">
+            <span class="text-slate-400">♧</span>
+
+            Delivery:
+
+            <strong
+              class="font-medium text-slate-700"
+            >
+              {{ order.deliveryTargetDate }}
+            </strong>
+          </span>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- RIGHT SIDE -->
+    <div
+      class="flex shrink-0
+             items-center
+             gap-2"
+    >
+
+      <!-- DELIVERY STATUS -->
+      <select
+        [(ngModel)]="order.deliveryStage"
+        class="h-8
+               min-w-[120px]
+               rounded-md
+               border border-purple-200
+               bg-purple-50
+               px-3
+               text-[11px]
+               font-medium
+               text-purple-700
+               outline-none
+               focus:border-purple-300
+               focus:ring-2
+               focus:ring-purple-100"
+      >
+
+        <option value="PENDING">
+          Pending
+        </option>
+
+        <option value="IN_PRODUCTION">
+          In Production
+        </option>
+
+        <option value="DISPATCHED">
+          Dispatched
+        </option>
+
+        <option value="DELIVERED">
+          Delivered
+        </option>
+
+        <option value="CANCELLED">
+          Cancelled
+        </option>
+
+      </select>
+
+
+      <!-- PAYMENT STATUS -->
+      <span
+        class="inline-flex h-8
+               items-center gap-1
+               whitespace-nowrap
+               rounded-md
+               border border-amber-200
+               bg-amber-50
+               px-3
+               text-[11px]
+               font-semibold
+               text-amber-700"
+      >
+        <span class="text-[10px]">◷</span>
+
+        {{ getPaymentPercentage() }}% Paid
+
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- ORDER CONTENT -->
+  <!-- ===================================================== -->
+
+  <div class="px-5 py-4">
+
+    <!-- DETAILS BOX -->
+    <div
+      class="overflow-hidden
+             rounded-lg
+             border border-slate-200
+             bg-white"
+    >
+
+      <div
+        class="grid
+               min-h-[88px]
+               grid-cols-[minmax(0,5fr)_1.5fr_1.5fr_1.5fr_2.5fr]"
+      >
+
+        <!-- ================================================= -->
+        <!-- DELIVERABLES -->
+        <!-- ================================================= -->
+
+        <div
+          class="min-w-0
+                 border-r border-slate-200
+                 px-4 py-3"
+        >
+
+          <p
+            class="text-[9px]
+                   font-semibold
+                   uppercase
+                   tracking-[0.12em]
+                   text-slate-400"
+          >
+            Deliverables
+          </p>
+
+
+          <div class="mt-2 space-y-1">
+
+            @for (
+              item of order.items;
+              track $index
+            ) {
+
+              <div
+                class="flex items-center
+                       justify-between
+                       gap-4"
+              >
+
+                <!-- DESCRIPTION -->
+                <span
+                  class="min-w-0
+                         truncate
+                         text-[12px]
+                         text-slate-700"
+                >
+                  {{ item.description }}
+                </span>
+
+
+                <!-- QTY + PRICE -->
+                <span
+                  class="shrink-0
+                         whitespace-nowrap
+                         font-mono
+                         text-[10px]
+                         text-slate-500"
+                >
+                  {{ item.quantity }}
+                  ×
+                  {{ formatAmount(item.unitPrice) }}
+                </span>
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- TOTAL -->
+        <!-- ================================================= -->
+
+        <div
+          class="flex flex-col
+                 justify-center
+                 border-r border-slate-200
+                 px-3
+                 text-center"
+        >
+
+          <p
+            class="text-[9px]
+                   font-medium
+                   uppercase
+                   tracking-wider
+                   text-slate-400"
+          >
+            Total
+          </p>
+
+          <p
+            class="mt-2
+                   whitespace-nowrap
+                   font-mono
+                   text-[13px]
+                   font-semibold
+                   text-slate-800"
+          >
+            {{ formatAmount(getTotalAmount()) }}
+          </p>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- RECEIVED -->
+        <!-- ================================================= -->
+
+        <div
+          class="flex flex-col
+                 justify-center
+                 border-r border-slate-200
+                 px-3
+                 text-center"
+        >
+
+          <p
+            class="text-[9px]
+                   font-medium
+                   uppercase
+                   tracking-wider
+                   text-slate-400"
+          >
+            Received
+          </p>
+
+          <p
+            class="mt-2
+                   whitespace-nowrap
+                   font-mono
+                   text-[13px]
+                   font-semibold
+                   text-emerald-700"
+          >
+            {{ formatAmount(order.receivedAmount || 0) }}
+          </p>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- BALANCE DUE -->
+        <!-- ================================================= -->
+
+        <div
+          class="flex flex-col
+                 justify-center
+                 border-r border-slate-200
+                 px-3
+                 text-center"
+        >
+
+          <p
+            class="text-[9px]
+                   font-medium
+                   uppercase
+                   tracking-wider
+                   text-red-400"
+          >
+            Balance Due
+          </p>
+
+          <p
+            class="mt-2
+                   whitespace-nowrap
+                   font-mono
+                   text-[13px]
+                   font-semibold
+                   text-red-600"
+          >
+            {{
+              formatAmount(
+                getTotalAmount() -
+                (order.receivedAmount || 0)
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <!-- ================================================= -->
+        <!-- COLLECTION -->
+        <!-- ================================================= -->
+
+        <div
+          class="flex flex-col
+                 justify-center
+                 px-4 py-3"
+        >
+
+          <!-- LABEL + PERCENTAGE -->
+          <div
+            class="flex items-center
+                   justify-between"
+          >
+
+            <span
+              class="text-[10px]
+                     text-slate-500"
+            >
+              Collected
+            </span>
+
+            <span
+              class="text-[10px]
+                     font-semibold
+                     text-slate-700"
+            >
+              {{ getPaymentPercentage() }}%
+            </span>
+
+          </div>
+
+
+          <!-- PROGRESS BAR -->
+          <div
+            class="mt-2
+                   h-2
+                   w-full
+                   overflow-hidden
+                   rounded-full
+                   bg-slate-200"
+          >
+
+            <div
+              class="h-full
+                     rounded-full
+                     bg-red-800
+                     transition-all
+                     duration-300"
+              [style.width.%]="getPaymentPercentage()"
+            ></div>
+
+          </div>
+
+
+          <!-- PAYMENT COUNT -->
+          <p
+            class="mt-2
+                   text-right
+                   text-[9px]
+                   text-slate-400"
+          >
+            {{ order.paymentCount || 0 }}
+            payment installment(s) logged
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- FOOTER -->
+    <!-- ===================================================== -->
+
+    <div
+      class="mt-4
+             flex items-center
+             justify-between
+             gap-4"
+    >
+
+      <!-- NOTE -->
+      <p
+        class="min-w-0
+               truncate
+               font-mono
+               text-[11px]
+               italic
+               text-slate-500"
+      >
+
+        <span class="font-medium">
+          Note:
+        </span>
+
+        {{ order.termsAndNotes || 'No additional notes added.' }}
+
+      </p>
+
+
+      <!-- ACTION BUTTONS -->
+      <div
+        class="flex shrink-0
+               items-center
+               gap-2"
+      >
+
+        <!-- RECORD PAYMENT -->
+        <button
+          type="button"
+          (click)="onRecordPayment()"
+          class="inline-flex
+                 h-8
+                 items-center
+                 gap-1.5
+                 rounded-lg
+                 bg-emerald-700
+                 px-3.5
+                 text-[11px]
+                 font-semibold
+                 text-white
+                 transition
+                 hover:bg-emerald-800
+                 focus:outline-none"
+        >
+
+          <span class="text-[11px]">
+            ▣
+          </span>
+
+          Record Payment
+
+        </button>
+
+
+        <!-- HISTORY -->
+        <button
+          type="button"
+          (click)="onViewPaymentHistory()"
+          class="inline-flex
+                 h-8
+                 items-center
+                 gap-1.5
+                 rounded-lg
+                 border border-slate-200
+                 bg-slate-50
+                 px-3.5
+                 text-[11px]
+                 font-medium
+                 text-slate-600
+                 transition
+                 hover:bg-slate-100
+                 focus:outline-none"
+        >
+
+          <span class="text-[10px]">
+            ▣
+          </span>
+
+          History &amp; Receipts
+
+          <span>
+            ({{ order.paymentCount || 0 }})
+          </span>
+
+        </button>
+
+
+        <!-- DELETE -->
+        <button
+          type="button"
+          (click)="onDelete()"
+          class="flex h-8 w-8
+                 items-center
+                 justify-center
+                 rounded-lg
+                 text-slate-400
+                 transition
+                 hover:bg-red-50
+                 hover:text-red-600
+                 focus:outline-none"
+          aria-label="Delete order"
+        >
+          🗑
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

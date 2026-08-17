@@ -10,6 +10,13 @@ export const FINANCE_ROUTES: Routes = [
         .then(m => m.DashboardOverviewComponent)
   },
 
+   {
+    path: 'finance/order-tracking',
+    loadComponent: () =>
+      import('../../features/Finance/order-tracking/pages/order-tracking.component')
+        .then(m => m.OrderTrackingComponent)
+  },
+
   // Accounting
   {
     path: 'finance/accounting',
@@ -18,13 +25,7 @@ export const FINANCE_ROUTES: Routes = [
         .then(m => m.AccountingDashboardComponent)
   },
 
-//   // Payments
-//   {
-//     path: 'payments',
-//     loadComponent: () =>
-//       import('./payments/pages/payments.component')
-//         .then(m => m.PaymentsComponent)
-//   },
+
 
   // Receivables
   {
@@ -80,31 +81,5 @@ export const FINANCE_ROUTES: Routes = [
     loadComponent: () =>
       import('./expenses-payments/pages/expenses-dashboard.component')
         .then(m => m.ExpensesDashboardComponent)
-  },
-
-//   // Assets
-//   {
-//     path: 'assets',
-//     loadComponent: () =>
-//       import('./assets/pages/assets.component')
-//         .then(m => m.AssetsComponent)
-//   },
-
-//   // Taxation
-//   {
-//     path: 'taxation',
-//     loadComponent: () =>
-//       import('./taxation/pages/taxation.component')
-//         .then(m => m.TaxationComponent)
-//   },
-
-//   // Configuration
-//   {
-//     path: 'configuration',
-//     loadComponent: () =>
-//       import('./configuration/pages/configuration.component')
-//         .then(m => m.ConfigurationComponent)
-//   },
-
-
+  }
 ];

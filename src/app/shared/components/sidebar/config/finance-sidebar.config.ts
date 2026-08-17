@@ -20,6 +20,12 @@ export const FINANCE_SIDEBAR: SidebarModule = {
           label:'Dashboard Overview',
           icon:'📊',
           route:'/finance/dashboard'
+        },
+
+          {
+          label: 'Order Tracking',
+          icon: '📦',
+          route: '/finance/order-tracking'
         }
 
       ]
@@ -39,14 +45,6 @@ export const FINANCE_SIDEBAR: SidebarModule = {
           icon:'📒',
           route:'/finance/accounting'
         },
-
-
-        // {
-        //   label:'Payments',
-        //   icon:'💳',
-        //   route:'/finance/payments'
-        // },
-
 
         {
           label:'Receivables & Billing',
@@ -93,14 +91,7 @@ export const FINANCE_SIDEBAR: SidebarModule = {
           label:'Reports & Statements',
           icon:'📈',
           route:'/finance/reports'
-        },
-
-        // {
-        //   label:'Configuration',
-        //   icon:'⚙️',
-        //   route:'/finance/configuration'
-        // }
-
+        }
 
       ]
 

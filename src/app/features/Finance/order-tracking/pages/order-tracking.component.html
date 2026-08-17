@@ -1,0 +1,550 @@
+<!-- ===================================================== -->
+<!-- ORDER TRACKING -->
+<!-- ===================================================== -->
+
+<div class="min-h-full
+         bg-gray-50
+         p-4
+         md:p-6">
+
+
+    <!-- ================================================= -->
+    <!-- HEADER -->
+    <!-- ================================================= -->
+
+    <app-order-tracking-header (createOrder)="openCreateOrder()">
+    </app-order-tracking-header>
+
+
+
+    <!-- ================================================= -->
+    <!-- CREATE ORDER FORM -->
+    <!-- ================================================= -->
+
+    @if (showCreateOrder) {
+
+    <app-create-order-form (close)="closeCreateOrder()" (save)="onOrderCreated($event)">
+    </app-create-order-form>
+
+    }
+
+
+
+    <!-- ================================================= -->
+    <!-- SUMMARY -->
+    <!-- ================================================= -->
+
+    <div class="mt-5">
+
+        <app-order-summary>
+        </app-order-summary>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- FILTERS -->
+    <!-- ================================================= -->
+
+    <div class="mt-5">
+
+        <app-order-filters (filterChange)="onFilterChange($event)" (viewModeChange)="onViewModeChange($event)">
+        </app-order-filters>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- MAIN CONTENT -->
+    <!-- ================================================= -->
+
+    <div class="mt-5
+           grid
+           grid-cols-1
+           xl:grid-cols-3
+           gap-5">
+
+
+        <!-- ================================================= -->
+        <!-- ORDER CONTENT -->
+        <!-- ================================================= -->
+
+        <div class="xl:col-span-2">
+
+
+            <!-- =============================================== -->
+            <!-- LIST VIEW -->
+            <!-- =============================================== -->
+
+            @if (viewMode === 'LIST') {
+
+            <app-order-list [orders]="filteredOrders" (orderSelected)="onOrderSelected($event)"
+                (payOrder)="onPayOrder($event)" (viewDetails)="onViewDetails($event)">
+            </app-order-list>
+
+            }
+
+
+
+            <!-- =============================================== -->
+            <!-- GRID / CARD VIEW -->
+            <!-- =============================================== -->
+
+            @if (viewMode === 'GRID') {
+
+            <div class="space-y-4">
+
+                @for (
+                order of filteredOrders;
+                track order.id
+                ) {
+
+                <app-order-card [order]="order" (orderSelected)="onOrderSelected($event)"
+                    (recordPayment)="onRecordPayment($event)" (viewPaymentHistory)="onViewPaymentHistory($event)"
+                    (deleteOrder)="onDeleteOrder($event)">
+                </app-order-card>
+
+                }
+
+
+                <!-- =========================================== -->
+                <!-- EMPTY STATE -->
+                <!-- =========================================== -->
+
+                @if (filteredOrders.length === 0) {
+
+                <div class="flex
+                     min-h-[220px]
+                     items-center
+                     justify-center
+                     rounded-xl
+                     border
+                     border-dashed
+                     border-gray-300
+                     bg-white">
+
+                    <div class="text-center">
+
+                        <div class="text-3xl
+                         text-gray-300">
+                            📦
+                        </div>
+
+                        <p class="mt-2
+                         text-sm
+                         font-semibold
+                         text-gray-700">
+                            No orders found
+                        </p>
+
+                        <p class="mt-1
+                         text-xs
+                         text-gray-400">
+                            Try changing your search or filters.
+                        </p>
+
+                    </div>
+
+                </div>
+
+                }
+
+            </div>
+
+            }
+
+        </div>
+
+
+
+        <!-- ================================================= -->
+        <!-- PAYMENT SECTION -->
+        <!-- ================================================= -->
+
+        <div class="space-y-5">
+
+
+            <!-- =============================================== -->
+            <!-- PAYMENT PROGRESS -->
+            <!-- =============================================== -->
+
+            <app-payment-progress>
+            </app-payment-progress>
+
+
+
+            <!-- =============================================== -->
+            <!-- PAYMENT HISTORY -->
+            <!-- =============================================== -->
+
+            <app-payment-history [payments]="paymentHistory">
+            </app-payment-history>
+
+
+
+            <!-- =============================================== -->
+            <!-- RECORD PAYMENT -->
+            <!-- =============================================== -->
+
+            <button type="button" (click)="openRecordPayment(selectedOrder ?? undefined)" class="w-full
+               rounded-xl
+               bg-blue-600
+               px-4
+               py-3
+               text-sm
+               font-semibold
+               text-white
+               shadow-sm
+               transition
+               hover:bg-blue-700">
+
+                + Record Payment
+
+            </button>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- ================================================= -->
+    <!-- SELECTED ORDER -->
+    <!-- ================================================= -->
+
+    @if (selectedOrder) {
+
+    <div class="mt-5
+             rounded-xl
+             border
+             border-gray-200
+             bg-white
+             p-5">
+
+        <div class="flex
+               flex-col
+               gap-3
+               sm:flex-row
+               sm:items-center
+               sm:justify-between">
+
+            <div>
+
+                <p class="text-[11px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-gray-400">
+                    Selected Order
+                </p>
+
+
+                <h3 class="mt-1
+                   text-lg
+                   font-semibold
+                   text-gray-800">
+
+                    {{ selectedOrder.orderNumber }}
+
+                </h3>
+
+
+                <p class="mt-1
+                   text-sm
+                   text-gray-500">
+
+                    {{ selectedOrder.customerName }}
+
+                </p>
+
+            </div>
+
+
+
+            <!-- ============================================= -->
+            <!-- SELECTED ORDER ACTIONS -->
+            <!-- ============================================= -->
+
+            <div class="flex
+                 flex-wrap
+                 gap-2">
+
+                <button type="button" (click)="onRecordPayment(selectedOrder)" class="rounded-lg
+                   bg-emerald-700
+                   px-4
+                   py-2
+                   text-xs
+                   font-semibold
+                   text-white
+                   transition
+                   hover:bg-emerald-800">
+
+                    Record Payment
+
+                </button>
+
+
+                <button type="button" (click)="onViewPaymentHistory(selectedOrder)" class="rounded-lg
+                   border
+                   border-gray-200
+                   bg-gray-50
+                   px-4
+                   py-2
+                   text-xs
+                   font-semibold
+                   text-gray-700
+                   transition
+                   hover:bg-gray-100">
+
+                    Payment History
+
+                </button>
+
+            </div>
+
+        </div>
+
+
+
+        <!-- =============================================== -->
+        <!-- SELECTED ORDER SUMMARY -->
+        <!-- =============================================== -->
+
+        <div class="mt-5
+               grid
+               grid-cols-2
+               gap-3
+               md:grid-cols-4">
+
+
+            <!-- TOTAL -->
+
+            <div class="rounded-lg
+                 border
+                 border-gray-100
+                 bg-gray-50
+                 p-3">
+
+                <p class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-gray-400">
+                    Total
+                </p>
+
+                <p class="mt-1
+                   text-sm
+                   font-bold
+                   text-gray-800">
+
+                    ₹{{ selectedOrder.totalAmount | number }}
+
+                </p>
+
+            </div>
+
+
+
+            <!-- RECEIVED -->
+
+            <div class="rounded-lg
+                 border
+                 border-emerald-100
+                 bg-emerald-50
+                 p-3">
+
+                <p class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-emerald-600">
+                    Received
+                </p>
+
+                <p class="mt-1
+                   text-sm
+                   font-bold
+                   text-emerald-700">
+
+                    ₹{{ selectedOrder.receivedAmount | number }}
+
+                </p>
+
+            </div>
+
+
+
+            <!-- BALANCE -->
+
+            <div class="rounded-lg
+                 border
+                 border-red-100
+                 bg-red-50
+                 p-3">
+
+                <p class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-red-500">
+                    Balance Due
+                </p>
+
+                <p class="mt-1
+                   text-sm
+                   font-bold
+                   text-red-600">
+
+                    ₹{{ selectedOrder.balanceDue | number }}
+
+                </p>
+
+            </div>
+
+
+
+            <!-- PAYMENT -->
+
+            <div class="rounded-lg
+                 border
+                 border-gray-100
+                 bg-gray-50
+                 p-3">
+
+                <p class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-gray-400">
+                    Payment
+                </p>
+
+                <p class="mt-1
+                   text-sm
+                   font-bold
+                   text-gray-800">
+
+                    {{ getPaymentPercentage(selectedOrder) }}%
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+    }
+
+</div>
+
+
+
+<!-- ===================================================== -->
+<!-- RECORD PAYMENT MODAL -->
+<!-- ===================================================== -->
+
+@if (showRecordPayment) {
+
+<app-record-payment (close)="closeRecordPayment()" (saved)="onPaymentSaved($event)">
+</app-record-payment>
+
+}
+
+
+
+<!-- ===================================================== -->
+<!-- PAYMENT HISTORY -->
+<!-- ===================================================== -->
+
+@if (showPaymentHistory) {
+
+<div class="fixed
+           inset-0
+           z-50
+           flex
+           items-center
+           justify-center
+           bg-black/40
+           p-4">
+
+    <div class="w-full
+             max-w-2xl
+             rounded-xl
+             bg-white
+             shadow-xl">
+
+        <!-- =============================================== -->
+        <!-- MODAL HEADER -->
+        <!-- =============================================== -->
+
+        <div class="flex
+               items-center
+               justify-between
+               border-b
+               border-gray-200
+               px-5
+               py-4">
+
+            <div>
+
+                <h3 class="text-base
+                   font-semibold
+                   text-gray-800">
+
+                    Payment History
+
+                </h3>
+
+                @if (selectedOrder) {
+
+                <p class="mt-1
+                     text-xs
+                     text-gray-500">
+
+                    {{ selectedOrder.orderNumber }}
+                    ·
+                    {{ selectedOrder.customerName }}
+
+                </p>
+
+                }
+
+            </div>
+
+
+            <button type="button" (click)="closePaymentHistory()" class="rounded-lg
+                 px-3
+                 py-1
+                 text-xl
+                 text-gray-400
+                 hover:bg-gray-100
+                 hover:text-gray-700">
+
+                ×
+
+            </button>
+
+        </div>
+
+
+
+        <!-- =============================================== -->
+        <!-- PAYMENT HISTORY CONTENT -->
+        <!-- =============================================== -->
+
+        <div class="max-h-[500px] overflow-y-auto p-5">
+
+            <app-payment-history [payments]="paymentHistory">
+            </app-payment-history>
+
+        </div>
+
+    </div>
+
+</div>
+
+}

@@ -10,12 +10,11 @@ export interface HiringRequirement {
 
   openings: number;
 
-
   experienceRequired: string;
 
   qualification: string;
 
-  location: string;
+  location: string[];
 
   salaryRange: string;
 
@@ -55,7 +54,7 @@ export interface CreateHiringRequirementPayload {
 
   qualification: string;
 
-  location: string;
+  location: string[];
 
   salaryRange: string;
 

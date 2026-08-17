@@ -1,0 +1,482 @@
+<div
+  class="grid
+         grid-cols-1
+         sm:grid-cols-2
+         xl:grid-cols-4
+         gap-4">
+
+
+  <!-- ================================================= -->
+  <!-- TOTAL CONTRACT VALUE -->
+  <!-- ================================================= -->
+
+  <div
+    class="bg-white
+           border border-gray-200
+           rounded-xl
+           shadow-sm
+           px-5 py-4">
+
+    <!-- Header -->
+
+    <div
+      class="flex items-center justify-between">
+
+      <p
+        class="text-sm
+               font-medium
+               text-gray-500">
+
+        Total Contract Value
+
+      </p>
+
+
+      <div
+        class="w-8 h-8
+               rounded-md
+               bg-gray-50
+               border border-gray-100
+               flex items-center justify-center">
+
+        <span
+          class="text-sm
+                 text-gray-600">
+
+          ₹
+
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- Amount -->
+
+    <p
+      class="mt-3
+             text-2xl
+             font-semibold
+             text-gray-900">
+
+      ₹{{ totalContractValue | number }}
+
+    </p>
+
+
+    <!-- Bottom -->
+
+    <div
+      class="mt-3
+             pt-2
+             border-t border-gray-100
+             flex items-center justify-between">
+
+      <span
+        class="text-xs
+               text-gray-500">
+
+        Active Orders
+
+      </span>
+
+
+      <span
+        class="text-xs
+               font-semibold
+               text-gray-800">
+
+        {{ activeOrders }}
+        <span class="font-normal text-gray-400">
+          / {{ totalOrders }} total
+        </span>
+
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- COLLECTED REVENUE -->
+  <!-- ================================================= -->
+
+  <div
+    class="bg-white
+           border border-gray-200
+           rounded-xl
+           shadow-sm
+           px-5 py-4">
+
+    <!-- Header -->
+
+    <div
+      class="flex items-center justify-between">
+
+      <p
+        class="text-sm
+               font-medium
+               text-gray-500">
+
+        Collected Revenue
+
+      </p>
+
+
+      <div
+        class="w-8 h-8
+               rounded-md
+               bg-emerald-50
+               border border-emerald-100
+               flex items-center justify-center">
+
+        <span
+          class="text-base
+                 text-emerald-700">
+
+          ↗
+
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- Amount -->
+
+    <p
+      class="mt-3
+             text-2xl
+             font-semibold
+             text-emerald-700">
+
+      ₹{{ collectedRevenue | number }}
+
+    </p>
+
+
+    <!-- Rate -->
+
+    <div
+      class="mt-3
+             pt-2
+             border-t border-gray-100">
+
+      <div
+        class="flex items-center justify-between
+               text-xs">
+
+        <span
+          class="text-gray-500">
+
+          Collection Rate
+
+        </span>
+
+
+        <span
+          class="font-semibold
+                 text-gray-700">
+
+          {{ collectionRate }}%
+
+        </span>
+
+      </div>
+
+
+      <!-- Progress -->
+
+      <div
+        class="mt-2
+               h-1.5
+               rounded-full
+               bg-gray-100
+               overflow-hidden">
+
+        <div
+          class="h-full
+                 rounded-full
+                 bg-emerald-600
+                 transition-all
+                 duration-300"
+          [style.width.%]="collectionRate">
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- OUTSTANDING BALANCE -->
+  <!-- ================================================= -->
+
+  <div
+    class="bg-white
+           border border-gray-200
+           rounded-xl
+           shadow-sm
+           px-5 py-4">
+
+    <!-- Header -->
+
+    <div
+      class="flex items-center justify-between">
+
+      <p
+        class="text-sm
+               font-medium
+               text-gray-500">
+
+        Outstanding Balance
+
+      </p>
+
+
+      <div
+        class="w-8 h-8
+               rounded-md
+               bg-red-50
+               border border-red-100
+               flex items-center justify-center">
+
+        <span
+          class="text-sm
+                 font-semibold
+                 text-red-600">
+
+          !
+
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- Amount -->
+
+    <p
+      class="mt-3
+             text-2xl
+             font-semibold
+             text-red-700">
+
+      ₹{{ outstandingBalance | number }}
+
+    </p>
+
+
+    <!-- Rate -->
+
+    <div
+      class="mt-3
+             pt-2
+             border-t border-gray-100">
+
+      <div
+        class="flex items-center justify-between
+               text-xs">
+
+        <span
+          class="text-gray-500">
+
+          Pending Collection
+
+        </span>
+
+
+        <span
+          class="font-semibold
+                 text-gray-700">
+
+          {{ pendingCollectionRate }}%
+
+        </span>
+
+      </div>
+
+
+      <!-- Progress -->
+
+      <div
+        class="mt-2
+               h-1.5
+               rounded-full
+               bg-gray-100
+               overflow-hidden">
+
+        <div
+          class="h-full
+                 rounded-full
+                 bg-red-700
+                 transition-all
+                 duration-300"
+          [style.width.%]="pendingCollectionRate">
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- SETTLEMENT STATUS -->
+  <!-- ================================================= -->
+
+  <div
+    class="bg-white
+           border border-gray-200
+           rounded-xl
+           shadow-sm
+           px-5 py-4">
+
+    <!-- Header -->
+
+    <div
+      class="flex items-center justify-between">
+
+      <p
+        class="text-sm
+               font-medium
+               text-gray-500">
+
+        Settlement Status
+
+      </p>
+
+
+      <div
+        class="w-8 h-8
+               rounded-md
+               bg-gray-50
+               border border-gray-100
+               flex items-center justify-center">
+
+        <span
+          class="text-sm
+                 text-gray-600">
+
+          ♢
+
+        </span>
+
+      </div>
+
+    </div>
+
+
+    <!-- Main Status -->
+
+    <div
+      class="mt-3
+             flex items-baseline
+             gap-2">
+
+      <span
+        class="text-2xl
+               font-semibold
+               text-gray-900">
+
+        {{ paidOrders }}
+
+      </span>
+
+
+      <span
+        class="text-sm
+               text-gray-400">
+
+        /
+        {{ totalOrders }}
+
+      </span>
+
+
+      <span
+        class="text-xs
+               text-gray-500">
+
+        Settled
+
+      </span>
+
+    </div>
+
+
+    <!-- Status Badges -->
+
+    <div
+      class="mt-3
+             pt-2
+             border-t border-gray-100
+             flex flex-wrap
+             items-center
+             gap-2">
+
+
+      <!-- Paid -->
+
+      <span
+        class="px-2
+               py-1
+               rounded-md
+               border border-emerald-200
+               bg-emerald-50
+               text-emerald-700
+               text-[11px]
+               font-medium">
+
+        {{ paidOrders }} Paid
+
+      </span>
+
+
+      <!-- Partial -->
+
+      <span
+        class="px-2
+               py-1
+               rounded-md
+               border border-amber-200
+               bg-amber-50
+               text-amber-700
+               text-[11px]
+               font-medium">
+
+        {{ partiallyPaidOrders }} Partial
+
+      </span>
+
+
+      <!-- Due -->
+
+      <span
+        class="px-2
+               py-1
+               rounded-md
+               border border-red-200
+               bg-red-50
+               text-red-700
+               text-[11px]
+               font-medium">
+
+        {{ unpaidOrders }} Due
+
+      </span>
+
+    </div>
+
+  </div>
+
+</div>

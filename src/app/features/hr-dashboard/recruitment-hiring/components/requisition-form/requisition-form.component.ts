@@ -65,7 +65,6 @@ export class RequisitionFormComponent {
 
   openings = 1;
 
-
   experienceRequired = '';
 
   qualification = '';
@@ -98,10 +97,15 @@ export class RequisitionFormComponent {
 
   onSubmit(): void {
 
+    // ---------------------------------------------------
+    // VALIDATION
+    // ---------------------------------------------------
+
     if (
       !this.jobTitle.trim() ||
       !this.department ||
       !this.employmentType ||
+      !this.location.trim() ||
       !this.description.trim()
     ) {
 
@@ -110,36 +114,67 @@ export class RequisitionFormComponent {
     }
 
 
-   const payload: CreateHiringRequirementPayload = {
-  jobTitle: this.jobTitle.trim(),
+    // ---------------------------------------------------
+    // LOCATION ARRAY
+    // ---------------------------------------------------
 
-  department: this.department,
+    const locations: string[] =
+      this.location
+        .split(',')
+        .map(location => location.trim())
+        .filter(location => location.length > 0);
 
-  employmentType: this.employmentType,
 
-  openings: Number(this.openings),
+    // ---------------------------------------------------
+    // PAYLOAD
+    // ---------------------------------------------------
 
-  experienceRequired:
-    this.experienceRequired.trim(),
+    const payload: CreateHiringRequirementPayload = {
 
-  qualification:
-    this.qualification.trim(),
+      jobTitle:
+        this.jobTitle.trim(),
 
-  location:
-    this.location.trim(),
+      department:
+        this.department,
 
-  salaryRange:
-    this.salaryRange.trim(),
+      employmentType:
+        this.employmentType,
 
-  applicationDeadline:
-    this.applicationDeadline,
+      openings:
+        Number(this.openings),
 
-  hiringManager:
-    this.hiringManager.trim(),
+      experienceRequired:
+        this.experienceRequired.trim(),
 
-  description:
-    this.description.trim()
-};
+      qualification:
+        this.qualification.trim(),
+
+      location:
+        locations,
+
+      salaryRange:
+        this.salaryRange.trim(),
+
+      applicationDeadline:
+        this.applicationDeadline,
+
+      hiringManager:
+        this.hiringManager.trim(),
+
+      description:
+        this.description.trim()
+    };
+
+
+    // ---------------------------------------------------
+    // DEBUG
+    // ---------------------------------------------------
+
+    console.log(
+      'Create Hiring Requirement Payload:',
+      payload
+    );
+
 
     // ===================================================
     // API CALL
@@ -149,6 +184,10 @@ export class RequisitionFormComponent {
       .createHiringRequirement(payload)
       .subscribe({
 
+        // -------------------------------------------------
+        // SUCCESS
+        // -------------------------------------------------
+
         next: () => {
 
           this.created.emit();
@@ -156,6 +195,11 @@ export class RequisitionFormComponent {
           this.onClose();
 
         },
+
+
+        // -------------------------------------------------
+        // ERROR
+        // -------------------------------------------------
 
         error: (error) => {
 
