@@ -67,3 +67,36 @@ export interface PaymentHistory {
   status: PaymentTransactionStatus;
   remarks?: string;
 }
+
+
+
+
+export interface CreateOrderPayload {
+
+    customerName: string;
+
+    phone: string;
+
+    email: string;
+
+    purchaseOrderNumber: string;
+
+    orderDate: string;
+
+    deliveryTargetDate: string;
+
+    items: OrderItem[];
+
+    upfrontAdvancePayment: boolean;
+
+    advanceAmount?: number;
+
+    depositAccount?: string;
+
+    paymentMode?: string;
+
+    paymentReference?: string;
+
+    termsAndNotes: string;
+
+}

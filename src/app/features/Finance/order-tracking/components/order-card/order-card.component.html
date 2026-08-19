@@ -142,23 +142,20 @@
     >
 
       <!-- DELIVERY STATUS -->
-      <select
-        [(ngModel)]="order.deliveryStage"
-        class="h-8
-               min-w-[120px]
-               rounded-md
-               border border-purple-200
-               bg-purple-50
-               px-3
-               text-[11px]
-               font-medium
-               text-purple-700
-               outline-none
-               focus:border-purple-300
-               focus:ring-2
-               focus:ring-purple-100"
-      >
-
+     <select
+    [(ngModel)]="order.deliveryStage"
+    [ngClass]="getDeliveryStageClass()"
+    class="
+        h-8
+        min-w-[120px]
+        rounded-md
+        px-3
+        text-[11px]
+        font-medium
+        outline-none
+        focus:ring-2
+    "
+>
         <option value="PENDING">
           Pending
         </option>

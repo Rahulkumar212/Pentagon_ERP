@@ -1,187 +1,355 @@
-<div class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm">
-
-  <!-- Header -->
-
-  <div class="flex items-center justify-between">
-
-    <div>
-
-      <h2 class="text-lg font-semibold text-slate-900">
-
-        Statement of Profit & Loss
-
-      </h2>
-
-      <p class="mt-1 text-[11px] text-slate-500">
-
-        For the financial year ending 31 March 2026
-
-      </p>
-
-    </div>
-
-    <div class="flex items-center gap-2">
-
-      <button
-        (click)="exportExcel()"
-        class="rounded-lg border border-gray-300 px-3 py-2 text-xs font-semibold hover:bg-gray-50">
-
-        Export Excel
-
-      </button>
-
-      <button
-        (click)="exportPdf()"
-        class="rounded-lg bg-red-800 px-3 py-2 text-xs font-semibold text-white hover:bg-red-900">
-
-        Export PDF
-
-      </button>
-
-    </div>
-
-  </div>
-
-  <div class="my-5 border-t border-gray-200"></div>
-
-  <!-- Revenue -->
-
-  <div>
-
-    <h3 class="mb-3 text-xs font-bold uppercase tracking-[3px] text-red-700">
-
-      I. Revenue From Operations
-
-    </h3>
-
-    @for(item of revenue(); track item.name){
-
-      <div
-        class="flex items-center justify-between border-b border-gray-100 py-3">
-
-        <span class="text-sm text-slate-700">
-
-          {{ item.name }}
-
-        </span>
-
-        <span class="font-semibold text-emerald-700">
-
-          ₹{{ item.amount | number }}
-
-        </span>
-
-      </div>
-
-    }
-
-    <div
-      class="mt-3 flex items-center justify-between rounded-lg border bg-slate-50 px-4 py-3">
-
-      <span class="font-semibold">
-
-        Total Revenue (A)
-
-      </span>
-
-      <span class="font-bold text-emerald-700">
-
-        ₹{{ totalRevenue | number }}
-
-      </span>
-
-    </div>
-
-  </div>
-
-  <!-- Expenses -->
-
-  <div class="mt-8">
-
-    <h3 class="mb-3 text-xs font-bold uppercase tracking-[3px] text-red-700">
-
-      II. Operating Expenditures
-
-    </h3>
-
-    @for(item of expenses(); track item.name){
-
-      <div
-        class="flex items-center justify-between border-b border-gray-100 py-3">
-
-        <span class="text-sm text-slate-700">
-
-          {{ item.name }}
-
-        </span>
-
-        <span class="font-semibold">
-
-          ₹{{ item.amount | number }}
-
-        </span>
-
-      </div>
-
-    }
-
-    <div
-      class="mt-3 flex items-center justify-between rounded-lg border bg-slate-50 px-4 py-3">
-
-      <span class="font-semibold">
-
-        Total Expenses (B)
-
-      </span>
-
-      <span class="font-bold text-red-700">
-
-        ₹{{ totalExpenses | number }}
-
-      </span>
-
-    </div>
-
-  </div>
-
-  <!-- Net Profit -->
+<!-- ===================================================== -->
+<!-- FINANCIAL OVERVIEW -->
+<!-- ===================================================== -->
+
+<div
+  class="grid grid-cols-1
+         gap-5
+         xl:grid-cols-2"
+>
+
+  <!-- ================================================= -->
+  <!-- REVENUE VS EXPENSE -->
+  <!-- ================================================= -->
 
   <div
-    class="mt-8 flex items-center justify-between rounded-xl border border-red-100 bg-red-50 px-5 py-4">
+    class="rounded-xl
+           border border-gray-200
+           bg-white
+           p-5
+           shadow-sm"
+  >
 
-    <div class="flex items-center gap-3">
+    <!-- HEADER -->
 
-      <div
-        class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-800 text-white">
-
-        ↗
-
-      </div>
+    <div
+      class="mb-4
+             flex items-start
+             justify-between
+             gap-4"
+    >
 
       <div>
 
-        <h3 class="font-semibold text-slate-900">
-
-          NET OPERATING PROFIT / LOSS
-
+        <h3
+          class="text-sm
+                 font-semibold
+                 text-slate-900"
+        >
+          Financial Overview
         </h3>
 
-        <p class="text-xs text-slate-500">
+        <p
+          class="mt-1
+                 text-[11px]
+                 text-slate-500"
+        >
+          Revenue, expenses and net profitability
+        </p>
 
-          Calculated after all operational expenses
+      </div>
 
+      <span
+        class="rounded-full
+               bg-slate-50
+               px-2.5 py-1
+               text-[10px]
+               font-medium
+               text-slate-500"
+      >
+        FY 2025–26
+      </span>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- KPI SUMMARY -->
+    <!-- ================================================= -->
+
+    <div
+      class="mb-5
+             grid grid-cols-1
+             gap-2
+             sm:grid-cols-3"
+    >
+
+      <!-- REVENUE -->
+
+      <div
+        class="rounded-lg
+               border border-emerald-100
+               bg-emerald-50/60
+               px-3 py-2.5"
+      >
+
+        <div
+          class="flex items-center
+                 justify-between"
+        >
+
+          <span
+            class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-slate-500"
+          >
+            Revenue
+          </span>
+
+          <span
+            class="text-[11px]
+                   font-semibold
+                   text-emerald-700"
+          >
+            ↑
+          </span>
+
+        </div>
+
+        <p
+          class="mt-1
+                 text-sm
+                 font-bold
+                 text-emerald-700"
+        >
+          {{ formatCurrency(totalRevenue) }}
+        </p>
+
+      </div>
+
+
+      <!-- EXPENSE -->
+
+      <div
+        class="rounded-lg
+               border border-red-100
+               bg-red-50/60
+               px-3 py-2.5"
+      >
+
+        <div
+          class="flex items-center
+                 justify-between"
+        >
+
+          <span
+            class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-slate-500"
+          >
+            Expenses
+          </span>
+
+          <span
+            class="text-[11px]
+                   font-semibold
+                   text-red-700"
+          >
+            ↓
+          </span>
+
+        </div>
+
+        <p
+          class="mt-1
+                 text-sm
+                 font-bold
+                 text-red-700"
+        >
+          {{ formatCurrency(totalExpenses) }}
+        </p>
+
+      </div>
+
+
+      <!-- NET PROFIT -->
+
+      <div
+        class="rounded-lg
+               border px-3 py-2.5"
+        [class.border-emerald-100]="netProfit >= 0"
+        [class.bg-emerald-50]="netProfit >= 0"
+        [class.border-red-100]="netProfit < 0"
+        [class.bg-red-50]="netProfit < 0"
+      >
+
+        <div
+          class="flex items-center
+                 justify-between"
+        >
+
+          <span
+            class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-slate-500"
+          >
+            Net Profit / Loss
+          </span>
+
+          <span
+            class="text-[11px]
+                   font-semibold"
+            [class.text-emerald-700]="netProfit >= 0"
+            [class.text-red-700]="netProfit < 0"
+          >
+            ↗
+          </span>
+
+        </div>
+
+        <p
+          class="mt-1
+                 text-sm
+                 font-bold"
+          [class.text-emerald-700]="netProfit >= 0"
+          [class.text-red-700]="netProfit < 0"
+        >
+          {{ formatCurrency(netProfit) }}
         </p>
 
       </div>
 
     </div>
 
-    <div
-      class="text-3xl font-bold"
-      [class.text-red-700]="netProfit < 0"
-      [class.text-emerald-700]="netProfit >= 0">
 
-      ₹{{ netProfit | number }}
+    <!-- ================================================= -->
+    <!-- CHART -->
+    <!-- ================================================= -->
+
+    <div
+      echarts
+      [options]="revenueExpenseChart"
+      class="h-[300px]
+             w-full"
+    ></div>
+
+
+    <!-- ================================================= -->
+    <!-- PROFIT MARGIN -->
+    <!-- ================================================= -->
+
+    <div
+      class="mt-3
+             flex items-center
+             justify-between
+             border-t border-gray-100
+             pt-3"
+    >
+
+      <span
+        class="text-[10px]
+               text-slate-500"
+      >
+        Net Profit Margin
+      </span>
+
+      <span
+        class="text-xs
+               font-semibold"
+        [class.text-emerald-700]="netProfit >= 0"
+        [class.text-red-700]="netProfit < 0"
+      >
+        {{ profitMargin | number:'1.1-1' }}%
+      </span>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- EXPENSE BREAKDOWN -->
+  <!-- ================================================= -->
+
+  <div
+    class="rounded-xl
+           border border-gray-200
+           bg-white
+           p-5
+           shadow-sm"
+  >
+
+    <div
+      class="mb-4
+             flex items-start
+             justify-between
+             gap-4"
+    >
+
+      <div>
+
+        <h3
+          class="text-sm
+                 font-semibold
+                 text-slate-900"
+        >
+          Expense Breakdown
+        </h3>
+
+        <p
+          class="mt-1
+                 text-[11px]
+                 text-slate-500"
+        >
+          Distribution of operating expenses
+        </p>
+
+      </div>
+
+      <span
+        class="rounded-full
+               bg-red-50
+               px-2.5 py-1
+               text-[10px]
+               font-medium
+               text-red-700"
+      >
+        {{ formatCurrency(totalExpenses) }}
+      </span>
+
+    </div>
+
+
+    <!-- CHART -->
+
+    <div
+      echarts
+      [options]="expenseBreakdownChart"
+      class="h-[300px]
+             w-full"
+    ></div>
+
+
+    <!-- FOOTER -->
+
+    <div
+      class="mt-3
+             flex items-center
+             justify-between
+             border-t border-gray-100
+             pt-3"
+    >
+
+      <span
+        class="text-[10px]
+               text-slate-500"
+      >
+        Total Operating Expenses
+      </span>
+
+      <span
+        class="text-xs
+               font-semibold
+               text-red-700"
+      >
+        {{ formatCurrency(totalExpenses) }}
+      </span>
 
     </div>
 

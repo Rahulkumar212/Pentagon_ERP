@@ -1,6 +1,8 @@
 import {
+  ChangeDetectorRef,
   Component,
   EventEmitter,
+  OnInit,
   Output
 } from '@angular/core';
 
@@ -34,21 +36,16 @@ import {
 } from '../components/order-card/order-card.component';
 
 import {
-  PaymentProgressComponent
-} from '../components/payment-progress/payment-progress.component';
-
-import {
   PaymentHistoryComponent
 } from '../components/payment-history/payment-history.component';
 
 import {
-  RecordPaymentComponent
-} from '../components/record-payment/record-payment.component';
+  CreateOrderFormComponent
+} from '../forms/create-order-form/create-order-form.component';
 
 import {
-  CreateOrderFormComponent,
-  CreateOrderPayload
-} from '../forms/create-order-form/create-order-form.component';
+  RecordPaymentFormComponent
+} from '../forms/record-payment-form/record-payment-form.component';
 
 
 // =====================================================
@@ -61,8 +58,19 @@ import {
   PaymentHistory,
   PaymentStatus,
   OrderFilterState,
-  ViewMode
+  ViewMode,
+  CreateOrderPayload,
+  DeliveryStage
 } from '../../../../core/models/finance/order-tracking.model';
+
+
+// =====================================================
+// SERVICE
+// =====================================================
+
+import {
+  OrderTrackingService
+} from '../../../../core/services/finance/order-tracking.service';
 
 
 // =====================================================
@@ -91,13 +99,11 @@ import {
 
     OrderCardComponent,
 
-    PaymentProgressComponent,
-
     PaymentHistoryComponent,
 
-    RecordPaymentComponent,
+    CreateOrderFormComponent,
 
-    CreateOrderFormComponent
+    RecordPaymentFormComponent
 
   ],
 
@@ -105,12 +111,18 @@ import {
     './order-tracking.component.html'
 
 })
-export class OrderTrackingComponent {
+export class OrderTrackingComponent
+  implements OnInit {
 
 
-    @Output()
-orderSelected =
-  new EventEmitter<Order>();
+  // =====================================================
+  // OUTPUT
+  // =====================================================
+
+  @Output()
+  orderSelected =
+    new EventEmitter<Order>();
+
 
   // =====================================================
   // VIEW MODE
@@ -132,6 +144,29 @@ orderSelected =
 
   showPaymentHistory =
     false;
+
+
+  // =====================================================
+  // API STATE
+  // =====================================================
+
+  isLoadingOrders =
+    false;
+
+  isCreatingOrder =
+    false;
+
+    isDeletingOrder =
+  false;
+
+  ordersError:
+    string | null = null;
+
+  createOrderError:
+    string | null = null;
+
+    deleteOrderError:
+  string | null = null;
 
 
   // =====================================================
@@ -172,359 +207,7 @@ orderSelected =
   // =====================================================
 
   orders:
-    Order[] = [
-
-    // ===================================================
-    // INFOSYS
-    // ===================================================
-
-    {
-
-      id:
-        1,
-
-      orderNumber:
-        'PO-93112',
-
-      customerName:
-        'Infosys BPM Limited',
-
-      phone:
-        '+91 98450 77123',
-
-      email:
-        'ap.invoices@infosys.com',
-
-      orderDate:
-        '2026-07-18',
-
-      deliveryTargetDate:
-        '2026-08-20',
-
-      deliveryStage:
-        'DISPATCHED',
-
-      items: [
-
-        {
-
-          description:
-            'Financial Reconciliation Microservices Cloud',
-
-          quantity:
-            4,
-
-          unitPrice:
-            110000
-
-        },
-
-        {
-
-          description:
-            'Security Hardening & Penetration Testing',
-
-          quantity:
-            1,
-
-          unitPrice:
-            80000
-
-        }
-
-      ],
-
-      totalAmount:
-        520000,
-
-      receivedAmount:
-        260000,
-
-      balanceDue:
-        260000,
-
-      paymentCount:
-        1,
-
-      termsAndNotes:
-        'Goods & Licenses dispatched. Final ₹260,000 invoice will mature in 15 days.'
-
-    },
-
-
-    // ===================================================
-    // ZEPTO
-    // ===================================================
-
-    {
-
-      id:
-        2,
-
-      orderNumber:
-        'PO-92450',
-
-      customerName:
-        'Zepto Quick Delivery Corp',
-
-      phone:
-        '+91 99304 11284',
-
-      email:
-        'ops.vendor@zeptonow.com',
-
-      orderDate:
-        '2026-07-16',
-
-      deliveryTargetDate:
-        '2026-08-10',
-
-      deliveryStage:
-        'IN_PRODUCTION',
-
-      items: [
-
-        {
-
-          description:
-            'Dark Store Dispatch Optimization Algorithm',
-
-          quantity:
-            2,
-
-          unitPrice:
-            90000
-
-        },
-
-        {
-
-          description:
-            'Real-time Route Dispatch API Gateway',
-
-          quantity:
-            1,
-
-          unitPrice:
-            60000
-
-        }
-
-      ],
-
-      totalAmount:
-        240000,
-
-      receivedAmount:
-        80000,
-
-      balanceDue:
-        160000,
-
-      paymentCount:
-        1,
-
-      termsAndNotes:
-        'Second installment of ₹80,000 due upon beta testing release.'
-
-    },
-
-
-    // ===================================================
-    // MAHINDRA
-    // ===================================================
-
-    {
-
-      id:
-        3,
-
-      orderNumber:
-        'PO-91045',
-
-      customerName:
-        'Mahindra Logistics Hub',
-
-      phone:
-        '+91 98765 12345',
-
-      email:
-        'procurement@mahindralogistics.com',
-
-      orderDate:
-        '2026-07-15',
-
-      deliveryTargetDate:
-        '2026-08-15',
-
-      deliveryStage:
-        'PENDING',
-
-      items: [
-
-        {
-
-          description:
-            'Logistics Management Platform',
-
-          quantity:
-            1,
-
-          unitPrice:
-            95000
-
-        }
-
-      ],
-
-      totalAmount:
-        95000,
-
-      receivedAmount:
-        0,
-
-      balanceDue:
-        95000,
-
-      paymentCount:
-        0,
-
-      termsAndNotes:
-        'Payment will be initiated after project kickoff.'
-
-    },
-
-
-    // ===================================================
-    // RELIANCE
-    // ===================================================
-
-    {
-
-      id:
-        4,
-
-      orderNumber:
-        'PO-90214',
-
-      customerName:
-        'Reliance Retail Ventures',
-
-      phone:
-        '+91 99887 77665',
-
-      email:
-        'purchase@relianceretail.com',
-
-      orderDate:
-        '2026-07-12',
-
-      deliveryTargetDate:
-        '2026-07-28',
-
-      deliveryStage:
-        'DELIVERED',
-
-      items: [
-
-        {
-
-          description:
-            'Retail Inventory Management System',
-
-          quantity:
-            1,
-
-          unitPrice:
-            350000
-
-        }
-
-      ],
-
-      totalAmount:
-        350000,
-
-      receivedAmount:
-        350000,
-
-      balanceDue:
-        0,
-
-      paymentCount:
-        2,
-
-      termsAndNotes:
-        'Order fully delivered and payment received.'
-
-    },
-
-
-    // ===================================================
-    // TATA
-    // ===================================================
-
-    {
-
-      id:
-        5,
-
-      orderNumber:
-        'PO-88391',
-
-      customerName:
-        'Tata Consultancy & Systems',
-
-      phone:
-        '+91 99887 66554',
-
-      email:
-        'procurement@tcs.com',
-
-      orderDate:
-        '2026-07-10',
-
-      deliveryTargetDate:
-        '2026-08-05',
-
-      deliveryStage:
-        'IN_PRODUCTION',
-
-      items: [
-
-        {
-
-          description:
-            'Enterprise Application Development',
-
-          quantity:
-            1,
-
-          unitPrice:
-            180000
-
-        }
-
-      ],
-
-      totalAmount:
-        180000,
-
-      receivedAmount:
-        120000,
-
-      balanceDue:
-        60000,
-
-      paymentCount:
-        1,
-
-      termsAndNotes:
-        'Remaining payment due after production release.'
-
-    }
-
-  ];
+    Order[] = [];
 
 
   // =====================================================
@@ -540,68 +223,312 @@ orderSelected =
   // =====================================================
 
   paymentHistory:
-    PaymentHistory[] = [
-
-    {
-
-      id:
-        1,
-
-      orderId:
-        1,
-
-      paymentDate:
-        '17 Aug 2026',
-
-      amount:
-        25000,
-
-      paymentMode:
-        'Bank Transfer',
-
-      transactionReference:
-        'TXN-100245',
-
-      status:
-        'SUCCESS'
-
-    },
-
-    {
-
-      id:
-        2,
-
-      orderId:
-        1,
-
-      paymentDate:
-        '10 Aug 2026',
-
-      amount:
-        15000,
-
-      paymentMode:
-        'UPI',
-
-      transactionReference:
-        'UPI-984532',
-
-      status:
-        'SUCCESS'
-
-    }
-
-  ];
+    PaymentHistory[] = [];
 
 
   // =====================================================
   // CONSTRUCTOR
   // =====================================================
 
-  constructor() {
+  constructor(
+    private readonly orderTrackingService:
+      OrderTrackingService,
+      private readonly cdr: ChangeDetectorRef
+  ) {}
 
-    this.applyFilters();
+
+  // =====================================================
+  // ON INIT
+  // =====================================================
+
+  ngOnInit(): void {
+
+    this.getOrders();
+
+  }
+
+
+  // =====================================================
+  // GET ORDERS API
+  // =====================================================
+
+  getOrders(): void {
+
+    // ===================================================
+    // RESET API STATE
+    // ===================================================
+
+    this.isLoadingOrders =
+      true;
+
+    this.ordersError =
+      null;
+
+
+    // ===================================================
+    // CALL API
+    // ===================================================
+
+    this.orderTrackingService
+      .fetchOrders()
+      .subscribe({
+
+        // ===============================================
+        // SUCCESS
+        // ===============================================
+
+        next: (
+          response: any
+        ) => {
+
+          console.log(
+            'Orders API response:',
+            response
+          );
+
+
+          // =============================================
+          // GET RAW DATA
+          // =============================================
+
+          const rawOrders =
+            response?.data ?? [];
+
+
+          // =============================================
+          // NORMALIZE API RESPONSE
+          // =============================================
+
+          this.orders =
+            rawOrders.map(
+              (
+                order: any
+              ) =>
+                this.normalizeOrder(
+                  order
+                )
+            );
+
+
+          // =============================================
+          // APPLY FILTERS
+          // =============================================
+
+          this.applyFilters();
+
+
+          // =============================================
+          // RESET LOADING
+          // =============================================
+
+          this.isLoadingOrders =
+            false;
+
+            this.cdr.detectChanges();
+
+        },
+
+
+        // ===============================================
+        // ERROR
+        // ===============================================
+
+        error: (
+          error: any
+        ) => {
+
+          console.error(
+            'Get orders failed:',
+            error
+          );
+
+
+          this.isLoadingOrders =
+            false;
+
+
+          this.ordersError =
+            error?.error?.message ||
+            error?.message ||
+            'Unable to load orders. Please try again.';
+
+
+          this.orders =
+            [];
+
+          this.filteredOrders =
+            [];
+
+             this.cdr.detectChanges();
+
+        }
+
+      });
+
+  }
+
+
+  // =====================================================
+  // NORMALIZE API ORDER
+  // =====================================================
+
+  private normalizeOrder(
+    apiOrder: any
+  ): Order {
+
+    // ===================================================
+    // ITEMS
+    // ===================================================
+
+    const items:
+      OrderItem[] =
+      (apiOrder?.items ?? []).map(
+        (
+          item: any
+        ) => ({
+
+          description:
+            item?.description ?? '',
+
+          quantity:
+            Number(
+              item?.quantity ?? 0
+            ),
+
+          unitPrice:
+            Number(
+              item?.unitPrice ?? 0
+            )
+
+        })
+      );
+
+
+    // ===================================================
+    // TOTAL AMOUNT
+    // ===================================================
+
+    const totalAmount =
+      items.reduce(
+
+        (
+          total: number,
+          item: OrderItem
+        ) => {
+
+          return (
+            total +
+            (
+              Number(item.quantity) *
+              Number(item.unitPrice)
+            )
+          );
+
+        },
+
+        0
+
+      );
+
+
+    // ===================================================
+    // ADVANCE / RECEIVED AMOUNT
+    // ===================================================
+
+    const receivedAmount =
+      apiOrder?.upfrontAdvancePayment
+        ? Number(
+            apiOrder?.advanceAmount ?? 0
+          )
+        : 0;
+
+
+    // ===================================================
+    // BALANCE
+    // ===================================================
+
+    const balanceDue =
+      Math.max(
+
+        0,
+
+        totalAmount -
+        receivedAmount
+
+      );
+
+
+    // ===================================================
+    // PAYMENT COUNT
+    // =====================================================
+
+    const paymentCount =
+      receivedAmount > 0
+        ? 1
+        : 0;
+
+
+    // ===================================================
+    // DELIVERY STAGE
+    // ===================================================
+
+    const deliveryStage:
+      DeliveryStage =
+      apiOrder?.deliveryStage ??
+      'PENDING';
+
+
+    // ===================================================
+    // RETURN FRONTEND ORDER
+    // ===================================================
+
+    return {
+
+      id:
+        Number(apiOrder?.id),
+
+      orderNumber:
+        apiOrder?.purchaseOrderNumber ??
+        apiOrder?.orderNumber ??
+        '',
+
+      customerName:
+        apiOrder?.customerName ??
+        '',
+
+      phone:
+        apiOrder?.phone ??
+        '',
+
+      email:
+        apiOrder?.email ??
+        '',
+
+      orderDate:
+        apiOrder?.orderDate ??
+        '',
+
+      deliveryTargetDate:
+        apiOrder?.deliveryTargetDate ??
+        '',
+
+      deliveryStage,
+
+      items,
+
+      totalAmount,
+
+      receivedAmount,
+
+      balanceDue,
+
+      paymentCount,
+
+      termsAndNotes:
+        apiOrder?.termsAndNotes ??
+        ''
+
+    };
 
   }
 
@@ -908,8 +835,19 @@ orderSelected =
     order: Order
   ): number {
 
+    const total =
+      Number(
+        order.totalAmount ?? 0
+      );
+
+    const received =
+      Number(
+        order.receivedAmount ?? 0
+      );
+
+
     if (
-      order.totalAmount <= 0
+      total <= 0
     ) {
 
       return 0;
@@ -924,8 +862,8 @@ orderSelected =
       Math.round(
 
         (
-          order.receivedAmount /
-          order.totalAmount
+          received /
+          total
         ) * 100
 
       )
@@ -983,12 +921,23 @@ orderSelected =
     order: Order
   ): number {
 
+    const total =
+      Number(
+        order.totalAmount ?? 0
+      );
+
+    const received =
+      Number(
+        order.receivedAmount ?? 0
+      );
+
+
     return Math.max(
 
       0,
 
-      order.totalAmount -
-      order.receivedAmount
+      total -
+      received
 
     );
 
@@ -996,10 +945,13 @@ orderSelected =
 
 
   // =====================================================
-  // CREATE ORDER
+  // OPEN CREATE ORDER
   // =====================================================
 
   openCreateOrder(): void {
+
+    this.createOrderError =
+      null;
 
     this.showCreateOrder =
       true;
@@ -1013,209 +965,147 @@ orderSelected =
 
   closeCreateOrder(): void {
 
+    if (
+      this.isCreatingOrder
+    ) {
+
+      return;
+
+    }
+
+
     this.showCreateOrder =
       false;
+
+    this.createOrderError =
+      null;
 
   }
 
 
   // =====================================================
-  // ORDER CREATED
+  // CREATE ORDER API
   // =====================================================
 
   onOrderCreated(
     payload: CreateOrderPayload
   ): void {
 
-    // ===================================================
-    // CALCULATE TOTAL
-    // ===================================================
+    this.isCreatingOrder =
+      true;
 
-    const totalAmount =
-      payload.items.reduce(
+    this.createOrderError =
+      null;
 
-        (
-          total: number,
-          item: OrderItem
+
+    this.orderTrackingService
+      .createOrder(payload)
+      .subscribe({
+
+        next: (
+          response: any
         ) => {
 
-          return (
-            total +
-            (
-              Number(item.quantity || 0) *
-              Number(item.unitPrice || 0)
-            )
-          );
+          // =============================================
+          // RAW CREATED ORDER
+          // =============================================
+
+          const rawOrder =
+            response?.data;
+
+
+          if (!rawOrder) {
+
+            this.createOrderError =
+              'Order was created but response data is missing.';
+
+            this.isCreatingOrder =
+              false;
+
+            return;
+
+          }
+
+
+          // =============================================
+          // NORMALIZE CREATED ORDER
+          // =============================================
+
+          const createdOrder:
+            Order =
+            this.normalizeOrder(
+              rawOrder
+            );
+
+
+          // =============================================
+          // ADD ORDER
+          // =============================================
+
+          this.orders = [
+
+            createdOrder,
+
+            ...this.orders
+
+          ];
+
+
+          // =============================================
+          // SELECT ORDER
+          // =============================================
+
+          this.selectedOrder =
+            createdOrder;
+
+
+          // =============================================
+          // CLOSE MODAL
+          // =============================================
+
+          this.showCreateOrder =
+            false;
+
+
+          // =============================================
+          // RESET STATE
+          // =============================================
+
+          this.isCreatingOrder =
+            false;
+
+
+          // =============================================
+          // APPLY FILTERS
+          // =============================================
+
+          this.applyFilters();
 
         },
 
-        0
 
-      );
+        error: (
+          error: any
+        ) => {
 
-
-    // ===================================================
-    // INITIAL RECEIVED AMOUNT
-    // ===================================================
-
-    const receivedAmount =
-      payload.upfrontAdvancePayment
-        ? Number(
-            payload.advanceAmount || 0
-          )
-        : 0;
+          console.error(
+            'Create order failed:',
+            error
+          );
 
 
-    // ===================================================
-    // CREATE NEW ORDER
-    // ===================================================
-
-    const newOrder:
-      Order = {
-
-      id:
-        this.getNextOrderId(),
-
-      orderNumber:
-        payload.purchaseOrderNumber.trim() ||
-        this.generateOrderNumber(),
-
-      customerName:
-        payload.customerName.trim(),
-
-      phone:
-        payload.phone.trim(),
-
-      email:
-        payload.email.trim(),
-
-      orderDate:
-        payload.orderDate,
-
-      deliveryTargetDate:
-        payload.deliveryTargetDate,
-
-      deliveryStage:
-        'PENDING',
-
-      items:
-        payload.items.map(
-          (
-            item: OrderItem
-          ) => ({
-
-            description:
-              item.description.trim(),
-
-            quantity:
-              Number(item.quantity),
-
-            unitPrice:
-              Number(item.unitPrice)
-
-          })
-        ),
-
-      totalAmount:
-        totalAmount,
-
-      receivedAmount:
-        receivedAmount,
-
-      balanceDue:
-        Math.max(
-          0,
-          totalAmount -
-          receivedAmount
-        ),
-
-      paymentCount:
-        receivedAmount > 0
-          ? 1
-          : 0,
-
-      termsAndNotes:
-        payload.termsAndNotes.trim()
-
-    };
+          this.isCreatingOrder =
+            false;
 
 
-    // ===================================================
-    // ADD ORDER
-    // ===================================================
+          this.createOrderError =
+            error?.error?.message ||
+            error?.message ||
+            'Unable to create order. Please try again.';
 
-    this.orders = [
+        }
 
-      newOrder,
-
-      ...this.orders
-
-    ];
-
-
-    // ===================================================
-    // SELECT NEW ORDER
-    // ===================================================
-
-    this.selectedOrder =
-      newOrder;
-
-
-    // ===================================================
-    // CLOSE FORM
-    // ===================================================
-
-    this.showCreateOrder =
-      false;
-
-
-    // ===================================================
-    // REFRESH FILTERED DATA
-    // ===================================================
-
-    this.applyFilters();
-
-  }
-
-
-  // =====================================================
-  // GET NEXT ORDER ID
-  // =====================================================
-
-  private getNextOrderId(): number {
-
-    if (
-      this.orders.length === 0
-    ) {
-
-      return 1;
-
-    }
-
-
-    return (
-      Math.max(
-        ...this.orders.map(
-          (
-            order: Order
-          ) =>
-            order.id
-        )
-      ) + 1
-    );
-
-  }
-
-
-  // =====================================================
-  // GENERATE ORDER NUMBER
-  // =====================================================
-
-  private generateOrderNumber(): string {
-
-    return `PO-${Date.now()
-      .toString()
-      .slice(-5)}`;
+      });
 
   }
 
@@ -1262,10 +1152,6 @@ orderSelected =
     payment: PaymentHistory
   ): void {
 
-    // ===================================================
-    // ADD PAYMENT HISTORY
-    // ===================================================
-
     this.paymentHistory = [
 
       payment,
@@ -1275,23 +1161,17 @@ orderSelected =
     ];
 
 
-    // ===================================================
-    // UPDATE ORDER
-    // ===================================================
-
     if (
       this.selectedOrder
     ) {
 
       const orderIndex =
         this.orders.findIndex(
-
           (
             order: Order
           ) =>
             order.id ===
             this.selectedOrder?.id
-
         );
 
 
@@ -1304,8 +1184,12 @@ orderSelected =
 
 
         const newReceivedAmount =
-          order.receivedAmount +
-          Number(payment.amount);
+          Number(
+            order.receivedAmount ?? 0
+          ) +
+          Number(
+            payment.amount ?? 0
+          );
 
 
         const updatedOrder:
@@ -1334,7 +1218,6 @@ orderSelected =
 
         this.orders =
           this.orders.map(
-
             (
               item: Order,
               index: number
@@ -1342,7 +1225,6 @@ orderSelected =
               index === orderIndex
                 ? updatedOrder
                 : item
-
           );
 
 
@@ -1354,17 +1236,9 @@ orderSelected =
     }
 
 
-    // ===================================================
-    // CLOSE MODAL
-    // ===================================================
-
     this.showRecordPayment =
       false;
 
-
-    // ===================================================
-    // REFRESH FILTER
-    // ===================================================
 
     this.applyFilters();
 
@@ -1405,14 +1279,17 @@ orderSelected =
   // =====================================================
 
   onOrderSelected(
-  order: Order
-): void {
+    order: Order
+  ): void {
 
-  this.orderSelected.emit(
-    order
-  );
+    this.selectedOrder =
+      order;
 
-}
+    this.orderSelected.emit(
+      order
+    );
+
+  }
 
 
   // =====================================================
@@ -1448,7 +1325,7 @@ orderSelected =
 
 
   // =====================================================
-  // RECORD PAYMENT FROM CARD
+  // RECORD PAYMENT
   // =====================================================
 
   onRecordPayment(
@@ -1462,54 +1339,160 @@ orderSelected =
   }
 
 
-  // =====================================================
-  // DELETE ORDER
-  // =====================================================
+// =====================================================
+// DELETE ORDER
+// =====================================================
 
-  onDeleteOrder(
-    order: Order
-  ): void {
+onDeleteOrder(
+  order: Order
+): void {
 
-    const confirmed =
-      window.confirm(
+  // ===================================================
+  // VALIDATE ORDER ID
+  // ===================================================
 
-        `Are you sure you want to delete ${order.orderNumber}?`
+  if (!order?.id) {
 
-      );
+    console.error(
+      'Cannot delete order: Order ID is missing.'
+    );
 
-
-    if (!confirmed) {
-
-      return;
-
-    }
-
-
-    this.orders =
-      this.orders.filter(
-
-        (
-          item: Order
-        ) =>
-          item.id !==
-          order.id
-
-      );
-
-
-    if (
-      this.selectedOrder?.id ===
-      order.id
-    ) {
-
-      this.selectedOrder =
-        null;
-
-    }
-
-
-    this.applyFilters();
+    return;
 
   }
+
+
+  // ===================================================
+  // CONFIRM DELETE
+  // ===================================================
+
+  const confirmed =
+    window.confirm(
+
+      `Are you sure you want to delete ${order.orderNumber}?`
+
+    );
+
+
+  if (!confirmed) {
+
+    return;
+
+  }
+
+
+  // ===================================================
+  // RESET API STATE
+  // ===================================================
+
+  this.isDeletingOrder =
+    true;
+
+  this.deleteOrderError =
+    null;
+
+
+  // ===================================================
+  // DELETE API
+  // ===================================================
+
+  this.orderTrackingService
+    .deleteOrder(order.id)
+    .subscribe({
+
+      // ===============================================
+      // SUCCESS
+      // ===============================================
+
+      next: (
+        response: any
+      ) => {
+
+        console.log(
+          'Order deleted successfully:',
+          response
+        );
+
+
+        // =============================================
+        // REMOVE FROM ORDERS
+        // =============================================
+
+        this.orders =
+          this.orders.filter(
+
+            (
+              item: Order
+            ) =>
+              item.id !==
+              order.id
+
+          );
+
+
+        // =============================================
+        // CLEAR SELECTED ORDER
+        // =============================================
+
+        if (
+          this.selectedOrder?.id ===
+          order.id
+        ) {
+
+          this.selectedOrder =
+            null;
+
+        }
+
+
+        // =============================================
+        // APPLY FILTERS
+        // =============================================
+
+        this.applyFilters();
+
+
+        // =============================================
+        // RESET API STATE
+        // =============================================
+
+        this.isDeletingOrder =
+          false;
+
+
+        this.deleteOrderError =
+          null;
+
+      },
+
+
+      // ===============================================
+      // ERROR
+      // ===============================================
+
+      error: (
+        error: any
+      ) => {
+
+        console.error(
+          'Delete order failed:',
+          error
+        );
+
+
+        this.isDeletingOrder =
+          false;
+
+
+        this.deleteOrderError =
+          error?.error?.message ||
+          error?.message ||
+          'Unable to delete order. Please try again.';
+
+      }
+
+    });
+
+}
 
 }

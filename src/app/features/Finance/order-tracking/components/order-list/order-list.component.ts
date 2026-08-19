@@ -73,6 +73,17 @@ export class OrderListComponent {
     new EventEmitter<Order>();
 
 
+    @Output()
+viewPaymentHistory = new EventEmitter<Order>();
+
+
+onViewPaymentHistory(order: Order): void {
+
+    this.viewPaymentHistory.emit(order);
+
+}
+
+
   // =======================================================
   // TOTAL ORDER VALUE
   // =======================================================

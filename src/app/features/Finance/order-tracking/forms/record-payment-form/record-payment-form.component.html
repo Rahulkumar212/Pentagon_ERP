@@ -1,0 +1,657 @@
+@if (order) {
+
+  <!-- ===================================================== -->
+  <!-- OVERLAY -->
+  <!-- ===================================================== -->
+
+  <div
+    class="fixed
+           inset-0
+           z-50
+           flex
+           items-center
+           justify-center
+           bg-black/40
+           p-4"
+  >
+
+    <!-- =================================================== -->
+    <!-- FORM CONTAINER -->
+    <!-- =================================================== -->
+
+    <div
+      class="w-full
+             max-w-[508px]
+             overflow-hidden
+             rounded-xl
+             border
+             border-slate-200
+             bg-white
+             shadow-2xl"
+    >
+
+      <!-- =============================================== -->
+      <!-- HEADER -->
+      <!-- =============================================== -->
+
+      <div
+        class="flex
+               items-center
+               justify-between
+               border-b
+               border-slate-100
+               px-5
+               py-4"
+      >
+
+        <div
+          class="flex
+                 items-center
+                 gap-2"
+        >
+
+          <span
+            class="text-xl
+                   font-medium
+                   leading-none
+                   text-emerald-700"
+          >
+            ▭
+          </span>
+
+          <h2
+            class="text-base
+                   font-semibold
+                   text-slate-800"
+          >
+            Record Payment Receipt
+          </h2>
+
+        </div>
+
+
+        <!-- CLOSE -->
+
+        <button
+          type="button"
+          (click)="onClose()"
+          class="flex
+                 h-7
+                 w-7
+                 items-center
+                 justify-center
+                 rounded-md
+                 text-xl
+                 text-slate-400
+                 transition
+                 hover:bg-slate-100
+                 hover:text-slate-700"
+          aria-label="Close"
+        >
+          ×
+        </button>
+
+      </div>
+
+
+      <!-- =============================================== -->
+      <!-- FORM -->
+      <!-- =============================================== -->
+
+      <form
+        (ngSubmit)="onSubmit()"
+        class="px-5
+               pb-5
+               pt-4"
+      >
+
+
+        <!-- ============================================= -->
+        <!-- ORDER SUMMARY -->
+        <!-- ============================================= -->
+
+        <div
+          class="overflow-hidden
+                 rounded-lg
+                 border
+                 border-slate-200
+                 bg-slate-50/70"
+        >
+
+          <!-- ORDER + CUSTOMER -->
+
+          <div
+            class="flex
+                   items-center
+                   justify-between
+                   gap-3
+                   px-3.5
+                   py-3"
+          >
+
+            <span
+              class="shrink-0
+                     rounded-md
+                     border
+                     border-red-200
+                     bg-red-50
+                     px-2
+                     py-1
+                     font-mono
+                     text-[11px]
+                     font-semibold
+                     text-red-700"
+            >
+              {{ order.orderNumber }}
+            </span>
+
+
+            <span
+              class="truncate
+                     text-[12px]
+                     font-semibold
+                     text-slate-800"
+            >
+              {{ order.customerName }}
+            </span>
+
+          </div>
+
+
+          <!-- DIVIDER -->
+
+          <div
+            class="mx-3.5
+                   border-t
+                   border-slate-200"
+          ></div>
+
+
+          <!-- AMOUNTS -->
+
+          <div
+            class="grid
+                   grid-cols-3"
+          >
+
+            <!-- TOTAL -->
+
+            <div
+              class="px-3
+                     py-2.5
+                     text-center"
+            >
+
+              <p
+                class="font-mono
+                       text-[9px]
+                       font-semibold
+                       uppercase
+                       tracking-wider
+                       text-slate-400"
+              >
+                Total Contract
+              </p>
+
+              <p
+                class="mt-0.5
+                       font-mono
+                       text-[12px]
+                       font-semibold
+                       text-slate-800"
+              >
+                {{ formatAmount(getTotalAmount()) }}
+              </p>
+
+            </div>
+
+
+            <!-- PAID -->
+
+            <div
+              class="px-3
+                     py-2.5
+                     text-center"
+            >
+
+              <p
+                class="font-mono
+                       text-[9px]
+                       font-semibold
+                       uppercase
+                       tracking-wider
+                       text-emerald-600"
+              >
+                Paid To Date
+              </p>
+
+              <p
+                class="mt-0.5
+                       font-mono
+                       text-[12px]
+                       font-semibold
+                       text-emerald-700"
+              >
+                {{ formatAmount(getReceivedAmount()) }}
+              </p>
+
+            </div>
+
+
+            <!-- REMAINING -->
+
+            <div
+              class="px-3
+                     py-2.5
+                     text-center"
+            >
+
+              <p
+                class="font-mono
+                       text-[9px]
+                       font-semibold
+                       uppercase
+                       tracking-wider
+                       text-red-500"
+              >
+                Remaining Due
+              </p>
+
+              <p
+                class="mt-0.5
+                       font-mono
+                       text-[12px]
+                       font-semibold
+                       text-red-600"
+              >
+                {{ formatAmount(getBalanceDue()) }}
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ============================================= -->
+        <!-- PAYMENT AMOUNT -->
+        <!-- ============================================= -->
+
+        <div class="mt-4">
+
+          <div
+            class="mb-1.5
+                   flex
+                   items-center
+                   justify-between
+                   gap-2"
+          >
+
+            <label
+              for="paymentAmount"
+              class="text-[12px]
+                     font-medium
+                     text-slate-700"
+            >
+              Payment Amount (₹)
+              <span class="text-red-500">*</span>
+            </label>
+
+
+            <!-- QUICK PAYMENT -->
+
+            <div
+              class="flex
+                     shrink-0
+                     items-center
+                     gap-1.5
+                     font-mono
+                     text-[9px]"
+            >
+
+              <button
+                type="button"
+                (click)="setHalfPayment()"
+                class="text-slate-500
+                       hover:text-slate-800"
+              >
+                50%
+              </button>
+
+              <span
+                class="text-slate-300"
+              >
+                •
+              </span>
+
+              <button
+                type="button"
+                (click)="setFullPayment()"
+                class="font-semibold
+                       text-red-700
+                       hover:text-red-800"
+              >
+                Full Remaining
+                ({{ formatAmount(getBalanceDue()) }})
+              </button>
+
+            </div>
+
+          </div>
+
+
+          <input
+            id="paymentAmount"
+            name="paymentAmount"
+            type="number"
+            min="1"
+            [max]="getBalanceDue()"
+            [(ngModel)]="paymentAmount"
+            class="h-11
+                   w-full
+                   rounded-lg
+                   border
+                   border-slate-200
+                   px-3
+                   font-mono
+                   text-sm
+                   text-slate-800
+                   outline-none
+                   focus:border-emerald-400
+                   focus:ring-2
+                   focus:ring-emerald-100"
+          />
+
+        </div>
+
+
+        <!-- ============================================= -->
+        <!-- BANK + PAYMENT MODE -->
+        <!-- ============================================= -->
+
+        <div
+          class="mt-4
+                 grid
+                 grid-cols-1
+                 gap-3
+                 sm:grid-cols-2"
+        >
+
+          <!-- BANK -->
+
+          <div>
+
+            <label
+              for="depositBankAccount"
+              class="mb-1.5
+                     block
+                     text-[12px]
+                     font-medium
+                     text-slate-700"
+            >
+              Deposit Bank Account
+            </label>
+
+
+            <select
+              id="depositBankAccount"
+              name="depositBankAccount"
+              [(ngModel)]="depositBankAccount"
+              class="h-9
+                     w-full
+                     rounded-lg
+                     border
+                     border-slate-200
+                     bg-white
+                     px-3
+                     text-[11px]
+                     text-slate-700
+                     outline-none
+                     focus:border-emerald-400
+                     focus:ring-2
+                     focus:ring-emerald-100"
+            >
+
+              @for (
+                account of bankAccounts;
+                track account
+              ) {
+
+                <option
+                  [value]="account"
+                >
+                  {{ account }}
+                </option>
+
+              }
+
+            </select>
+
+          </div>
+
+
+          <!-- PAYMENT MODE -->
+
+          <div>
+
+            <label
+              for="paymentMode"
+              class="mb-1.5
+                     block
+                     text-[12px]
+                     font-medium
+                     text-slate-700"
+            >
+              Payment Mode
+            </label>
+
+
+            <select
+              id="paymentMode"
+              name="paymentMode"
+              [(ngModel)]="paymentMode"
+              class="h-9
+                     w-full
+                     rounded-lg
+                     border
+                     border-slate-200
+                     bg-white
+                     px-3
+                     text-[11px]
+                     text-slate-700
+                     outline-none
+                     focus:border-emerald-400
+                     focus:ring-2
+                     focus:ring-emerald-100"
+            >
+
+              @for (
+                mode of paymentModes;
+                track mode
+              ) {
+
+                <option
+                  [value]="mode"
+                >
+                  {{ mode }}
+                </option>
+
+              }
+
+            </select>
+
+          </div>
+
+        </div>
+
+
+        <!-- ============================================= -->
+        <!-- REFERENCE -->
+        <!-- ============================================= -->
+
+        <div class="mt-4">
+
+          <label
+            for="referenceNumber"
+            class="mb-1.5
+                   block
+                   text-[12px]
+                   font-medium
+                   text-slate-700"
+          >
+            Reference / UTR / Txn Number
+          </label>
+
+
+          <input
+            id="referenceNumber"
+            name="referenceNumber"
+            type="text"
+            [(ngModel)]="referenceNumber"
+            placeholder="Enter transaction reference"
+            class="h-10
+                   w-full
+                   rounded-lg
+                   border
+                   border-slate-200
+                   px-3
+                   font-mono
+                   text-[12px]
+                   text-slate-700
+                   outline-none
+                   placeholder:text-slate-400
+                   focus:border-emerald-400
+                   focus:ring-2
+                   focus:ring-emerald-100"
+          />
+
+        </div>
+
+
+        <!-- ============================================= -->
+        <!-- NOTES -->
+        <!-- ============================================= -->
+
+        <div class="mt-4">
+
+          <label
+            for="paymentNotes"
+            class="mb-1.5
+                   block
+                   text-[12px]
+                   font-medium
+                   text-slate-700"
+          >
+            Payment Notes / Milestone
+          </label>
+
+
+          <input
+            id="paymentNotes"
+            name="paymentNotes"
+            type="text"
+            [(ngModel)]="paymentNotes"
+            placeholder="Payment notes or milestone"
+            class="h-10
+                   w-full
+                   rounded-lg
+                   border
+                   border-slate-200
+                   px-3
+                   text-[12px]
+                   text-slate-700
+                   outline-none
+                   placeholder:text-slate-400
+                   focus:border-emerald-400
+                   focus:ring-2
+                   focus:ring-emerald-100"
+          />
+
+        </div>
+
+
+        <!-- ============================================= -->
+        <!-- VALIDATION -->
+        <!-- ============================================= -->
+
+        @if (
+          paymentAmount > getBalanceDue()
+        ) {
+
+          <p
+            class="mt-2
+                   text-[10px]
+                   font-medium
+                   text-red-600"
+          >
+            Payment amount cannot exceed
+            {{ formatAmount(getBalanceDue()) }}.
+          </p>
+
+        }
+
+
+        <!-- ============================================= -->
+        <!-- FOOTER -->
+        <!-- ============================================= -->
+
+        <div
+          class="mt-5
+                 flex
+                 items-center
+                 justify-end
+                 gap-2
+                 border-t
+                 border-slate-100
+                 pt-3"
+        >
+
+          <!-- CANCEL -->
+
+          <button
+            type="button"
+            (click)="onClose()"
+            class="h-8
+                   rounded-lg
+                   bg-slate-100
+                   px-4
+                   text-[11px]
+                   font-medium
+                   text-slate-700
+                   transition
+                   hover:bg-slate-200"
+          >
+            Cancel
+          </button>
+
+
+          <!-- SUBMIT -->
+
+          <button
+            type="submit"
+            [disabled]="!isValidPayment()"
+            class="h-8
+                   rounded-lg
+                   bg-emerald-700
+                   px-4
+                   text-[11px]
+                   font-semibold
+                   text-white
+                   transition
+                   hover:bg-emerald-800
+                   disabled:cursor-not-allowed
+                   disabled:bg-slate-300"
+          >
+            Confirm Payment &amp; Deposit
+          </button>
+
+        </div>
+
+      </form>
+
+    </div>
+
+  </div>
+
+}

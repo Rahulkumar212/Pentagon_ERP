@@ -12,59 +12,10 @@ import {
   FormsModule
 } from '@angular/forms';
 
-
-// =====================================================
-// ORDER ITEM
-// =====================================================
-
-export interface OrderItem {
-
-  description: string;
-
-  quantity: number;
-
-  unitPrice: number;
-
-}
-
-
-// =====================================================
-// CREATE ORDER PAYLOAD
-// =====================================================
-
-export interface CreateOrderPayload {
-
-  customerName: string;
-
-  phone: string;
-
-  email: string;
-
-  purchaseOrderNumber: string;
-
-  orderDate: string;
-
-  deliveryTargetDate: string;
-
-  items: OrderItem[];
-
-  upfrontAdvancePayment: boolean;
-
-  // ---------------------------------------------------
-  // ADVANCE PAYMENT DETAILS
-  // ---------------------------------------------------
-
-  advanceAmount?: number;
-
-  depositAccount?: string;
-
-  paymentMode?: string;
-
-  paymentReference?: string;
-
-  termsAndNotes: string;
-
-}
+import {
+  CreateOrderPayload,
+  OrderItem
+} from '../../../../../core/models/finance/order-tracking.model';
 
 
 // =====================================================
@@ -72,9 +23,12 @@ export interface CreateOrderPayload {
 // =====================================================
 
 @Component({
-  selector: 'app-create-order-form',
 
-  standalone: true,
+  selector:
+    'app-create-order-form',
+
+  standalone:
+    true,
 
   imports: [
     CommonModule,
@@ -83,6 +37,7 @@ export interface CreateOrderPayload {
 
   templateUrl:
     './create-order-form.component.html'
+
 })
 export class CreateOrderFormComponent {
 
@@ -131,9 +86,7 @@ export class CreateOrderFormComponent {
 
     {
       description: '',
-
       quantity: 1,
-
       unitPrice: 0
     }
 
@@ -183,9 +136,7 @@ export class CreateOrderFormComponent {
     this.items.push({
 
       description: '',
-
       quantity: 1,
-
       unitPrice: 0
 
     });
@@ -197,15 +148,22 @@ export class CreateOrderFormComponent {
   // REMOVE ITEM
   // =====================================================
 
-  removeItem(index: number): void {
+  removeItem(
+    index: number
+  ): void {
 
-    if (this.items.length <= 1) {
+    if (
+      this.items.length <= 1
+    ) {
 
       return;
 
     }
 
-    this.items.splice(index, 1);
+    this.items.splice(
+      index,
+      1
+    );
 
   }
 
@@ -235,8 +193,8 @@ export class CreateOrderFormComponent {
     return this.items.reduce(
 
       (
-        total,
-        item
+        total: number,
+        item: OrderItem
       ) => {
 
         return (
@@ -263,7 +221,9 @@ export class CreateOrderFormComponent {
       this.getTotalAmount();
 
     const advance =
-      Number(this.advanceAmount || 0);
+      Number(
+        this.advanceAmount || 0
+      );
 
     return Math.max(
       total - advance,
@@ -300,6 +260,19 @@ export class CreateOrderFormComponent {
   onSubmit(): void {
 
     // ---------------------------------------------------
+    // PREVENT DOUBLE SUBMISSION
+    // ---------------------------------------------------
+
+    if (
+      this.isSubmitting
+    ) {
+
+      return;
+
+    }
+
+
+    // ---------------------------------------------------
     // REQUIRED FIELDS
     // ---------------------------------------------------
 
@@ -320,7 +293,9 @@ export class CreateOrderFormComponent {
     const invalidItem =
       this.items.some(
 
-        item =>
+        (
+          item: OrderItem
+        ) =>
           !item.description.trim() ||
           Number(item.quantity) <= 0 ||
           Number(item.unitPrice) < 0
@@ -328,7 +303,9 @@ export class CreateOrderFormComponent {
       );
 
 
-    if (invalidItem) {
+    if (
+      invalidItem
+    ) {
 
       return;
 
@@ -339,15 +316,23 @@ export class CreateOrderFormComponent {
     // ADVANCE PAYMENT VALIDATION
     // ---------------------------------------------------
 
-    if (this.upfrontAdvancePayment) {
+    if (
+      this.upfrontAdvancePayment
+    ) {
 
       if (
+
         Number(this.advanceAmount) <= 0 ||
+
         Number(this.advanceAmount) >
           this.getTotalAmount() ||
+
         !this.depositAccount ||
+
         !this.paymentMode ||
+
         !this.paymentReference.trim()
+
       ) {
 
         return;
@@ -358,10 +343,11 @@ export class CreateOrderFormComponent {
 
 
     // ---------------------------------------------------
-    // PAYLOAD
+    // CREATE PAYLOAD
     // ---------------------------------------------------
 
-    const payload: CreateOrderPayload = {
+    const payload:
+      CreateOrderPayload = {
 
       customerName:
         this.customerName.trim(),
@@ -383,7 +369,10 @@ export class CreateOrderFormComponent {
 
       items:
         this.items.map(
-          item => ({
+
+          (
+            item: OrderItem
+          ) => ({
 
             description:
               item.description.trim(),
@@ -395,19 +384,18 @@ export class CreateOrderFormComponent {
               Number(item.unitPrice)
 
           })
+
         ),
 
       upfrontAdvancePayment:
         this.upfrontAdvancePayment,
 
-      // -------------------------------------------------
-      // ADVANCE PAYMENT
-      // -------------------------------------------------
-
       ...(this.upfrontAdvancePayment && {
 
         advanceAmount:
-          Number(this.advanceAmount),
+          Number(
+            this.advanceAmount
+          ),
 
         depositAccount:
           this.depositAccount,
@@ -427,24 +415,19 @@ export class CreateOrderFormComponent {
 
 
     // ---------------------------------------------------
-    // DEBUG
-    // ---------------------------------------------------
-
-    console.log(
-      'Create Order Payload:',
-      payload
-    );
-
-
-    // ---------------------------------------------------
-    // EMIT
+    // SET SUBMITTING
     // ---------------------------------------------------
 
     this.isSubmitting = true;
 
-    this.save.emit(payload);
 
-    this.isSubmitting = false;
+    // ---------------------------------------------------
+    // EMIT PAYLOAD TO PARENT
+    // ---------------------------------------------------
+
+    this.save.emit(
+      payload
+    );
 
   }
 

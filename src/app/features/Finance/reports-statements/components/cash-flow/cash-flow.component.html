@@ -1,202 +1,117 @@
-<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+<div class="space-y-5">
 
-  <!-- Header -->
 
-  <div class="border-b border-gray-200 px-5 py-4">
+  <!-- ===================================================== -->
+  <!-- HEADER -->
+  <!-- ===================================================== -->
 
-    <h2 class="text-base font-semibold text-slate-900">
+  <div
+    class="rounded-xl
+           border border-gray-200
+           bg-white
+           p-5
+           shadow-sm"
+  >
 
-      Cash Flow Statement
+    <div
+      class="flex flex-col
+             gap-4
+             md:flex-row
+             md:items-center
+             md:justify-between"
+    >
 
-    </h2>
+      <div>
 
-    <p class="mt-1 text-xs text-slate-500">
+        <div
+          class="flex items-center gap-3"
+        >
 
-      Operating, Investing & Financing Cash Activities
+          <div
+            class="flex h-10 w-10
+                   items-center justify-center
+                   rounded-lg
+                   bg-cyan-50
+                   text-cyan-700"
+          >
 
-    </p>
-
-  </div>
-
-  <!-- Sections -->
-
-  <div class="grid gap-5 p-5 lg:grid-cols-3">
-
-    <!-- Operating -->
-
-    <div class="rounded-xl border border-green-200 bg-green-50">
-
-      <div class="border-b border-green-200 px-4 py-3">
-
-        <h3 class="text-sm font-semibold text-green-800">
-
-          Operating Activities
-
-        </h3>
-
-      </div>
-
-      <div class="space-y-3 p-4">
-
-        @for(item of operatingActivities(); track item.title){
-
-          <div class="flex items-center justify-between">
-
-            <span class="text-sm text-slate-700">
-
-              {{ item.title }}
-
-            </span>
-
-            <span
-              class="font-semibold"
-              [class.text-green-700]="item.amount >= 0"
-              [class.text-red-700]="item.amount < 0">
-
-              ₹{{ item.amount | number }}
-
-            </span>
+            ₹
 
           </div>
 
-        }
 
-      </div>
+          <div>
 
-      <div
-        class="flex items-center justify-between border-t border-green-200 bg-white px-4 py-3">
+            <h2
+              class="text-lg
+                     font-semibold
+                     text-slate-900"
+            >
 
-        <span class="font-semibold">
+              Cash Flow Statement
 
-          Net Operating
+            </h2>
 
-        </span>
 
-        <span class="font-bold text-green-700">
+            <p
+              class="mt-1
+                     text-xs
+                     text-slate-500"
+            >
 
-          ₹{{ operatingTotal() | number }}
+              Operating, Investing & Financing
+              Cash Activities
 
-        </span>
-
-      </div>
-
-    </div>
-
-    <!-- Investing -->
-
-    <div class="rounded-xl border border-amber-200 bg-amber-50">
-
-      <div class="border-b border-amber-200 px-4 py-3">
-
-        <h3 class="text-sm font-semibold text-amber-800">
-
-          Investing Activities
-
-        </h3>
-
-      </div>
-
-      <div class="space-y-3 p-4">
-
-        @for(item of investingActivities(); track item.title){
-
-          <div class="flex items-center justify-between">
-
-            <span class="text-sm text-slate-700">
-
-              {{ item.title }}
-
-            </span>
-
-            <span
-              class="font-semibold"
-              [class.text-green-700]="item.amount >= 0"
-              [class.text-red-700]="item.amount < 0">
-
-              ₹{{ item.amount | number }}
-
-            </span>
+            </p>
 
           </div>
 
-        }
+        </div>
 
       </div>
+
+
+      <!-- ACTIONS -->
 
       <div
-        class="flex items-center justify-between border-t border-amber-200 bg-white px-4 py-3">
+        class="flex items-center gap-2"
+      >
 
-        <span class="font-semibold">
+        <button
+          type="button"
+          (click)="exportExcel()"
+          class="rounded-lg
+                 border border-gray-300
+                 bg-white
+                 px-3 py-2
+                 text-xs
+                 font-semibold
+                 text-slate-700
+                 transition
+                 hover:bg-gray-50"
+        >
 
-          Net Investing
+          Export Excel
 
-        </span>
+        </button>
 
-        <span class="font-bold text-amber-700">
 
-          ₹{{ investingTotal() | number }}
+        <button
+          type="button"
+          (click)="exportPdf()"
+          class="rounded-lg
+                 bg-slate-800
+                 px-3 py-2
+                 text-xs
+                 font-semibold
+                 text-white
+                 transition
+                 hover:bg-slate-900"
+        >
 
-        </span>
+          Export PDF
 
-      </div>
-
-    </div>
-
-    <!-- Financing -->
-
-    <div class="rounded-xl border border-blue-200 bg-blue-50">
-
-      <div class="border-b border-blue-200 px-4 py-3">
-
-        <h3 class="text-sm font-semibold text-blue-800">
-
-          Financing Activities
-
-        </h3>
-
-      </div>
-
-      <div class="space-y-3 p-4">
-
-        @for(item of financingActivities(); track item.title){
-
-          <div class="flex items-center justify-between">
-
-            <span class="text-sm text-slate-700">
-
-              {{ item.title }}
-
-            </span>
-
-            <span
-              class="font-semibold"
-              [class.text-green-700]="item.amount >= 0"
-              [class.text-red-700]="item.amount < 0">
-
-              ₹{{ item.amount | number }}
-
-            </span>
-
-          </div>
-
-        }
-
-      </div>
-
-      <div
-        class="flex items-center justify-between border-t border-blue-200 bg-white px-4 py-3">
-
-        <span class="font-semibold">
-
-          Net Financing
-
-        </span>
-
-        <span class="font-bold text-blue-700">
-
-          ₹{{ financingTotal() | number }}
-
-        </span>
+        </button>
 
       </div>
 
@@ -204,29 +119,593 @@
 
   </div>
 
-  <!-- Footer -->
 
-  <div class="border-t border-gray-200 bg-slate-50 px-5 py-4">
+  <!-- ===================================================== -->
+  <!-- SUMMARY -->
+  <!-- ===================================================== -->
 
-    <div class="flex items-center justify-between">
+  <div
+    class="grid grid-cols-1
+           gap-4
+           md:grid-cols-3"
+  >
 
-      <span class="text-base font-semibold text-slate-700">
 
-        Net Cash Flow
+    <!-- OPERATING -->
 
-      </span>
+    <div
+      class="rounded-xl
+             border border-emerald-200
+             bg-white
+             p-4
+             shadow-sm"
+    >
 
-      <span
-        class="text-xl font-bold"
-        [class.text-green-700]="netCashFlow() >= 0"
-        [class.text-red-700]="netCashFlow() < 0">
+      <div
+        class="flex items-center
+               justify-between"
+      >
 
-        ₹{{ netCashFlow() | number }}
+        <div>
 
-      </span>
+          <p
+            class="text-[11px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-slate-500"
+          >
+
+            Operating Cash Flow
+
+          </p>
+
+
+          <p
+            class="mt-2
+                   text-xl
+                   font-bold"
+            [class.text-emerald-700]="operatingTotal() >= 0"
+            [class.text-red-700]="operatingTotal() < 0"
+          >
+
+            {{ formatCurrency(
+              operatingTotal()
+            ) }}
+
+          </p>
+
+        </div>
+
+
+        <div
+          class="flex h-10 w-10
+                 items-center justify-center
+                 rounded-lg"
+          [class.bg-emerald-50]="operatingTotal() >= 0"
+          [class.text-emerald-700]="operatingTotal() >= 0"
+          [class.bg-red-50]="operatingTotal() < 0"
+          [class.text-red-700]="operatingTotal() < 0"
+        >
+
+          ↑
+
+        </div>
+
+      </div>
+
+
+      <p
+        class="mt-2
+               text-[11px]
+               text-slate-400"
+      >
+
+        Cash generated from operations
+
+      </p>
+
+    </div>
+
+
+    <!-- INVESTING -->
+
+    <div
+      class="rounded-xl
+             border border-amber-200
+             bg-white
+             p-4
+             shadow-sm"
+    >
+
+      <div
+        class="flex items-center
+               justify-between"
+      >
+
+        <div>
+
+          <p
+            class="text-[11px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-slate-500"
+          >
+
+            Investing Cash Flow
+
+          </p>
+
+
+          <p
+            class="mt-2
+                   text-xl
+                   font-bold"
+            [class.text-emerald-700]="investingTotal() >= 0"
+            [class.text-red-700]="investingTotal() < 0"
+          >
+
+            {{ formatCurrency(
+              investingTotal()
+            ) }}
+
+          </p>
+
+        </div>
+
+
+        <div
+          class="flex h-10 w-10
+                 items-center justify-center
+                 rounded-lg"
+          [class.bg-emerald-50]="investingTotal() >= 0"
+          [class.text-emerald-700]="investingTotal() >= 0"
+          [class.bg-red-50]="investingTotal() < 0"
+          [class.text-red-700]="investingTotal() < 0"
+        >
+
+          ↓
+
+        </div>
+
+      </div>
+
+
+      <p
+        class="mt-2
+               text-[11px]
+               text-slate-400"
+      >
+
+        Investments & asset purchases
+
+      </p>
+
+    </div>
+
+
+    <!-- FINANCING -->
+
+    <div
+      class="rounded-xl
+             border border-blue-200
+             bg-white
+             p-4
+             shadow-sm"
+    >
+
+      <div
+        class="flex items-center
+               justify-between"
+      >
+
+        <div>
+
+          <p
+            class="text-[11px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-slate-500"
+          >
+
+            Financing Cash Flow
+
+          </p>
+
+
+          <p
+            class="mt-2
+                   text-xl
+                   font-bold"
+            [class.text-emerald-700]="financingTotal() >= 0"
+            [class.text-red-700]="financingTotal() < 0"
+          >
+
+            {{ formatCurrency(
+              financingTotal()
+            ) }}
+
+          </p>
+
+        </div>
+
+
+        <div
+          class="flex h-10 w-10
+                 items-center justify-center
+                 rounded-lg
+                 bg-blue-50
+                 text-blue-700"
+        >
+
+          ↗
+
+        </div>
+
+      </div>
+
+
+      <p
+        class="mt-2
+               text-[11px]
+               text-slate-400"
+      >
+
+        Loans, repayments & dividends
+
+      </p>
 
     </div>
 
   </div>
+
+
+  <!-- ===================================================== -->
+  <!-- CHARTS -->
+  <!-- ===================================================== -->
+
+  <div
+    class="grid grid-cols-1
+           gap-5
+           xl:grid-cols-2"
+  >
+
+
+    <!-- ================================================= -->
+    <!-- ACTIVITY CHART -->
+    <!-- ================================================= -->
+
+    <div
+      class="rounded-xl
+             border border-gray-200
+             bg-white
+             p-5
+             shadow-sm"
+    >
+
+      <div
+        class="mb-4"
+      >
+
+        <h3
+          class="text-sm
+                 font-semibold
+                 text-slate-900"
+        >
+
+          Cash Flow by Activity
+
+        </h3>
+
+
+        <p
+          class="mt-1
+                 text-[11px]
+                 text-slate-500"
+        >
+
+          Net cash generated or used by
+          each activity
+
+        </p>
+
+      </div>
+
+
+      <div
+        echarts
+        [options]="cashFlowActivityChart"
+        class="h-[340px]
+               w-full"
+      ></div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- COMPOSITION -->
+    <!-- ================================================= -->
+
+    <div
+      class="rounded-xl
+             border border-gray-200
+             bg-white
+             p-5
+             shadow-sm"
+    >
+
+      <div
+        class="mb-4"
+      >
+
+        <h3
+          class="text-sm
+                 font-semibold
+                 text-slate-900"
+        >
+
+          Cash Flow Composition
+
+        </h3>
+
+
+        <p
+          class="mt-1
+                 text-[11px]
+                 text-slate-500"
+        >
+
+          Relative contribution of each
+          cash flow activity
+
+        </p>
+
+      </div>
+
+
+      <div
+        echarts
+        [options]="cashFlowCompositionChart"
+        class="h-[340px]
+               w-full"
+      ></div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- NET CASH FLOW -->
+  <!-- ===================================================== -->
+
+  <div
+    class="rounded-xl
+           border px-5 py-4"
+    [class.border-emerald-200]="netCashFlow() >= 0"
+    [class.bg-emerald-50]="netCashFlow() >= 0"
+    [class.border-red-200]="netCashFlow() < 0"
+    [class.bg-red-50]="netCashFlow() < 0"
+  >
+
+    <div
+      class="flex flex-col
+             gap-4
+             md:flex-row
+             md:items-center
+             md:justify-between"
+    >
+
+
+      <!-- LEFT -->
+
+      <div
+        class="flex items-center gap-3"
+      >
+
+        <div
+          class="flex h-10 w-10
+                 items-center justify-center
+                 rounded-lg
+                 text-white"
+          [class.bg-emerald-700]="netCashFlow() >= 0"
+          [class.bg-red-700]="netCashFlow() < 0"
+        >
+
+          {{ netCashFlow() >= 0
+            ? '↑'
+            : '↓'
+          }}
+
+        </div>
+
+
+        <div>
+
+          <h3
+            class="font-semibold
+                   text-slate-900"
+          >
+
+            NET CASH FLOW
+
+          </h3>
+
+
+          <p
+            class="text-xs
+                   text-slate-500"
+          >
+
+            Operating + Investing + Financing
+
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- VALUE -->
+
+      <div
+        class="text-2xl
+               font-bold
+               md:text-3xl"
+        [class.text-emerald-700]="netCashFlow() >= 0"
+        [class.text-red-700]="netCashFlow() < 0"
+      >
+
+        {{ formatCurrency(
+          netCashFlow()
+        ) }}
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- OPENING / CLOSING CASH -->
+  <!-- ===================================================== -->
+
+  <div
+    class="grid grid-cols-1
+           gap-4
+           md:grid-cols-2"
+  >
+
+
+    <!-- OPENING -->
+
+    <div
+      class="rounded-xl
+             border border-gray-200
+             bg-white
+             p-5
+             shadow-sm"
+    >
+
+      <div
+        class="flex items-center
+               justify-between"
+      >
+
+        <div>
+
+          <p
+            class="text-[11px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-slate-500"
+          >
+
+            Opening Cash Balance
+
+          </p>
+
+
+          <p
+            class="mt-2
+                   text-2xl
+                   font-bold
+                   text-slate-900"
+          >
+
+            {{ formatCurrency(
+              openingCash()
+            ) }}
+
+          </p>
+
+        </div>
+
+
+        <div
+          class="flex h-10 w-10
+                 items-center justify-center
+                 rounded-lg
+                 bg-slate-100
+                 text-slate-600"
+        >
+
+          ₹
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- CLOSING -->
+
+    <div
+      class="rounded-xl
+             border border-cyan-200
+             bg-white
+             p-5
+             shadow-sm"
+    >
+
+      <div
+        class="flex items-center
+               justify-between"
+      >
+
+        <div>
+
+          <p
+            class="text-[11px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-slate-500"
+          >
+
+            Closing Cash Balance
+
+          </p>
+
+
+          <p
+            class="mt-2
+                   text-2xl
+                   font-bold
+                   text-cyan-700"
+          >
+
+            {{ formatCurrency(
+              closingCash()
+            ) }}
+
+          </p>
+
+        </div>
+
+
+        <div
+          class="flex h-10 w-10
+                 items-center justify-center
+                 rounded-lg
+                 bg-cyan-50
+                 text-cyan-700"
+        >
+
+          ✓
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
 
 </div>
