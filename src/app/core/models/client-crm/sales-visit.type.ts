@@ -1,4 +1,7 @@
-export type VisitType = 'COLD'
+export type VisitType =
+  | 'PHYSICAL_MEETING'
+  | 'TELECALL';
+
 
 
 export type VisitStatus =
@@ -25,7 +28,8 @@ export type ProposalStatus =
 
 export type OrderStatus =
   | 'YES'
-  | 'NO';
+  | 'NO'
+  | 'ORDER_LOST';
 
 export type ManagementSupport =
   | 'YES'
@@ -56,47 +60,29 @@ export type SalesActivityStatus =
 // ================= SALES VISIT =================
 
 export interface SalesVisitPayload {
-
   executive_name: string;
-
   reporting_location: string;
-
   visit_date: string;
-
   activity_type: ActivityType;
-
   visit_type: VisitType;
-
   customer_name: string;
-
   contact_person: string;
-
   contact_number: string;
-
   city: string;
-
   client_type: ClientType;
-
   lead_priority: LeadPriority;
-
   discussion_summary: string;
-
   current_status: SalesActivityStatus;
-
   expected_business_value: number;
-
   proposal_sent: ProposalStatus;
-
   order_closed: OrderStatus;
 
+  order_lost_reason?: string;
+
   expected_closure_date: string;
-
   next_followup_date: string;
-
   management_support_required: ManagementSupport;
-
   additional_remarks: string;
-
   meeting_photo?: File | null;
 }
 

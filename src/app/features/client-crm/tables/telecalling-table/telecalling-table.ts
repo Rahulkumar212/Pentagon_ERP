@@ -7,8 +7,10 @@ import {
 
 import { CommonModule } from '@angular/common';
 
-import { SalesVisit } from '../../../../core/models/client-crm/sales-visit.type';
-import { SalesVisitResponse } from '../../../../core/models/client-crm.type';
+import {
+  Telecalling,
+  TelecallingResponse
+} from '../../../../core/models/client-crm/telecalling.type';
 
 import { ClientCrmService } from '../../../../core/services/client-crm.service';
 
@@ -20,44 +22,34 @@ import { ClientCrmService } from '../../../../core/services/client-crm.service';
 })
 export class TelecallingTable implements OnInit {
 
-  // ============================================
-  // TELECALLING RECORDS
-  // ============================================
+  telecallingRecords: Telecalling[] = [];
 
-  salesVisits: SalesVisit[] = [];
+  private readonly clientCrmService =
+    inject(ClientCrmService);
 
-  // ============================================
-  // SERVICES
-  // ============================================
+  private readonly cdr =
+    inject(ChangeDetectorRef);
 
-  private readonly clientCrmService = inject(ClientCrmService);
-  private readonly cdr = inject(ChangeDetectorRef);
 
   // ============================================
   // INIT
   // ============================================
 
   ngOnInit(): void {
-    this.loadTelecallingVisits();
+    this.loadTelecalling();
   }
 
-  // ============================================
-  // GET SALES VISITS
-  // ============================================
+   loadTelecalling(): void {
 
-  loadTelecallingVisits(): void {
+    this.clientCrmService.getTelecalling().subscribe({
 
-    this.clientCrmService.getSalesVisits().subscribe({
-
-      next: (response: SalesVisitResponse) => {
+      next: (response: TelecallingResponse) => {
 
         const data = response.data ?? [];
-        console.log('Loaded telecalling visits:', data);
 
-        // Only TELECALL records
-        // this.salesVisits = data.filter(
-        //   visit => visit.visit_type === 'TELECALL'
-        // );
+        this.telecallingRecords = data.filter(
+          record => record.visit_type === 'TELECALL'
+        );
 
         this.cdr.detectChanges();
       },
@@ -65,11 +57,11 @@ export class TelecallingTable implements OnInit {
       error: (error) => {
 
         console.error(
-          'Failed to load telecalling visits:',
+          'Failed to load telecalling records:',
           error
         );
 
-        this.salesVisits = [];
+        this.telecallingRecords = [];
 
         this.cdr.detectChanges();
       }

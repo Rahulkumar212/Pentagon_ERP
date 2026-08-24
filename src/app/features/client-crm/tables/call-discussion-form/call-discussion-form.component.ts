@@ -16,14 +16,14 @@ import {
 } from '@angular/forms';
 
 import {
-  SalesVisit,
   CallType,
   DiscussionOutcome,
   FollowupMode,
-} from '../../../../core/models/client-crm.type';
+} from '../../../../core/models/client-crm/call-discussion.type';
 
 import { OrganizationService } from '../../../../core/services/organization.service';
 import { ToastService } from '../../../../core/services/toast/toast.service';
+import { SalesVisit } from '../../../../core/models/client-crm/sales-visit.type';
 
 @Component({
   selector: 'app-call-discussion-form',

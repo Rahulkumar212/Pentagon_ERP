@@ -105,7 +105,7 @@ save = new EventEmitter<
     // SALES PHYSICAL VISIT
     // ============================================
 
-    if (payload.visit_type === 'COLD') {
+    if (payload.visit_type === 'PHYSICAL_MEETING') {
 
       console.log(
         'Sales Visit payload:',

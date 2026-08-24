@@ -10,10 +10,14 @@ import { CommonModule } from '@angular/common';
 
 import {
   SalesVisit,
-  SalesVisitResponse,
+  SalesVisitResponse
+} from '../../../core/models/client-crm/sales-visit.type';
+
+import {
   CallDiscussion,
   CallDiscussionResponse
-} from '../../../core/models/client-crm.type';
+} from '../../../core/models/client-crm/call-discussion.type';
+
 
 import {
   ClientCrmService
@@ -96,12 +100,8 @@ export class OrganizationTableComponent implements OnInit {
 
         const data = response.data ?? [];
 
-        /*
-         * Physical Meeting table me sirf
-         * visit_type = COLD records dikhayenge.
-         */
         let physicalVisits = data.filter(
-          visit => visit.visit_type === 'COLD'
+          visit => visit.visit_type === 'PHYSICAL_MEETING'
         );
 
         /*
