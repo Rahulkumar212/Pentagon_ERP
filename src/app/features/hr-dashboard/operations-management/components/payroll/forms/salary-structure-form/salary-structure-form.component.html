@@ -1,0 +1,570 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- ================================================= -->
+  <!-- HEADER -->
+  <!-- ================================================= -->
+
+  <div
+    class="flex items-center justify-between
+           border-b border-gray-200
+           px-5 py-4"
+  >
+    <div>
+      <h2 class="text-base font-semibold text-slate-900">
+        Salary Structure
+      </h2>
+
+      <p class="mt-1 text-xs text-slate-500">
+        Define employee salary components,
+        statutory deductions and effective date.
+      </p>
+    </div>
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- FORM -->
+  <!-- ================================================= -->
+
+  <div class="space-y-6 p-5">
+
+
+    <!-- ================================================= -->
+    <!-- EMPLOYEE INFORMATION -->
+    <!-- ================================================= -->
+
+    <div>
+
+      <h3
+        class="mb-3 text-xs font-semibold
+               uppercase tracking-wide
+               text-slate-700"
+      >
+        Employee Information
+      </h3>
+
+      <div class="grid gap-4 md:grid-cols-3">
+
+        <!-- Employee ID -->
+
+        <div>
+          <label
+            class="mb-1 block text-xs
+                   font-medium text-slate-600"
+          >
+            Employee ID
+          </label>
+
+          <input
+            type="text"
+            [(ngModel)]="salaryStructure.employeeId"
+            placeholder="EMP-1001"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   px-3 py-2 text-xs
+                   outline-none
+                   focus:border-red-500"
+          />
+        </div>
+
+
+        <!-- Employee Name -->
+
+        <div>
+          <label
+            class="mb-1 block text-xs
+                   font-medium text-slate-600"
+          >
+            Employee Name
+          </label>
+
+          <input
+            type="text"
+            [(ngModel)]="salaryStructure.employeeName"
+            placeholder="Employee name"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   px-3 py-2 text-xs
+                   outline-none
+                   focus:border-red-500"
+          />
+        </div>
+
+
+        <!-- Effective From -->
+
+        <div>
+          <label
+            class="mb-1 block text-xs
+                   font-medium text-slate-600"
+          >
+            Effective From
+          </label>
+
+          <input
+            type="date"
+            [(ngModel)]="salaryStructure.effectiveFrom"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   px-3 py-2 text-xs
+                   outline-none
+                   focus:border-red-500"
+          />
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- EARNINGS -->
+    <!-- ================================================= -->
+
+    <div>
+
+      <h3
+        class="mb-3 text-xs font-semibold
+               uppercase tracking-wide
+               text-slate-700"
+      >
+        Earnings Components
+      </h3>
+
+      <div
+        class="grid gap-4
+               md:grid-cols-2
+               lg:grid-cols-3"
+      >
+
+        <!-- Basic -->
+
+        <div>
+          <label
+            class="mb-1 block text-xs
+                   font-medium text-slate-600"
+          >
+            Basic Salary
+          </label>
+
+          <input
+            type="number"
+            [(ngModel)]="salaryStructure.basicSalary"
+            min="0"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   px-3 py-2 text-xs
+                   outline-none
+                   focus:border-red-500"
+          />
+        </div>
+
+
+        <!-- HRA -->
+
+        <div>
+          <label
+            class="mb-1 block text-xs
+                   font-medium text-slate-600"
+          >
+            HRA
+          </label>
+
+          <input
+            type="number"
+            [(ngModel)]="salaryStructure.hra"
+            min="0"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   px-3 py-2 text-xs
+                   outline-none
+                   focus:border-red-500"
+          />
+        </div>
+
+
+        <!-- Conveyance -->
+
+        <div>
+          <label
+            class="mb-1 block text-xs
+                   font-medium text-slate-600"
+          >
+            Conveyance Allowance
+          </label>
+
+          <input
+            type="number"
+            [(ngModel)]="salaryStructure.conveyanceAllowance"
+            min="0"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   px-3 py-2 text-xs
+                   outline-none
+                   focus:border-red-500"
+          />
+        </div>
+
+
+        <!-- Medical -->
+
+        <div>
+          <label
+            class="mb-1 block text-xs
+                   font-medium text-slate-600"
+          >
+            Medical Allowance
+          </label>
+
+          <input
+            type="number"
+            [(ngModel)]="salaryStructure.medicalAllowance"
+            min="0"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   px-3 py-2 text-xs
+                   outline-none
+                   focus:border-red-500"
+          />
+        </div>
+
+
+        <!-- Special -->
+
+        <div>
+          <label
+            class="mb-1 block text-xs
+                   font-medium text-slate-600"
+          >
+            Special Allowance
+          </label>
+
+          <input
+            type="number"
+            [(ngModel)]="salaryStructure.specialAllowance"
+            min="0"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   px-3 py-2 text-xs
+                   outline-none
+                   focus:border-red-500"
+          />
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- STATUTORY COMPONENTS -->
+    <!-- ================================================= -->
+
+    <div>
+
+      <h3
+        class="mb-3 text-xs font-semibold
+               uppercase tracking-wide
+               text-slate-700"
+      >
+        Statutory Components
+      </h3>
+
+      <div
+        class="grid gap-3
+               md:grid-cols-2
+               lg:grid-cols-4"
+      >
+
+        <!-- PF -->
+
+        <label
+          class="flex cursor-pointer
+                 items-center gap-2
+                 rounded-lg border
+                 border-gray-200
+                 px-3 py-3"
+        >
+          <input
+            type="checkbox"
+            [(ngModel)]="salaryStructure.pfApplicable"
+            class="h-4 w-4"
+          />
+
+          <span
+            class="text-xs font-medium
+                   text-slate-700"
+          >
+            PF Applicable
+          </span>
+        </label>
+
+
+        <!-- ESI -->
+
+        <label
+          class="flex cursor-pointer
+                 items-center gap-2
+                 rounded-lg border
+                 border-gray-200
+                 px-3 py-3"
+        >
+          <input
+            type="checkbox"
+            [(ngModel)]="salaryStructure.esiApplicable"
+            class="h-4 w-4"
+          />
+
+          <span
+            class="text-xs font-medium
+                   text-slate-700"
+          >
+            ESI Applicable
+          </span>
+        </label>
+
+
+        <!-- Professional Tax -->
+
+        <label
+          class="flex cursor-pointer
+                 items-center gap-2
+                 rounded-lg border
+                 border-gray-200
+                 px-3 py-3"
+        >
+          <input
+            type="checkbox"
+            [(ngModel)]="salaryStructure.professionalTaxApplicable"
+            class="h-4 w-4"
+          />
+
+          <span
+            class="text-xs font-medium
+                   text-slate-700"
+          >
+            Professional Tax
+          </span>
+        </label>
+
+
+        <!-- TDS -->
+
+        <label
+          class="flex cursor-pointer
+                 items-center gap-2
+                 rounded-lg border
+                 border-gray-200
+                 px-3 py-3"
+        >
+          <input
+            type="checkbox"
+            [(ngModel)]="salaryStructure.tdsApplicable"
+            class="h-4 w-4"
+          />
+
+          <span
+            class="text-xs font-medium
+                   text-slate-700"
+          >
+            TDS Applicable
+          </span>
+        </label>
+
+      </div>
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- NO APPLICABLE DEDUCTIONS -->
+    <!-- ================================================= -->
+
+    @if (!hasApplicableDeductions) {
+
+      <div
+        class="rounded-lg
+               border border-gray-200
+               bg-gray-50
+               p-3"
+      >
+
+        <p
+          class="text-xs font-medium
+                 text-gray-700"
+        >
+          No deductions applicable
+        </p>
+
+        <p
+          class="mt-1 text-[11px]
+                 text-gray-500"
+        >
+          Payroll deductions will be calculated during payroll processing.
+        </p>
+
+      </div>
+    }
+
+
+    <!-- ================================================= -->
+    <!-- SALARY SUMMARY -->
+    <!-- ================================================= -->
+
+    <div
+      class="rounded-xl
+             border border-gray-200
+             bg-gray-50"
+    >
+
+      <div
+        class="grid grid-cols-2
+               divide-x divide-gray-200
+               md:grid-cols-4"
+      >
+
+        <!-- Gross -->
+
+        <div class="px-4 py-4">
+
+          <p
+            class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wide
+                   text-gray-400"
+          >
+            Monthly Gross
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   font-bold text-slate-900"
+          >
+            {{ formatCurrency(grossSalary) }}
+          </p>
+
+        </div>
+
+
+        <!-- Deductions -->
+
+        <div class="px-4 py-4">
+
+          <p
+            class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wide
+                   text-gray-400"
+          >
+            Est. Deductions
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   font-bold text-red-600"
+          >
+            {{ formatCurrency(estimatedDeductions) }}
+          </p>
+
+        </div>
+
+
+        <!-- Net -->
+
+        <div class="px-4 py-4">
+
+          <p
+            class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wide
+                   text-gray-400"
+          >
+            Est. Net Salary
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   font-bold text-green-600"
+          >
+            {{ formatCurrency(estimatedNetSalary) }}
+          </p>
+
+        </div>
+
+
+        <!-- CTC -->
+
+        <div class="px-4 py-4">
+
+          <p
+            class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wide
+                   text-gray-400"
+          >
+            Annual CTC
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   font-bold text-blue-600"
+          >
+            {{ formatCurrency(estimatedAnnualCtc) }}
+          </p>
+
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- FOOTER -->
+  <!-- ================================================= -->
+
+  <div
+    class="flex items-center
+           justify-end gap-2
+           border-t border-gray-200
+           bg-gray-50
+           px-5 py-3"
+  >
+
+    <button
+      type="button"
+      (click)="cancel()"
+      class="rounded-lg
+             border border-gray-300
+             bg-white
+             px-4 py-2
+             text-xs font-semibold
+             text-gray-700
+             hover:bg-gray-50"
+    >
+      Cancel
+    </button>
+
+
+    <button
+      type="button"
+      (click)="saveSalaryStructure()"
+      [disabled]="!isFormValid()"
+      class="rounded-lg
+             bg-red-700
+             px-4 py-2
+             text-xs font-semibold
+             text-white
+             transition
+             hover:bg-red-800
+             disabled:cursor-not-allowed
+             disabled:opacity-50"
+    >
+      Save Salary Structure
+    </button>
+
+  </div>
+
+</div>

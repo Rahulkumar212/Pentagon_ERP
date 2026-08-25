@@ -1,0 +1,343 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+
+  <div
+    class="flex flex-col gap-3 border-b border-gray-200 px-5 py-4
+           lg:flex-row lg:items-center lg:justify-between">
+
+    <div>
+      <h2 class="text-base font-semibold text-slate-900">
+        Salary Payment History
+      </h2>
+
+      <p class="mt-1 text-xs text-slate-500">
+        Track processed salary payments, bank transfers and payment status.
+      </p>
+    </div>
+
+    <div class="flex items-center gap-2">
+
+      <select
+        [(ngModel)]="selectedStatus"
+        (change)="applyFilters()"
+        class="rounded-lg border border-gray-300 bg-white px-3 py-2
+               text-xs text-slate-700 outline-none
+               focus:border-red-600">
+
+        @for(status of statuses; track status) {
+
+          <option [value]="status">
+            {{ status }}
+          </option>
+
+        }
+
+      </select>
+
+      <button
+        type="button"
+        (click)="resetFilters()"
+        class="rounded-lg border border-gray-300 bg-white px-3 py-2
+               text-xs font-medium text-slate-700 transition
+               hover:bg-gray-50">
+
+        Reset
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- Summary -->
+
+  <div class="grid gap-3 border-b border-gray-100 bg-slate-50 p-4
+              sm:grid-cols-2 lg:grid-cols-4">
+
+    <div class="rounded-lg border border-gray-200 bg-white p-3">
+
+      <p class="text-[10px] uppercase tracking-wider text-gray-500">
+        Total Payments
+      </p>
+
+      <p class="mt-1 text-lg font-bold text-slate-900">
+        {{ filteredPayments.length }}
+      </p>
+
+    </div>
+
+
+    <div class="rounded-lg border border-gray-200 bg-white p-3">
+
+      <p class="text-[10px] uppercase tracking-wider text-gray-500">
+        Successful
+      </p>
+
+      <p class="mt-1 text-lg font-bold text-green-700">
+        {{ successfulCount }}
+      </p>
+
+    </div>
+
+
+    <div class="rounded-lg border border-gray-200 bg-white p-3">
+
+      <p class="text-[10px] uppercase tracking-wider text-gray-500">
+        Pending
+      </p>
+
+      <p class="mt-1 text-lg font-bold text-amber-600">
+        {{ pendingCount }}
+      </p>
+
+    </div>
+
+
+    <div class="rounded-lg border border-gray-200 bg-white p-3">
+
+      <p class="text-[10px] uppercase tracking-wider text-gray-500">
+        Total Paid
+      </p>
+
+      <p class="mt-1 text-lg font-bold text-slate-900">
+        ₹{{ totalPaid | number }}
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- Table -->
+
+  <div class="overflow-x-auto">
+
+    <table class="w-full min-w-[950px]">
+
+      <thead>
+
+        <tr class="border-b border-gray-200 bg-white">
+
+          <th
+            class="px-5 py-3 text-left text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Payment ID
+
+          </th>
+
+          <th
+            class="px-5 py-3 text-left text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Employee
+
+          </th>
+
+          <th
+            class="px-5 py-3 text-left text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Payroll Month
+
+          </th>
+
+          <th
+            class="px-5 py-3 text-left text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Payment Date
+
+          </th>
+
+          <th
+            class="px-5 py-3 text-left text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Bank
+
+          </th>
+
+          <th
+            class="px-5 py-3 text-right text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Amount
+
+          </th>
+
+          <th
+            class="px-5 py-3 text-center text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Status
+
+          </th>
+
+          <th
+            class="px-5 py-3 text-left text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Reference
+
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        @for(payment of filteredPayments; track payment.id) {
+
+          <tr
+            class="border-b border-gray-100 transition
+                   hover:bg-gray-50">
+
+            <td class="px-5 py-4">
+
+              <span
+                class="font-mono text-xs font-semibold text-blue-700">
+
+                {{ payment.paymentId }}
+
+              </span>
+
+            </td>
+
+
+            <td class="px-5 py-4">
+
+              <div>
+
+                <p class="text-sm font-semibold text-slate-900">
+                  {{ payment.employeeName }}
+                </p>
+
+                <p class="mt-0.5 text-[10px] text-gray-500">
+                  {{ payment.employeeCode }}
+                </p>
+
+              </div>
+
+            </td>
+
+
+            <td class="px-5 py-4 text-xs text-slate-700">
+
+              {{ payment.payrollMonth }}
+
+            </td>
+
+
+            <td class="px-5 py-4 text-xs text-slate-600">
+
+              {{ payment.paymentDate }}
+
+            </td>
+
+
+            <td class="px-5 py-4">
+
+              <span class="text-xs font-medium text-slate-700">
+                {{ payment.bank }}
+              </span>
+
+            </td>
+
+
+            <td
+              class="px-5 py-4 text-right font-mono
+                     text-sm font-semibold text-slate-900">
+
+              ₹{{ payment.amount | number }}
+
+            </td>
+
+
+            <td class="px-5 py-4 text-center">
+
+              <span
+                class="inline-flex rounded-full px-2.5 py-1
+                       text-[10px] font-semibold"
+
+                [class.bg-green-100]="payment.status === 'Completed'"
+                [class.text-green-700]="payment.status === 'Completed'"
+
+                [class.bg-amber-100]="payment.status === 'Pending'"
+                [class.text-amber-700]="payment.status === 'Pending'"
+
+                [class.bg-red-100]="payment.status === 'Failed'"
+                [class.text-red-700]="payment.status === 'Failed'">
+
+                {{ payment.status }}
+
+              </span>
+
+            </td>
+
+
+            <td
+              class="px-5 py-4 font-mono text-[10px] text-gray-500">
+
+              {{ payment.reference }}
+
+            </td>
+
+          </tr>
+
+        }
+
+
+        @if(filteredPayments.length === 0) {
+
+          <tr>
+
+            <td
+              colspan="8"
+              class="px-5 py-12 text-center">
+
+              <p class="text-sm font-medium text-slate-700">
+                No payment records found
+              </p>
+
+              <p class="mt-1 text-xs text-gray-500">
+                Try changing the payment status filter.
+              </p>
+
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <!-- Footer -->
+
+  <div
+    class="flex items-center justify-between border-t
+           border-gray-200 bg-slate-50 px-5 py-3">
+
+    <p class="text-[11px] text-gray-500">
+      Showing {{ filteredPayments.length }} payment records
+    </p>
+
+    <p class="text-xs font-semibold text-slate-700">
+      Total Paid:
+      <span class="text-green-700">
+        ₹{{ totalPaid | number }}
+      </span>
+    </p>
+
+  </div>
+
+</div>

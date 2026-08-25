@@ -1,0 +1,504 @@
+<div
+  class="rounded-xl
+         border border-gray-200
+         bg-white
+         shadow-sm"
+>
+
+  <!-- ================================================= -->
+  <!-- HEADER -->
+  <!-- ================================================= -->
+
+  <div
+    class="flex items-center
+           justify-between
+           border-b border-gray-200
+           px-5 py-4"
+  >
+
+    <div>
+
+      <h2
+        class="text-base
+               font-semibold
+               text-slate-900"
+      >
+        Payroll Adjustment
+      </h2>
+
+      <p
+        class="mt-1
+               text-xs
+               text-slate-500"
+      >
+        Add bonus, incentive, arrears,
+        overtime or payroll deductions.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- FORM -->
+  <!-- ================================================= -->
+
+  <div class="space-y-6 p-5">
+
+
+    <!-- ================================================= -->
+    <!-- EMPLOYEE -->
+    <!-- ================================================= -->
+
+    <div>
+
+      <h3
+        class="mb-3
+               text-xs
+               font-semibold
+               uppercase
+               tracking-wide
+               text-slate-700"
+      >
+        Employee Information
+      </h3>
+
+
+      <div
+        class="grid gap-4
+               md:grid-cols-3"
+      >
+
+        <!-- Employee ID -->
+
+        <div>
+
+          <label
+            class="mb-1 block
+                   text-xs
+                   font-medium
+                   text-slate-600"
+          >
+            Employee ID
+          </label>
+
+          <input
+            type="text"
+            [(ngModel)]="adjustment.employeeId"
+            placeholder="EMP-1001"
+            class="w-full
+                   rounded-lg
+                   border border-gray-200
+                   bg-white
+                   px-3 py-2
+                   text-xs
+                   outline-none
+                   focus:border-red-500"
+          />
+
+        </div>
+
+
+        <!-- Employee Name -->
+
+        <div>
+
+          <label
+            class="mb-1 block
+                   text-xs
+                   font-medium
+                   text-slate-600"
+          >
+            Employee Name
+          </label>
+
+          <input
+            type="text"
+            [(ngModel)]="adjustment.employeeName"
+            placeholder="Employee name"
+            class="w-full
+                   rounded-lg
+                   border border-gray-200
+                   bg-white
+                   px-3 py-2
+                   text-xs
+                   outline-none
+                   focus:border-red-500"
+          />
+
+        </div>
+
+
+        <!-- Effective Month -->
+
+        <div>
+
+          <label
+            class="mb-1 block
+                   text-xs
+                   font-medium
+                   text-slate-600"
+          >
+            Payroll Month
+          </label>
+
+          <input
+            type="month"
+            [(ngModel)]="adjustment.effectiveMonth"
+            class="w-full
+                   rounded-lg
+                   border border-gray-200
+                   bg-white
+                   px-3 py-2
+                   text-xs
+                   outline-none
+                   focus:border-red-500"
+          />
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- ADJUSTMENT -->
+    <!-- ================================================= -->
+
+    <div>
+
+      <h3
+        class="mb-3
+               text-xs
+               font-semibold
+               uppercase
+               tracking-wide
+               text-slate-700"
+      >
+        Adjustment Details
+      </h3>
+
+
+      <div
+        class="grid gap-4
+               md:grid-cols-2"
+      >
+
+        <!-- Adjustment Type -->
+
+        <div>
+
+          <label
+            class="mb-1 block
+                   text-xs
+                   font-medium
+                   text-slate-600"
+          >
+            Adjustment Type
+          </label>
+
+          <select
+            [(ngModel)]="adjustment.adjustmentType"
+            class="w-full
+                   rounded-lg
+                   border border-gray-200
+                   bg-white
+                   px-3 py-2
+                   text-xs
+                   text-slate-700
+                   outline-none
+                   focus:border-red-500"
+          >
+
+            @for (
+              type of adjustmentTypes;
+              track type
+            ) {
+
+              <option [value]="type">
+                {{ type }}
+              </option>
+
+            }
+
+          </select>
+
+        </div>
+
+
+        <!-- Amount -->
+
+        <div>
+
+          <label
+            class="mb-1 block
+                   text-xs
+                   font-medium
+                   text-slate-600"
+          >
+            Amount
+          </label>
+
+          <div
+            class="relative"
+          >
+
+            <span
+              class="absolute
+                     left-3 top-1/2
+                     -translate-y-1/2
+                     text-xs
+                     text-gray-400"
+            >
+              ₹
+            </span>
+
+            <input
+              type="number"
+              [(ngModel)]="adjustment.amount"
+              min="0"
+              placeholder="0"
+              class="w-full
+                     rounded-lg
+                     border border-gray-200
+                     bg-white
+                     py-2 pl-7 pr-3
+                     text-xs
+                     outline-none
+                     focus:border-red-500"
+            />
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- REASON -->
+    <!-- ================================================= -->
+
+    <div>
+
+      <label
+        class="mb-1 block
+               text-xs
+               font-medium
+               text-slate-600"
+      >
+        Reason
+      </label>
+
+      <input
+        type="text"
+        [(ngModel)]="adjustment.reason"
+        placeholder="e.g. Performance bonus for Q2"
+        class="w-full
+               rounded-lg
+               border border-gray-200
+               bg-white
+               px-3 py-2
+               text-xs
+               outline-none
+               focus:border-red-500"
+      />
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- REMARKS -->
+    <!-- ================================================= -->
+
+    <div>
+
+      <label
+        class="mb-1 block
+               text-xs
+               font-medium
+               text-slate-600"
+      >
+        Remarks
+      </label>
+
+      <textarea
+        [(ngModel)]="adjustment.remarks"
+        rows="3"
+        placeholder="Additional notes..."
+        class="w-full
+               resize-none
+               rounded-lg
+               border border-gray-200
+               bg-white
+               px-3 py-2
+               text-xs
+               outline-none
+               focus:border-red-500"
+      ></textarea>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- ADJUSTMENT SUMMARY -->
+    <!-- ================================================= -->
+
+    <div
+      class="rounded-xl
+             border
+             border-gray-200
+             bg-gray-50"
+    >
+
+      <div
+        class="flex items-center
+               justify-between
+               px-4 py-4"
+      >
+
+        <div>
+
+          <p
+            class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wide
+                   text-gray-400"
+          >
+            Adjustment
+          </p>
+
+          <p
+            class="mt-1
+                   text-sm
+                   font-semibold
+                   text-slate-900"
+          >
+            {{ adjustment.adjustmentType }}
+          </p>
+
+        </div>
+
+
+        <div class="text-right">
+
+          <p
+            class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wide
+                   text-gray-400"
+          >
+            Amount
+          </p>
+
+          <p
+            class="mt-1
+                   text-lg
+                   font-bold"
+            [class.text-red-600]="isDeduction()"
+            [class.text-green-600]="!isDeduction()"
+          >
+            {{ isDeduction() ? '-' : '+' }}
+            {{ formatCurrency(adjustment.amount) }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- WARNING -->
+    <!-- ================================================= -->
+
+    <div
+      class="rounded-lg
+             border border-amber-200
+             bg-amber-50
+             px-4 py-3"
+    >
+
+      <p
+        class="text-xs
+               font-semibold
+               text-amber-800"
+      >
+        Payroll Adjustment Notice
+      </p>
+
+      <p
+        class="mt-1
+               text-[11px]
+               leading-5
+               text-amber-700"
+      >
+        This adjustment will be included in the
+        selected payroll month after approval and
+        payroll processing.
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- FOOTER -->
+  <!-- ================================================= -->
+
+  <div
+    class="flex items-center
+           justify-end
+           gap-2
+           border-t
+           border-gray-200
+           bg-gray-50
+           px-5 py-3"
+  >
+
+    <button
+      type="button"
+      (click)="cancel()"
+      class="rounded-lg
+             border border-gray-300
+             bg-white
+             px-4 py-2
+             text-xs
+             font-semibold
+             text-gray-700
+             transition
+             hover:bg-gray-50"
+    >
+      Cancel
+    </button>
+
+
+    <button
+      type="button"
+      (click)="saveAdjustment()"
+      [disabled]="!isFormValid()"
+      class="rounded-lg
+             bg-red-700
+             px-4 py-2
+             text-xs
+             font-semibold
+             text-white
+             transition
+             hover:bg-red-800
+             disabled:cursor-not-allowed
+             disabled:opacity-50"
+    >
+      Save Adjustment
+    </button>
+
+  </div>
+
+</div>

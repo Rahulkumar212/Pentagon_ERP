@@ -6,8 +6,8 @@
     border-gray-200
     bg-white
     shadow-sm
-  ">
-
+  "
+>
 
   <!-- ================================================= -->
   <!-- HEADER -->
@@ -25,8 +25,8 @@
       lg:flex-row
       lg:items-center
       lg:justify-between
-    ">
-
+    "
+  >
 
     <!-- TITLE -->
 
@@ -37,10 +37,9 @@
           text-base
           font-semibold
           text-slate-900
-        ">
-
-        Payroll Register
-
+        "
+      >
+        Payroll Processing
       </h2>
 
       <p
@@ -48,48 +47,213 @@
           mt-1
           text-xs
           text-slate-500
-        ">
-
-        Employee-wise gross salary,
-        deductions and net salary payable.
-
+        "
+      >
+        Process monthly employee salaries,
+        deductions and statutory payroll calculations.
       </p>
 
     </div>
 
 
-    <!-- EXPORT -->
+    <!-- PROCESS BUTTON -->
 
     <button
       type="button"
-      (click)="exportPayrollRegister()"
+      (click)="onProcessPayroll()"
       class="
-        flex
+        inline-flex
         items-center
         justify-center
         gap-2
         rounded-lg
-        border
-        border-gray-300
-        bg-white
+        bg-red-800
         px-4
         py-2
         text-xs
         font-semibold
-        text-gray-700
+        text-white
         transition
-        hover:bg-gray-50
-      ">
+        hover:bg-red-900
+      "
+    >
 
-      <span class="text-green-600">
-
-        ↓
-
+      <span class="text-sm">
+        +
       </span>
 
-      Export Register
+      Process Payroll
 
     </button>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- SUMMARY -->
+  <!-- ================================================= -->
+
+  <div
+    class="
+      grid
+      grid-cols-1
+      border-b
+      border-gray-100
+      sm:grid-cols-2
+      lg:grid-cols-4
+    "
+  >
+
+    <!-- EMPLOYEES -->
+
+    <div
+      class="
+        border-b
+        border-gray-100
+        px-5
+        py-4
+        sm:border-r
+        lg:border-b-0
+      "
+    >
+
+      <p
+        class="
+          text-[10px]
+          font-semibold
+          uppercase
+          tracking-wider
+          text-gray-400
+        "
+      >
+        Employees
+      </p>
+
+      <p
+        class="
+          mt-1
+          text-lg
+          font-bold
+          text-gray-900
+        "
+      >
+        {{ totalEmployees() }}
+      </p>
+
+    </div>
+
+
+    <!-- PROCESSED -->
+
+    <div
+      class="
+        border-b
+        border-gray-100
+        px-5
+        py-4
+        lg:border-b-0
+        lg:border-r
+      "
+    >
+
+      <p
+        class="
+          text-[10px]
+          font-semibold
+          uppercase
+          tracking-wider
+          text-gray-400
+        "
+      >
+        Processed
+      </p>
+
+      <p
+        class="
+          mt-1
+          text-lg
+          font-bold
+          text-green-600
+        "
+      >
+        {{ processedEmployees() }}
+      </p>
+
+    </div>
+
+
+    <!-- PROCESSING -->
+
+    <div
+      class="
+        border-b
+        border-gray-100
+        px-5
+        py-4
+        sm:border-r
+        lg:border-b-0
+      "
+    >
+
+      <p
+        class="
+          text-[10px]
+          font-semibold
+          uppercase
+          tracking-wider
+          text-gray-400
+        "
+      >
+        Processing
+      </p>
+
+      <p
+        class="
+          mt-1
+          text-lg
+          font-bold
+          text-blue-600
+        "
+      >
+        {{ processingEmployees() }}
+      </p>
+
+    </div>
+
+
+    <!-- NET PAYABLE -->
+
+    <div
+      class="
+        px-5
+        py-4
+      "
+    >
+
+      <p
+        class="
+          text-[10px]
+          font-semibold
+          uppercase
+          tracking-wider
+          text-gray-400
+        "
+      >
+        Net Payable
+      </p>
+
+      <p
+        class="
+          mt-1
+          text-lg
+          font-bold
+          text-red-700
+        "
+      >
+        {{ formatCurrency(totalNetSalary()) }}
+      </p>
+
+    </div>
 
   </div>
 
@@ -106,40 +270,18 @@
       border-gray-100
       bg-gray-50
       p-4
-      md:grid-cols-3
-    ">
-
+      md:grid-cols-2
+    "
+  >
 
     <!-- SEARCH -->
 
-    <div class="relative">
-
-      <input
-        type="text"
-        placeholder="Search employee..."
-        (input)="onSearch($event)"
-        class="
-          w-full
-          rounded-lg
-          border
-          border-gray-200
-          bg-white
-          px-3
-          py-2
-          text-xs
-          outline-none
-          transition
-          focus:border-red-500
-        " />
-
-    </div>
-
-
-    <!-- DEPARTMENT -->
-
-    <select
-      (change)="onDepartmentChange($event)"
+    <input
+      type="text"
+      placeholder="Search employee, ID or department..."
+      (input)="onSearch($event)"
       class="
+        w-full
         rounded-lg
         border
         border-gray-200
@@ -147,26 +289,11 @@
         px-3
         py-2
         text-xs
-        text-gray-700
         outline-none
+        transition
         focus:border-red-500
-      ">
-
-      @for (
-        department of departments;
-        track department
-      ) {
-
-        <option
-          [value]="department">
-
-          {{ department }}
-
-        </option>
-
-      }
-
-    </select>
+      "
+    />
 
 
     <!-- STATUS -->
@@ -184,18 +311,16 @@
         text-gray-700
         outline-none
         focus:border-red-500
-      ">
+      "
+    >
 
       @for (
         status of statuses;
         track status
       ) {
 
-        <option
-          [value]="status">
-
+        <option [value]="status">
           {{ status }}
-
         </option>
 
       }
@@ -206,145 +331,17 @@
 
 
   <!-- ================================================= -->
-  <!-- SUMMARY -->
-  <!-- ================================================= -->
-
-  <div
-    class="
-      grid
-      grid-cols-1
-      border-b
-      border-gray-100
-      sm:grid-cols-3
-    ">
-
-
-    <!-- GROSS -->
-
-    <div
-      class="
-        border-b
-        border-gray-100
-        px-5
-        py-4
-        sm:border-b-0
-        sm:border-r
-      ">
-
-      <p
-        class="
-          text-[10px]
-          font-semibold
-          uppercase
-          tracking-wider
-          text-gray-400
-        ">
-
-        Gross Payroll
-
-      </p>
-
-      <p
-        class="
-          mt-1
-          text-lg
-          font-bold
-          text-gray-900
-        ">
-
-        {{ formatCurrency(totalGross()) }}
-
-      </p>
-
-    </div>
-
-
-    <!-- DEDUCTIONS -->
-
-    <div
-      class="
-        border-b
-        border-gray-100
-        px-5
-        py-4
-        sm:border-b-0
-        sm:border-r
-      ">
-
-      <p
-        class="
-          text-[10px]
-          font-semibold
-          uppercase
-          tracking-wider
-          text-gray-400
-        ">
-
-        Total Deductions
-
-      </p>
-
-      <p
-        class="
-          mt-1
-          text-lg
-          font-bold
-          text-red-600
-        ">
-
-        {{ formatCurrency(totalDeductions()) }}
-
-      </p>
-
-    </div>
-
-
-    <!-- NET -->
-
-    <div
-      class="
-        px-5
-        py-4
-      ">
-
-      <p
-        class="
-          text-[10px]
-          font-semibold
-          uppercase
-          tracking-wider
-          text-gray-400
-        ">
-
-        Net Salary
-
-      </p>
-
-      <p
-        class="
-          mt-1
-          text-lg
-          font-bold
-          text-green-600
-        ">
-
-        {{ formatCurrency(totalNetSalary()) }}
-
-      </p>
-
-    </div>
-
-  </div>
-
-
-  <!-- ================================================= -->
   <!-- TABLE -->
   <!-- ================================================= -->
 
   <div class="overflow-x-auto">
 
-    <table class="w-full min-w-[950px]">
-
+    <table
+      class="
+        w-full
+        min-w-[1000px]
+      "
+    >
 
       <!-- TABLE HEADER -->
 
@@ -355,7 +352,8 @@
             border-b
             border-gray-200
             bg-gray-50
-          ">
+          "
+        >
 
           <th
             class="
@@ -367,10 +365,9 @@
               uppercase
               tracking-wider
               text-gray-500
-            ">
-
+            "
+          >
             Employee
-
           </th>
 
           <th
@@ -383,26 +380,24 @@
               uppercase
               tracking-wider
               text-gray-500
-            ">
-
-            Designation
-
-          </th>
-
-          <th
-            class="
-              px-5
-              py-3
-              text-left
-              text-[10px]
-              font-semibold
-              uppercase
-              tracking-wider
-              text-gray-500
-            ">
-
+            "
+          >
             Department
+          </th>
 
+          <th
+            class="
+              px-5
+              py-3
+              text-left
+              text-[10px]
+              font-semibold
+              uppercase
+              tracking-wider
+              text-gray-500
+            "
+          >
+            Salary Month
           </th>
 
           <th
@@ -415,10 +410,9 @@
               uppercase
               tracking-wider
               text-gray-500
-            ">
-
-            Gross Salary
-
+            "
+          >
+            Gross
           </th>
 
           <th
@@ -431,10 +425,9 @@
               uppercase
               tracking-wider
               text-gray-500
-            ">
-
+            "
+          >
             Deductions
-
           </th>
 
           <th
@@ -447,10 +440,9 @@
               uppercase
               tracking-wider
               text-gray-500
-            ">
-
+            "
+          >
             Net Salary
-
           </th>
 
           <th
@@ -463,10 +455,24 @@
               uppercase
               tracking-wider
               text-gray-500
-            ">
-
+            "
+          >
             Status
+          </th>
 
+          <th
+            class="
+              px-5
+              py-3
+              text-center
+              text-[10px]
+              font-semibold
+              uppercase
+              tracking-wider
+              text-gray-500
+            "
+          >
+            Action
           </th>
 
         </tr>
@@ -479,7 +485,7 @@
       <tbody>
 
         @for (
-          payroll of filteredPayrolls();
+          payroll of filteredPayrollRecords();
           track payroll.employeeId
         ) {
 
@@ -489,54 +495,33 @@
               border-gray-100
               transition
               hover:bg-gray-50
-            ">
-
+            "
+          >
 
             <!-- EMPLOYEE -->
 
             <td class="px-5 py-4">
 
-              <div>
+              <p
+                class="
+                  text-xs
+                  font-semibold
+                  text-gray-900
+                "
+              >
+                {{ payroll.employeeName }}
+              </p>
 
-                <p
-                  class="
-                    text-xs
-                    font-semibold
-                    text-gray-900
-                  ">
-
-                  {{ payroll.employeeName }}
-
-                </p>
-
-                <p
-                  class="
-                    mt-0.5
-                    font-mono
-                    text-[10px]
-                    text-blue-600
-                  ">
-
-                  {{ payroll.employeeId }}
-
-                </p>
-
-              </div>
-
-            </td>
-
-
-            <!-- DESIGNATION -->
-
-            <td
-              class="
-                px-5
-                py-4
-                text-xs
-                text-gray-600
-              ">
-
-              {{ payroll.designation }}
+              <p
+                class="
+                  mt-0.5
+                  font-mono
+                  text-[10px]
+                  text-blue-600
+                "
+              >
+                {{ payroll.employeeId }}
+              </p>
 
             </td>
 
@@ -547,23 +532,25 @@
               class="
                 px-5
                 py-4
-              ">
+                text-xs
+                text-gray-600
+              "
+            >
+              {{ payroll.department }}
+            </td>
 
-              <span
-                class="
-                  rounded-md
-                  bg-gray-100
-                  px-2
-                  py-1
-                  text-[10px]
-                  font-medium
-                  text-gray-600
-                ">
 
-                {{ payroll.department }}
+            <!-- MONTH -->
 
-              </span>
-
+            <td
+              class="
+                px-5
+                py-4
+                text-xs
+                text-gray-600
+              "
+            >
+              {{ payroll.salaryMonth }}
             </td>
 
 
@@ -578,10 +565,9 @@
                 text-xs
                 font-semibold
                 text-gray-900
-              ">
-
+              "
+            >
               {{ formatCurrency(payroll.grossSalary) }}
-
             </td>
 
 
@@ -595,10 +581,9 @@
                 font-mono
                 text-xs
                 text-red-600
-              ">
-
+              "
+            >
               {{ formatCurrency(payroll.deductions) }}
-
             </td>
 
 
@@ -613,10 +598,9 @@
                 text-xs
                 font-bold
                 text-green-600
-              ">
-
+              "
+            >
               {{ formatCurrency(payroll.netSalary) }}
-
             </td>
 
 
@@ -627,7 +611,8 @@
                 px-5
                 py-4
                 text-center
-              ">
+              "
+            >
 
               <span
                 class="
@@ -638,28 +623,65 @@
                   text-[10px]
                   font-semibold
                 "
-                [class.bg-green-100]="
-                  payroll.paymentStatus === 'Paid'
+                [class.bg-gray-100]="
+                  payroll.status === 'Draft'
                 "
-                [class.text-green-700]="
-                  payroll.paymentStatus === 'Paid'
-                "
-                [class.bg-amber-100]="
-                  payroll.paymentStatus === 'Pending'
-                "
-                [class.text-amber-700]="
-                  payroll.paymentStatus === 'Pending'
+                [class.text-gray-700]="
+                  payroll.status === 'Draft'
                 "
                 [class.bg-blue-100]="
-                  payroll.paymentStatus === 'Processing'
+                  payroll.status === 'Processing'
                 "
                 [class.text-blue-700]="
-                  payroll.paymentStatus === 'Processing'
-                ">
-
-                {{ payroll.paymentStatus }}
-
+                  payroll.status === 'Processing'
+                "
+                [class.bg-green-100]="
+                  payroll.status === 'Processed'
+                "
+                [class.text-green-700]="
+                  payroll.status === 'Processed'
+                "
+                [class.bg-red-100]="
+                  payroll.status === 'Failed'
+                "
+                [class.text-red-700]="
+                  payroll.status === 'Failed'
+                "
+              >
+                {{ payroll.status }}
               </span>
+
+            </td>
+
+
+            <!-- ACTION -->
+
+            <td
+              class="
+                px-5
+                py-4
+                text-center
+              "
+            >
+
+              <button
+                type="button"
+                (click)="onViewPayroll(payroll)"
+                class="
+                  rounded-lg
+                  border
+                  border-gray-200
+                  px-3
+                  py-1.5
+                  text-[10px]
+                  font-semibold
+                  text-gray-600
+                  transition
+                  hover:bg-gray-50
+                "
+              >
+                View
+              </button>
 
             </td>
 
@@ -668,33 +690,31 @@
         }
 
 
-        <!-- ================================================= -->
         <!-- EMPTY -->
-        <!-- ================================================= -->
 
         @if (
-          filteredPayrolls().length === 0
+          filteredPayrollRecords().length === 0
         ) {
 
           <tr>
 
             <td
-              colspan="7"
+              colspan="8"
               class="
                 px-5
                 py-12
                 text-center
-              ">
+              "
+            >
 
               <p
                 class="
                   text-sm
                   font-semibold
                   text-gray-700
-                ">
-
+                "
+              >
                 No payroll records found
-
               </p>
 
               <p
@@ -702,11 +722,10 @@
                   mt-1
                   text-xs
                   text-gray-400
-                ">
-
+                "
+              >
                 Try changing your search
-                or filters.
-
+                or status filter.
               </p>
 
             </td>
@@ -736,35 +755,77 @@
       bg-gray-50
       px-5
       py-3
-    ">
+    "
+  >
 
     <p
       class="
         text-[11px]
         text-gray-500
-      ">
-
+      "
+    >
       Showing
-      <span class="font-semibold text-gray-700">
 
-        {{ filteredPayrolls().length }}
-
+      <span
+        class="
+          font-semibold
+          text-gray-700
+        "
+      >
+        {{ filteredPayrollRecords().length }}
       </span>
 
       payroll records
-
     </p>
 
     <p
       class="
         text-[11px]
         text-gray-400
-      ">
-
-      Current payroll period
-
+      "
+    >
+      Monthly payroll processing
     </p>
 
   </div>
 
 </div>
+
+
+
+
+
+<!-- ===================================================== -->
+<!-- PAYROLL ADJUSTMENT MODAL -->
+<!-- ===================================================== -->
+
+@if (isAdjustmentFormOpen()) {
+
+  <!-- BACKDROP -->
+
+  <div
+    class="fixed inset-0 z-50
+           flex items-center justify-center
+           bg-black/50
+           p-4">
+
+    <!-- MODAL -->
+
+    <div
+      class="relative
+             w-full max-w-5xl
+             max-h-[90vh]
+             overflow-y-auto
+             rounded-xl
+             bg-white
+             shadow-2xl">
+
+      <app-payroll-adjustment-form
+        (saved)="onPayrollAdjustmentSaved($event)"
+        (cancelled)="closePayrollAdjustmentForm()">
+      </app-payroll-adjustment-form>
+
+    </div>
+
+  </div>
+}

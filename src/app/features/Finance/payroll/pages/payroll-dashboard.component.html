@@ -1,31 +1,113 @@
 <div class="flex flex-col gap-6">
 
   <!-- ===================================================== -->
-  <!-- Payroll Header -->
+  <!-- PAYROLL HEADER -->
   <!-- ===================================================== -->
 
   <app-payroll-header
-    (bankChanged)="onBankChanged($event)">
+    (bankChanged)="onBankChanged($event)"
+    (tabChanged)="onTabChanged($event)">
   </app-payroll-header>
 
-  <!-- ===================================================== -->
-  <!-- Payroll Summary -->
-  <!-- ===================================================== -->
-
-  <app-payroll-summary-cards>
-  </app-payroll-summary-cards>
 
   <!-- ===================================================== -->
-  <!-- Payroll Register -->
+  <!-- TAB CONTENT -->
   <!-- ===================================================== -->
 
-  <app-payroll-register
-    (disburseSalary)="openSalaryDisbursementModal()"
-    (viewPayslip)="openPayslipModal()">
-  </app-payroll-register>
+  @switch (activeTab()) {
+
+
+
+    <!-- =================================================== -->
+    <!-- PAYROLL REGISTER -->
+    <!-- =================================================== -->
+
+    @case ('register') {
+
+      <app-payroll-register
+        (disburseSalary)="openSalaryDisbursementModal()"
+        (viewPayslip)="openPayslipModal()">
+      </app-payroll-register>
+
+    }
+
+
+    <!-- =================================================== -->
+    <!-- SALARY EXPENSE -->
+    <!-- =================================================== -->
+
+    @case ('expense') {
+
+      <app-salary-expense>
+      </app-salary-expense>
+
+    }
+
+
+    <!-- =================================================== -->
+    <!-- LIABILITIES -->
+    <!-- =================================================== -->
+
+    @case ('liabilities') {
+
+      <app-payroll-liabilities>
+      </app-payroll-liabilities>
+
+    }
+
+
+    <!-- =================================================== -->
+    <!-- PAYROLL JOURNAL -->
+    <!-- =================================================== -->
+
+    @case ('journal') {
+
+      <app-payroll-journal>
+      </app-payroll-journal>
+
+    }
+
+
+    <!-- =================================================== -->
+    <!-- SALARY PAYMENT -->
+    <!-- =================================================== -->
+
+    @case ('payments') {
+
+      <app-salary-payment>
+      </app-salary-payment>
+
+    }
+
+
+    <!-- =================================================== -->
+    <!-- PAYMENT HISTORY -->
+    <!-- =================================================== -->
+
+    @case ('history') {
+
+      <app-payment-history>
+      </app-payment-history>
+
+    }
+
+
+    <!-- =================================================== -->
+    <!-- RECONCILIATION -->
+    <!-- =================================================== -->
+
+    @case ('reconciliation') {
+
+      <app-payroll-reconciliation>
+      </app-payroll-reconciliation>
+
+    }
+
+  }
+
 
   <!-- ===================================================== -->
-  <!-- Salary Disbursement Modal -->
+  <!-- SALARY DISBURSEMENT MODAL -->
   <!-- ===================================================== -->
 
   @if (showSalaryDisbursementModal) {
@@ -36,8 +118,9 @@
 
   }
 
+
   <!-- ===================================================== -->
-  <!-- Employee Payslip Modal -->
+  <!-- EMPLOYEE PAYSLIP MODAL -->
   <!-- ===================================================== -->
 
   @if (showPayslipModal) {

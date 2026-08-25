@@ -21,10 +21,6 @@ import {
 
 
 import {
-  PayrollSummaryCardComponent
-} from '../components/payroll/payroll-summary-card.component';
-
-import {
   KraProgressCardComponent
 } from '../components/kra/kra-progress-card.component';
 
@@ -33,6 +29,7 @@ import {
 } from '../components/assigned-assets/assigned-assets.component';
 import { ActivatedRoute } from '@angular/router';
 import { LeaveRequestFormComponent } from '../../../../shared/forms/leave-request-form/leave-request-form.component';
+import { PayrollDashboardComponent } from '../components/payroll/pages/payroll-dashboard.component';
 
 @Component({
 
@@ -50,8 +47,7 @@ import { LeaveRequestFormComponent } from '../../../../shared/forms/leave-reques
 
     AttendanceHistoryComponent,
 
-
-    PayrollSummaryCardComponent,
+    PayrollDashboardComponent,
 
     KraProgressCardComponent,
 

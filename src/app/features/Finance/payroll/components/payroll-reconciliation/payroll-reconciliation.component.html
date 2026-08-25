@@ -1,0 +1,443 @@
+<div class="rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- ================================================= -->
+  <!-- HEADER -->
+  <!-- ================================================= -->
+
+  <div
+    class="flex flex-col gap-3 border-b border-gray-200 px-5 py-4
+           lg:flex-row lg:items-center lg:justify-between">
+
+    <div>
+
+      <h2 class="text-base font-semibold text-slate-900">
+        Payroll Reconciliation
+      </h2>
+
+      <p class="mt-1 text-xs text-slate-500">
+        Reconcile payroll liabilities with salary bank payments and accounting entries.
+      </p>
+
+    </div>
+
+
+    <div class="flex items-center gap-2">
+
+      <select
+        [(ngModel)]="selectedStatus"
+        (change)="applyFilter()"
+        class="rounded-lg border border-gray-300 bg-white px-3 py-2
+               text-xs text-slate-700 outline-none
+               focus:border-red-600">
+
+        @for(status of statuses; track status) {
+
+          <option [value]="status">
+            {{ status }}
+          </option>
+
+        }
+
+      </select>
+
+
+      <button
+        type="button"
+        (click)="resetFilter()"
+        class="rounded-lg border border-gray-300 bg-white px-3 py-2
+               text-xs font-medium text-slate-700
+               transition hover:bg-gray-50">
+
+        Reset
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- SUMMARY CARDS -->
+  <!-- ================================================= -->
+
+  <div
+    class="grid gap-3 border-b border-gray-100 bg-slate-50 p-4
+           sm:grid-cols-2 lg:grid-cols-4">
+
+    <!-- Total -->
+
+    <div class="rounded-lg border border-gray-200 bg-white p-3">
+
+      <p class="text-[10px] uppercase tracking-wider text-gray-500">
+        Total Records
+      </p>
+
+      <p class="mt-1 text-lg font-bold text-slate-900">
+        {{ filteredRecords.length }}
+      </p>
+
+    </div>
+
+
+    <!-- Reconciled -->
+
+    <div class="rounded-lg border border-green-200 bg-green-50 p-3">
+
+      <p class="text-[10px] uppercase tracking-wider text-green-700">
+        Reconciled
+      </p>
+
+      <p class="mt-1 text-lg font-bold text-green-700">
+        {{ reconciledCount }}
+      </p>
+
+    </div>
+
+
+    <!-- Pending -->
+
+    <div class="rounded-lg border border-amber-200 bg-amber-50 p-3">
+
+      <p class="text-[10px] uppercase tracking-wider text-amber-700">
+        Pending
+      </p>
+
+      <p class="mt-1 text-lg font-bold text-amber-700">
+        {{ pendingCount }}
+      </p>
+
+    </div>
+
+
+    <!-- Mismatch -->
+
+    <div class="rounded-lg border border-red-200 bg-red-50 p-3">
+
+      <p class="text-[10px] uppercase tracking-wider text-red-700">
+        Mismatch
+      </p>
+
+      <p class="mt-1 text-lg font-bold text-red-700">
+        {{ mismatchCount }}
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- RECONCILIATION TABLE -->
+  <!-- ================================================= -->
+
+  <div class="overflow-x-auto">
+
+    <table class="w-full min-w-[1100px]">
+
+      <thead>
+
+        <tr class="border-b border-gray-200">
+
+          <th
+            class="px-5 py-3 text-left text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Payroll ID
+
+          </th>
+
+
+          <th
+            class="px-5 py-3 text-left text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Employee
+
+          </th>
+
+
+          <th
+            class="px-5 py-3 text-right text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Payroll Amount
+
+          </th>
+
+
+          <th
+            class="px-5 py-3 text-right text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Bank Amount
+
+          </th>
+
+
+          <th
+            class="px-5 py-3 text-right text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Difference
+
+          </th>
+
+
+          <th
+            class="px-5 py-3 text-left text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Bank Reference
+
+          </th>
+
+
+          <th
+            class="px-5 py-3 text-center text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Status
+
+          </th>
+
+
+          <th
+            class="px-5 py-3 text-center text-[10px] font-semibold
+                   uppercase tracking-wider text-gray-500">
+
+            Action
+
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <tbody>
+
+        @for(record of filteredRecords; track record.id) {
+
+          <tr
+            class="border-b border-gray-100 transition
+                   hover:bg-gray-50">
+
+            <!-- Payroll ID -->
+
+            <td class="px-5 py-4">
+
+              <span
+                class="font-mono text-xs font-semibold text-blue-700">
+
+                {{ record.payrollId }}
+
+              </span>
+
+            </td>
+
+
+            <!-- Employee -->
+
+            <td class="px-5 py-4">
+
+              <p class="text-sm font-semibold text-slate-900">
+                {{ record.employeeName }}
+              </p>
+
+              <p class="mt-0.5 text-[10px] text-gray-500">
+                {{ record.employeeCode }}
+              </p>
+
+            </td>
+
+
+            <!-- Payroll Amount -->
+
+            <td
+              class="px-5 py-4 text-right font-mono
+                     text-sm font-semibold text-slate-900">
+
+              ₹{{ record.payrollAmount | number }}
+
+            </td>
+
+
+            <!-- Bank Amount -->
+
+            <td
+              class="px-5 py-4 text-right font-mono
+                     text-sm font-semibold text-slate-900">
+
+              @if(record.bankAmount !== null) {
+
+                ₹{{ record.bankAmount | number }}
+
+              } @else {
+
+                <span class="text-gray-400">
+                  —
+                </span>
+
+              }
+
+            </td>
+
+
+            <!-- Difference -->
+
+            <td
+              class="px-5 py-4 text-right font-mono
+                     text-sm font-semibold"
+              [class.text-green-700]="record.difference === 0"
+              [class.text-red-700]="record.difference !== 0">
+
+              ₹{{ record.difference | number }}
+
+            </td>
+
+
+            <!-- Reference -->
+
+            <td
+              class="px-5 py-4 font-mono text-[10px] text-gray-500">
+
+              @if(record.bankReference) {
+
+                {{ record.bankReference }}
+
+              } @else {
+
+                <span class="text-gray-400">
+                  Not Available
+                </span>
+
+              }
+
+            </td>
+
+
+            <!-- Status -->
+
+            <td class="px-5 py-4 text-center">
+
+              <span
+                class="inline-flex rounded-full px-2.5 py-1
+                       text-[10px] font-semibold"
+
+                [class.bg-green-100]="record.status === 'Reconciled'"
+                [class.text-green-700]="record.status === 'Reconciled'"
+
+                [class.bg-amber-100]="record.status === 'Pending'"
+                [class.text-amber-700]="record.status === 'Pending'"
+
+                [class.bg-red-100]="record.status === 'Mismatch'"
+                [class.text-red-700]="record.status === 'Mismatch'">
+
+                {{ record.status }}
+
+              </span>
+
+            </td>
+
+
+            <!-- Action -->
+
+            <td class="px-5 py-4 text-center">
+
+              @if(record.status !== 'Reconciled') {
+
+                <button
+                  type="button"
+                  (click)="reconcile(record)"
+                  class="rounded-md bg-slate-900 px-3 py-1.5
+                         text-[10px] font-semibold uppercase
+                         tracking-wider text-white
+                         transition hover:bg-slate-700">
+
+                  Reconcile
+
+                </button>
+
+              } @else {
+
+                <span class="text-[10px] font-medium text-green-700">
+                  Matched
+                </span>
+
+              }
+
+            </td>
+
+          </tr>
+
+        }
+
+
+        @if(filteredRecords.length === 0) {
+
+          <tr>
+
+            <td
+              colspan="8"
+              class="px-5 py-12 text-center">
+
+              <p class="text-sm font-medium text-slate-700">
+                No reconciliation records found
+              </p>
+
+              <p class="mt-1 text-xs text-gray-500">
+                Try changing the reconciliation status filter.
+              </p>
+
+            </td>
+
+          </tr>
+
+        }
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- FOOTER -->
+  <!-- ================================================= -->
+
+  <div
+    class="flex flex-col gap-2 border-t border-gray-200
+           bg-slate-50 px-5 py-4
+           sm:flex-row sm:items-center sm:justify-between">
+
+    <div>
+
+      <p class="text-[11px] text-gray-500">
+        Payroll and bank transactions reconciliation status
+      </p>
+
+    </div>
+
+
+    <div class="text-right">
+
+      <p class="text-[10px] uppercase tracking-wider text-gray-500">
+        Total Difference
+      </p>
+
+      <p
+        class="font-mono text-sm font-bold"
+        [class.text-green-700]="totalDifference === 0"
+        [class.text-red-700]="totalDifference !== 0">
+
+        ₹{{ totalDifference | number }}
+
+      </p>
+
+    </div>
+
+  </div>
+
+</div>

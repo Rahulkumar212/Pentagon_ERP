@@ -1,0 +1,162 @@
+<div class="flex flex-col gap-6">
+
+  <!-- ===================================================== -->
+  <!-- HEADER -->
+  <!-- ===================================================== -->
+
+  <div
+    class="rounded-xl border border-gray-200 bg-white px-5 py-4 shadow-sm">
+
+    <div
+      class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+
+      <!-- TITLE -->
+
+      <div class="flex items-start gap-3">
+
+        <div
+          class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-50 text-red-700">
+
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            class="h-5 w-5"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            stroke-width="1.8">
+
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M12 8c-2.21 0-4 1.79-4 4v6h8v-6c0-2.21-1.79-4-4-4zm0-6a3 3 0 013 3v2H9V5a3 3 0 013-3z" />
+
+          </svg>
+
+        </div>
+
+        <div>
+
+          <h1
+            class="text-base font-semibold text-slate-900">
+
+            Payroll Management
+
+          </h1>
+
+          <p
+            class="mt-1 text-xs text-slate-500">
+
+            Manage employee salary structures, payroll processing,
+            adjustments and payroll status.
+
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- PAYROLL PERIOD -->
+
+      <div class="flex items-center gap-2">
+
+        <label
+          class="text-xs font-medium text-slate-600">
+
+          Payroll Period
+
+        </label>
+
+        <select
+          [value]="selectedPeriod"
+          (change)="onPeriodChange($event)"
+          class="rounded-lg border border-gray-300 bg-white px-3 py-2 text-xs text-slate-700 outline-none transition focus:border-red-600">
+
+          @for (period of payrollPeriods; track period) {
+
+            <option [value]="period">
+
+              {{ period }}
+
+            </option>
+
+          }
+
+        </select>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- TABS -->
+    <!-- ================================================= -->
+
+    <div
+      class="mt-5 flex gap-1 overflow-x-auto border-t border-gray-100 pt-3">
+
+      @for (tab of tabs; track tab.id) {
+
+        <button
+          type="button"
+          (click)="selectTab(tab.id)"
+          class="whitespace-nowrap rounded-lg px-4 py-2 text-xs font-semibold transition"
+          [class.bg-red-50]="activeTab === tab.id"
+          [class.text-red-800]="activeTab === tab.id"
+          [class.text-slate-500]="activeTab !== tab.id"
+          [class.hover:bg-gray-50]="activeTab !== tab.id">
+
+          {{ tab.label }}
+
+        </button>
+
+      }
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- TAB CONTENT -->
+  <!-- ===================================================== -->
+
+  @switch (activeTab) {
+
+
+
+    <!-- ================================================= -->
+    <!-- SALARY STRUCTURE -->
+    <!-- ================================================= -->
+
+    @case ('salary-structure') {
+
+      <app-salary-structure />
+
+    }
+
+
+    <!-- ================================================= -->
+    <!-- PAYROLL PROCESSING -->
+    <!-- ================================================= -->
+
+    @case ('processing') {
+
+      <app-payroll-processing />
+
+    }
+
+
+    <!-- ================================================= -->
+    <!-- PAYROLL STATUS -->
+    <!-- ================================================= -->
+
+    @case ('status') {
+
+      <app-payroll-status />
+
+    }
+
+  }
+
+</div>
