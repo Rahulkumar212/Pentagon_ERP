@@ -1,0 +1,273 @@
+<div class="min-h-full bg-gray-50">
+
+  <!-- ================================================= -->
+  <!-- PAGE HEADER -->
+  <!-- ================================================= -->
+
+  <div
+    class="border-b border-gray-200
+           bg-white px-6 py-5"
+  >
+
+    <div
+      class="flex flex-col gap-4
+             md:flex-row
+             md:items-center
+             md:justify-between"
+    >
+
+      <!-- ================================================= -->
+      <!-- TITLE -->
+      <!-- ================================================= -->
+
+      <div>
+
+        <div
+          class="flex items-center gap-2"
+        >
+
+          <span
+            class="h-2 w-2 rounded-full
+                   bg-red-600"
+          ></span>
+
+          <p
+            class="text-[10px]
+                   font-semibold
+                   uppercase
+                   tracking-wider
+                   text-red-600"
+          >
+            Director Dashboard
+          </p>
+
+        </div>
+
+        <h1
+          class="mt-1 text-xl
+                 font-bold
+                 text-slate-900"
+        >
+          Sales Director
+        </h1>
+
+        <p
+          class="mt-1 text-xs
+                 text-gray-500"
+        >
+          Sales performance, revenue,
+          pipeline and team overview
+        </p>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- ACTION AREA -->
+      <!-- ================================================= -->
+
+      <div
+        class="flex items-center gap-2"
+      >
+
+        <!-- PERIOD -->
+
+        <button
+          type="button"
+          class="rounded-lg
+                 border border-gray-200
+                 bg-white
+                 px-3 py-2
+                 text-[11px]
+                 font-medium
+                 text-gray-600
+                 hover:bg-gray-50"
+        >
+          FY 2026–27
+        </button>
+
+
+        <!-- REFRESH -->
+
+        <button
+          type="button"
+          (click)="refreshDashboard()"
+          class="flex items-center
+                 gap-2 rounded-lg
+                 border border-gray-200
+                 bg-white
+                 px-3 py-2
+                 text-[11px]
+                 font-semibold
+                 text-slate-700
+                 transition
+                 hover:bg-gray-50"
+        >
+
+          <svg
+            class="h-3.5 w-3.5"
+            viewBox="0 0 24 24"
+            fill="none"
+            stroke="currentColor"
+            stroke-width="1.8"
+          >
+
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M20 11a8.1 8.1 0 00-14.9-4L3 10"
+            />
+
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M3 5v5h5"
+            />
+
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M4 13a8.1 8.1 0 0014.9 4L21 14"
+            />
+
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              d="M21 19v-5h-5"
+            />
+
+          </svg>
+
+          Refresh
+
+        </button>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- DASHBOARD CONTENT -->
+  <!-- ================================================= -->
+
+  <div
+    class="space-y-5 p-5 md:p-6"
+  >
+
+
+    <!-- ================================================= -->
+    <!-- KPI CARDS -->
+    <!-- ================================================= -->
+
+    <section>
+
+      <app-kpi-cards
+        [kpis]="kpis">
+      </app-kpi-cards>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- REVENUE + SALES FUNNEL -->
+    <!-- ================================================= -->
+
+    <section
+      class="grid gap-5
+             xl:grid-cols-3"
+    >
+
+      <!-- REVENUE PERFORMANCE -->
+
+      <div
+        class="xl:col-span-2"
+      >
+
+        <app-revenue-performance
+          [data]="revenuePerformance">
+        </app-revenue-performance>
+
+      </div>
+
+
+      <!-- SALES FUNNEL -->
+
+      <div>
+
+        <app-sales-funnel
+          [funnelData]="salesFunnel">
+        </app-sales-funnel>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- TEAM + CRITICAL ATTENTION -->
+    <!-- ================================================= -->
+
+    <section
+      class="grid gap-5
+             xl:grid-cols-3"
+    >
+
+      <!-- TEAM PERFORMANCE -->
+
+      <div
+        class="xl:col-span-2"
+      >
+
+        <app-team-performance
+          [teamData]="teamPerformance">
+        </app-team-performance>
+
+      </div>
+
+
+      <!-- CRITICAL ATTENTION -->
+
+      <div>
+
+        <app-critical-attention
+          [attentionData]="criticalAttention">
+        </app-critical-attention>
+
+      </div>
+
+    </section>
+
+
+    <!-- ================================================= -->
+    <!-- LAST UPDATED -->
+    <!-- ================================================= -->
+
+    <div
+      class="flex items-center
+             justify-between
+             border-t border-gray-200
+             pt-3"
+    >
+
+      <p
+        class="text-[10px]
+               text-gray-400"
+      >
+        Sales Director Dashboard
+      </p>
+
+      <p
+        class="text-[10px]
+               text-gray-400"
+      >
+        Data shown for current financial year
+      </p>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,112 +1,185 @@
 import { LoginCredential } from '../models/auth.type';
 
 export const LOGIN_CREDENTIALS: LoginCredential[] = [
+
+  // =====================================================
+  // SUPER ADMIN
+  // =====================================================
+
   {
     employeeCode: 'SA001',
     password: '123456',
     role: 'SUPER_ADMIN',
-    name: 'Super Admin'
+    name: 'Super Admin',
   },
+
+
+  // =====================================================
+  // DIRECTORS
+  // =====================================================
+
+  // Sales Director
   {
     employeeCode: 'DIR001',
     password: '123456',
-    role: 'DIRECTOR',
-    name: 'Amit Sharma'
+    role: 'SALES_DIRECTOR',
+    name: 'Amit Sharma',
   },
+
+  // Supply Chain Director
+  {
+    employeeCode: 'DIR002',
+    password: '123456',
+    role: 'SCM_DIRECTOR',
+    name: 'Rajesh Verma',
+  },
+
+  // Finance Director
+  {
+    employeeCode: 'DIR003',
+    password: '123456',
+    role: 'FINANCE_DIRECTOR',
+    name: 'Sanjay Agarwal',
+  },
+
+  // GEM Director
+  {
+    employeeCode: 'DIR004',
+    password: '123456',
+    role: 'GEM_DIRECTOR',
+    name: 'Vivek Mehta',
+  },
+
+
+  // =====================================================
+  // MANAGEMENT
+  // =====================================================
+
   {
     employeeCode: 'MAN001',
     password: '123456',
     role: 'MANAGER',
-    name: 'Priya Verma'
+    name: 'Priya Verma',
   },
+
   {
     employeeCode: 'EMP001',
     password: '123456',
     role: 'EMPLOYEE',
-    name: 'Rahul Kumar'
+    name: 'Rahul Kumar',
   },
 
+
+  // =====================================================
   // HR
+  // =====================================================
+
   {
     employeeCode: 'HR001',
     password: '123456',
     role: 'HR_MANAGER',
-    name: 'Neha Gupta'
+    name: 'Neha Gupta',
   },
+
   {
     employeeCode: 'HR002',
     password: '123456',
     role: 'HR_EXECUTIVE',
-    name: 'Ankit Singh'
+    name: 'Ankit Singh',
   },
 
-  // Finance
+
+  // =====================================================
+  // FINANCE
+  // =====================================================
+
   {
     employeeCode: 'FIN001',
     password: '123456',
     role: 'FINANCE_MANAGER',
-    name: 'Rohit Agarwal'
+    name: 'Rohit Agarwal',
   },
+
   {
     employeeCode: 'FIN002',
     password: '123456',
     role: 'ACCOUNTANT',
-    name: 'Sneha Jain'
+    name: 'Sneha Jain',
   },
 
-  // Sales & CRM
+
+  // =====================================================
+  // SALES & CRM
+  // =====================================================
+
   {
     employeeCode: 'CRM001',
     password: '123456',
     role: 'SALES_MANAGER',
-    name: 'Vikas Malhotra'
+    name: 'Vikas Malhotra',
   },
+
   {
     employeeCode: 'CRM002',
     password: '123456',
     role: 'SALES_EXECUTIVE',
-    name: 'Karan Mehta'
+    name: 'Karan Mehta',
   },
 
+
+  // =====================================================
   // GEM
+  // =====================================================
+
   {
     employeeCode: 'GEM001',
     password: '123456',
     role: 'GEM_MANAGER',
-    name: 'Ajay Tiwari'
+    name: 'Ajay Tiwari',
   },
+
   {
     employeeCode: 'GEM002',
     password: '123456',
     role: 'GEM_EXECUTIVE',
-    name: 'Ritu Saxena'
+    name: 'Ritu Saxena',
   },
 
+
+  // =====================================================
   // SCM
+  // =====================================================
+
   {
     employeeCode: 'SCM001',
     password: '123456',
     role: 'SCM_MANAGER',
-    name: 'Manoj Yadav'
+    name: 'Manoj Yadav',
   },
+
   {
     employeeCode: 'SCM002',
     password: '123456',
     role: 'SCM_EXECUTIVE',
-    name: 'Deepak Chauhan'
+    name: 'Deepak Chauhan',
   },
 
-  // Operations
+
+  // =====================================================
+  // OPERATIONS
+  // =====================================================
+
   {
     employeeCode: 'OPS001',
     password: '123456',
     role: 'OPERATIONS_MANAGER',
-    name: 'Sandeep Mishra'
+    name: 'Sandeep Mishra',
   },
+
   {
     employeeCode: 'OPS002',
     password: '123456',
     role: 'OPERATIONS_EXECUTIVE',
-    name: 'Pooja Arora'
+    name: 'Pooja Arora',
   },
 ];

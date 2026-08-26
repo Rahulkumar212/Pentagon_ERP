@@ -41,96 +41,171 @@ export class LoginComponent {
     this.showPassword = !this.showPassword;
   }
 
- onSubmit(): void {
+  onSubmit(): void {
 
-  if (this.loginForm.invalid) {
+    if (this.loginForm.invalid) {
 
-    this.loginForm.markAllAsTouched();
+      this.loginForm.markAllAsTouched();
 
-    this.toast.warning(
-      'Please fill all required fields'
-    );
-
-    return;
-
-  }
-
-  const {
-    employeeCode,
-    password
-  } = this.loginForm.getRawValue();
-
-  this.authService.login(
-    employeeCode!,
-    password!
-  ).subscribe({
-
-    next: (response) => {
-
-      this.toast.success(
-        'Login Successful'
+      this.toast.warning(
+        'Please fill all required fields'
       );
-      const role = response.user?.roles?.[0];
 
-
-      switch (role) {
-        case 'SALES_MANAGER':
-        case 'SALES_EXECUTIVE':
-          console.log("role:",role)
-          this.router.navigate(['/sales-executive']);
-          break;
-
-        case 'SCM_MANAGER':
-        case 'SCM_EXECUTIVE':
-        case 'SUPPLY_CHAIN_EXECUTIVE':
-          this.router.navigate(['/scm-executive']);
-          break;
-
-        case 'HR_MANAGER':
-        case 'HR_EXECUTIVE':
-          this.router.navigate(['/hr-dashboard']);
-          break;
-
-        case 'FINANCE_MANAGER':
-        case 'ACCOUNTANT':
-          this.router.navigate(['/finance/dashboard']);
-          break;
-
-        case 'GEM_MANAGER':
-        case 'GEM_EXECUTIVE':
-          this.router.navigate(['/gem']);
-          break;
-
-        case 'OPERATIONS_MANAGER':
-        case 'OPERATIONS_EXECUTIVE':
-          this.router.navigate(['/operations']);
-          break;
-
-        case 'SUPER_ADMIN':
-        case 'DIRECTOR':
-        case 'MANAGER':
-          this.router.navigate(['/executive-center']);
-          break;
-
-        default:
-          this.router.navigate(['/executive-center']);
-
-      }
-
-    },
-
-    error: () => {
-
-      this.errorMessage =
-        'Invalid Employee Code or Password';
-
-      this.toast.error(
-        'Invalid Employee Code or Password'
-      );
+      return;
 
     }
 
-  });
+    const {
+      employeeCode,
+      password
+    } = this.loginForm.getRawValue();
 
-}
+    this.authService.login(
+      employeeCode!,
+      password!
+    ).subscribe({
+
+      next: (response) => {
+
+        this.toast.success(
+          'Login Successful'
+        );
+        const role = response.user?.roles?.[0];
+       
+        console.log('ROLE:', role);
+
+        console.log('USER:', response.user);
+
+        switch (role) {
+
+          // =====================================================
+          // SALES
+          // =====================================================
+
+          case 'SALES_MANAGER':
+          case 'SALES_EXECUTIVE':
+            this.router.navigate(['/sales-executive']);
+            break;
+
+
+          // =====================================================
+          // SALES DIRECTOR
+          // =====================================================
+
+          case 'SALES_DIRECTOR':
+            this.router.navigate(['/sales-director/dashboard-overview']);
+            break;
+
+
+          // =====================================================
+          // SUPPLY CHAIN
+          // =====================================================
+
+          case 'SCM_MANAGER':
+          case 'SCM_EXECUTIVE':
+          case 'SUPPLY_CHAIN_EXECUTIVE':
+            this.router.navigate(['/scm-executive']);
+            break;
+
+
+          // =====================================================
+          // SUPPLY CHAIN DIRECTOR
+          // =====================================================
+
+          case 'SUPPLY_CHAIN_DIRECTOR':
+            this.router.navigate(['/supply-chain-director']);
+            break;
+
+
+          // =====================================================
+          // HR
+          // =====================================================
+
+          case 'HR_MANAGER':
+          case 'HR_EXECUTIVE':
+            this.router.navigate(['/hr-dashboard']);
+            break;
+
+
+          // =====================================================
+          // FINANCE
+          // =====================================================
+
+          case 'FINANCE_MANAGER':
+          case 'ACCOUNTANT':
+            this.router.navigate(['/finance/dashboard']);
+            break;
+
+
+          // =====================================================
+          // FINANCE DIRECTOR
+          // =====================================================
+
+          case 'FINANCE_DIRECTOR':
+            this.router.navigate(['/finance-director']);
+            break;
+
+
+          // =====================================================
+          // GEM
+          // =====================================================
+
+          case 'GEM_MANAGER':
+          case 'GEM_EXECUTIVE':
+            this.router.navigate(['/gem']);
+            break;
+
+
+          // =====================================================
+          // GEM DIRECTOR
+          // =====================================================
+
+          case 'GEM_DIRECTOR':
+            this.router.navigate(['/gem-director']);
+            break;
+
+
+          // =====================================================
+          // OPERATIONS
+          // =====================================================
+
+          case 'OPERATIONS_MANAGER':
+          case 'OPERATIONS_EXECUTIVE':
+            this.router.navigate(['/operations']);
+            break;
+
+
+          // =====================================================
+          // SUPER ADMIN
+          // =====================================================
+
+          case 'SUPER_ADMIN':
+            this.router.navigate(['/executive-center']);
+            break;
+
+
+          // =====================================================
+          // DEFAULT
+          // =====================================================
+
+          default:
+            this.router.navigate(['/executive-center']);
+        }
+
+      },
+
+      error: () => {
+
+        this.errorMessage =
+          'Invalid Employee Code or Password';
+
+        this.toast.error(
+          'Invalid Employee Code or Password'
+        );
+
+      }
+
+    });
+
+  }
 }

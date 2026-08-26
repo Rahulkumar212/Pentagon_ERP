@@ -1,0 +1,279 @@
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+  @for (kpi of kpis; track kpi.title) {
+
+    <div
+      class="group rounded-xl border border-gray-200 bg-white p-4
+             shadow-sm transition-all duration-200
+             hover:-translate-y-0.5 hover:shadow-md"
+    >
+
+      <!-- ============================= -->
+      <!-- TOP -->
+      <!-- ============================= -->
+
+      <div class="flex items-start justify-between">
+
+        <div>
+
+          <p
+            class="text-[11px] font-semibold uppercase
+                   tracking-wide text-gray-400"
+          >
+            {{ kpi.title }}
+          </p>
+
+          <p
+            class="mt-2 text-xl font-bold
+                   tracking-tight text-slate-900"
+          >
+            {{ kpi.value }}
+          </p>
+
+        </div>
+
+
+        <!-- ICON -->
+        <div
+          class="flex h-9 w-9 items-center justify-center
+                 rounded-lg bg-red-50 text-red-700"
+        >
+
+          @switch (kpi.icon) {
+
+            @case ('revenue') {
+
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3 17l6-6 4 4 8-8"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 7h6v6"
+                />
+              </svg>
+
+            }
+
+
+            @case ('target') {
+
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="8"
+                />
+
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="4"
+                />
+
+                <circle
+                  cx="12"
+                  cy="12"
+                  r="1"
+                  fill="currentColor"
+                />
+              </svg>
+
+            }
+
+
+            @case ('pipeline') {
+
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M4 6h16"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7 12h10"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M10 18h4"
+                />
+              </svg>
+
+            }
+
+
+            @case ('conversion') {
+
+              <svg
+                class="h-5 w-5"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="1.8"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7 7h10"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17 7l-3-3"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17 7l-3 3"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M17 17H7"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7 17l3-3"
+                />
+
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M7 17l3 3"
+                />
+              </svg>
+
+            }
+
+          }
+
+        </div>
+
+      </div>
+
+
+      <!-- ============================= -->
+      <!-- FOOTER -->
+      <!-- ============================= -->
+
+      <div class="mt-4 flex items-center gap-2">
+
+        <!-- UP -->
+        @if (kpi.trend === 'up') {
+
+          <span
+            class="inline-flex items-center gap-1
+                   rounded-md bg-green-50 px-2 py-1
+                   text-[10px] font-semibold text-green-700"
+          >
+
+            <svg
+              class="h-3 w-3"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 15l7-7 7 7"
+              />
+            </svg>
+
+            {{ kpi.change }}
+
+          </span>
+
+        }
+
+
+        <!-- DOWN -->
+        @if (kpi.trend === 'down') {
+
+          <span
+            class="inline-flex items-center gap-1
+                   rounded-md bg-red-50 px-2 py-1
+                   text-[10px] font-semibold text-red-700"
+          >
+
+            <svg
+              class="h-3 w-3"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+            >
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M5 9l7 7 7-7"
+              />
+            </svg>
+
+            {{ kpi.change }}
+
+          </span>
+
+        }
+
+
+        <!-- NEUTRAL -->
+        @if (kpi.trend === 'neutral') {
+
+          <span
+            class="inline-flex items-center
+                   rounded-md bg-gray-100 px-2 py-1
+                   text-[10px] font-semibold text-gray-600"
+          >
+            {{ kpi.change }}
+          </span>
+
+        }
+
+
+        <span
+          class="text-[10px] text-gray-400"
+        >
+          {{ kpi.changeLabel }}
+        </span>
+
+      </div>
+
+    </div>
+
+  }
+
+</div>

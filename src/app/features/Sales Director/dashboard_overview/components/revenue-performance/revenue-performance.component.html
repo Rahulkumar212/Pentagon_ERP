@@ -1,0 +1,310 @@
+<div
+  class="rounded-xl border border-gray-200 bg-white shadow-sm"
+>
+
+  <!-- ================================================= -->
+  <!-- HEADER -->
+  <!-- ================================================= -->
+
+  <div
+    class="flex flex-col gap-3 border-b border-gray-200
+           px-5 py-4 sm:flex-row sm:items-center
+           sm:justify-between"
+  >
+
+    <div>
+
+      <h2
+        class="text-sm font-semibold text-slate-900"
+      >
+        Revenue Performance
+      </h2>
+
+      <p
+        class="mt-1 text-[11px] text-gray-500"
+      >
+        Actual revenue against monthly sales targets
+      </p>
+
+    </div>
+
+
+    <!-- Achievement -->
+
+    <div
+      class="rounded-lg bg-gray-50 px-3 py-2"
+    >
+
+      <p
+        class="text-[10px] font-medium uppercase
+               tracking-wide text-gray-400"
+      >
+        Target Achievement
+      </p>
+
+      <p
+        class="mt-0.5 text-sm font-bold text-slate-900"
+      >
+        {{ achievementPercentage }}%
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- SUMMARY -->
+  <!-- ================================================= -->
+
+  <div
+    class="grid grid-cols-2 divide-x divide-gray-200
+           border-b border-gray-200"
+  >
+
+    <!-- Actual -->
+
+    <div class="px-5 py-3">
+
+      <p
+        class="text-[10px] font-semibold uppercase
+               tracking-wide text-gray-400"
+      >
+        Total Revenue
+      </p>
+
+      <p
+        class="mt-1 text-base font-bold text-slate-900"
+      >
+        {{ formatCurrency(totalActual) }}
+      </p>
+
+    </div>
+
+
+    <!-- Target -->
+
+    <div class="px-5 py-3">
+
+      <p
+        class="text-[10px] font-semibold uppercase
+               tracking-wide text-gray-400"
+      >
+        Total Target
+      </p>
+
+      <p
+        class="mt-1 text-base font-bold text-slate-900"
+      >
+        {{ formatCurrency(totalTarget) }}
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- ================================================= -->
+  <!-- CHART -->
+  <!-- ================================================= -->
+
+  <div class="px-5 py-5">
+
+    @if (data.length) {
+
+      <!-- Chart -->
+
+      <div
+        class="flex h-64 items-end gap-3
+               overflow-x-auto"
+      >
+
+        @for (item of data; track item.month) {
+
+          <div
+            class="flex min-w-[52px] flex-1
+                   flex-col items-center"
+          >
+
+            <!-- Values -->
+
+            <div
+              class="mb-2 text-center"
+            >
+
+              <p
+                class="text-[9px] font-semibold
+                       text-slate-700"
+              >
+                {{ formatCurrency(item.actual) }}
+              </p>
+
+            </div>
+
+
+            <!-- Bars -->
+
+            <div
+              class="relative flex h-48 w-full
+                     items-end justify-center gap-1"
+            >
+
+              <!-- Target -->
+
+              <div
+                class="w-3 rounded-t-md bg-gray-200
+                       transition-all duration-300"
+                [style.height.%]="
+                  getBarHeight(item.target)
+                "
+                [title]="
+                  'Target: ' + formatCurrency(item.target)
+                "
+              ></div>
+
+
+              <!-- Actual -->
+
+              <div
+                class="w-3 rounded-t-md bg-red-700
+                       transition-all duration-300"
+                [style.height.%]="
+                  getBarHeight(item.actual)
+                "
+                [title]="
+                  'Actual: ' + formatCurrency(item.actual)
+                "
+              ></div>
+
+            </div>
+
+
+            <!-- Month -->
+
+            <p
+              class="mt-2 text-[10px] font-medium
+                     text-gray-500"
+            >
+              {{ item.month }}
+            </p>
+
+          </div>
+
+        }
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- LEGEND -->
+      <!-- ================================================= -->
+
+      <div
+        class="mt-5 flex items-center gap-5
+               border-t border-gray-100 pt-3"
+      >
+
+        <div class="flex items-center gap-2">
+
+          <span
+            class="h-2.5 w-2.5 rounded-sm bg-red-700"
+          ></span>
+
+          <span
+            class="text-[10px] text-gray-500"
+          >
+            Actual Revenue
+          </span>
+
+        </div>
+
+
+        <div class="flex items-center gap-2">
+
+          <span
+            class="h-2.5 w-2.5 rounded-sm bg-gray-200"
+          ></span>
+
+          <span
+            class="text-[10px] text-gray-500"
+          >
+            Target
+          </span>
+
+        </div>
+
+      </div>
+
+    }
+
+    @else {
+
+      <!-- ================================================= -->
+      <!-- EMPTY STATE -->
+      <!-- ================================================= -->
+
+      <div
+        class="flex min-h-64 items-center
+               justify-center"
+      >
+
+        <div class="text-center">
+
+          <div
+            class="mx-auto flex h-10 w-10
+                   items-center justify-center
+                   rounded-full bg-gray-100"
+          >
+
+            <svg
+              class="h-5 w-5 text-gray-400"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="1.8"
+            >
+
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4 19V5"
+              />
+
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M4 19h16"
+              />
+
+              <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                d="M7 15l3-4 3 2 5-6"
+              />
+
+            </svg>
+
+          </div>
+
+          <p
+            class="mt-3 text-xs font-medium
+                   text-gray-700"
+          >
+            No revenue data available
+          </p>
+
+          <p
+            class="mt-1 text-[10px] text-gray-400"
+          >
+            Revenue performance will appear here.
+          </p>
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>
