@@ -7,6 +7,7 @@ import { HR_ROUTES } from './features/hr-dashboard/hr.routes';
 import { FINANCE_ROUTES } from './features/Finance/finance.routes';
 
 import { authGuard } from './core/guards/auth.guards';
+import { SALES_DIRECTOR_ROUTES } from './features/Sales Director/sales-director.routes';
 
 export const routes: Routes = [
 
@@ -70,6 +71,9 @@ export const routes: Routes = [
 
       // Finance
       ...FINANCE_ROUTES,
+
+      // sales director
+      ...SALES_DIRECTOR_ROUTES,
 
       // Sales Analytics
       {

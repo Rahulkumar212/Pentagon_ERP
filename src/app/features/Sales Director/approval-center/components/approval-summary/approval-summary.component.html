@@ -1,0 +1,104 @@
+
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+  @for (item of summary; track item.title) {
+
+    <div
+      class="group relative overflow-hidden rounded-2xl border border-slate-200 bg-white p-5 shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+    >
+
+      <!-- Background Decoration -->
+      <div
+        class="absolute -right-8 -top-8 h-24 w-24 rounded-full bg-slate-50 transition-transform duration-300 group-hover:scale-125"
+      ></div>
+
+      <!-- Header -->
+      <div class="relative flex items-start justify-between">
+
+        <!-- Icon -->
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl text-xl"
+          [ngClass]="{
+            'bg-amber-50 text-amber-600':
+              item.type === 'pending',
+
+            'bg-red-50 text-red-600':
+              item.type === 'high-priority',
+
+            'bg-emerald-50 text-emerald-600':
+              item.type === 'approved',
+
+            'bg-slate-100 text-slate-600':
+              item.type === 'rejected'
+          }"
+        >
+          {{ item.icon }}
+        </div>
+
+        <!-- Status -->
+        <span
+          class="rounded-full px-2.5 py-1 text-[10px] font-semibold uppercase tracking-wide"
+          [ngClass]="{
+            'bg-amber-50 text-amber-700':
+              item.type === 'pending',
+
+            'bg-red-50 text-red-700':
+              item.type === 'high-priority',
+
+            'bg-emerald-50 text-emerald-700':
+              item.type === 'approved',
+
+            'bg-slate-100 text-slate-600':
+              item.type === 'rejected'
+          }"
+        >
+          {{ item.type === 'high-priority' ? 'Urgent' : item.type }}
+        </span>
+
+      </div>
+
+      <!-- Value -->
+      <div class="relative mt-5">
+
+        <p class="text-3xl font-bold tracking-tight text-slate-900">
+          {{ item.value }}
+        </p>
+
+        <h3 class="mt-1 text-sm font-semibold text-slate-700">
+          {{ item.title }}
+        </h3>
+
+        <p class="mt-1 text-xs leading-5 text-slate-500">
+          {{ item.description }}
+        </p>
+
+      </div>
+
+      <!-- Bottom Indicator -->
+      <div
+        class="relative mt-4 h-1 overflow-hidden rounded-full bg-slate-100"
+      >
+        <div
+          class="h-full rounded-full transition-all duration-500"
+          [ngClass]="{
+            'w-3/5 bg-amber-400':
+              item.type === 'pending',
+
+            'w-4/5 bg-red-400':
+              item.type === 'high-priority',
+
+            'w-full bg-emerald-400':
+              item.type === 'approved',
+
+            'w-1/4 bg-slate-400':
+              item.type === 'rejected'
+          }"
+        ></div>
+      </div>
+
+    </div>
+
+  }
+
+</div>
+

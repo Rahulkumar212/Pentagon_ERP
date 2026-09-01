@@ -1,0 +1,359 @@
+
+<div
+  class="rounded-2xl border border-slate-200 bg-white shadow-sm"
+>
+
+  <!-- ===================================================== -->
+  <!-- HEADER -->
+  <!-- ===================================================== -->
+
+  <div
+    class="border-b border-slate-100 px-6 py-5"
+  >
+
+    <div
+      class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
+    >
+
+      <div>
+
+        <div class="flex items-center gap-3">
+
+          <div
+            class="flex h-11 w-11 items-center justify-center rounded-xl bg-indigo-100 text-xl"
+          >
+            🔐
+          </div>
+
+          <div>
+
+            <h2
+              class="text-lg font-bold text-slate-900"
+            >
+              Permission Management
+            </h2>
+
+            <p
+              class="mt-1 text-sm text-slate-500"
+            >
+              Manage module-level access and approval permissions
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Reset -->
+
+      <button
+        type="button"
+        class="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-50"
+        (click)="resetPermissions()"
+      >
+        Reset Permissions
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- TOOLBAR -->
+  <!-- ===================================================== -->
+
+  <div
+    class="flex flex-col gap-3 border-b border-slate-100 bg-slate-50/50 px-6 py-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+
+    <!-- Search -->
+
+    <div
+      class="relative w-full sm:max-w-sm"
+    >
+
+      <span
+        class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400"
+      >
+        🔎
+      </span>
+
+      <input
+        type="text"
+        [(ngModel)]="searchTerm"
+        placeholder="Search modules..."
+        class="w-full rounded-xl border border-slate-200 bg-white py-2.5 pl-10 pr-4 text-sm outline-none transition focus:border-indigo-500 focus:ring-2 focus:ring-indigo-100"
+      />
+
+    </div>
+
+
+    <!-- Filter -->
+
+    <label
+      class="flex cursor-pointer items-center gap-2 text-sm font-medium text-slate-600"
+    >
+
+      <input
+        type="checkbox"
+        [(ngModel)]="showOnlyEnabled"
+        class="h-4 w-4 rounded border-slate-300 text-indigo-600 focus:ring-indigo-500"
+      />
+
+      Show enabled modules only
+
+    </label>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- PERMISSION TABLE -->
+  <!-- ===================================================== -->
+
+  <div class="overflow-x-auto">
+
+    <table
+      class="min-w-[900px] w-full"
+    >
+
+      <!-- HEADER -->
+
+      <thead
+        class="border-b border-slate-200 bg-slate-50"
+      >
+
+        <tr>
+
+          <th
+            class="px-6 py-4 text-left text-xs font-bold uppercase tracking-wide text-slate-500"
+          >
+            Module
+          </th>
+
+          <th
+            *ngFor="let action of actions"
+            class="px-3 py-4 text-center text-xs font-bold uppercase tracking-wide text-slate-500"
+          >
+            {{ action.label }}
+          </th>
+
+          <th
+            class="px-4 py-4 text-center text-xs font-bold uppercase tracking-wide text-slate-500"
+          >
+            Access
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <!-- BODY -->
+
+      <tbody
+        class="divide-y divide-slate-100"
+      >
+
+        <tr
+          *ngFor="let module of filteredModules"
+          class="transition hover:bg-slate-50"
+        >
+
+          <!-- MODULE -->
+
+          <td
+            class="px-6 py-4"
+          >
+
+            <div class="flex items-center gap-3">
+
+              <div
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-slate-100 text-lg"
+              >
+                {{ module.icon }}
+              </div>
+
+              <div>
+
+                <p
+                  class="text-sm font-semibold text-slate-900"
+                >
+                  {{ module.moduleName }}
+                </p>
+
+                <p
+                  class="mt-0.5 max-w-xs text-xs text-slate-500"
+                >
+                  {{ module.description }}
+                </p>
+
+              </div>
+
+            </div>
+
+          </td>
+
+
+          <!-- PERMISSIONS -->
+
+          <td
+            *ngFor="let action of actions"
+            class="px-3 py-4 text-center"
+          >
+
+            <button
+              type="button"
+              class="mx-auto flex h-8 w-8 items-center justify-center rounded-lg border transition"
+              [class.border-emerald-300]="
+                hasPermission(module, action.key)
+              "
+              [class.bg-emerald-50]="
+                hasPermission(module, action.key)
+              "
+              [class.text-emerald-600]="
+                hasPermission(module, action.key)
+              "
+              [class.border-slate-200]="
+                !hasPermission(module, action.key)
+              "
+              [class.bg-white]="
+                !hasPermission(module, action.key)
+              "
+              [class.text-slate-300]="
+                !hasPermission(module, action.key)
+              "
+              (click)="
+                togglePermission(
+                  module,
+                  action.key
+                )
+              "
+            >
+
+              <span
+                *ngIf="hasPermission(module, action.key)"
+              >
+                ✓
+              </span>
+
+              <span
+                *ngIf="!hasPermission(module, action.key)"
+              >
+                —
+              </span>
+
+            </button>
+
+          </td>
+
+
+          <!-- ACCESS -->
+
+          <td
+            class="px-4 py-4 text-center"
+          >
+
+            <button
+              type="button"
+              class="rounded-lg px-3 py-1.5 text-xs font-semibold transition"
+              [class.bg-indigo-50]="
+                hasAllPermissions(module)
+              "
+              [class.text-indigo-700]="
+                hasAllPermissions(module)
+              "
+              [class.bg-slate-100]="
+                !hasAllPermissions(module)
+              "
+              [class.text-slate-600]="
+                !hasAllPermissions(module)
+              "
+              (click)="toggleAll(module)"
+            >
+
+              {{ getEnabledCount(module) }}/{{ actions.length }}
+
+            </button>
+
+          </td>
+
+        </tr>
+
+
+        <!-- EMPTY -->
+
+        <tr
+          *ngIf="filteredModules.length === 0"
+        >
+
+          <td
+            [attr.colspan]="actions.length + 2"
+            class="px-6 py-12 text-center"
+          >
+
+            <div class="text-3xl">
+              🔍
+            </div>
+
+            <p
+              class="mt-2 text-sm font-semibold text-slate-700"
+            >
+              No modules found
+            </p>
+
+            <p
+              class="mt-1 text-xs text-slate-400"
+            >
+              Try changing your search or filter.
+            </p>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- FOOTER -->
+  <!-- ===================================================== -->
+
+  <div
+    class="flex items-center justify-between border-t border-slate-100 bg-slate-50/50 px-6 py-4"
+  >
+
+    <div>
+
+      <p
+        class="text-xs text-slate-500"
+      >
+        Manage access carefully. Permission changes may affect
+        the user's ability to perform business operations.
+      </p>
+
+    </div>
+
+    <div
+      class="hidden items-center gap-2 text-xs font-semibold text-emerald-600 sm:flex"
+    >
+
+      <span
+        class="h-2 w-2 rounded-full bg-emerald-500"
+      ></span>
+
+      Permission Active
+
+    </div>
+
+  </div>
+
+</div>
+

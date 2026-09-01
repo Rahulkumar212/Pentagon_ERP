@@ -1,0 +1,364 @@
+
+<div
+  class="w-full overflow-hidden
+         rounded-xl
+         border border-gray-200
+         bg-white
+         shadow-sm">
+
+  <!-- ===================================================== -->
+  <!-- HEADER -->
+  <!-- ===================================================== -->
+
+  <div
+    class="flex items-center justify-between
+           border-b border-gray-100
+           px-5 py-4">
+
+    <div>
+      <h3
+        class="text-sm font-semibold
+               text-slate-900">
+
+        Approval History
+
+      </h3>
+
+      <p
+        class="mt-1 text-xs text-slate-500">
+
+        Recently processed approval requests
+
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="rounded-lg
+             border border-gray-200
+             px-3 py-2
+             text-xs font-medium
+             text-slate-600
+             transition
+             hover:bg-gray-50
+             hover:text-slate-900">
+
+      View All
+
+    </button>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- TABLE -->
+  <!-- ===================================================== -->
+
+  <div class="overflow-x-auto">
+
+    <table class="w-full min-w-[900px]">
+
+      <!-- TABLE HEADER -->
+
+      <thead>
+
+        <tr
+          class="border-b border-gray-100
+                 bg-gray-50/70">
+
+          <th
+            class="px-5 py-3 text-left
+                   text-[11px] font-semibold
+                   uppercase tracking-wide
+                   text-slate-500">
+
+            Request
+
+          </th>
+
+          <th
+            class="px-5 py-3 text-left
+                   text-[11px] font-semibold
+                   uppercase tracking-wide
+                   text-slate-500">
+
+            Category
+
+          </th>
+
+          <th
+            class="px-5 py-3 text-left
+                   text-[11px] font-semibold
+                   uppercase tracking-wide
+                   text-slate-500">
+
+            Requested By
+
+          </th>
+
+          <th
+            class="px-5 py-3 text-right
+                   text-[11px] font-semibold
+                   uppercase tracking-wide
+                   text-slate-500">
+
+            Amount
+
+          </th>
+
+          <th
+            class="px-5 py-3 text-center
+                   text-[11px] font-semibold
+                   uppercase tracking-wide
+                   text-slate-500">
+
+            Status
+
+          </th>
+
+          <th
+            class="px-5 py-3 text-left
+                   text-[11px] font-semibold
+                   uppercase tracking-wide
+                   text-slate-500">
+
+            Processed
+
+          </th>
+
+        </tr>
+
+      </thead>
+
+
+      <!-- TABLE BODY -->
+
+      <tbody>
+
+        <tr
+          *ngFor="let item of history"
+          class="border-b border-gray-100
+                 last:border-0
+                 transition
+                 hover:bg-slate-50">
+
+          <!-- REQUEST -->
+
+          <td class="px-5 py-4">
+
+            <div class="flex items-center gap-3">
+
+              <div
+                class="flex h-9 w-9 shrink-0
+                       items-center justify-center
+                       rounded-lg
+                       bg-slate-100
+                       text-sm">
+
+                📄
+
+              </div>
+
+              <div>
+
+                <p
+                  class="text-sm font-medium
+                         text-slate-800">
+
+                  {{ item.requestTitle }}
+
+                </p>
+
+                <p
+                  class="mt-0.5 text-[11px]
+                         text-slate-400">
+
+                  {{ item.id }}
+
+                </p>
+
+              </div>
+
+            </div>
+
+          </td>
+
+
+          <!-- CATEGORY -->
+
+          <td class="px-5 py-4">
+
+            <span
+              class="rounded-md
+                     bg-slate-100
+                     px-2.5 py-1
+                     text-xs font-medium
+                     text-slate-600">
+
+              {{ item.category }}
+
+            </span>
+
+          </td>
+
+
+          <!-- REQUESTED BY -->
+
+          <td class="px-5 py-4">
+
+            <div>
+
+              <p
+                class="text-sm font-medium
+                       text-slate-700">
+
+                {{ item.requestedBy }}
+
+              </p>
+
+              <p
+                class="mt-0.5 text-[11px]
+                       text-slate-400">
+
+                Requester
+
+              </p>
+
+            </div>
+
+          </td>
+
+
+          <!-- AMOUNT -->
+
+          <td
+            class="px-5 py-4 text-right">
+
+            <span
+              class="text-sm font-semibold
+                     text-slate-800">
+
+              {{ formatCurrency(item.amount) }}
+
+            </span>
+
+          </td>
+
+
+          <!-- STATUS -->
+
+          <td
+            class="px-5 py-4 text-center">
+
+            <span
+              *ngIf="item.action === 'approved'"
+              class="inline-flex items-center gap-1.5
+                     rounded-full
+                     bg-emerald-50
+                     px-2.5 py-1
+                     text-xs font-medium
+                     text-emerald-700">
+
+              <span
+                class="h-1.5 w-1.5
+                       rounded-full
+                       bg-emerald-500">
+              </span>
+
+              Approved
+
+            </span>
+
+
+            <span
+              *ngIf="item.action === 'rejected'"
+              class="inline-flex items-center gap-1.5
+                     rounded-full
+                     bg-red-50
+                     px-2.5 py-1
+                     text-xs font-medium
+                     text-red-700">
+
+              <span
+                class="h-1.5 w-1.5
+                       rounded-full
+                       bg-red-500">
+              </span>
+
+              Rejected
+
+            </span>
+
+          </td>
+
+
+          <!-- PROCESSED -->
+
+          <td class="px-5 py-4">
+
+            <div>
+
+              <p
+                class="text-xs font-medium
+                       text-slate-700">
+
+                {{ item.processedDate }}
+
+              </p>
+
+              <p
+                class="mt-0.5 text-[11px]
+                       text-slate-400">
+
+                By {{ item.processedBy }}
+
+              </p>
+
+            </div>
+
+          </td>
+
+        </tr>
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- FOOTER -->
+  <!-- ===================================================== -->
+
+  <div
+    class="flex items-center justify-between
+           border-t border-gray-100
+           bg-gray-50/50
+           px-5 py-3">
+
+    <p
+      class="text-xs text-slate-500">
+
+      Showing
+      <span class="font-medium text-slate-700">
+        {{ history.length }}
+      </span>
+      recently processed requests
+
+    </p>
+
+    <button
+      type="button"
+      class="text-xs font-medium
+             text-slate-600
+             hover:text-slate-900">
+
+      View Complete History →
+
+    </button>
+
+  </div>
+
+</div>
+

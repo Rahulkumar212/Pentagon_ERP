@@ -1,5 +1,6 @@
 import { FINANCE_SIDEBAR } from './finance-sidebar.config';
 import { HR_SIDEBAR } from './hr-sidebar.config';
+import { SALES_DIRECTOR_SIDEBAR } from './sales-director-sidebar.config';
 
 import {
   SidebarConfig
@@ -264,6 +265,8 @@ export const SIDEBAR_CONFIG: SidebarConfig = {
 
   OPERATIONS,
 
-  GEM
+  GEM,
+
+   SALES_DIRECTOR: SALES_DIRECTOR_SIDEBAR,
 
 };

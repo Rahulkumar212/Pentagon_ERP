@@ -1,0 +1,464 @@
+
+<div class="w-full space-y-5">
+
+  <!-- ===================================================== -->
+  <!-- HEADER -->
+  <!-- ===================================================== -->
+
+  <div
+    class="flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div>
+
+      <div class="flex items-center gap-3">
+
+        <button
+          type="button"
+          class="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:bg-gray-50"
+        >
+          ←
+        </button>
+
+        <div>
+
+          <div class="flex items-center gap-2">
+
+            <h2 class="text-lg font-semibold text-slate-900">
+              {{ approval.requestTitle }}
+            </h2>
+
+            <span
+              class="rounded-full bg-yellow-50 px-2.5 py-1 text-[11px] font-semibold text-yellow-700"
+            >
+              {{ approval.status | titlecase }}
+            </span>
+
+          </div>
+
+          <p class="mt-1 text-xs text-gray-500">
+            {{ approval.id }} · {{ approval.category }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ACTION BUTTONS -->
+
+    <div class="flex items-center gap-2">
+
+      <!-- Reject -->
+
+      <button
+        type="button"
+        (click)="rejectRequest()"
+        class="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-medium text-red-700 transition hover:bg-red-100"
+      >
+        Reject
+      </button>
+
+
+      <!-- Request Changes -->
+
+      <button
+        type="button"
+        (click)="requestChanges()"
+        class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
+      >
+        Request Changes
+      </button>
+
+
+      <!-- Approve -->
+
+      <button
+        type="button"
+        (click)="approveRequest()"
+        class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-emerald-700"
+      >
+        Approve
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- MAIN GRID -->
+  <!-- ===================================================== -->
+
+  <div class="grid grid-cols-1 gap-5 xl:grid-cols-3">
+
+
+    <!-- =================================================== -->
+    <!-- LEFT / MAIN CONTENT -->
+    <!-- =================================================== -->
+
+    <div class="space-y-5 xl:col-span-2">
+
+
+      <!-- ================================================= -->
+      <!-- REQUEST OVERVIEW -->
+      <!-- ================================================= -->
+
+      <div
+        class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+      >
+
+        <div class="mb-5">
+
+          <h3 class="text-sm font-semibold text-slate-900">
+            Request Overview
+          </h3>
+
+          <p class="mt-1 text-xs text-gray-500">
+            Complete information about this approval request
+          </p>
+
+        </div>
+
+
+        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
+
+          <!-- Request ID -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+            >
+              Request ID
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-slate-800">
+              {{ approval.id }}
+            </p>
+
+          </div>
+
+
+          <!-- Category -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+            >
+              Category
+            </p>
+
+            <p class="mt-1 text-sm font-medium text-slate-800">
+              {{ approval.category }}
+            </p>
+
+          </div>
+
+
+          <!-- Requested By -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+            >
+              Requested By
+            </p>
+
+            <p class="mt-1 text-sm font-medium text-slate-800">
+              {{ approval.requestedBy }}
+            </p>
+
+            <p class="mt-0.5 text-xs text-gray-500">
+              {{ approval.requesterRole }}
+            </p>
+
+          </div>
+
+
+          <!-- Department -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+            >
+              Department
+            </p>
+
+            <p class="mt-1 text-sm font-medium text-slate-800">
+              {{ approval.department }}
+            </p>
+
+          </div>
+
+
+          <!-- Requested Date -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+            >
+              Requested Date
+            </p>
+
+            <p class="mt-1 text-sm font-medium text-slate-800">
+              {{ approval.requestedDate }}
+            </p>
+
+          </div>
+
+
+          <!-- Approval Level -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+            >
+              Approval Level
+            </p>
+
+            <p class="mt-1 text-sm font-medium text-slate-800">
+              {{ approval.approvalLevel }}
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- Amount -->
+
+        <div
+          class="mt-6 rounded-xl border border-gray-100 bg-gray-50 p-4"
+        >
+
+          <p
+            class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+          >
+            Requested Amount
+          </p>
+
+          <p class="mt-1 text-2xl font-bold text-slate-900">
+            {{ formatCurrency(approval.amount) }}
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- DESCRIPTION -->
+      <!-- ================================================= -->
+
+      <div
+        class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+      >
+
+        <h3 class="text-sm font-semibold text-slate-900">
+          Request Description
+        </h3>
+
+        <p class="mt-3 text-sm leading-6 text-gray-600">
+          {{ approval.description }}
+        </p>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- SUPPORTING DOCUMENTS -->
+      <!-- ================================================= -->
+
+      <div
+        class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+      >
+
+        <div class="mb-4">
+
+          <h3 class="text-sm font-semibold text-slate-900">
+            Supporting Documents
+          </h3>
+
+          <p class="mt-1 text-xs text-gray-500">
+            Documents attached with this request
+          </p>
+
+        </div>
+
+
+        <div class="space-y-2">
+
+          <div
+            *ngFor="let document of approval.supportingDocuments"
+            class="flex items-center justify-between rounded-lg border border-gray-100 px-4 py-3 transition hover:bg-gray-50"
+          >
+
+            <div class="flex items-center gap-3">
+
+              <div
+                class="flex h-9 w-9 items-center justify-center rounded-lg bg-red-50 text-sm"
+              >
+                📄
+              </div>
+
+              <div>
+
+                <p class="text-sm font-medium text-slate-800">
+                  {{ document }}
+                </p>
+
+                <p class="text-[11px] text-gray-500">
+                  Supporting document
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <button
+              type="button"
+              (click)="downloadDocument(document)"
+              class="text-xs font-semibold text-blue-600 hover:text-blue-700"
+            >
+              View
+            </button>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- RIGHT / SIDEBAR -->
+    <!-- =================================================== -->
+
+    <div class="space-y-5">
+
+
+      <!-- ================================================= -->
+      <!-- PRIORITY -->
+      <!-- ================================================= -->
+
+      <div
+        class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+      >
+
+        <div class="flex items-center justify-between">
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+            >
+              Priority
+            </p>
+
+            <p class="mt-1 text-sm font-semibold capitalize text-slate-900">
+              {{ approval.priority }}
+            </p>
+
+          </div>
+
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-50 text-lg"
+          >
+            ⚠️
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- CURRENT APPROVER -->
+      <!-- ================================================= -->
+
+      <div
+        class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+      >
+
+        <p
+          class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+        >
+          Current Approver
+        </p>
+
+        <div class="mt-3 flex items-center gap-3">
+
+          <div
+            class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold text-slate-700"
+          >
+            AS
+          </div>
+
+          <div>
+
+            <p class="text-sm font-semibold text-slate-800">
+              {{ approval.currentApprover }}
+            </p>
+
+            <p class="text-xs text-gray-500">
+              {{ approval.approvalLevel }}
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- APPROVAL TIMELINE -->
+      <!-- ================================================= -->
+
+      <app-approval-timeline
+        [timeline]="approval.timeline"
+      >
+      </app-approval-timeline>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- REQUEST CHANGES MODAL -->
+  <!-- ===================================================== -->
+
+  <app-request-changes
+  [isOpen]="showRequestChanges"
+  [request]="requestChangesData"
+  (closed)="closeRequestChanges()"
+  (submitted)="submitRequestChanges($event)"
+>
+</app-request-changes>
+
+  <!-- ===================================================== -->
+  <!-- APPROVE CONFIRMATION -->
+  <!-- ===================================================== -->
+
+<app-approve-confirmation
+  [approval]="approval"
+  *ngIf="showApproveConfirmation"
+  (confirmed)="confirmApproval()"
+  (cancelled)="closeApproveConfirmation()"
+>
+</app-approve-confirmation>
+
+
+</div>
+

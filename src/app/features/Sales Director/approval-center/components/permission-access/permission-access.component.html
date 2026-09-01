@@ -1,0 +1,591 @@
+<div class="space-y-5">
+
+  <!-- ===================================================== -->
+  <!-- HEADER -->
+  <!-- ===================================================== -->
+
+  <div
+    class="rounded-2xl border border-gray-200
+           bg-white p-5 shadow-sm"
+  >
+    <div
+      class="flex flex-col gap-4
+             lg:flex-row lg:items-center
+             lg:justify-between"
+    >
+
+      <!-- TITLE -->
+      <div class="flex items-start gap-3">
+
+        <div
+          class="flex h-11 w-11 shrink-0
+                 items-center justify-center
+                 rounded-xl bg-indigo-100
+                 text-xl"
+        >
+          🔐
+        </div>
+
+        <div>
+          <h2
+            class="text-lg font-bold text-slate-900"
+          >
+            Permission & Access
+          </h2>
+
+          <p
+            class="mt-1 text-sm text-slate-500"
+          >
+            Review your access level across different
+            business modules.
+          </p>
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- ROLE + MANAGE PERMISSIONS -->
+      <!-- ================================================= -->
+
+      <div class="flex items-center gap-3">
+
+        <!-- ROLE -->
+        <div
+          class="rounded-xl border border-indigo-100
+                 bg-indigo-50 px-4 py-3"
+        >
+          <p
+            class="text-[11px] font-medium
+                   uppercase tracking-wide
+                   text-indigo-500"
+          >
+            Current Role
+          </p>
+
+          <p
+            class="mt-0.5 text-sm font-bold
+                   text-indigo-700"
+          >
+            Sales Director
+          </p>
+        </div>
+
+        <!-- MANAGE PERMISSIONS -->
+        <button
+          type="button"
+          (click)="openPermissionManagement()"
+          class="rounded-xl bg-slate-900
+                 px-4 py-3 text-xs font-semibold
+                 text-white transition
+                 hover:bg-slate-800"
+        >
+          Manage Permissions
+        </button>
+
+      </div>
+
+    </div>
+  </div>
+
+
+
+  <!-- ===================================================== -->
+  <!-- SUMMARY -->
+  <!-- ===================================================== -->
+
+  <div
+    class="grid grid-cols-1 gap-4
+           sm:grid-cols-2"
+  >
+
+    <!-- Allowed -->
+    <div
+      class="rounded-xl border border-emerald-200
+             bg-emerald-50 p-4"
+    >
+      <div class="flex items-center justify-between">
+
+        <div>
+          <p
+            class="text-xs font-medium
+                   text-emerald-600"
+          >
+            Allowed Modules
+          </p>
+
+          <p
+            class="mt-1 text-2xl font-bold
+                   text-emerald-700"
+          >
+            {{ allowedCount }}
+          </p>
+        </div>
+
+        <div
+          class="flex h-10 w-10
+                 items-center justify-center
+                 rounded-lg bg-emerald-100
+                 text-lg"
+        >
+          ✓
+        </div>
+
+      </div>
+    </div>
+
+
+    <!-- Restricted -->
+    <div
+      class="rounded-xl border border-red-200
+             bg-red-50 p-4"
+    >
+      <div class="flex items-center justify-between">
+
+        <div>
+          <p
+            class="text-xs font-medium
+                   text-red-600"
+          >
+            Restricted Modules
+          </p>
+
+          <p
+            class="mt-1 text-2xl font-bold
+                   text-red-700"
+          >
+            {{ restrictedCount }}
+          </p>
+        </div>
+
+        <div
+          class="flex h-10 w-10
+                 items-center justify-center
+                 rounded-lg bg-red-100
+                 text-lg"
+        >
+          🔒
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+
+
+  <!-- ===================================================== -->
+  <!-- PERMISSION MATRIX -->
+  <!-- ===================================================== -->
+
+  <div
+    class="overflow-hidden rounded-2xl
+           border border-gray-200
+           bg-white shadow-sm"
+  >
+
+    <!-- Table Header -->
+    <div
+      class="border-b border-gray-100
+             px-5 py-4"
+    >
+
+      <h3
+        class="text-base font-bold
+               text-slate-900"
+      >
+        Access Matrix
+      </h3>
+
+      <p
+        class="mt-1 text-xs text-slate-500"
+      >
+        Permissions assigned to your current role.
+      </p>
+
+    </div>
+
+
+    <!-- Table -->
+    <div class="overflow-x-auto">
+
+      <table
+        class="w-full min-w-[850px]
+               text-left"
+      >
+
+        <thead class="bg-slate-50">
+
+          <tr>
+
+            <th
+              class="px-5 py-3
+                     text-xs font-semibold
+                     uppercase tracking-wide
+                     text-slate-500"
+            >
+              Module
+            </th>
+
+            <th
+              class="px-4 py-3 text-center
+                     text-xs font-semibold
+                     uppercase tracking-wide
+                     text-slate-500"
+            >
+              View
+            </th>
+
+            <th
+              class="px-4 py-3 text-center
+                     text-xs font-semibold
+                     uppercase tracking-wide
+                     text-slate-500"
+            >
+              Create
+            </th>
+
+            <th
+              class="px-4 py-3 text-center
+                     text-xs font-semibold
+                     uppercase tracking-wide
+                     text-slate-500"
+            >
+              Edit
+            </th>
+
+            <th
+              class="px-4 py-3 text-center
+                     text-xs font-semibold
+                     uppercase tracking-wide
+                     text-slate-500"
+            >
+              Approve
+            </th>
+
+            <th
+              class="px-4 py-3 text-center
+                     text-xs font-semibold
+                     uppercase tracking-wide
+                     text-slate-500"
+            >
+              Delete
+            </th>
+
+            <th
+              class="px-5 py-3 text-right
+                     text-xs font-semibold
+                     uppercase tracking-wide
+                     text-slate-500"
+            >
+              Status
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody
+          class="divide-y divide-gray-100"
+        >
+
+          <tr
+            *ngFor="let permission of permissions"
+            class="transition hover:bg-slate-50"
+          >
+
+            <!-- Module -->
+            <td class="px-5 py-4">
+
+              <p
+                class="text-sm font-semibold
+                       text-slate-800"
+              >
+                {{ permission.module }}
+              </p>
+
+              <p
+                class="mt-0.5 text-xs
+                       text-slate-500"
+              >
+                {{ permission.description }}
+              </p>
+
+            </td>
+
+
+            <!-- View -->
+            <td class="px-4 py-4 text-center">
+
+              <span
+                *ngIf="permission.view"
+                class="text-lg text-emerald-600"
+              >
+                ✓
+              </span>
+
+              <span
+                *ngIf="!permission.view"
+                class="text-lg text-slate-300"
+              >
+                —
+              </span>
+
+            </td>
+
+
+            <!-- Create -->
+            <td class="px-4 py-4 text-center">
+
+              <span
+                *ngIf="permission.create"
+                class="text-lg text-emerald-600"
+              >
+                ✓
+              </span>
+
+              <span
+                *ngIf="!permission.create"
+                class="text-lg text-slate-300"
+              >
+                —
+              </span>
+
+            </td>
+
+
+            <!-- Edit -->
+            <td class="px-4 py-4 text-center">
+
+              <span
+                *ngIf="permission.edit"
+                class="text-lg text-emerald-600"
+              >
+                ✓
+              </span>
+
+              <span
+                *ngIf="!permission.edit"
+                class="text-lg text-slate-300"
+              >
+                —
+              </span>
+
+            </td>
+
+
+            <!-- Approve -->
+            <td class="px-4 py-4 text-center">
+
+              <span
+                *ngIf="permission.approve"
+                class="text-lg text-emerald-600"
+              >
+                ✓
+              </span>
+
+              <span
+                *ngIf="!permission.approve"
+                class="text-lg text-slate-300"
+              >
+                —
+              </span>
+
+            </td>
+
+
+            <!-- Delete -->
+            <td class="px-4 py-4 text-center">
+
+              <span
+                *ngIf="permission.delete"
+                class="text-lg text-emerald-600"
+              >
+                ✓
+              </span>
+
+              <span
+                *ngIf="!permission.delete"
+                class="text-lg text-slate-300"
+              >
+                —
+              </span>
+
+            </td>
+
+
+            <!-- Status -->
+            <td class="px-5 py-4 text-right">
+
+              <span
+                *ngIf="permission.status === 'allowed'"
+                class="inline-flex items-center
+                       gap-1.5 rounded-full
+                       bg-emerald-50
+                       px-3 py-1
+                       text-xs font-semibold
+                       text-emerald-700"
+              >
+
+                <span
+                  class="h-1.5 w-1.5
+                         rounded-full
+                         bg-emerald-500"
+                ></span>
+
+                Allowed
+
+              </span>
+
+
+              <span
+                *ngIf="permission.status === 'restricted'"
+                class="inline-flex items-center
+                       gap-1.5 rounded-full
+                       bg-red-50
+                       px-3 py-1
+                       text-xs font-semibold
+                       text-red-700"
+              >
+                🔒 Restricted
+              </span>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- ===================================================== -->
+  <!-- SECURITY NOTE -->
+  <!-- ===================================================== -->
+
+  <div
+    class="flex items-start gap-3
+           rounded-xl border border-blue-200
+           bg-blue-50 p-4"
+  >
+
+    <span class="text-lg">
+      ℹ️
+    </span>
+
+    <div>
+
+      <p
+        class="text-sm font-semibold
+               text-blue-800"
+      >
+        Access Control Notice
+      </p>
+
+      <p
+        class="mt-1 text-xs leading-5
+               text-blue-700"
+      >
+        Permissions are controlled by your assigned role.
+        Restricted modules cannot be accessed unless
+        additional privileges are granted by an authorized
+        administrator.
+      </p>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+
+<!-- ===================================================== -->
+<!-- PERMISSION MANAGEMENT MODAL -->
+<!-- ===================================================== -->
+
+<div
+  *ngIf="showPermissionManagement"
+  class="fixed inset-0 z-50 flex items-center
+         justify-center bg-slate-900/50
+         px-4 py-6"
+>
+
+  <!-- MODAL -->
+  <div
+    class="relative flex max-h-[90vh]
+           w-full max-w-6xl
+           flex-col overflow-hidden
+           rounded-2xl bg-white shadow-2xl"
+  >
+
+    <!-- ================================================= -->
+    <!-- MODAL HEADER -->
+    <!-- ================================================= -->
+
+    <div
+      class="flex shrink-0 items-center
+             justify-between
+             border-b border-gray-100
+             px-5 py-4"
+    >
+
+      <div>
+
+        <h3
+          class="text-base font-bold
+                 text-slate-900"
+        >
+          Permission Management
+        </h3>
+
+        <p
+          class="mt-1 text-xs text-slate-500"
+        >
+          Manage permissions across business modules.
+        </p>
+
+      </div>
+
+
+      <!-- CLOSE -->
+      <button
+        type="button"
+        (click)="closePermissionManagement()"
+        class="flex h-9 w-9 items-center
+               justify-center rounded-lg
+               text-slate-500
+               transition
+               hover:bg-slate-100
+               hover:text-slate-800"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- MODAL BODY -->
+    <!-- ================================================= -->
+
+    <div
+      class="overflow-y-auto p-5"
+    >
+
+      <app-permission-management
+        (permissionsChanged)="handlePermissionsChanged($event)"
+      >
+      </app-permission-management>
+
+    </div>
+
+  </div>
+
+</div>

@@ -1,0 +1,279 @@
+<!-- ===================================================== -->
+<!-- APPROVE CONFIRMATION MODAL -->
+<!-- ===================================================== -->
+
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center
+         bg-slate-900/50 p-4 backdrop-blur-sm"
+  (click)="onClose()"
+>
+  <!-- ===================================================== -->
+  <!-- MODAL -->
+  <!-- ===================================================== -->
+
+  <div
+    class="w-full max-w-md overflow-hidden
+           rounded-2xl bg-white shadow-2xl"
+    (click)="$event.stopPropagation()"
+  >
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    <div
+      class="flex items-start justify-between
+             border-b border-slate-100
+             px-6 py-5"
+    >
+
+      <div class="flex items-center gap-3">
+
+        <div
+          class="flex h-11 w-11 items-center justify-center
+                 rounded-xl bg-emerald-100
+                 text-xl text-emerald-600"
+        >
+          {{ content.icon }}
+        </div>
+
+        <div>
+
+          <h2
+            class="text-lg font-bold text-slate-900"
+          >
+            {{ content.title }}
+          </h2>
+
+          <p
+            class="mt-1 text-xs text-slate-500"
+          >
+            Approval confirmation
+          </p>
+
+        </div>
+
+      </div>
+
+      <button
+        type="button"
+        class="flex h-8 w-8 items-center justify-center
+               rounded-lg text-slate-400
+               transition hover:bg-slate-100
+               hover:text-slate-700"
+        (click)="onClose()"
+        aria-label="Close"
+      >
+        ✕
+      </button>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- CONTENT -->
+    <!-- ===================================================== -->
+
+    <div class="px-6 py-5">
+
+      <p
+        class="text-sm leading-6 text-slate-600"
+      >
+        {{ content.description }}
+      </p>
+
+      <!-- ================================================= -->
+      <!-- REQUEST DETAILS -->
+      <!-- ================================================= -->
+
+      <div
+        *ngIf="approval"
+        class="mt-5 rounded-xl
+               border border-slate-200
+               bg-slate-50 p-4"
+      >
+
+        <!-- Request -->
+
+        <div class="mb-4">
+
+          <p
+            class="text-[11px] font-medium
+                   uppercase tracking-wide
+                   text-slate-400"
+          >
+            Request
+          </p>
+
+          <p
+            class="mt-1 text-sm font-semibold
+                   text-slate-900"
+          >
+            {{ approval.requestTitle }}
+          </p>
+
+        </div>
+
+        <!-- Details Grid -->
+
+        <div class="grid grid-cols-2 gap-4">
+
+          <!-- Request ID -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium
+                     uppercase tracking-wide
+                     text-slate-400"
+            >
+              Request ID
+            </p>
+
+            <p
+              class="mt-1 text-sm font-semibold
+                     text-slate-700"
+            >
+              {{ approval.id }}
+            </p>
+
+          </div>
+
+          <!-- Category -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium
+                     uppercase tracking-wide
+                     text-slate-400"
+            >
+              Category
+            </p>
+
+            <p
+              class="mt-1 text-sm font-semibold
+                     text-slate-700"
+            >
+              {{ approval.category }}
+            </p>
+
+          </div>
+
+          <!-- Requested By -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium
+                     uppercase tracking-wide
+                     text-slate-400"
+            >
+              Requested By
+            </p>
+
+            <p
+              class="mt-1 text-sm font-semibold
+                     text-slate-700"
+            >
+              {{ approval.requestedBy }}
+            </p>
+
+          </div>
+
+          <!-- Amount -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium
+                     uppercase tracking-wide
+                     text-slate-400"
+            >
+              Amount
+            </p>
+
+            <p
+              class="mt-1 text-sm font-bold
+                     text-emerald-600"
+            >
+              {{ formatAmount(approval.amount) }}
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- ===================================================== -->
+      <!-- WARNING -->
+      <!-- ===================================================== -->
+
+      <div
+        class="mt-4 flex gap-3
+               rounded-xl border border-amber-200
+               bg-amber-50 p-4"
+      >
+
+        <div class="text-base">
+          ⚠️
+        </div>
+
+        <p
+          class="text-xs leading-5
+                 text-amber-800"
+        >
+          {{ content.warning }}
+        </p>
+
+      </div>
+
+    </div>
+
+    <!-- ===================================================== -->
+    <!-- FOOTER -->
+    <!-- ===================================================== -->
+
+    <div
+      class="flex items-center justify-end gap-3
+             border-t border-slate-100
+             bg-slate-50 px-6 py-4"
+    >
+
+      <button
+        type="button"
+        class="rounded-xl border
+               border-slate-200
+               bg-white px-4 py-2.5
+               text-sm font-semibold
+               text-slate-600
+               transition
+               hover:bg-slate-100"
+        (click)="onClose()"
+      >
+        {{ content.cancelLabel }}
+      </button>
+
+      <button
+        type="button"
+        class="rounded-xl bg-emerald-600
+               px-5 py-2.5
+               text-sm font-semibold
+               text-white shadow-sm
+               transition
+               hover:bg-emerald-700
+               focus:outline-none
+               focus:ring-2
+               focus:ring-emerald-500
+               focus:ring-offset-2"
+        (click)="onConfirm()"
+      >
+        ✓
+        {{ content.confirmLabel }}
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

@@ -13,12 +13,12 @@ export const SALES_DIRECTOR_ROUTES: Routes = [
         .then(m => m.SalesDirectorDashboardComponent),
   },
 
-//   {
-//     path: 'approvals',
-//     loadComponent: () =>
-//       import('./approval-center/approval-center.component')
-//         .then(m => m.ApprovalCenterComponent),
-//   },
+  {
+    path: 'approvals',
+    loadComponent: () =>
+      import('./approval-center/pages/approval-center.component')
+        .then(m => m.ApprovalCenterComponent),
+  },
 
 //   {
 //     path: 'order-tracking',

@@ -1,0 +1,373 @@
+
+<div class="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- ===================================================== -->
+  <!-- APPROVAL QUEUE -->
+  <!-- ===================================================== -->
+
+  <div *ngIf="!showApprovalDetail">
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    <div
+      class="flex flex-col gap-3 border-b border-gray-100 px-5 py-4
+             sm:flex-row sm:items-center sm:justify-between"
+    >
+      <div>
+        <div class="flex items-center gap-2">
+
+          <h3 class="text-sm font-semibold text-slate-900">
+            Pending Approval Queue
+          </h3>
+
+          <span
+            class="rounded-full bg-amber-50 px-2 py-0.5
+                   text-[11px] font-semibold text-amber-700"
+          >
+            {{ requests.length }} Pending
+          </span>
+
+        </div>
+
+        <p class="mt-1 text-xs text-slate-500">
+          Requests waiting for your review and decision
+        </p>
+      </div>
+
+      <button
+        type="button"
+        (click)="viewAllRequests()"
+        class="rounded-lg border border-gray-200 px-3 py-2
+               text-xs font-medium text-slate-600
+               transition hover:bg-gray-50 hover:text-slate-900"
+      >
+        View All
+      </button>
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- QUEUE -->
+    <!-- ===================================================== -->
+
+    <div class="divide-y divide-gray-100">
+
+      <div
+        *ngFor="let request of requests"
+        class="px-5 py-4 transition hover:bg-slate-50/70"
+      >
+
+        <div
+          class="flex flex-col gap-4
+                 lg:flex-row
+                 lg:items-center
+                 lg:justify-between"
+        >
+
+          <!-- ================================================= -->
+          <!-- REQUEST INFORMATION -->
+          <!-- ================================================= -->
+
+          <div class="flex min-w-0 items-start gap-3">
+
+            <!-- ICON -->
+
+            <div
+              class="flex h-10 w-10 shrink-0 items-center justify-center
+                     rounded-lg bg-slate-100 text-base"
+            >
+              {{ request.icon }}
+            </div>
+
+
+            <!-- DETAILS -->
+
+            <div class="min-w-0">
+
+              <div class="flex flex-wrap items-center gap-2">
+
+                <h4
+                  class="truncate text-sm font-semibold text-slate-800"
+                >
+                  {{ request.title }}
+                </h4>
+
+
+                <!-- HIGH PRIORITY -->
+
+                <span
+                  *ngIf="request.priority === 'high'"
+                  class="rounded-full bg-red-50 px-2 py-0.5
+                         text-[10px] font-semibold text-red-700"
+                >
+                  High Priority
+                </span>
+
+
+                <!-- MEDIUM PRIORITY -->
+
+                <span
+                  *ngIf="request.priority === 'medium'"
+                  class="rounded-full bg-amber-50 px-2 py-0.5
+                         text-[10px] font-semibold text-amber-700"
+                >
+                  Medium
+                </span>
+
+
+                <!-- LOW PRIORITY -->
+
+                <span
+                  *ngIf="request.priority === 'low'"
+                  class="rounded-full bg-slate-100 px-2 py-0.5
+                         text-[10px] font-semibold text-slate-600"
+                >
+                  Low
+                </span>
+
+              </div>
+
+
+              <!-- DESCRIPTION -->
+
+              <p class="mt-1 text-xs text-slate-500">
+                {{ request.description }}
+              </p>
+
+
+              <!-- META -->
+
+              <div
+                class="mt-2 flex flex-wrap items-center
+                       gap-x-4 gap-y-1"
+              >
+
+                <span class="text-[11px] text-slate-400">
+                  {{ request.id }}
+                </span>
+
+                <span class="text-[11px] text-slate-400">
+                  {{ request.category }}
+                </span>
+
+                <span class="text-[11px] text-slate-500">
+                  Requested by
+
+                  <span class="font-medium text-slate-700">
+                    {{ request.requestedBy }}
+                  </span>
+                </span>
+
+                <span class="text-[11px] text-slate-400">
+                  {{ request.requestedDate }}
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- ================================================= -->
+          <!-- AMOUNT + ACTIONS -->
+          <!-- ================================================= -->
+
+          <div
+            class="flex shrink-0 items-center justify-between
+                   gap-5 lg:justify-end"
+          >
+
+            <!-- AMOUNT -->
+
+            <div class="text-left lg:text-right">
+
+              <p
+                class="text-[10px] uppercase tracking-wide
+                       text-slate-400"
+              >
+                Amount
+              </p>
+
+              <p
+                class="mt-0.5 text-sm font-bold text-slate-800"
+              >
+                {{ formatCurrency(request.amount) }}
+              </p>
+
+            </div>
+
+
+            <!-- ACTIONS -->
+
+            <div class="flex items-center gap-2">
+
+              <!-- ================================================= -->
+              <!-- REVIEW -->
+              <!-- ================================================= -->
+
+              <button
+                type="button"
+                (click)="reviewRequest(request)"
+                class="rounded-lg border border-gray-200 bg-white
+                       px-3 py-2 text-xs font-medium text-slate-600
+                       transition hover:bg-gray-50
+                       hover:text-slate-900"
+              >
+                Review
+              </button>
+
+
+              <!-- ================================================= -->
+              <!-- REJECT -->
+              <!-- ================================================= -->
+
+              <button
+                type="button"
+                (click)="rejectRequest(request)"
+                class="rounded-lg border border-red-200 bg-red-50
+                       px-3 py-2 text-xs font-medium text-red-600
+                       transition hover:bg-red-100"
+              >
+                Reject
+              </button>
+
+
+              <!-- ================================================= -->
+              <!-- APPROVE -->
+              <!-- ================================================= -->
+
+              <button
+                type="button"
+                (click)="approveRequest(request)"
+                class="rounded-lg bg-slate-900 px-3 py-2
+                       text-xs font-medium text-white
+                       transition hover:bg-slate-800"
+              >
+                Approve
+              </button>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- EMPTY STATE -->
+    <!-- ===================================================== -->
+
+    <div
+      *ngIf="requests.length === 0"
+      class="flex flex-col items-center justify-center px-5 py-12"
+    >
+
+      <div
+        class="flex h-12 w-12 items-center justify-center
+               rounded-full bg-emerald-50 text-xl"
+      >
+        ✓
+      </div>
+
+      <h4
+        class="mt-3 text-sm font-semibold text-slate-800"
+      >
+        All caught up!
+      </h4>
+
+      <p class="mt-1 text-xs text-slate-500">
+        There are no pending approval requests.
+      </p>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- FOOTER -->
+    <!-- ===================================================== -->
+
+    <div
+      *ngIf="requests.length > 0"
+      class="flex items-center justify-between
+             border-t border-gray-100
+             bg-gray-50/50 px-5 py-3"
+    >
+
+      <p class="text-xs text-slate-500">
+
+        Showing
+
+        <span class="font-medium text-slate-700">
+          {{ requests.length }}
+        </span>
+
+        pending requests
+
+      </p>
+
+      <button
+        type="button"
+        (click)="viewAllRequests()"
+        class="text-xs font-medium text-slate-600
+               transition hover:text-slate-900"
+      >
+        View Complete Queue →
+      </button>
+
+    </div>
+
+  </div>
+
+
+ 
+<!-- ===================================================== -->
+<!-- APPROVAL DETAIL -->
+<!-- ===================================================== -->
+
+<div *ngIf="showApprovalDetail && selectedDetailRequest">
+
+  <app-approval-detail
+    [approval]="selectedDetailRequest"
+    (back)="closeApprovalDetail()"
+  >
+  </app-approval-detail>
+
+</div>
+
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- APPROVE CONFIRMATION MODAL -->
+<!-- ===================================================== -->
+
+<app-approve-confirmation
+  *ngIf="showApproveConfirmation"
+  [approval]="selectedRequest"
+  (confirmed)="confirmApproval()"
+  (cancelled)="closeApproveConfirmation()"
+>
+</app-approve-confirmation>
+
+
+<!-- ===================================================== -->
+<!-- REJECT REQUEST MODAL -->
+<!-- ===================================================== -->
+
+<app-reject-request
+  *ngIf="showRejectRequest"
+  [isOpen]="showRejectRequest"
+  [request]="selectedRejectRequest"
+  (close)="closeRejectRequest()"
+  (reject)="handleReject($event)"
+>
+</app-reject-request>
+

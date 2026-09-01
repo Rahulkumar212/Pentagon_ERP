@@ -22,7 +22,7 @@ export const SALES_DIRECTOR_SIDEBAR: SidebarModule = {
         {
           label: 'Approval Center',
           icon: '✅',
-          route: '/sales-director/approvals',
+          route: '/approvals',
         },
         {
           label: 'Order Tracking',

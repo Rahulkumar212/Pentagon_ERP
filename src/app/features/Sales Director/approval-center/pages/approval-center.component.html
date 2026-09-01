@@ -1,0 +1,272 @@
+
+<div class="min-h-screen bg-slate-50 p-6">
+
+  <!-- ===================================================== -->
+  <!-- PAGE HEADER -->
+  <!-- ===================================================== -->
+
+  <div
+    class="mb-6 flex flex-col gap-4
+           lg:flex-row lg:items-center
+           lg:justify-between"
+  >
+
+    <div>
+
+      <div class="flex items-center gap-3">
+
+        <div
+          class="flex h-11 w-11 items-center
+                 justify-center rounded-xl
+                 bg-indigo-100 text-xl"
+        >
+          ✅
+        </div>
+
+        <div>
+
+          <h1 class="text-2xl font-bold text-slate-900">
+            Approval Center
+          </h1>
+
+          <p class="mt-1 text-sm text-slate-500">
+            Review, approve and manage pending business requests
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Header Status -->
+
+    <div
+      class="inline-flex w-fit items-center gap-2
+             rounded-full border border-amber-200
+             bg-amber-50 px-4 py-2
+             text-sm font-medium text-amber-700"
+    >
+
+      <span
+        class="h-2 w-2 rounded-full bg-amber-500"
+      ></span>
+
+      Pending approvals require your attention
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- SUMMARY CARDS -->
+  <!-- ===================================================== -->
+
+  <div class="mb-6">
+
+    <app-approval-summary></app-approval-summary>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- FILTERS -->
+  <!-- ===================================================== -->
+
+  <div class="mb-6">
+
+    <app-approval-filters></app-approval-filters>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- TABS -->
+  <!-- ===================================================== -->
+
+  <div
+    class="mb-5 flex flex-wrap items-center gap-1
+           rounded-xl border border-gray-200
+           bg-white p-1 shadow-sm"
+  >
+
+    <!-- =================================================== -->
+    <!-- QUEUE TAB -->
+    <!-- =================================================== -->
+
+    <button
+      type="button"
+      (click)="setActiveTab('queue')"
+
+      [class.bg-indigo-600]="activeTab === 'queue'"
+      [class.text-white]="activeTab === 'queue'"
+      [class.shadow-sm]="activeTab === 'queue'"
+      [class.text-slate-600]="activeTab !== 'queue'"
+
+      class="flex items-center gap-2
+             rounded-lg px-5 py-2.5
+             text-sm font-semibold
+             transition
+             hover:bg-slate-100"
+    >
+
+      <span>⏳</span>
+
+      Pending Queue
+
+    </button>
+
+
+    <!-- =================================================== -->
+    <!-- HISTORY TAB -->
+    <!-- =================================================== -->
+
+    <button
+      type="button"
+      (click)="setActiveTab('history')"
+
+      [class.bg-indigo-600]="activeTab === 'history'"
+      [class.text-white]="activeTab === 'history'"
+      [class.shadow-sm]="activeTab === 'history'"
+      [class.text-slate-600]="activeTab !== 'history'"
+
+      class="flex items-center gap-2
+             rounded-lg px-5 py-2.5
+             text-sm font-semibold
+             transition
+             hover:bg-slate-100"
+    >
+
+      <span>🕘</span>
+
+      Approval History
+
+    </button>
+
+
+    <!-- =================================================== -->
+    <!-- PERMISSION TAB -->
+    <!-- =================================================== -->
+
+    <button
+      type="button"
+      (click)="setActiveTab('permissions')"
+
+      [class.bg-indigo-600]="activeTab === 'permissions'"
+      [class.text-white]="activeTab === 'permissions'"
+      [class.shadow-sm]="activeTab === 'permissions'"
+      [class.text-slate-600]="activeTab !== 'permissions'"
+
+      class="flex items-center gap-2
+             rounded-lg px-5 py-2.5
+             text-sm font-semibold
+             transition
+             hover:bg-slate-100"
+    >
+
+      <span>🔐</span>
+
+      Permission Access
+
+    </button>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- CONTENT -->
+  <!-- ===================================================== -->
+
+  <div>
+
+
+    <!-- =================================================== -->
+    <!-- PENDING QUEUE -->
+    <!-- =================================================== -->
+
+    <div *ngIf="activeTab === 'queue'">
+
+      <div class="mb-4">
+
+        <h2
+          class="text-lg font-bold
+                 text-slate-900"
+        >
+          Pending Approvals
+        </h2>
+
+        <p
+          class="mt-1 text-sm text-slate-500"
+        >
+          Requests waiting for your review and decision.
+        </p>
+
+      </div>
+
+      <app-approval-queue></app-approval-queue>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- APPROVAL HISTORY -->
+    <!-- =================================================== -->
+
+    <div *ngIf="activeTab === 'history'">
+
+      <div class="mb-4">
+
+        <h2
+          class="text-lg font-bold
+                 text-slate-900"
+        >
+          Approval History
+        </h2>
+
+        <p
+          class="mt-1 text-sm text-slate-500"
+        >
+          Previously processed approval requests.
+        </p>
+
+      </div>
+
+      <app-approval-history></app-approval-history>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- PERMISSION ACCESS -->
+    <!-- =================================================== -->
+
+    <div *ngIf="activeTab === 'permissions'">
+
+      <div class="mb-4">
+
+        <h2
+          class="text-lg font-bold
+                 text-slate-900"
+        >
+          Permission & Access
+        </h2>
+
+        <p
+          class="mt-1 text-sm text-slate-500"
+        >
+          Review your access and permissions
+          across different business modules.
+        </p>
+
+      </div>
+
+      <app-permission-access></app-permission-access>
+
+    </div>
+
+  </div>
+
+</div>
+

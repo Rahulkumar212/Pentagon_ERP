@@ -1,0 +1,365 @@
+
+<div
+  *ngIf="isOpen"
+  class="fixed inset-0 z-50 flex items-center justify-center
+         bg-slate-900/50 p-4 backdrop-blur-sm"
+  (click)="onClose()"
+>
+
+  <!-- ===================================================== -->
+  <!-- MODAL -->
+  <!-- ===================================================== -->
+
+  <div
+    class="w-full max-w-lg overflow-hidden
+           rounded-2xl bg-white shadow-2xl"
+    (click)="$event.stopPropagation()"
+  >
+
+    <!-- ===================================================== -->
+    <!-- HEADER -->
+    <!-- ===================================================== -->
+
+    <div
+      class="flex items-start justify-between
+             border-b border-slate-100
+             px-6 py-5"
+    >
+
+      <div class="flex items-center gap-3">
+
+        <div
+          class="flex h-11 w-11 items-center justify-center
+                 rounded-xl bg-red-100
+                 text-lg text-red-600"
+        >
+          {{ content.icon }}
+        </div>
+
+        <div>
+
+          <h2
+            class="text-lg font-bold text-slate-900"
+          >
+            {{ content.title }}
+          </h2>
+
+          <p
+            class="mt-1 text-xs text-slate-500"
+          >
+            Approval decision
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="flex h-8 w-8 items-center justify-center
+               rounded-lg text-slate-400
+               transition hover:bg-slate-100
+               hover:text-slate-700"
+        (click)="onClose()"
+        aria-label="Close"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- CONTENT -->
+    <!-- ===================================================== -->
+
+    <div class="px-6 py-5">
+
+      <p
+        class="text-sm leading-6 text-slate-600"
+      >
+        {{ content.description }}
+      </p>
+
+
+      <!-- ===================================================== -->
+      <!-- REQUEST DETAILS -->
+      <!-- ===================================================== -->
+
+      <div
+        *ngIf="request"
+        class="mt-5 rounded-xl
+               border border-slate-200
+               bg-slate-50 p-4"
+      >
+
+        <div class="mb-4">
+
+          <p
+            class="text-[11px] font-medium
+                   uppercase tracking-wide
+                   text-slate-400"
+          >
+            Request
+          </p>
+
+          <p
+            class="mt-1 text-sm font-semibold
+                   text-slate-900"
+          >
+            {{ request.requestTitle }}
+          </p>
+
+        </div>
+
+
+        <div class="grid grid-cols-2 gap-4">
+
+          <!-- Request ID -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium
+                     uppercase tracking-wide
+                     text-slate-400"
+            >
+              Request ID
+            </p>
+
+            <p
+              class="mt-1 text-sm font-semibold
+                     text-slate-700"
+            >
+              {{ request.id }}
+            </p>
+
+          </div>
+
+
+          <!-- Category -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium
+                     uppercase tracking-wide
+                     text-slate-400"
+            >
+              Category
+            </p>
+
+            <p
+              class="mt-1 text-sm font-semibold
+                     text-slate-700"
+            >
+              {{ request.category }}
+            </p>
+
+          </div>
+
+
+          <!-- Requested By -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium
+                     uppercase tracking-wide
+                     text-slate-400"
+            >
+              Requested By
+            </p>
+
+            <p
+              class="mt-1 text-sm font-semibold
+                     text-slate-700"
+            >
+              {{ request.requestedBy }}
+            </p>
+
+          </div>
+
+
+          <!-- Amount -->
+
+          <div>
+
+            <p
+              class="text-[11px] font-medium
+                     uppercase tracking-wide
+                     text-slate-400"
+            >
+              Amount
+            </p>
+
+            <p
+              class="mt-1 text-sm font-bold
+                     text-slate-900"
+            >
+              {{ formatAmount(request.amount) }}
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================== -->
+      <!-- QUICK REASONS -->
+      <!-- ===================================================== -->
+
+      <div class="mt-5">
+
+        <label
+          class="text-sm font-semibold text-slate-800"
+        >
+          Reason for rejection
+          <span class="text-red-500">*</span>
+        </label>
+
+
+        <div
+          class="mt-3 grid grid-cols-1 gap-2
+                 sm:grid-cols-2"
+        >
+
+          <button
+            *ngFor="let reason of rejectionReasons"
+            type="button"
+            (click)="selectReason(reason)"
+            [class.border-red-300]="selectedReason === reason"
+            [class.bg-red-50]="selectedReason === reason"
+            [class.text-red-700]="selectedReason === reason"
+            [class.border-slate-200]="selectedReason !== reason"
+            [class.bg-white]="selectedReason !== reason"
+            [class.text-slate-600]="selectedReason !== reason"
+            class="rounded-lg border px-3 py-2.5
+                   text-left text-xs font-medium
+                   transition hover:border-red-200
+                   hover:bg-red-50"
+          >
+            {{ reason }}
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- ===================================================== -->
+      <!-- CUSTOM REASON -->
+      <!-- ===================================================== -->
+
+      <div
+        *ngIf="selectedReason === 'Other'"
+        class="mt-4"
+      >
+
+        <label
+          class="text-sm font-semibold text-slate-800"
+        >
+          Specify reason
+          <span class="text-red-500">*</span>
+        </label>
+
+        <textarea
+          rows="3"
+          [value]="customReason"
+          (input)="onCustomReasonChange($any($event.target).value)"
+          placeholder="Enter the reason for rejection..."
+          class="mt-2 w-full resize-none rounded-xl
+                 border border-slate-200
+                 px-4 py-3 text-sm
+                 text-slate-700
+                 outline-none
+                 transition
+                 placeholder:text-slate-400
+                 focus:border-red-400
+                 focus:ring-2
+                 focus:ring-red-100"
+        ></textarea>
+
+      </div>
+
+
+      <!-- ===================================================== -->
+      <!-- WARNING -->
+      <!-- ===================================================== -->
+
+      <div
+        class="mt-4 flex gap-3
+               rounded-xl border border-red-200
+               bg-red-50 p-4"
+      >
+
+        <div class="text-base">
+          ⚠️
+        </div>
+
+        <p
+          class="text-xs leading-5 text-red-700"
+        >
+          This rejection will be recorded in the approval
+          history and the requester may be notified.
+        </p>
+
+      </div>
+
+    </div>
+
+
+    <!-- ===================================================== -->
+    <!-- FOOTER -->
+    <!-- ===================================================== -->
+
+    <div
+      class="flex items-center justify-end gap-3
+             border-t border-slate-100
+             bg-slate-50 px-6 py-4"
+    >
+
+      <button
+        type="button"
+        class="rounded-xl border
+               border-slate-200
+               bg-white px-4 py-2.5
+               text-sm font-semibold
+               text-slate-600
+               transition hover:bg-slate-100"
+        (click)="onClose()"
+      >
+        {{ content.cancelLabel }}
+      </button>
+
+
+      <button
+        type="button"
+        [disabled]="!isValid"
+        [class.cursor-not-allowed]="!isValid"
+        [class.opacity-50]="!isValid"
+        class="rounded-xl bg-red-600
+               px-5 py-2.5
+               text-sm font-semibold
+               text-white shadow-sm
+               transition
+               hover:bg-red-700
+               focus:outline-none
+               focus:ring-2
+               focus:ring-red-500
+               focus:ring-offset-2"
+        (click)="onReject()"
+      >
+        ✕
+        {{ content.confirmLabel }}
+      </button>
+
+    </div>
+
+  </div>
+
+</div>
+

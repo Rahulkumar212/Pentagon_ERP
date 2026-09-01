@@ -1,0 +1,327 @@
+
+<div
+  class="w-full
+         rounded-xl
+         border border-gray-200
+         bg-white
+         shadow-sm">
+
+  <!-- ===================================================== -->
+  <!-- HEADER -->
+  <!-- ===================================================== -->
+
+  <div
+    class="flex items-center justify-between
+           border-b border-gray-100
+           px-5 py-4">
+
+    <div>
+      <h3
+        class="text-sm font-semibold text-slate-900">
+        Approval Requests
+      </h3>
+
+      <p
+        class="mt-1 text-xs text-slate-500">
+        Filter and review requests requiring your attention
+      </p>
+    </div>
+
+    <button
+      type="button"
+      (click)="clearFilters()"
+      class="text-xs font-medium
+             text-slate-500
+             transition
+             hover:text-slate-900">
+
+      Clear Filters
+    </button>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- FILTER AREA -->
+  <!-- ===================================================== -->
+
+  <div
+    class="grid grid-cols-1
+           gap-4
+           p-5
+           md:grid-cols-2
+           lg:grid-cols-5">
+
+
+    <!-- ================================================= -->
+    <!-- SEARCH -->
+    <!-- ================================================= -->
+
+    <div class="lg:col-span-1">
+
+      <label
+        class="mb-1.5 block
+               text-xs font-medium
+               text-slate-600">
+
+        Search
+
+      </label>
+
+      <div class="relative">
+
+        <span
+          class="pointer-events-none
+                 absolute left-3 top-1/2
+                 -translate-y-1/2
+                 text-sm text-slate-400">
+
+          🔍
+
+        </span>
+
+        <input
+          type="text"
+          [(ngModel)]="filters.search"
+          (ngModelChange)="onFilterChange()"
+          placeholder="Search requests..."
+          class="w-full rounded-lg
+                 border border-gray-200
+                 bg-gray-50
+                 py-2.5 pl-9 pr-3
+                 text-sm text-slate-700
+                 outline-none
+                 transition
+                 focus:border-slate-400
+                 focus:bg-white
+                 focus:ring-2
+                 focus:ring-slate-100" />
+
+      </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- CATEGORY -->
+    <!-- ================================================= -->
+
+    <div>
+
+      <label
+        class="mb-1.5 block
+               text-xs font-medium
+               text-slate-600">
+
+        Category
+
+      </label>
+
+      <select
+        [(ngModel)]="filters.category"
+        (ngModelChange)="onFilterChange()"
+        class="w-full rounded-lg
+               border border-gray-200
+               bg-gray-50
+               px-3 py-2.5
+               text-sm text-slate-700
+               outline-none
+               transition
+               focus:border-slate-400
+               focus:bg-white
+               focus:ring-2
+               focus:ring-slate-100">
+
+        <option value="all">
+          All Categories
+        </option>
+
+        <option value="sales">
+          Sales
+        </option>
+
+        <option value="purchase">
+          Purchase
+        </option>
+
+        <option value="expense">
+          Expense
+        </option>
+
+        <option value="discount">
+          Discount
+        </option>
+
+        <option value="order">
+          Order
+        </option>
+
+        <option value="leave">
+          Leave
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- PRIORITY -->
+    <!-- ================================================= -->
+
+    <div>
+
+      <label
+        class="mb-1.5 block
+               text-xs font-medium
+               text-slate-600">
+
+        Priority
+
+      </label>
+
+      <select
+        [(ngModel)]="filters.priority"
+        (ngModelChange)="onFilterChange()"
+        class="w-full rounded-lg
+               border border-gray-200
+               bg-gray-50
+               px-3 py-2.5
+               text-sm text-slate-700
+               outline-none
+               transition
+               focus:border-slate-400
+               focus:bg-white
+               focus:ring-2
+               focus:ring-slate-100">
+
+        <option value="all">
+          All Priorities
+        </option>
+
+        <option value="high">
+          High
+        </option>
+
+        <option value="medium">
+          Medium
+        </option>
+
+        <option value="low">
+          Low
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- STATUS -->
+    <!-- ================================================= -->
+
+    <div>
+
+      <label
+        class="mb-1.5 block
+               text-xs font-medium
+               text-slate-600">
+
+        Status
+
+      </label>
+
+      <select
+        [(ngModel)]="filters.status"
+        (ngModelChange)="onFilterChange()"
+        class="w-full rounded-lg
+               border border-gray-200
+               bg-gray-50
+               px-3 py-2.5
+               text-sm text-slate-700
+               outline-none
+               transition
+               focus:border-slate-400
+               focus:bg-white
+               focus:ring-2
+               focus:ring-slate-100">
+
+        <option value="all">
+          All Status
+        </option>
+
+        <option value="pending">
+          Pending
+        </option>
+
+        <option value="approved">
+          Approved
+        </option>
+
+        <option value="rejected">
+          Rejected
+        </option>
+
+      </select>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- DATE RANGE -->
+    <!-- ================================================= -->
+
+    <div>
+
+      <label
+        class="mb-1.5 block
+               text-xs font-medium
+               text-slate-600">
+
+        Date Range
+
+      </label>
+
+      <select
+        [(ngModel)]="filters.dateRange"
+        (ngModelChange)="onFilterChange()"
+        class="w-full rounded-lg
+               border border-gray-200
+               bg-gray-50
+               px-3 py-2.5
+               text-sm text-slate-700
+               outline-none
+               transition
+               focus:border-slate-400
+               focus:bg-white
+               focus:ring-2
+               focus:ring-slate-100">
+
+        <option value="all">
+          All Time
+        </option>
+
+        <option value="today">
+          Today
+        </option>
+
+        <option value="7-days">
+          Last 7 Days
+        </option>
+
+        <option value="30-days">
+          Last 30 Days
+        </option>
+
+        <option value="90-days">
+          Last 90 Days
+        </option>
+
+      </select>
+
+    </div>
+
+  </div>
+
+</div>
+
