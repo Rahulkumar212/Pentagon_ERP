@@ -2,6 +2,16 @@
 // HIRING REQUIREMENT
 // =====================================================
 
+
+export type JobApplicationStatus =
+  | 'SCREENED'
+  | 'INTERVIEW'
+  | 'OFFER'
+  | 'BACKGROUND_CHECK'
+  | 'REJECTED'
+  | 'HIRED';
+
+
 export interface HiringRequirement {
   id: number;
   jobTitle: string;
@@ -81,8 +91,12 @@ export interface JobApplication {
   email: string;
   mobile: string;
   appliedAt: string;
+  status?: JobApplicationStatus;
 }
 
+export interface UpdateJobApplicationSelectionPayload {
+  status: JobApplicationStatus;
+}
 
 // =====================================================
 // JOB APPLICATIONS RESPONSE
@@ -106,6 +120,7 @@ export interface Candidate {
   experience: string;
   score: number;
   cvUrl: string;
+  status?: JobApplicationStatus;
 }
 
 
