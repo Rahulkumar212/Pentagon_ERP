@@ -1,17 +1,20 @@
-import { Component, signal } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  signal,
+  inject
+} from '@angular/core';
+
 import { CommonModule } from '@angular/common';
 
-interface Candidate {
-  name: string;
-  designation: string;
-  experience: string;
-  score: number;
-}
+import {
+  Candidate,
+  PipelineColumn,
+  JobApplication,
+  JobApplicationsResponse
+} from '../../../../../core/models/hr/hiring-requirement.type';
+import { HiringRequirementService } from '../../../../../core/services/hr/hiring-requirement.service';
 
-interface PipelineColumn {
-  title: string;
-  candidates: Candidate[];
-}
 
 @Component({
   selector: 'app-hiring-pipeline',
@@ -19,81 +22,196 @@ interface PipelineColumn {
   imports: [CommonModule],
   templateUrl: './hiring-pipeline.component.html'
 })
-export class HiringPipelineComponent {
+export class HiringPipelineComponent implements OnInit {
 
-  // 👉 SIGNAL STATE
+  private readonly hiringRequirementService = inject(
+    HiringRequirementService
+  );
+
   pipeline = signal<PipelineColumn[]>([
     {
       title: 'SCREENED',
-      candidates: [
-        {
-          name: 'Rajesh Nair',
-          designation: 'Senior React Developer',
-          experience: '6 Years Exp',
-          score: 88
-        }
-      ]
+      candidates: []
     },
     {
       title: 'INTERVIEW',
-      candidates: [
-        {
-          name: 'Neha Kapoor',
-          designation: 'Senior React Developer',
-          experience: '8 Years Exp',
-          score: 94
-        }
-      ]
+      candidates: []
     },
     {
       title: 'OFFER',
-      candidates: [
-        {
-          name: 'Arjun Mehta',
-          designation: 'Senior React Developer',
-          experience: '4 Years Exp',
-          score: 72
-        }
-      ]
+      candidates: []
     },
     {
       title: 'BACKGROUND CHECK',
-      candidates: [
-        {
-          name: 'Simran Chawla',
-          designation: 'Product Designer (UX/UI)',
-          experience: '5 Years Exp',
-          score: 85
-        }
-      ]
+      candidates: []
     }
   ]);
 
-  // 👉 Advance (move forward)
-  moveForward(columnIndex: number, candidateIndex: number) {
-    this.pipeline.update((cols) => {
-      const newCols = structuredClone(cols);
+  ngOnInit(): void {
+    this.loadJobApplications();
+  }
 
-      if (columnIndex >= newCols.length - 1) return newCols;
+  loadJobApplications(): void {
 
-      const candidate = newCols[columnIndex].candidates.splice(candidateIndex, 1)[0];
-      newCols[columnIndex + 1].candidates.push(candidate);
+    this.hiringRequirementService
+      .getAllJobApplications()
+      .subscribe({
 
-      return newCols;
+        next: (response: JobApplicationsResponse) => {
+
+          console.log(
+            'Job Applications Response:',
+            response
+          );
+
+          if (!response?.data?.length) {
+
+            console.warn(
+              'No job applications found'
+            );
+
+            return;
+          }
+
+          console.log(
+            'Applications:',
+            response.data
+          );
+
+          const candidates: Candidate[] =
+            response.data.map(
+              (application: JobApplication) => {
+
+                return {
+                  id: application.id,
+                  
+                  name: application.candidateName,
+
+                  designation: 'Candidate',
+
+                  experience: 'Not specified',
+
+                  score: 0,
+
+                  cvUrl: ''
+                };
+              }
+            );
+
+          this.pipeline.update((columns) => {
+
+            const newColumns = structuredClone(columns);
+
+            /*
+             * Currently API response doesn't contain
+             * application stage/status.
+             *
+             * So every new application will be shown
+             * under SCREENED.
+             */
+
+            newColumns[0].candidates = candidates;
+
+            return newColumns;
+          });
+
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Failed to load job applications:',
+            error
+          );
+
+        }
+
+      });
+  }
+
+  moveForward(
+    columnIndex: number,
+    candidateIndex: number
+  ): void {
+
+    this.pipeline.update((columns) => {
+
+      const newColumns = structuredClone(columns);
+
+      if (
+        columnIndex >=
+        newColumns.length - 1
+      ) {
+        return newColumns;
+      }
+
+      const candidate =
+        newColumns[columnIndex]
+          .candidates
+          .splice(candidateIndex, 1)[0];
+
+      if (!candidate) {
+        return newColumns;
+      }
+
+      newColumns[columnIndex + 1]
+        .candidates
+        .push(candidate);
+
+      return newColumns;
     });
   }
 
-  // 👈 Reject (move backward)
-  moveBackward(columnIndex: number, candidateIndex: number) {
-    this.pipeline.update((cols) => {
-      const newCols = structuredClone(cols);
+  moveBackward(
+    columnIndex: number,
+    candidateIndex: number
+  ): void {
 
-      if (columnIndex <= 0) return newCols;
+    this.pipeline.update((columns) => {
 
-      const candidate = newCols[columnIndex].candidates.splice(candidateIndex, 1)[0];
-      newCols[columnIndex - 1].candidates.push(candidate);
+      const newColumns = structuredClone(columns);
 
-      return newCols;
+      if (columnIndex <= 0) {
+        return newColumns;
+      }
+
+      const candidate =
+        newColumns[columnIndex]
+          .candidates
+          .splice(candidateIndex, 1)[0];
+
+      if (!candidate) {
+        return newColumns;
+      }
+
+      newColumns[columnIndex - 1]
+        .candidates
+        .push(candidate);
+
+      return newColumns;
     });
   }
+
+  viewCV(applicationId: number): void {
+
+  this.hiringRequirementService
+    .getJobApplicationCv(applicationId)
+    .subscribe({
+      next: (blob) => {
+
+        const url = URL.createObjectURL(blob);
+
+        window.open(
+          url,
+          '_blank',
+          'noopener,noreferrer'
+        );
+
+      },
+
+      error: (error) => {
+        console.error('Failed to load CV:', error);
+      }
+    });
+}
 }
