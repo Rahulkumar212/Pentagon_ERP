@@ -50,10 +50,10 @@ export const SALES_DIRECTOR_SALES_FUNNEL: SalesFunnelItem[] = [
     percentage: 22,
   },
 
-  {
-    stage: 'Won',
-    count: 16,
-    value: 5800000,
-    percentage: 14,
-  },
+  // {
+  //   stage: 'Won',
+  //   count: 16,
+  //   value: 5800000,
+  //   percentage: 14,
+  // },
 ];

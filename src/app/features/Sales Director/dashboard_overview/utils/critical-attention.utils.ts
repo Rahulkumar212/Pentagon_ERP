@@ -47,33 +47,33 @@ export const SALES_DIRECTOR_CRITICAL_ATTENTION: CriticalAttentionItem[] = [
     actionLabel: 'View Region',
   },
 
-  {
-    title: 'Customer renewal requires attention',
+  // {
+  //   title: 'Customer renewal requires attention',
 
-    description:
-      'A key customer renewal is pending and requires management follow-up.',
+  //   description:
+  //     'A key customer renewal is pending and requires management follow-up.',
 
-    category: 'customer',
+  //   category: 'customer',
 
-    priority: 'medium',
+  //   priority: 'medium',
 
-    value: 1900000,
+  //   value: 1900000,
 
-    actionLabel: 'View Customer',
-  },
+  //   actionLabel: 'View Customer',
+  // },
 
-  {
-    title: 'Outstanding collection pending',
+  // {
+  //   title: 'Outstanding collection pending',
 
-    description:
-      'Payment from a major customer is overdue and may impact cash flow.',
+  //   description:
+  //     'Payment from a major customer is overdue and may impact cash flow.',
 
-    category: 'collection',
+  //   category: 'collection',
 
-    priority: 'medium',
+  //   priority: 'medium',
 
-    value: 1250000,
+  //   value: 1250000,
 
-    actionLabel: 'View Collection',
-  },
+  //   actionLabel: 'View Collection',
+  // },
 ];

@@ -20,12 +20,19 @@ export const SALES_DIRECTOR_ROUTES: Routes = [
         .then(m => m.ApprovalCenterComponent),
   },
 
-//   {
-//     path: 'order-tracking',
-//     loadComponent: () =>
-//       import('./order-tracking/order-tracking.component')
-//         .then(m => m.OrderTrackingComponent),
-//   },
+    {
+    path: 'sales-director/audit-logs',
+    loadComponent: () =>
+      import('./audit-logs/pages/audit-logs.component')
+        .then(m => m.AuditLogsComponent),
+  },
+
+  // {
+  //   path: 'order-tracking',
+  //   loadComponent: () =>
+  //     import('./order-tracking/order-tracking.component')
+  //       .then(m => m.OrderTrackingComponent),
+  // },
 
 
 //   // =====================================================

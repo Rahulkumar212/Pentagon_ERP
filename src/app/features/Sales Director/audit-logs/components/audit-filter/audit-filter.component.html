@@ -1,0 +1,290 @@
+<div
+  class="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm"
+>
+
+  <!-- Header -->
+  <div class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+
+    <div>
+      <h3 class="text-sm font-semibold text-slate-900">
+        Filter Audit Logs
+      </h3>
+
+      <p class="mt-1 text-xs text-slate-500">
+        Search and filter system activities
+      </p>
+    </div>
+
+    <button
+      type="button"
+      (click)="clearFilters()"
+      class="text-xs font-medium text-slate-500 transition hover:text-red-600"
+    >
+      Reset Filters
+    </button>
+
+  </div>
+
+
+  <!-- Filters -->
+  <div class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+
+    <!-- Search -->
+    <div class="xl:col-span-2">
+
+      <label
+        class="mb-1.5 block text-xs font-medium text-slate-600"
+      >
+        Search
+      </label>
+
+      <div class="relative">
+
+        <svg
+          xmlns="http://www.w3.org/2000/svg"
+          class="pointer-events-none absolute left-3 top-1/2 h-4 w-4
+                 -translate-y-1/2 text-slate-400"
+          fill="none"
+          viewBox="0 0 24 24"
+          stroke="currentColor"
+          stroke-width="1.8"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="m21 21-4.35-4.35m1.35-5.4a6.75 6.75 0 11-13.5 0
+               6.75 6.75 0 0113.5 0z"
+          />
+        </svg>
+
+        <input
+          type="text"
+          [(ngModel)]="search"
+          (keyup.enter)="onSearch()"
+          placeholder="Search activity..."
+          class="w-full rounded-xl border border-slate-200 bg-slate-50
+                 py-2.5 pl-9 pr-3 text-sm text-slate-800
+                 outline-none transition
+                 placeholder:text-slate-400
+                 focus:border-slate-400 focus:bg-white
+                 focus:ring-2 focus:ring-slate-100"
+        />
+
+      </div>
+
+    </div>
+
+
+    <!-- Module -->
+    <div>
+
+      <label
+        class="mb-1.5 block text-xs font-medium text-slate-600"
+      >
+        Module
+      </label>
+
+      <select
+        [(ngModel)]="selectedModule"
+        (ngModelChange)="applyFilters()"
+        class="w-full rounded-xl border border-slate-200 bg-slate-50
+               px-3 py-2.5 text-sm text-slate-700
+               outline-none transition
+               focus:border-slate-400 focus:bg-white
+               focus:ring-2 focus:ring-slate-100"
+      >
+        <option value="">
+          All Modules
+        </option>
+
+        @for (module of modules; track module) {
+          <option [value]="module">
+            {{ module }}
+          </option>
+        }
+      </select>
+
+    </div>
+
+
+    <!-- Action -->
+    <div>
+
+      <label
+        class="mb-1.5 block text-xs font-medium text-slate-600"
+      >
+        Action
+      </label>
+
+      <select
+        [(ngModel)]="selectedAction"
+        (ngModelChange)="applyFilters()"
+        class="w-full rounded-xl border border-slate-200 bg-slate-50
+               px-3 py-2.5 text-sm text-slate-700
+               outline-none transition
+               focus:border-slate-400 focus:bg-white
+               focus:ring-2 focus:ring-slate-100"
+      >
+        <option value="">
+          All Actions
+        </option>
+
+        @for (action of actions; track action) {
+          <option [value]="action">
+            {{ action.replace('_', ' ') }}
+          </option>
+        }
+      </select>
+
+    </div>
+
+
+    <!-- User -->
+    <div>
+
+      <label
+        class="mb-1.5 block text-xs font-medium text-slate-600"
+      >
+        User
+      </label>
+
+      <select
+        [(ngModel)]="selectedUser"
+        (ngModelChange)="applyFilters()"
+        class="w-full rounded-xl border border-slate-200 bg-slate-50
+               px-3 py-2.5 text-sm text-slate-700
+               outline-none transition
+               focus:border-slate-400 focus:bg-white
+               focus:ring-2 focus:ring-slate-100"
+      >
+        <option value="">
+          All Users
+        </option>
+
+        @for (user of users; track user) {
+          <option [value]="user">
+            {{ user }}
+          </option>
+        }
+      </select>
+
+    </div>
+
+
+    <!-- From Date -->
+    <div>
+
+      <label
+        class="mb-1.5 block text-xs font-medium text-slate-600"
+      >
+        From Date
+      </label>
+
+      <input
+        type="date"
+        [(ngModel)]="fromDate"
+        (ngModelChange)="applyFilters()"
+        class="w-full rounded-xl border border-slate-200 bg-slate-50
+               px-3 py-2.5 text-sm text-slate-700
+               outline-none transition
+               focus:border-slate-400 focus:bg-white
+               focus:ring-2 focus:ring-slate-100"
+      />
+
+    </div>
+
+
+    <!-- To Date -->
+    <div>
+
+      <label
+        class="mb-1.5 block text-xs font-medium text-slate-600"
+      >
+        To Date
+      </label>
+
+      <input
+        type="date"
+        [(ngModel)]="toDate"
+        (ngModelChange)="applyFilters()"
+        class="w-full rounded-xl border border-slate-200 bg-slate-50
+               px-3 py-2.5 text-sm text-slate-700
+               outline-none transition
+               focus:border-slate-400 focus:bg-white
+               focus:ring-2 focus:ring-slate-100"
+      />
+
+    </div>
+
+  </div>
+
+
+  <!-- Active Filter Indicator -->
+  @if (
+    search ||
+    selectedModule ||
+    selectedAction ||
+    selectedUser ||
+    fromDate ||
+    toDate
+  ) {
+
+    <div
+      class="mt-4 flex flex-wrap items-center gap-2
+             border-t border-slate-100 pt-4"
+    >
+
+      <span class="text-xs font-medium text-slate-500">
+        Active filters:
+      </span>
+
+      @if (selectedModule) {
+        <span
+          class="rounded-full bg-slate-100 px-3 py-1
+                 text-xs font-medium text-slate-700"
+        >
+          Module: {{ selectedModule }}
+        </span>
+      }
+
+      @if (selectedAction) {
+        <span
+          class="rounded-full bg-blue-50 px-3 py-1
+                 text-xs font-medium text-blue-700"
+        >
+          Action: {{ selectedAction.replace('_', ' ') }}
+        </span>
+      }
+
+      @if (selectedUser) {
+        <span
+          class="rounded-full bg-purple-50 px-3 py-1
+                 text-xs font-medium text-purple-700"
+        >
+          User: {{ selectedUser }}
+        </span>
+      }
+
+      @if (fromDate) {
+        <span
+          class="rounded-full bg-emerald-50 px-3 py-1
+                 text-xs font-medium text-emerald-700"
+        >
+          From: {{ fromDate }}
+        </span>
+      }
+
+      @if (toDate) {
+        <span
+          class="rounded-full bg-amber-50 px-3 py-1
+                 text-xs font-medium text-amber-700"
+        >
+          To: {{ toDate }}
+        </span>
+      }
+
+    </div>
+
+  }
+
+</div>

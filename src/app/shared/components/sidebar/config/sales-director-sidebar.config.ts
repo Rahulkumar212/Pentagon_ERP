@@ -14,22 +14,33 @@ export const SALES_DIRECTOR_SIDEBAR: SidebarModule = {
       heading: 'Main',
 
       items: [
+
         {
           label: 'Dashboard Overview',
           icon: '📊',
           route: '/sales-director/dashboard-overview',
         },
+
         {
           label: 'Approval Center',
           icon: '✅',
           route: '/approvals',
         },
+
         {
           label: 'Order Tracking',
           icon: '📦',
           route: '/sales-director/order-tracking',
         },
+
+        {
+          label: 'Audit Logs',
+          icon: '📋',
+          route: '/sales-director/audit-logs',
+        },
+
       ],
     },
-   ],
+
+  ],
 };

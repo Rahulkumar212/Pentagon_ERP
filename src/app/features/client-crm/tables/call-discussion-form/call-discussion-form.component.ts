@@ -33,6 +33,7 @@ import {
 import {
   SalesVisit
 } from '../../../../core/models/client-crm/sales-visit.type';
+import { Telecalling } from '../../../../core/models/client-crm/telecalling.type';
 
 
 @Component({
@@ -52,8 +53,8 @@ export class CallDiscussionFormComponent implements OnInit {
   // INPUT
   // =====================================================
 
-  @Input({ required: true })
-  lead!: SalesVisit;
+ @Input({ required: true })
+lead!: SalesVisit | Telecalling;
 
 
   // =====================================================

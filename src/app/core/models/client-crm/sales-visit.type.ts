@@ -8,6 +8,13 @@ export type VisitStatus =
   | 'CONVERTED'
   | 'FAILED';
 
+  export type ApprovalDetailStatus =
+  | 'pending'
+  | 'approved'
+  | 'rejected'
+  | 'changes-requested';
+
+  
 export type ClientType =
   | 'NEW'
   | 'EXISTING';
@@ -52,22 +59,28 @@ export type SalesActivityStatus =
   | 'FUTURE_OPPORTUNITY';
 
 
-// ================= SALES VISIT =================
+
+  
 
 export interface SalesVisitPayload {
   executive_name: string;
   reporting_location: string;
   visit_date: string;
   activity_type: ActivityType;
+
   customer_name: string;
   contact_person: string;
   contact_number: string;
   city: string;
+
   client_type: ClientType;
   lead_priority: LeadPriority;
+
   discussion_summary: string;
   current_status: SalesActivityStatus;
+
   expected_business_value: number;
+
   proposal_sent: ProposalStatus;
   order_closed: OrderStatus;
 
@@ -75,51 +88,97 @@ export interface SalesVisitPayload {
 
   expected_closure_date: string;
   next_followup_date: string;
+
   management_support_required: ManagementSupport;
   additional_remarks: string;
+
   meeting_photo?: File | null;
 }
 
 
-// ================= SALES VISIT RESPONSE =================
-
-export interface SalesVisit extends SalesVisitPayload {
+export interface SalesVisit {
 
   id: number;
 
-  status?: VisitStatus;
+  executive_name: string;
+  reporting_location: string;
+  visit_date: string;
+  activity_type?: ActivityType | string;
 
-  closure_date?: string;
+  customer_name: string;
+  customer_address?: string | null;
 
-  basic_amount?: number;
+  contact_person: string;
+  contact_number: string;
+  customer_email?: string | null;
+
+  city: string;
+
+  client_type?: ClientType | string;
+  lead_priority: LeadPriority | string;
+
+  discussion_summary?: string | null;
+  current_status?: SalesActivityStatus | string;
+
+  expected_business_value?: number | null;
+
+  proposal_sent?: ProposalStatus | string;
+  order_closed?: OrderStatus | string;
+
+  order_lost_reason?: string | null;
+
+  expected_closure_date?: string | null;
+  next_followup_date?: string | null;
+
+  management_support_required?: ManagementSupport | string;
+  additional_remarks?: string | null;
+
+  // Additional database fields
+  visit_type?: string | null;
+
+  product_description?: string | null;
+  quantity?: number | null;
+
+  remarks?: string | null;
+
+  total_calls_made?: number | null;
+  connected_calls?: number | null;
+  meetings_scheduled?: number | null;
+  new_leads_generated?: number | null;
+
+  closure_date?: string | null;
+  basic_amount?: number | null;
+
+  status?: VisitStatus | string | null;
+
+  userId: number;
+
+  type?: string | null;
+
+  meeting_photo?: string | null;
 
   createdAt?: string;
-
   updatedAt?: string;
 }
 
 
-// ================= RESPONSE =================
-
 export interface SalesVisitResponse {
-
   success: boolean;
-
   message: string;
-
   data: SalesVisit[];
 }
 
 
-// ================= UPDATE SALES VISIT =================
+export interface SingleSalesVisitResponse {
+  success: boolean;
+  message: string;
+  data: SalesVisit;
+}
+
 
 export interface UpdateSalesVisitPayload {
-
   status: string;
-
   closure_date: string;
-
   basic_amount: number;
-
   remarks: string;
 }
