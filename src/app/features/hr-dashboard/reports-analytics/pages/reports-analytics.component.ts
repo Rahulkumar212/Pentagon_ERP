@@ -6,7 +6,7 @@ import { AnalyticsSummaryCardsComponent } from '../components/analytics-summary-
 import { AnalyticsChartsComponent } from '../components/analytics-charts/analytics-charts.component';
 import { LeaveRequestListComponent } from '../components/leave/leave-request-list.component';
 import { PayrollSummaryListComponent } from '../components/payroll-summary/payroll-summary-list.component';
-import { OrganizationTableComponent } from '../../../client-crm/tables/organization-table.component';
+import { PhysicalMeetingTable } from '../../../client-crm/tables/physical-meeting-table/physical-meeting-table';
 
 @Component({
   selector: 'app-reports-analytics',
@@ -18,7 +18,7 @@ import { OrganizationTableComponent } from '../../../client-crm/tables/organizat
     AnalyticsChartsComponent,
     LeaveRequestListComponent,
     PayrollSummaryListComponent,
-    OrganizationTableComponent
+    PhysicalMeetingTable
   ],
   templateUrl: './reports-analytics.component.html'
 })

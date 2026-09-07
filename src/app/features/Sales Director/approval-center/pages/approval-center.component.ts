@@ -1,4 +1,3 @@
-
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -8,27 +7,41 @@ import { ApprovalQueueComponent } from '../components/approval-queue/approval-qu
 import { ApprovalHistoryComponent } from '../components/approval-history/approval-history.component';
 import { PermissionAccessComponent } from '../components/permission-access/permission-access.component';
 
+import { CallFollowUpComponent } from '../components/call-follow-up/call-follow-up.component';
+
 @Component({
   selector: 'app-approval-center',
   standalone: true,
   imports: [
     CommonModule,
+
     ApprovalSummaryComponent,
     ApprovalFiltersComponent,
     ApprovalQueueComponent,
     ApprovalHistoryComponent,
-    PermissionAccessComponent
+    PermissionAccessComponent,
+
+    CallFollowUpComponent
   ],
   templateUrl: './approval-center.component.html'
 })
 export class ApprovalCenterComponent {
 
-  activeTab: 'queue' | 'history' | 'permissions' = 'queue';
+  activeTab:
+    | 'queue'
+    | 'history'
+    | 'call-follow-up'
+    | 'permissions' = 'queue';
+
 
   setActiveTab(
-    tab: 'queue' | 'history' | 'permissions'
+    tab:
+      | 'queue'
+      | 'history'
+      | 'call-follow-up'
+      | 'permissions'
   ): void {
+
     this.activeTab = tab;
   }
 }
-

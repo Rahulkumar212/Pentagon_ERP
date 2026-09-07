@@ -42,14 +42,12 @@ export class CallDiscussionService
   // GET CALL DISCUSSION HISTORY
   // =====================================================
 
-  getCallDiscussionHistory(
-    salesVisitId: number
-  ): Observable<CallDiscussionResponse> {
+  getAllCallDiscussions(): Observable<CallDiscussionResponse> {
 
-    return this.http.get<CallDiscussionResponse>(
-      `${this.API_URL}/call-discussion/${salesVisitId}`
-    );
+  return this.http.get<CallDiscussionResponse>(
+    `${this.API_URL}/fetchCallDiscussions`
+  );
 
-  }
+}
 
 }

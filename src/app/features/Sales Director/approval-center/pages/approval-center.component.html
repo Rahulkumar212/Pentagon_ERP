@@ -1,4 +1,3 @@
-
 <div class="min-h-screen bg-slate-50 p-6">
 
   <!-- ===================================================== -->
@@ -147,6 +146,33 @@
 
 
     <!-- =================================================== -->
+    <!-- CALL FOLLOW-UP TAB -->
+    <!-- =================================================== -->
+
+    <button
+      type="button"
+      (click)="setActiveTab('call-follow-up')"
+
+      [class.bg-indigo-600]="activeTab === 'call-follow-up'"
+      [class.text-white]="activeTab === 'call-follow-up'"
+      [class.shadow-sm]="activeTab === 'call-follow-up'"
+      [class.text-slate-600]="activeTab !== 'call-follow-up'"
+
+      class="flex items-center gap-2
+             rounded-lg px-5 py-2.5
+             text-sm font-semibold
+             transition
+             hover:bg-slate-100"
+    >
+
+      <span>📞</span>
+
+      Call Follow-up
+
+    </button>
+
+
+    <!-- =================================================== -->
     <!-- PERMISSION TAB -->
     <!-- =================================================== -->
 
@@ -239,6 +265,35 @@
 
 
     <!-- =================================================== -->
+    <!-- CALL FOLLOW-UP -->
+    <!-- =================================================== -->
+
+    <div *ngIf="activeTab === 'call-follow-up'">
+
+      <div class="mb-4">
+
+        <h2
+          class="text-lg font-bold
+                 text-slate-900"
+        >
+          Call Follow-up
+        </h2>
+
+        <p
+          class="mt-1 text-sm text-slate-500"
+        >
+          View client call discussions and follow-up details.
+        </p>
+
+      </div>
+
+     <app-call-follow-up>
+</app-call-follow-up>
+
+    </div>
+
+
+    <!-- =================================================== -->
     <!-- PERMISSION ACCESS -->
     <!-- =================================================== -->
 
@@ -269,4 +324,3 @@
   </div>
 
 </div>
-

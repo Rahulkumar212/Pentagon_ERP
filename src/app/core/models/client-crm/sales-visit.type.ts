@@ -151,6 +151,8 @@ export interface SalesVisit {
 
   status?: VisitStatus | string | null;
 
+  reason?: string | null;
+
   userId: number;
 
   type?: string | null;

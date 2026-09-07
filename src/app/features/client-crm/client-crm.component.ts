@@ -13,10 +13,6 @@ import {
 } from './form/organization-form.component';
 
 import {
-  OrganizationTableComponent
-} from './tables/organization-table.component';
-
-import {
   SalesVisitPayload
 } from '../../core/models/client-crm/sales-visit.type';
 
@@ -27,6 +23,7 @@ import {
 import {
   TelecallingTable
 } from './tables/telecalling-table/telecalling-table';
+import { PhysicalMeetingTable } from './tables/physical-meeting-table/physical-meeting-table';
 
 
 @Component({
@@ -36,7 +33,7 @@ import {
   imports: [
     CommonModule,
     OrganizationFormComponent,
-    OrganizationTableComponent,
+    PhysicalMeetingTable,
     TelecallingTable
   ],
 

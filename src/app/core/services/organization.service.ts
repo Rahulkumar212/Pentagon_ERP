@@ -26,6 +26,7 @@ import {
 })
 export class OrganizationService extends BaseApiService {
 
+
   // =====================================================
   // CREATE SALES PHYSICAL MEETING
   // POST /createSalesVisit
@@ -39,6 +40,7 @@ export class OrganizationService extends BaseApiService {
       `${this.API_URL}/createSalesVisit`,
       payload
     );
+
   }
 
 
@@ -52,6 +54,35 @@ export class OrganizationService extends BaseApiService {
     return this.http.get<SalesVisitResponse>(
       `${this.API_URL}/fetchSalesVisits`
     );
+
+  }
+
+
+  // =====================================================
+  // FETCH APPROVED SALES VISITS
+  // GET /fetch/approved
+  // =====================================================
+
+  fetchApprovedSalesVisits(): Observable<SalesVisitResponse> {
+
+    return this.http.get<SalesVisitResponse>(
+      `${this.API_URL}/fetch/approved`
+    );
+
+  }
+
+
+  // =====================================================
+  // FETCH REJECTED SALES VISITS
+  // GET /fetch/reject
+  // =====================================================
+
+  fetchRejectedSalesVisits(): Observable<SalesVisitResponse> {
+
+    return this.http.get<SalesVisitResponse>(
+      `${this.API_URL}/fetch/reject`
+    );
+
   }
 
 
@@ -68,6 +99,7 @@ export class OrganizationService extends BaseApiService {
       `${this.API_URL}/createTelecalling`,
       payload
     );
+
   }
 
 
@@ -81,6 +113,7 @@ export class OrganizationService extends BaseApiService {
     return this.http.get<TelecallingResponse>(
       `${this.API_URL}/fetchAllTelecalling`
     );
+
   }
 
 
@@ -94,6 +127,30 @@ export class OrganizationService extends BaseApiService {
     return this.http.get<any>(
       `${this.API_URL}/fetchclientname`
     );
+
+  }
+
+
+  // =====================================================
+  // UPDATE SALES VISIT APPROVAL STATUS
+  // PATCH /updateApprovedStatus
+  // =====================================================
+
+  updateSalesVisitStatus(
+    id: number,
+    status: 'APPROVED' | 'REJECTED',
+    reason?: string
+  ): Observable<SalesVisitResponse> {
+
+    return this.http.patch<SalesVisitResponse>(
+      `${this.API_URL}/updateApprovedStatus`,
+      {
+        id,
+        status,
+        reason
+      }
+    );
+
   }
 
 }

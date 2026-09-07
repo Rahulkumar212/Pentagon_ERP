@@ -9,8 +9,8 @@ import {
 import { CustomerDiscussionFormComponent } from './forms/customer-discussion-form.component';
 import { DashboardService } from '../../../core/services/executive.service';
 import { ExecutiveLayoutComponent } from '../../../layouts/executive-layout/executive-layout.component';
-import { OrganizationTableComponent } from '../../client-crm/tables/organization-table.component';
 import { TelecallingTable } from "../../client-crm/tables/telecalling-table/telecalling-table";
+import { PhysicalMeetingTable} from '../../client-crm/tables/physical-meeting-table/physical-meeting-table';
 
 @Component({
   selector: 'app-sales-executive',
@@ -18,7 +18,7 @@ import { TelecallingTable } from "../../client-crm/tables/telecalling-table/tele
   imports: [
     CustomerDiscussionFormComponent,
     ExecutiveLayoutComponent,
-    OrganizationTableComponent,
+    PhysicalMeetingTable,
     TelecallingTable
 ],
   templateUrl: './sales-executive.component.html'

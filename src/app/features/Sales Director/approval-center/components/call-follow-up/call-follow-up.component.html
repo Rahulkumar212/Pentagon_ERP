@@ -1,0 +1,1465 @@
+<!-- ===================================================== -->
+<!-- MAIN CONTAINER -->
+<!-- ===================================================== -->
+
+<div class="w-full">
+
+
+  <!-- =================================================== -->
+  <!-- HEADER -->
+  <!-- =================================================== -->
+
+  <div
+    class="mb-6 flex flex-col gap-3
+           sm:flex-row sm:items-center
+           sm:justify-between"
+  >
+
+    <div>
+
+      <h2
+        class="text-xl font-bold text-slate-900"
+      >
+        Call Follow-up
+      </h2>
+
+      <p
+        class="mt-1 text-sm text-slate-500"
+      >
+        View client call discussions and follow-up details.
+      </p>
+
+    </div>
+
+
+    <!-- Refresh -->
+
+    <button
+      type="button"
+      (click)="loadCallFollowUps()"
+      [disabled]="isLoading"
+      class="inline-flex items-center
+             justify-center gap-2
+             rounded-lg border border-slate-200
+             bg-white px-4 py-2
+             text-sm font-medium
+             text-slate-700
+             shadow-sm
+             transition
+             hover:bg-slate-50
+             disabled:cursor-not-allowed
+             disabled:opacity-60"
+    >
+
+      <span>
+        ↻
+      </span>
+
+      <span>
+        {{ isLoading ? 'Loading...' : 'Refresh' }}
+      </span>
+
+    </button>
+
+  </div>
+
+
+
+  <!-- =================================================== -->
+  <!-- LOADING -->
+  <!-- =================================================== -->
+
+  <div
+    *ngIf="isLoading"
+    class="flex min-h-[250px]
+           items-center justify-center
+           rounded-xl border
+           border-slate-200
+           bg-white"
+  >
+
+    <div class="text-center">
+
+      <div
+        class="mx-auto mb-3 h-8 w-8
+               animate-spin rounded-full
+               border-4 border-slate-200
+               border-t-slate-700"
+      ></div>
+
+      <p
+        class="text-sm text-slate-500"
+      >
+        Loading call follow-ups...
+      </p>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =================================================== -->
+  <!-- ERROR -->
+  <!-- =================================================== -->
+
+  <div
+    *ngIf="!isLoading && errorMessage"
+    class="rounded-xl border
+           border-red-200
+           bg-red-50 p-5"
+  >
+
+    <div class="flex items-start gap-3">
+
+      <div
+        class="flex h-9 w-9 shrink-0
+               items-center justify-center
+               rounded-full bg-red-100
+               text-red-600"
+      >
+        !
+      </div>
+
+      <div>
+
+        <h3
+          class="font-semibold text-red-800"
+        >
+          Unable to load data
+        </h3>
+
+        <p
+          class="mt-1 text-sm text-red-700"
+        >
+          {{ errorMessage }}
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =================================================== -->
+  <!-- EMPTY STATE -->
+  <!-- =================================================== -->
+
+  <div
+    *ngIf="
+      !isLoading &&
+      !errorMessage &&
+      callDiscussions.length === 0
+    "
+    class="flex min-h-[250px]
+           items-center justify-center
+           rounded-xl border
+           border-slate-200
+           bg-white"
+  >
+
+    <div class="text-center">
+
+      <div
+        class="mx-auto mb-3
+               flex h-12 w-12
+               items-center justify-center
+               rounded-full
+               bg-slate-100
+               text-xl"
+      >
+        📞
+      </div>
+
+      <h3
+        class="font-semibold text-slate-800"
+      >
+        No Call Follow-ups Found
+      </h3>
+
+      <p
+        class="mt-1 text-sm text-slate-500"
+      >
+        There are no call discussions available.
+      </p>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =================================================== -->
+  <!-- CALL FOLLOW-UP TABLE -->
+  <!-- =================================================== -->
+
+  <div
+    *ngIf="
+      !isLoading &&
+      !errorMessage &&
+      callDiscussions.length > 0
+    "
+    class="overflow-hidden
+           rounded-xl border
+           border-slate-200
+           bg-white shadow-sm"
+  >
+
+    <div
+      class="overflow-x-auto"
+    >
+
+      <table
+        class="min-w-[1200px] w-full"
+      >
+
+        <!-- ============================================= -->
+        <!-- TABLE HEADER -->
+        <!-- ============================================= -->
+
+        <thead
+          class="border-b border-slate-200
+                 bg-slate-50"
+        >
+
+          <tr>
+
+            <th
+              class="px-5 py-4 text-left
+                     text-xs font-semibold
+                     uppercase tracking-wider
+                     text-slate-500"
+            >
+              Customer
+            </th>
+
+
+            <th
+              class="px-5 py-4 text-left
+                     text-xs font-semibold
+                     uppercase tracking-wider
+                     text-slate-500"
+            >
+              Executive
+            </th>
+
+
+            <th
+              class="px-5 py-4 text-left
+                     text-xs font-semibold
+                     uppercase tracking-wider
+                     text-slate-500"
+            >
+              Call Date
+            </th>
+
+
+            <th
+              class="px-5 py-4 text-left
+                     text-xs font-semibold
+                     uppercase tracking-wider
+                     text-slate-500"
+            >
+              Call Type
+            </th>
+
+
+            <th
+              class="px-5 py-4 text-left
+                     text-xs font-semibold
+                     uppercase tracking-wider
+                     text-slate-500"
+            >
+              Duration
+            </th>
+
+
+            <th
+              class="px-5 py-4 text-left
+                     text-xs font-semibold
+                     uppercase tracking-wider
+                     text-slate-500"
+            >
+              Outcome
+            </th>
+
+
+            <th
+              class="px-5 py-4 text-left
+                     text-xs font-semibold
+                     uppercase tracking-wider
+                     text-slate-500"
+            >
+              Expected Amount
+            </th>
+
+
+            <th
+              class="px-5 py-4 text-left
+                     text-xs font-semibold
+                     uppercase tracking-wider
+                     text-slate-500"
+            >
+              Next Follow-up
+            </th>
+
+
+            <th
+              class="px-5 py-4 text-left
+                     text-xs font-semibold
+                     uppercase tracking-wider
+                     text-slate-500"
+            >
+              Status
+            </th>
+
+
+            <th
+              class="px-5 py-4 text-center
+                     text-xs font-semibold
+                     uppercase tracking-wider
+                     text-slate-500"
+            >
+              Action
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+
+        <!-- ============================================= -->
+        <!-- TABLE BODY -->
+        <!-- ============================================= -->
+
+        <tbody
+          class="divide-y divide-slate-100"
+        >
+
+          <tr
+            *ngFor="
+              let item of callDiscussions;
+              trackBy: trackById
+            "
+            class="transition hover:bg-slate-50"
+          >
+
+            <!-- ========================================= -->
+            <!-- CUSTOMER -->
+            <!-- ========================================= -->
+
+            <td
+              class="px-5 py-4"
+            >
+
+              <div>
+
+                <p
+                  class="font-semibold
+                         text-slate-900"
+                >
+                  {{
+                    item.salesVisit?.customer_name
+                    || item.customer_name
+                    || '-'
+                  }}
+                </p>
+
+                <p
+                  class="mt-1 text-xs
+                         text-slate-500"
+                >
+                  Sales Visit #{{ item.sales_visit_id }}
+                </p>
+
+              </div>
+
+            </td>
+
+
+
+            <!-- ========================================= -->
+            <!-- EXECUTIVE -->
+            <!-- ========================================= -->
+
+            <td
+              class="px-5 py-4"
+            >
+
+              <span
+                class="text-sm
+                       text-slate-700"
+              >
+                {{
+                  item.salesVisit?.executive_name
+                  || item.executive_name
+                  || '-'
+                }}
+              </span>
+
+            </td>
+
+
+
+            <!-- ========================================= -->
+            <!-- CALL DATE -->
+            <!-- ========================================= -->
+
+            <td
+              class="px-5 py-4"
+            >
+
+              <div>
+
+                <p
+                  class="text-sm font-medium
+                         text-slate-800"
+                >
+                  {{ formatDate(item.call_date) }}
+                </p>
+
+                <p
+                  class="mt-1 text-xs
+                         text-slate-500"
+                >
+                  {{ displayValue(item.call_time) }}
+                </p>
+
+              </div>
+
+            </td>
+
+
+
+            <!-- ========================================= -->
+            <!-- CALL TYPE -->
+            <!-- ========================================= -->
+
+            <td
+              class="px-5 py-4"
+            >
+
+              <span
+                class="inline-flex
+                       rounded-full
+                       border border-blue-200
+                       bg-blue-50
+                       px-2.5 py-1
+                       text-xs font-medium
+                       text-blue-700"
+              >
+                {{ displayValue(item.call_type) }}
+              </span>
+
+            </td>
+
+
+
+            <!-- ========================================= -->
+            <!-- DURATION -->
+            <!-- ========================================= -->
+
+            <td
+              class="px-5 py-4"
+            >
+
+              <span
+                class="text-sm
+                       text-slate-700"
+              >
+                {{ item.duration }} min
+              </span>
+
+            </td>
+
+
+
+            <!-- ========================================= -->
+            <!-- OUTCOME -->
+            <!-- ========================================= -->
+
+            <td
+              class="px-5 py-4"
+            >
+
+              <span
+                class="inline-flex
+                       rounded-full
+                       border border-slate-200
+                       bg-slate-50
+                       px-2.5 py-1
+                       text-xs font-medium
+                       text-slate-700"
+              >
+                {{ displayValue(item.outcome) }}
+              </span>
+
+            </td>
+
+
+
+            <!-- ========================================= -->
+            <!-- EXPECTED AMOUNT -->
+            <!-- ========================================= -->
+
+            <td
+              class="px-5 py-4"
+            >
+
+              <span
+                class="text-sm font-semibold
+                       text-slate-800"
+              >
+                {{ formatCurrency(item.expected_amount) }}
+              </span>
+
+            </td>
+
+
+
+            <!-- ========================================= -->
+            <!-- NEXT FOLLOW-UP -->
+            <!-- ========================================= -->
+
+            <td
+              class="px-5 py-4"
+            >
+
+              <span
+                class="text-sm
+                       text-slate-700"
+              >
+                {{ formatDate(item.next_followup_date) }}
+              </span>
+
+            </td>
+
+
+
+            <!-- ========================================= -->
+            <!-- STATUS -->
+            <!-- ========================================= -->
+
+            <td
+              class="px-5 py-4"
+            >
+
+              <span
+                class="inline-flex
+                       rounded-full
+                       border
+                       px-2.5 py-1
+                       text-xs font-semibold"
+                [ngClass]="
+                  getStatusClass(
+                    item.salesVisit?.status
+                    || item.approval_status
+                    || item.status
+                  )
+                "
+              >
+                {{
+                  item.salesVisit?.status
+                  || item.approval_status
+                  || item.status
+                  || 'PENDING'
+                }}
+              </span>
+
+            </td>
+
+
+
+            <!-- ========================================= -->
+            <!-- ACTION -->
+            <!-- ========================================= -->
+
+            <td
+              class="px-5 py-4 text-center"
+            >
+
+              <button
+                type="button"
+                (click)="selectCallDiscussion(item)"
+                class="inline-flex
+                       items-center
+                       justify-center
+                       rounded-lg
+                       border border-slate-200
+                       bg-white
+                       px-3 py-2
+                       text-sm font-medium
+                       text-slate-700
+                       shadow-sm
+                       transition
+                       hover:bg-slate-50
+                       hover:text-slate-900"
+              >
+
+                👁
+
+                <span class="ml-2">
+                  View
+                </span>
+
+              </button>
+
+            </td>
+
+          </tr>
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+
+  <!-- =================================================== -->
+  <!-- DETAIL SECTION -->
+  <!-- =================================================== -->
+
+  <div
+    *ngIf="selectedCallDiscussion"
+    class="mt-6 overflow-hidden
+           rounded-xl border
+           border-slate-200
+           bg-white shadow-sm"
+  >
+
+    <!-- =============================================== -->
+    <!-- DETAIL HEADER -->
+    <!-- =============================================== -->
+
+    <div
+      class="flex items-center
+             justify-between
+             border-b border-slate-200
+             bg-slate-50
+             px-6 py-4"
+    >
+
+      <div>
+
+        <h3
+          class="text-lg font-bold
+                 text-slate-900"
+        >
+          Call Discussion Details
+        </h3>
+
+        <p
+          class="mt-1 text-sm
+                 text-slate-500"
+        >
+          Sales Visit
+          #{{ selectedCallDiscussion.sales_visit_id }}
+        </p>
+
+      </div>
+
+
+      <button
+        type="button"
+        (click)="clearSelection()"
+        class="rounded-lg
+               border border-slate-200
+               bg-white px-3 py-2
+               text-sm font-medium
+               text-slate-600
+               hover:bg-slate-100"
+      >
+        ✕ Close
+      </button>
+
+    </div>
+
+
+
+    <!-- =============================================== -->
+    <!-- CUSTOMER INFORMATION -->
+    <!-- =============================================== -->
+
+    <div
+      class="border-b border-slate-100
+             p-6"
+    >
+
+      <h4
+        class="mb-4 text-sm font-bold
+               uppercase tracking-wide
+               text-slate-500"
+      >
+        Customer Information
+      </h4>
+
+
+      <div
+        class="grid grid-cols-1
+               gap-5
+               sm:grid-cols-2
+               lg:grid-cols-4"
+      >
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Customer Name
+          </p>
+
+          <p
+            class="mt-1 text-sm font-semibold
+                   text-slate-800"
+          >
+            {{
+              selectedSalesVisit?.customer_name
+              || selectedCallDiscussion.customer_name
+              || '-'
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Contact Person
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              selectedSalesVisit?.contact_person
+              || '-'
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Contact Number
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              selectedSalesVisit?.contact_number
+              || '-'
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            City
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              selectedSalesVisit?.city
+              || '-'
+            }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =============================================== -->
+    <!-- CALL INFORMATION -->
+    <!-- =============================================== -->
+
+    <div
+      class="border-b border-slate-100
+             p-6"
+    >
+
+      <h4
+        class="mb-4 text-sm font-bold
+               uppercase tracking-wide
+               text-slate-500"
+      >
+        Call Information
+      </h4>
+
+
+      <div
+        class="grid grid-cols-1
+               gap-5
+               sm:grid-cols-2
+               lg:grid-cols-4"
+      >
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Call Date
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              formatDate(
+                selectedCallDiscussion.call_date
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Call Time
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedCallDiscussion.call_time
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Call Type
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedCallDiscussion.call_type
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Duration
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+           {{ selectedCallDiscussion.duration }}
+minutes
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =============================================== -->
+    <!-- DISCUSSION -->
+    <!-- =============================================== -->
+
+    <div
+      class="border-b border-slate-100
+             p-6"
+    >
+
+      <h4
+        class="mb-4 text-sm font-bold
+               uppercase tracking-wide
+               text-slate-500"
+      >
+        Discussion
+      </h4>
+
+
+      <div
+        class="grid grid-cols-1
+               gap-5
+               lg:grid-cols-3"
+      >
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Discussion
+          </p>
+
+          <p
+            class="mt-1 whitespace-pre-wrap
+                   text-sm leading-6
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedCallDiscussion.discussion
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Requirement
+          </p>
+
+          <p
+            class="mt-1 whitespace-pre-wrap
+                   text-sm leading-6
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedCallDiscussion.requirement
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Solution
+          </p>
+
+          <p
+            class="mt-1 whitespace-pre-wrap
+                   text-sm leading-6
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedCallDiscussion.solution
+              )
+            }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =============================================== -->
+    <!-- BUSINESS INFORMATION -->
+    <!-- =============================================== -->
+
+    <div
+      class="border-b border-slate-100
+             p-6"
+    >
+
+      <h4
+        class="mb-4 text-sm font-bold
+               uppercase tracking-wide
+               text-slate-500"
+      >
+        Business & Follow-up
+      </h4>
+
+
+      <div
+        class="grid grid-cols-1
+               gap-5
+               sm:grid-cols-2
+               lg:grid-cols-4"
+      >
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Outcome
+          </p>
+
+          <p
+            class="mt-1 text-sm font-semibold
+                   text-slate-800"
+          >
+            {{
+              displayValue(
+                selectedCallDiscussion.outcome
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Expected Amount
+          </p>
+
+          <p
+            class="mt-1 text-sm font-semibold
+                   text-slate-800"
+          >
+            {{
+              formatCurrency(
+                selectedCallDiscussion.expected_amount
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Next Follow-up
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              formatDate(
+                selectedCallDiscussion.next_followup_date
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Follow-up Mode
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedCallDiscussion.followup_mode
+              )
+            }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =============================================== -->
+    <!-- SALES VISIT INFORMATION -->
+    <!-- =============================================== -->
+
+    <div
+      *ngIf="selectedSalesVisit"
+      class="border-b border-slate-100
+             p-6"
+    >
+
+      <h4
+        class="mb-4 text-sm font-bold
+               uppercase tracking-wide
+               text-slate-500"
+      >
+        Sales Visit Information
+      </h4>
+
+
+      <div
+        class="grid grid-cols-1
+               gap-5
+               sm:grid-cols-2
+               lg:grid-cols-4"
+      >
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Executive
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              selectedSalesVisit.executive_name
+              || '-'
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Visit Date
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              formatDate(
+                selectedSalesVisit.visit_date
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Client Type
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedSalesVisit.client_type
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Lead Priority
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedSalesVisit.lead_priority
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Activity Type
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedSalesVisit.activity_type
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Current Status
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedSalesVisit.current_status
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Proposal Sent
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedSalesVisit.proposal_sent
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Order Closed
+          </p>
+
+          <p
+            class="mt-1 text-sm
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedSalesVisit.order_closed
+              )
+            }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =============================================== -->
+    <!-- REMARKS -->
+    <!-- =============================================== -->
+
+    <div
+      class="p-6"
+    >
+
+      <h4
+        class="mb-4 text-sm font-bold
+               uppercase tracking-wide
+               text-slate-500"
+      >
+        Remarks
+      </h4>
+
+
+      <div
+        class="grid grid-cols-1
+               gap-5
+               md:grid-cols-2"
+      >
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Call Remarks
+          </p>
+
+          <p
+            class="mt-1 whitespace-pre-wrap
+                   text-sm leading-6
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedCallDiscussion.remarks
+              )
+            }}
+          </p>
+
+        </div>
+
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   text-slate-400"
+          >
+            Management Remarks
+          </p>
+
+          <p
+            class="mt-1 whitespace-pre-wrap
+                   text-sm leading-6
+                   text-slate-700"
+          >
+            {{
+              displayValue(
+                selectedCallDiscussion.management_remarks
+              )
+            }}
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+
+    <!-- =============================================== -->
+    <!-- FOOTER -->
+    <!-- =============================================== -->
+
+    <div
+      class="flex justify-end
+             border-t border-slate-200
+             bg-slate-50
+             px-6 py-4"
+    >
+
+      <button
+        type="button"
+        (click)="clearSelection()"
+        class="rounded-lg
+               bg-slate-900
+               px-5 py-2.5
+               text-sm font-medium
+               text-white
+               transition
+               hover:bg-slate-800"
+      >
+        Close Details
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

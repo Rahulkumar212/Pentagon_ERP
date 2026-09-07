@@ -1,9 +1,9 @@
-
 import {
   Component,
   EventEmitter,
   Input,
-  Output
+  Output,
+  inject
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -15,21 +15,34 @@ import {
   formatRejectAmount
 } from '../../utils/reject-request.util';
 
+import {
+  OrganizationService
+} from '../../../../../core/services/organization.service';
+
 @Component({
   selector: 'app-reject-request',
   standalone: true,
-  imports: [CommonModule],
+  imports: [
+    CommonModule
+  ],
   templateUrl: './reject-request.component.html'
 })
 export class RejectRequestComponent {
 
-  @Input() isOpen = false;
+  private readonly organizationService =
+    inject(OrganizationService);
 
-  @Input() request: RejectRequestData | null = null;
+  @Input()
+  isOpen = false;
 
-  @Output() close = new EventEmitter<void>();
+  @Input()
+  request: RejectRequestData | null = null;
 
-  @Output() reject = new EventEmitter<{
+  @Output()
+  close = new EventEmitter<void>();
+
+  @Output()
+  reject = new EventEmitter<{
     request: RejectRequestData;
     reason: string;
   }>();
@@ -42,7 +55,10 @@ export class RejectRequestComponent {
 
   customReason = '';
 
+  isSubmitting = false;
+
   get finalReason(): string {
+
     if (this.selectedReason === 'Other') {
       return this.customReason.trim();
     }
@@ -59,6 +75,7 @@ export class RejectRequestComponent {
   }
 
   selectReason(reason: string): void {
+
     this.selectedReason = reason;
 
     if (reason !== 'Other') {
@@ -71,7 +88,13 @@ export class RejectRequestComponent {
   }
 
   onClose(): void {
+
+    if (this.isSubmitting) {
+      return;
+    }
+
     this.reset();
+
     this.close.emit();
   }
 
@@ -81,17 +104,92 @@ export class RejectRequestComponent {
       return;
     }
 
-    this.reject.emit({
-      request: this.request,
-      reason: this.finalReason
-    });
+    if (this.isSubmitting) {
+      return;
+    }
 
-    this.reset();
+    const salesVisitId =
+      Number(this.request.id);
+
+    const reason =
+      this.finalReason;
+
+    if (
+      !salesVisitId ||
+      Number.isNaN(salesVisitId)
+    ) {
+      console.error(
+        'Invalid Sales Visit ID:',
+        this.request.id
+      );
+
+      return;
+    }
+
+    if (!reason) {
+      return;
+    }
+
+    this.isSubmitting = true;
+
+    console.log(
+      'Rejecting Sales Visit:',
+      salesVisitId
+    );
+
+    console.log(
+      'Rejection Reason:',
+      reason
+    );
+
+    this.organizationService
+      .updateSalesVisitStatus(
+        salesVisitId,
+        'REJECTED',
+        reason
+      )
+      .subscribe({
+
+        next: (response) => {
+
+          console.log(
+            'Sales Visit Rejected Successfully:',
+            response
+          );
+
+          /*
+           * Parent ko bhi notify kar rahe hain
+           * taaki approval queue refresh ho sake.
+           */
+          this.reject.emit({
+            request: this.request!,
+            reason
+          });
+
+          this.isSubmitting = false;
+
+          this.reset();
+
+          this.close.emit();
+        },
+
+        error: (error) => {
+
+          console.error(
+            'Failed to reject Sales Visit:',
+            error
+          );
+
+          this.isSubmitting = false;
+        }
+
+      });
   }
 
   private reset(): void {
+
     this.selectedReason = '';
+
     this.customReason = '';
   }
 }
-
