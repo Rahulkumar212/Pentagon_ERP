@@ -99,7 +99,7 @@
       type="button"
       (click)="setActiveTab('queue')"
 
-      [class.bg-indigo-600]="activeTab === 'queue'"
+      [class.bg-red-800]="activeTab === 'queue'"
       [class.text-white]="activeTab === 'queue'"
       [class.shadow-sm]="activeTab === 'queue'"
       [class.text-slate-600]="activeTab !== 'queue'"
@@ -108,6 +108,7 @@
              rounded-lg px-5 py-2.5
              text-sm font-semibold
              transition
+             hover:text-gray-600
              hover:bg-slate-100"
     >
 
@@ -126,7 +127,7 @@
       type="button"
       (click)="setActiveTab('history')"
 
-      [class.bg-indigo-600]="activeTab === 'history'"
+      [class.bg-red-800]="activeTab === 'history'"
       [class.text-white]="activeTab === 'history'"
       [class.shadow-sm]="activeTab === 'history'"
       [class.text-slate-600]="activeTab !== 'history'"
@@ -135,6 +136,7 @@
              rounded-lg px-5 py-2.5
              text-sm font-semibold
              transition
+             hover:text-gray-600
              hover:bg-slate-100"
     >
 
@@ -153,7 +155,7 @@
       type="button"
       (click)="setActiveTab('call-follow-up')"
 
-      [class.bg-indigo-600]="activeTab === 'call-follow-up'"
+      [class.bg-red-800]="activeTab === 'call-follow-up'"
       [class.text-white]="activeTab === 'call-follow-up'"
       [class.shadow-sm]="activeTab === 'call-follow-up'"
       [class.text-slate-600]="activeTab !== 'call-follow-up'"
@@ -162,6 +164,7 @@
              rounded-lg px-5 py-2.5
              text-sm font-semibold
              transition
+             hover:text-gray-600
              hover:bg-slate-100"
     >
 
@@ -180,7 +183,7 @@
       type="button"
       (click)="setActiveTab('permissions')"
 
-      [class.bg-indigo-600]="activeTab === 'permissions'"
+      [class.bg-red-800]="activeTab === 'permissions'"
       [class.text-white]="activeTab === 'permissions'"
       [class.shadow-sm]="activeTab === 'permissions'"
       [class.text-slate-600]="activeTab !== 'permissions'"
@@ -189,6 +192,7 @@
              rounded-lg px-5 py-2.5
              text-sm font-semibold
              transition
+             hover:text-gray-600
              hover:bg-slate-100"
     >
 
@@ -269,23 +273,6 @@
     <!-- =================================================== -->
 
     <div *ngIf="activeTab === 'call-follow-up'">
-
-      <div class="mb-4">
-
-        <h2
-          class="text-lg font-bold
-                 text-slate-900"
-        >
-          Call Follow-up
-        </h2>
-
-        <p
-          class="mt-1 text-sm text-slate-500"
-        >
-          View client call discussions and follow-up details.
-        </p>
-
-      </div>
 
      <app-call-follow-up>
 </app-call-follow-up>

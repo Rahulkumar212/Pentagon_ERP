@@ -1,4 +1,6 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
   EventEmitter,
   OnInit,
@@ -18,23 +20,23 @@ import {
   CallDiscussionService
 } from '../../../../../core/services/call-discussion.service';
 
+
 @Component({
   selector: 'app-call-follow-up',
   standalone: true,
   imports: [
     CommonModule
   ],
-  templateUrl: './call-follow-up.component.html'
+  templateUrl: './call-follow-up.component.html',
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class CallFollowUpComponent implements OnInit {
+
 
   // =====================================================
   // OUTPUT
   // =====================================================
 
-  /**
-   * Parent component ko close event bhejne ke liye.
-   */
   @Output()
   close = new EventEmitter<void>();
 
@@ -51,16 +53,12 @@ export class CallFollowUpComponent implements OnInit {
 
   /**
    * Currently selected Call Discussion.
-   *
-   * Agar kisi particular record ko detail me dikhana ho
-   * to isme selected record store hoga.
    */
   selectedCallDiscussion: CallDiscussion | null = null;
 
 
   /**
-   * Selected Call Discussion ke andar
-   * nested Sales Visit data.
+   * Selected Call Discussion ke nested Sales Visit data.
    */
   selectedSalesVisit: CallDiscussionSalesVisit | null = null;
 
@@ -69,17 +67,19 @@ export class CallFollowUpComponent implements OnInit {
   // STATES
   // =====================================================
 
-  isLoading = false;
-
   errorMessage = '';
 
 
   // =====================================================
-  // SERVICE
+  // SERVICES
   // =====================================================
 
   private readonly callDiscussionService =
     inject(CallDiscussionService);
+
+
+  private readonly cdr =
+    inject(ChangeDetectorRef);
 
 
   // =====================================================
@@ -97,12 +97,15 @@ export class CallFollowUpComponent implements OnInit {
 
   loadCallFollowUps(): void {
 
-    this.isLoading = true;
     this.errorMessage = '';
 
     this.callDiscussionService
       .getAllCallDiscussions()
       .subscribe({
+
+        // =================================================
+        // SUCCESS
+        // =================================================
 
         next: (response: CallDiscussionResponse) => {
 
@@ -111,15 +114,19 @@ export class CallFollowUpComponent implements OnInit {
             response
           );
 
-          /**
-           * Backend response.data ko array maan rahe hain
-           * kyunki endpoint ka naam getAllCallDiscussions hai.
-           */
-          this.callDiscussions =
-            response.data ?? [];
 
-          this.isLoading = false;
+          this.callDiscussions =
+            response?.data ?? [];
+
+
+          // OnPush ke liye UI update
+          this.cdr.detectChanges();
         },
+
+
+        // =================================================
+        // ERROR
+        // =================================================
 
         error: (error) => {
 
@@ -128,15 +135,20 @@ export class CallFollowUpComponent implements OnInit {
             error
           );
 
+
           this.callDiscussions = [];
 
           this.selectedCallDiscussion = null;
+
           this.selectedSalesVisit = null;
+
 
           this.errorMessage =
             'Unable to load Call Follow-up details.';
 
-          this.isLoading = false;
+
+          // OnPush ke liye UI update
+          this.cdr.detectChanges();
         }
 
       });
@@ -151,10 +163,15 @@ export class CallFollowUpComponent implements OnInit {
     discussion: CallDiscussion
   ): void {
 
-    this.selectedCallDiscussion = discussion;
+    this.selectedCallDiscussion =
+      discussion;
+
 
     this.selectedSalesVisit =
       discussion.salesVisit ?? null;
+
+
+    this.cdr.detectChanges();
   }
 
 
@@ -164,14 +181,20 @@ export class CallFollowUpComponent implements OnInit {
 
   clearSelection(): void {
 
-    this.selectedCallDiscussion = null;
+    this.selectedCallDiscussion =
+      null;
 
-    this.selectedSalesVisit = null;
+
+    this.selectedSalesVisit =
+      null;
+
+
+    this.cdr.detectChanges();
   }
 
 
   // =====================================================
-  // CLOSE
+  // CLOSE COMPONENT
   // =====================================================
 
   onClose(): void {
@@ -193,7 +216,16 @@ export class CallFollowUpComponent implements OnInit {
       return '-';
     }
 
-    return new Date(value).toLocaleDateString(
+
+    const date = new Date(value);
+
+
+    if (isNaN(date.getTime())) {
+      return '-';
+    }
+
+
+    return date.toLocaleDateString(
       'en-IN',
       {
         day: '2-digit',
@@ -216,7 +248,16 @@ export class CallFollowUpComponent implements OnInit {
       return '-';
     }
 
-    return new Date(value).toLocaleString(
+
+    const date = new Date(value);
+
+
+    if (isNaN(date.getTime())) {
+      return '-';
+    }
+
+
+    return date.toLocaleString(
       'en-IN',
       {
         day: '2-digit',
@@ -264,6 +305,12 @@ export class CallFollowUpComponent implements OnInit {
       return '-';
     }
 
+
+    if (typeof value === 'boolean') {
+      return value ? 'Yes' : 'No';
+    }
+
+
     return String(value);
   }
 
@@ -276,19 +323,62 @@ export class CallFollowUpComponent implements OnInit {
     status: string | null | undefined
   ): string {
 
-    switch ((status ?? '').toUpperCase()) {
+    switch (
+      (status ?? '').toUpperCase()
+    ) {
 
       case 'APPROVED':
-        return 'bg-emerald-50 text-emerald-700 border-emerald-200';
+
+        return `
+          bg-emerald-50
+          text-emerald-700
+          border-emerald-200
+        `;
+
 
       case 'REJECTED':
-        return 'bg-red-50 text-red-700 border-red-200';
+
+        return `
+          bg-red-50
+          text-red-700
+          border-red-200
+        `;
+
 
       case 'PENDING':
-        return 'bg-amber-50 text-amber-700 border-amber-200';
+
+        return `
+          bg-amber-50
+          text-amber-700
+          border-amber-200
+        `;
+
+
+      case 'IN_PROGRESS':
+
+        return `
+          bg-blue-50
+          text-blue-700
+          border-blue-200
+        `;
+
+
+      case 'COMPLETED':
+
+        return `
+          bg-emerald-50
+          text-emerald-700
+          border-emerald-200
+        `;
+
 
       default:
-        return 'bg-slate-50 text-slate-700 border-slate-200';
+
+        return `
+          bg-slate-50
+          text-slate-700
+          border-slate-200
+        `;
     }
   }
 
@@ -300,9 +390,9 @@ export class CallFollowUpComponent implements OnInit {
   trackById(
     index: number,
     item: CallDiscussion
-  ): number {
+  ): number | string {
 
-    return item.id;
-
+    return item.id ?? index;
   }
+
 }

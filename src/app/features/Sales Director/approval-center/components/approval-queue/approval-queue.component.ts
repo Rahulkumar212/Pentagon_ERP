@@ -1,44 +1,46 @@
 import {
   Component,
   OnInit,
-  inject
+  inject,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
 import {
-  ApproveConfirmationComponent
+  ApproveConfirmationComponent,
 } from '../../forms/approve-confirmation/approve-confirmation.component';
 
 import {
-  RejectRequestComponent
+  RejectRequestComponent,
 } from '../../forms/reject-request/reject-request.component';
 
 import {
-  ApprovalDetailComponent
+  ApprovalDetailComponent,
 } from '../approval-detail/approval-detail.component';
 
 import {
-  ApprovalConfirmationData
+  ApprovalConfirmationData,
 } from '../../utils/approve-confirmation.util';
 
 import {
-  RejectRequestData
+  RejectRequestData,
 } from '../../utils/reject-request.util';
 
 import {
   APPROVAL_DETAIL,
-  ApprovalDetail
+  ApprovalDetail,
 } from '../../utils/approval-detail.util';
 
 import {
-  OrganizationService
+  OrganizationService,
 } from '../../../../../core/services/organization.service';
 
 import {
   SalesVisit,
   SalesVisitResponse,
-  ApprovalDetailStatus
+  ApprovalDetailStatus,
 } from '../../../../../core/models/client-crm/sales-visit.type';
 
 
@@ -76,7 +78,6 @@ export interface ApprovalQueueItem {
 
   currentApprover?: string;
 
-  // Actual Sales Visit ID
   salesVisitId: number;
 }
 
@@ -98,17 +99,23 @@ export interface ApprovalQueueItem {
   ],
 
   templateUrl: './approval-queue.component.html',
+
+  changeDetection:
+    ChangeDetectionStrategy.OnPush,
 })
 export class ApprovalQueueComponent
   implements OnInit {
 
 
   // =====================================================
-  // SERVICE
+  // SERVICES
   // =====================================================
 
   private readonly organizationService =
     inject(OrganizationService);
+
+  private readonly cdr =
+    inject(ChangeDetectorRef);
 
 
   // =====================================================
@@ -116,8 +123,6 @@ export class ApprovalQueueComponent
   // =====================================================
 
   requests: ApprovalQueueItem[] = [];
-
-  isLoadingSalesVisits = false;
 
   errorMessage = '';
 
@@ -165,11 +170,10 @@ export class ApprovalQueueComponent
 
   // =====================================================
   // LOAD APPROVAL QUEUE
+  // ONLY GET API
   // =====================================================
 
   loadApprovalQueue(): void {
-
-    this.isLoadingSalesVisits = true;
 
     this.errorMessage = '';
 
@@ -182,19 +186,9 @@ export class ApprovalQueueComponent
           response: SalesVisitResponse
         ) => {
 
-          console.log(
-            'Sales Visit API Response:',
-            response
-          );
-
-
           const salesVisits =
             response.data ?? [];
 
-
-          // ------------------------------------------------
-          // Convert SalesVisit -> ApprovalQueueItem
-          // ------------------------------------------------
 
           this.requests =
             salesVisits.map(
@@ -205,7 +199,8 @@ export class ApprovalQueueComponent
             );
 
 
-          this.isLoadingSalesVisits = false;
+          // OnPush change detection
+          this.cdr.markForCheck();
 
 
           console.log(
@@ -231,7 +226,8 @@ export class ApprovalQueueComponent
             'Unable to load approval requests.';
 
 
-          this.isLoadingSalesVisits = false;
+          // OnPush change detection
+          this.cdr.markForCheck();
 
         }
 
@@ -250,33 +246,17 @@ export class ApprovalQueueComponent
 
     return {
 
-      // --------------------------------------------------
-      // ID
-      // --------------------------------------------------
-
       id:
         String(visit.id),
 
-
-      // --------------------------------------------------
-      // ACTUAL SALES VISIT ID
-      // --------------------------------------------------
 
       salesVisitId:
         visit.id,
 
 
-      // --------------------------------------------------
-      // TITLE
-      // --------------------------------------------------
-
       title:
         `Sales Visit - ${visit.customer_name}`,
 
-
-      // --------------------------------------------------
-      // DESCRIPTION
-      // --------------------------------------------------
 
       description:
         visit.discussion_summary
@@ -285,41 +265,21 @@ export class ApprovalQueueComponent
         || 'Sales visit requires approval.',
 
 
-      // --------------------------------------------------
-      // CATEGORY
-      // --------------------------------------------------
-
       category:
         'Sales Visit',
 
-
-      // --------------------------------------------------
-      // ICON
-      // --------------------------------------------------
 
       icon:
         '📋',
 
 
-      // --------------------------------------------------
-      // REQUESTED BY
-      // --------------------------------------------------
-
       requestedBy:
         visit.executive_name,
 
 
-      // --------------------------------------------------
-      // REQUESTED DATE
-      // --------------------------------------------------
-
       requestedDate:
         visit.visit_date,
 
-
-      // --------------------------------------------------
-      // AMOUNT
-      // --------------------------------------------------
 
       amount:
         visit.basic_amount
@@ -327,19 +287,11 @@ export class ApprovalQueueComponent
         ?? 0,
 
 
-      // --------------------------------------------------
-      // PRIORITY
-      // --------------------------------------------------
-
       priority:
         this.getPriority(
           visit.lead_priority
         ),
 
-
-      // --------------------------------------------------
-      // STATUS
-      // --------------------------------------------------
 
       status:
         this.getApprovalStatus(
@@ -347,33 +299,17 @@ export class ApprovalQueueComponent
         ),
 
 
-      // --------------------------------------------------
-      // REQUESTER ROLE
-      // --------------------------------------------------
-
       requesterRole:
         'Sales Executive',
 
-
-      // --------------------------------------------------
-      // DEPARTMENT
-      // --------------------------------------------------
 
       department:
         'Sales',
 
 
-      // --------------------------------------------------
-      // APPROVAL LEVEL
-      // --------------------------------------------------
-
       approvalLevel:
         'Sales Director',
 
-
-      // --------------------------------------------------
-      // CURRENT APPROVER
-      // --------------------------------------------------
 
       currentApprover:
         'Sales Director',
@@ -411,29 +347,7 @@ export class ApprovalQueueComponent
         return 'changes-requested';
 
 
-      case 'PENDING':
-
-      case 'OPEN':
-
-      case 'IN_PROGRESS':
-
-      case 'FOLLOW_UP':
-
-      case 'NEGOTIATION':
-
-      case 'CONVERTED':
-
-      case 'FAILED':
-
-      case undefined:
-
-      case null:
-
-      case '':
-
       default:
-
-        // Default approval status
         return 'pending';
 
     }
@@ -498,54 +412,42 @@ export class ApprovalQueueComponent
     request: ApprovalQueueItem
   ): void {
 
-    console.log(
-      'Review clicked:',
-      request
-    );
-
-
     this.selectedDetailRequest = {
 
       ...APPROVAL_DETAIL,
 
 
-      // -------------------------------------------------
-      // ID
-      // -------------------------------------------------
-
       id:
         request.id,
 
 
-      // -------------------------------------------------
-      // BASIC INFORMATION
-      // -------------------------------------------------
-
       requestTitle:
         request.title,
+
 
       description:
         request.description,
 
+
       category:
         request.category,
+
 
       requestedBy:
         request.requestedBy,
 
+
       requestedDate:
         request.requestedDate,
+
 
       amount:
         request.amount,
 
+
       priority:
         request.priority,
 
-
-      // -------------------------------------------------
-      // STATUS
-      // -------------------------------------------------
 
       status:
         this.getApprovalStatus(
@@ -553,18 +455,17 @@ export class ApprovalQueueComponent
         ),
 
 
-      // -------------------------------------------------
-      // ADDITIONAL APPROVAL INFORMATION
-      // -------------------------------------------------
-
       requesterRole:
         request.requesterRole ?? '',
+
 
       department:
         request.department ?? '',
 
+
       approvalLevel:
         request.approvalLevel ?? '',
+
 
       currentApprover:
         request.currentApprover ?? '',
@@ -573,6 +474,9 @@ export class ApprovalQueueComponent
 
 
     this.showApprovalDetail = true;
+
+
+    this.cdr.markForCheck();
 
   }
 
@@ -587,6 +491,9 @@ export class ApprovalQueueComponent
 
     this.selectedDetailRequest = null;
 
+
+    this.cdr.markForCheck();
+
   }
 
 
@@ -600,6 +507,9 @@ export class ApprovalQueueComponent
 
     this.selectedDetailRequest = null;
 
+
+    this.cdr.markForCheck();
+
   }
 
 
@@ -610,12 +520,6 @@ export class ApprovalQueueComponent
   approveRequest(
     request: ApprovalQueueItem
   ): void {
-
-    console.log(
-      'Approve clicked:',
-      request
-    );
-
 
     this.selectedRequest = {
 
@@ -639,6 +543,9 @@ export class ApprovalQueueComponent
 
     this.showApproveConfirmation = true;
 
+
+    this.cdr.markForCheck();
+
   }
 
 
@@ -654,26 +561,13 @@ export class ApprovalQueueComponent
 
 
     console.log(
-      'Approval approved:',
+      'Approval confirmed:',
       this.selectedRequest.id
     );
 
 
-    /*
-     * ===================================================
-     * APPROVAL API
-     * ===================================================
-     *
-     * Future:
-     *
-     * this.organizationService
-     *   .approveSalesVisit(
-     *      Number(this.selectedRequest.id)
-     *   )
-     *   .subscribe(...)
-     *
-     * ===================================================
-     */
+    // NO API CALL HERE
+    // ONLY UI STATE UPDATE
 
 
     this.showApproveConfirmation = false;
@@ -681,7 +575,7 @@ export class ApprovalQueueComponent
     this.selectedRequest = null;
 
 
-    this.loadApprovalQueue();
+    this.cdr.markForCheck();
 
   }
 
@@ -696,6 +590,9 @@ export class ApprovalQueueComponent
 
     this.selectedRequest = null;
 
+
+    this.cdr.markForCheck();
+
   }
 
 
@@ -706,12 +603,6 @@ export class ApprovalQueueComponent
   rejectRequest(
     request: ApprovalQueueItem
   ): void {
-
-    console.log(
-      'Reject clicked:',
-      request
-    );
-
 
     this.selectedRejectRequest = {
 
@@ -734,6 +625,9 @@ export class ApprovalQueueComponent
 
 
     this.showRejectRequest = true;
+
+
+    this.cdr.markForCheck();
 
   }
 
@@ -761,22 +655,8 @@ export class ApprovalQueueComponent
     );
 
 
-    /*
-     * ===================================================
-     * REJECTION API
-     * ===================================================
-     *
-     * Future:
-     *
-     * this.organizationService
-     *   .rejectSalesVisit(
-     *      Number(event.request.id),
-     *      event.reason
-     *   )
-     *   .subscribe(...)
-     *
-     * ===================================================
-     */
+    // NO API CALL HERE
+    // ONLY UI STATE UPDATE
 
 
     this.showRejectRequest = false;
@@ -784,7 +664,7 @@ export class ApprovalQueueComponent
     this.selectedRejectRequest = null;
 
 
-    this.loadApprovalQueue();
+    this.cdr.markForCheck();
 
   }
 
@@ -798,6 +678,9 @@ export class ApprovalQueueComponent
     this.showRejectRequest = false;
 
     this.selectedRejectRequest = null;
+
+
+    this.cdr.markForCheck();
 
   }
 

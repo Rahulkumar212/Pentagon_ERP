@@ -1,5 +1,6 @@
-<div class="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
-
+<div
+  class="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
+>
   <!-- ===================================================== -->
   <!-- APPROVAL QUEUE -->
   <!-- ===================================================== -->
@@ -14,7 +15,6 @@
       class="flex flex-col gap-3 border-b border-gray-100 px-5 py-4
              sm:flex-row sm:items-center sm:justify-between"
     >
-
       <div>
 
         <div class="flex items-center gap-2">
@@ -57,40 +57,10 @@
 
 
     <!-- ===================================================== -->
-    <!-- LOADING SALES VISITS -->
-    <!-- ===================================================== -->
-
-    <div
-      *ngIf="isLoadingSalesVisits"
-      class="flex flex-col items-center justify-center
-             px-5 py-12"
-    >
-
-      <div
-        class="h-8 w-8 animate-spin rounded-full
-               border-2 border-slate-200
-               border-t-slate-900"
-      ></div>
-
-      <p class="mt-3 text-sm font-medium text-slate-700">
-        Loading approval details...
-      </p>
-
-      <p class="mt-1 text-xs text-slate-400">
-        Please wait while sales visit information is being loaded.
-      </p>
-
-    </div>
-
-
-    <!-- ===================================================== -->
     <!-- QUEUE -->
     <!-- ===================================================== -->
 
-    <div
-      *ngIf="!isLoadingSalesVisits"
-      class="divide-y divide-gray-100"
-    >
+    <div class="divide-y divide-gray-100">
 
       <!-- ================================================= -->
       <!-- REQUEST -->
@@ -257,28 +227,21 @@
 
             <div class="flex items-center gap-2">
 
-              <!-- ================================================= -->
               <!-- REVIEW -->
-              <!-- ================================================= -->
 
               <button
                 type="button"
                 (click)="reviewRequest(request)"
-                [disabled]="isLoadingSalesVisits"
                 class="rounded-lg border border-gray-200 bg-white
                        px-3 py-2 text-xs font-medium text-slate-600
                        transition hover:bg-gray-50
-                       hover:text-slate-900
-                       disabled:cursor-not-allowed
-                       disabled:opacity-50"
+                       hover:text-slate-900"
               >
                 Review
               </button>
 
 
-              <!-- ================================================= -->
               <!-- REJECT -->
-              <!-- ================================================= -->
 
               <button
                 type="button"
@@ -291,9 +254,7 @@
               </button>
 
 
-              <!-- ================================================= -->
               <!-- APPROVE -->
-              <!-- ================================================= -->
 
               <button
                 type="button"
@@ -351,7 +312,7 @@
     <!-- ===================================================== -->
 
     <div
-      *ngIf="!isLoadingSalesVisits && requests.length > 0"
+      *ngIf="requests.length > 0"
       class="flex items-center justify-between
              border-t border-gray-100
              bg-gray-50/50 px-5 py-3"
@@ -384,7 +345,6 @@
   </div>
 
 
-
   <!-- ===================================================== -->
   <!-- APPROVAL DETAIL -->
   <!-- ===================================================== -->
@@ -405,7 +365,6 @@
 </div>
 
 
-
 <!-- ===================================================== -->
 <!-- APPROVE CONFIRMATION MODAL -->
 <!-- ===================================================== -->
@@ -417,7 +376,6 @@
   (cancelled)="closeApproveConfirmation()"
 >
 </app-approve-confirmation>
-
 
 
 <!-- ===================================================== -->

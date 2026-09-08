@@ -6,6 +6,7 @@ import {
   OnChanges,
   SimpleChanges,
   inject,
+  ChangeDetectorRef,
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
@@ -64,6 +65,9 @@ export class ApprovalDetailComponent
 
   private readonly organizationService =
     inject(OrganizationService);
+
+  private readonly cdr =
+  inject(ChangeDetectorRef);
 
 
   // =====================================================
@@ -146,139 +150,132 @@ export class ApprovalDetailComponent
 
   loadSalesVisit(): void {
 
-    /*
-     * Yahan hum assume kar rahe hain:
-     *
-     * approval.id === SalesVisit.id
-     *
-     * Example:
-     *
-     * approval.id = "25"
-     *
-     * SalesVisit:
-     * {
-     *   id: 25,
-     *   customer_name: "ABC"
-     * }
-     */
-
-    const salesVisitId =
-      Number(this.approval.id);
+  const salesVisitId =
+    Number(this.approval.id);
 
 
-    // -------------------------------------------------
-    // VALIDATE ID
-    // -------------------------------------------------
+  // =============================================
+  // VALIDATE ID
+  // =============================================
 
-    if (
-      !salesVisitId ||
-      Number.isNaN(salesVisitId)
-    ) {
-
-      this.salesVisit = null;
-
-      this.salesVisitError =
-        'Invalid Sales Visit ID.';
-
-      return;
-    }
-
-
-    // -------------------------------------------------
-    // LOADING STATE
-    // -------------------------------------------------
-
-    this.isLoadingSalesVisit = true;
-
-    this.salesVisitError = '';
+  if (
+    !salesVisitId ||
+    Number.isNaN(salesVisitId)
+  ) {
 
     this.salesVisit = null;
 
+    this.salesVisitError =
+      'Invalid Sales Visit ID.';
 
-    // -------------------------------------------------
-    // FETCH ALL SALES VISITS
-    // -------------------------------------------------
+    this.cdr.detectChanges();
 
-    this.organizationService
-      .fetchSalesVisits()
-      .subscribe({
+    return;
+  }
 
-        next: (response) => {
 
-          console.log(
-            'All Sales Visits:',
-            response.data
+  // =============================================
+  // RESET STATE
+  // =============================================
+
+  this.salesVisitError = '';
+
+  this.salesVisit = null;
+
+
+  // =============================================
+  // FETCH SALES VISITS
+  // =============================================
+
+  this.organizationService
+    .fetchSalesVisits()
+    .subscribe({
+
+      next: (response) => {
+
+        console.log(
+          'All Sales Visits:',
+          response.data
+        );
+
+
+        // =============================================
+        // FIND SELECTED SALES VISIT
+        // =============================================
+
+        const selectedVisit =
+          response.data?.find(
+            (visit: SalesVisit) =>
+              visit.id === salesVisitId
           );
 
 
-          // -------------------------------------------------
-          // FIND REQUIRED SALES VISIT
-          // -------------------------------------------------
+        // =============================================
+        // RECORD NOT FOUND
+        // =============================================
 
-          const selectedVisit =
-            response.data?.find(
-              visit =>
-                visit.id === salesVisitId
-            );
-
-
-          // -------------------------------------------------
-          // RECORD NOT FOUND
-          // -------------------------------------------------
-
-          if (!selectedVisit) {
-
-            this.salesVisit = null;
-
-            this.salesVisitError =
-              'Sales Visit not found.';
-
-            this.isLoadingSalesVisit = false;
-
-            return;
-          }
-
-
-          // -------------------------------------------------
-          // SET SELECTED SALES VISIT
-          // -------------------------------------------------
-
-          console.log(
-            'Selected Sales Visit:',
-            selectedVisit
-          );
-
-          this.salesVisit =
-            selectedVisit;
-
-          this.isLoadingSalesVisit = false;
-
-        },
-
-
-        // -------------------------------------------------
-        // API ERROR
-        // -------------------------------------------------
-
-        error: (error) => {
-
-          console.error(
-            'Failed to fetch Sales Visits:',
-            error
-          );
+        if (!selectedVisit) {
 
           this.salesVisit = null;
 
           this.salesVisitError =
-            'Unable to load Sales Visit details.';
+            'Sales Visit not found.';
 
-          this.isLoadingSalesVisit = false;
 
+          // Force UI Update
+          this.cdr.detectChanges();
+
+          return;
         }
 
-      });
 
-  }
+        // =============================================
+        // SET DATA
+        // =============================================
+
+        console.log(
+          'Selected Sales Visit:',
+          selectedVisit
+        );
+
+        this.salesVisit =
+          selectedVisit;
+
+
+        // =============================================
+        // FORCE CHANGE DETECTION
+        // =============================================
+
+        this.cdr.detectChanges();
+
+      },
+
+
+      // =============================================
+      // API ERROR
+      // =============================================
+
+      error: (error) => {
+
+        console.error(
+          'Failed to fetch Sales Visits:',
+          error
+        );
+
+        this.salesVisit = null;
+
+        this.salesVisitError =
+          'Unable to load Sales Visit details.';
+
+
+        // Force UI Update
+        this.cdr.detectChanges();
+
+      }
+
+    });
+
+}
 
 
   // =====================================================

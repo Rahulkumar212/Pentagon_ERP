@@ -27,11 +27,11 @@ export const SALES_DIRECTOR_SIDEBAR: SidebarModule = {
           route: '/approvals',
         },
 
-        {
-          label: 'Order Tracking',
-          icon: '📦',
-          route: '/sales-director/order-tracking',
-        },
+        // {
+        //   label: 'Order Tracking',
+        //   icon: '📦',
+        //   route: '/sales-director/order-tracking',
+        // },
 
         {
           label: 'Audit Logs',
