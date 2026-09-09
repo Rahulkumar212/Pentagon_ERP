@@ -1,10 +1,10 @@
-
 <div
   class="w-full overflow-hidden
          rounded-xl
          border border-gray-200
          bg-white
-         shadow-sm">
+         shadow-sm"
+>
 
   <!-- ===================================================== -->
   <!-- HEADER -->
@@ -13,22 +13,21 @@
   <div
     class="flex items-center justify-between
            border-b border-gray-100
-           px-5 py-4">
+           px-5 py-4"
+  >
 
     <div>
       <h3
         class="text-sm font-semibold
-               text-slate-900">
-
+               text-slate-900"
+      >
         Approval History
-
       </h3>
 
       <p
-        class="mt-1 text-xs text-slate-500">
-
-        Recently processed approval requests
-
+        class="mt-1 text-xs text-slate-500"
+      >
+        Recently processed sales visit approvals
       </p>
     </div>
 
@@ -41,10 +40,9 @@
              text-slate-600
              transition
              hover:bg-gray-50
-             hover:text-slate-900">
-
+             hover:text-slate-900"
+    >
       View All
-
     </button>
 
   </div>
@@ -56,7 +54,7 @@
 
   <div class="overflow-x-auto">
 
-    <table class="w-full min-w-[900px]">
+    <table class="w-full min-w-[1200px]">
 
       <!-- TABLE HEADER -->
 
@@ -64,66 +62,97 @@
 
         <tr
           class="border-b border-gray-100
-                 bg-gray-50/70">
+                 bg-gray-50/70"
+        >
 
           <th
             class="px-5 py-3 text-left
                    text-[11px] font-semibold
                    uppercase tracking-wide
-                   text-slate-500">
-
-            Request
-
+                   text-slate-500"
+          >
+            Customer
           </th>
 
           <th
             class="px-5 py-3 text-left
                    text-[11px] font-semibold
                    uppercase tracking-wide
-                   text-slate-500">
-
-            Category
-
+                   text-slate-500"
+          >
+            Executive
           </th>
 
           <th
             class="px-5 py-3 text-left
                    text-[11px] font-semibold
                    uppercase tracking-wide
-                   text-slate-500">
+                   text-slate-500"
+          >
+            Visit Date
+          </th>
 
-            Requested By
+          <th
+            class="px-5 py-3 text-left
+                   text-[11px] font-semibold
+                   uppercase tracking-wide
+                   text-slate-500"
+          >
+            Activity
+          </th>
 
+          <th
+            class="px-5 py-3 text-left
+                   text-[11px] font-semibold
+                   uppercase tracking-wide
+                   text-slate-500"
+          >
+            Client Type
+          </th>
+
+          <th
+            class="px-5 py-3 text-left
+                   text-[11px] font-semibold
+                   uppercase tracking-wide
+                   text-slate-500"
+          >
+            Priority
           </th>
 
           <th
             class="px-5 py-3 text-right
                    text-[11px] font-semibold
                    uppercase tracking-wide
-                   text-slate-500">
-
-            Amount
-
+                   text-slate-500"
+          >
+            Expected Business
           </th>
 
           <th
             class="px-5 py-3 text-center
                    text-[11px] font-semibold
                    uppercase tracking-wide
-                   text-slate-500">
-
-            Status
-
+                   text-slate-500"
+          >
+            Current Status
           </th>
 
           <th
             class="px-5 py-3 text-left
                    text-[11px] font-semibold
                    uppercase tracking-wide
-                   text-slate-500">
+                   text-slate-500"
+          >
+            Next Follow-up
+          </th>
 
-            Processed
-
+          <th
+            class="px-5 py-3 text-center
+                   text-[11px] font-semibold
+                   uppercase tracking-wide
+                   text-slate-500"
+          >
+            Approval
           </th>
 
         </tr>
@@ -131,60 +160,74 @@
       </thead>
 
 
+      <!-- ===================================================== -->
       <!-- TABLE BODY -->
+      <!-- ===================================================== -->
 
       <tbody>
 
         <tr
-          *ngFor="let item of history"
+          *ngFor="let item of salesVisits"
           class="border-b border-gray-100
                  last:border-0
                  transition
-                 hover:bg-slate-50">
+                 hover:bg-slate-50"
+        >
 
-          <!-- REQUEST -->
+          <!-- CUSTOMER -->
 
           <td class="px-5 py-4">
 
-            <div class="flex items-center gap-3">
+            <div>
 
-              <div
-                class="flex h-9 w-9 shrink-0
-                       items-center justify-center
-                       rounded-lg
-                       bg-slate-100
-                       text-sm">
+              <p
+                class="text-sm font-medium
+                       text-slate-800"
+              >
+                {{ item.customer_name }}
+              </p>
 
-                📄
-
-              </div>
-
-              <div>
-
-                <p
-                  class="text-sm font-medium
-                         text-slate-800">
-
-                  {{ item.requestTitle }}
-
-                </p>
-
-                <p
-                  class="mt-0.5 text-[11px]
-                         text-slate-400">
-
-                  {{ item.id }}
-
-                </p>
-
-              </div>
+              <p
+                class="mt-0.5 text-[11px]
+                       text-slate-400"
+              >
+                {{ item.city || '-' }}
+              </p>
 
             </div>
 
           </td>
 
 
-          <!-- CATEGORY -->
+          <!-- EXECUTIVE -->
+
+          <td class="px-5 py-4">
+
+            <p
+              class="text-sm font-medium
+                     text-slate-700"
+            >
+              {{ item.executive_name }}
+            </p>
+
+          </td>
+
+
+          <!-- VISIT DATE -->
+
+          <td class="px-5 py-4">
+
+            <p
+              class="text-xs font-medium
+                     text-slate-700"
+            >
+              {{ item.visit_date | date:'dd MMM yyyy':'Asia/Kolkata' }}
+            </p>
+
+          </td>
+
+
+          <!-- ACTIVITY -->
 
           <td class="px-5 py-4">
 
@@ -193,77 +236,122 @@
                      bg-slate-100
                      px-2.5 py-1
                      text-xs font-medium
-                     text-slate-600">
-
-              {{ item.category }}
-
+                     text-slate-600"
+            >
+              {{ item.activity_type || '-' }}
             </span>
 
           </td>
 
 
-          <!-- REQUESTED BY -->
+          <!-- CLIENT TYPE -->
 
           <td class="px-5 py-4">
 
-            <div>
-
-              <p
-                class="text-sm font-medium
-                       text-slate-700">
-
-                {{ item.requestedBy }}
-
-              </p>
-
-              <p
-                class="mt-0.5 text-[11px]
-                       text-slate-400">
-
-                Requester
-
-              </p>
-
-            </div>
-
-          </td>
-
-
-          <!-- AMOUNT -->
-
-          <td
-            class="px-5 py-4 text-right">
-
             <span
-              class="text-sm font-semibold
-                     text-slate-800">
-
-              {{ formatCurrency(item.amount) }}
-
+              class="rounded-md
+                     bg-blue-50
+                     px-2.5 py-1
+                     text-xs font-medium
+                     text-blue-700"
+            >
+              {{ item.client_type || '-' }}
             </span>
 
           </td>
 
 
-          <!-- STATUS -->
+          <!-- PRIORITY -->
 
-          <td
-            class="px-5 py-4 text-center">
+          <td class="px-5 py-4">
 
             <span
-              *ngIf="item.action === 'approved'"
+              class="rounded-full
+                     bg-amber-50
+                     px-2.5 py-1
+                     text-xs font-medium
+                     text-amber-700"
+            >
+              {{ item.lead_priority || '-' }}
+            </span>
+
+          </td>
+
+
+          <!-- EXPECTED BUSINESS -->
+
+          <td
+            class="px-5 py-4 text-right"
+          >
+
+            <span
+              class="text-sm font-semibold
+                     text-slate-800"
+            >
+              {{ formatCurrency(item.expected_business_value || 0) }}
+            </span>
+
+          </td>
+
+
+          <!-- CURRENT STATUS -->
+
+          <td
+            class="px-5 py-4 text-center"
+          >
+
+            <span
+              class="rounded-full
+                     bg-blue-50
+                     px-2.5 py-1
+                     text-xs font-medium
+                     text-blue-700"
+            >
+              {{ item.current_status || '-' }}
+            </span>
+
+          </td>
+
+
+          <!-- NEXT FOLLOW-UP -->
+
+          <td class="px-5 py-4">
+
+            <p
+              class="text-xs font-medium
+                     text-slate-700"
+            >
+              {{
+                item.next_followup_date
+                  ? (item.next_followup_date | date:'dd MMM yyyy':'Asia/Kolkata')
+                  : '-'
+              }}
+            </p>
+
+          </td>
+
+
+          <!-- APPROVAL STATUS -->
+
+          <td
+            class="px-5 py-4 text-center"
+          >
+
+            <span
+              *ngIf="item.status === 'APPROVED'"
               class="inline-flex items-center gap-1.5
                      rounded-full
                      bg-emerald-50
                      px-2.5 py-1
                      text-xs font-medium
-                     text-emerald-700">
+                     text-emerald-700"
+            >
 
               <span
                 class="h-1.5 w-1.5
                        rounded-full
-                       bg-emerald-500">
-              </span>
+                       bg-emerald-500"
+              ></span>
 
               Approved
 
@@ -271,50 +359,76 @@
 
 
             <span
-              *ngIf="item.action === 'rejected'"
+              *ngIf="item.status === 'REJECTED'"
               class="inline-flex items-center gap-1.5
                      rounded-full
                      bg-red-50
                      px-2.5 py-1
                      text-xs font-medium
-                     text-red-700">
+                     text-red-700"
+            >
 
               <span
                 class="h-1.5 w-1.5
                        rounded-full
-                       bg-red-500">
-              </span>
+                       bg-red-500"
+              ></span>
 
               Rejected
 
             </span>
 
+
+            <span
+              *ngIf="
+                item.status !== 'APPROVED' &&
+                item.status !== 'REJECTED'
+              "
+              class="inline-flex items-center gap-1.5
+                     rounded-full
+                     bg-amber-50
+                     px-2.5 py-1
+                     text-xs font-medium
+                     text-amber-700"
+            >
+
+              <span
+                class="h-1.5 w-1.5
+                       rounded-full
+                       bg-amber-500"
+              ></span>
+
+              Pending
+
+            </span>
+
           </td>
 
+        </tr>
 
-          <!-- PROCESSED -->
 
-          <td class="px-5 py-4">
+        <!-- EMPTY STATE -->
 
-            <div>
+        <tr *ngIf="salesVisits.length === 0">
 
-              <p
-                class="text-xs font-medium
-                       text-slate-700">
+          <td
+            colspan="10"
+            class="px-6 py-12 text-center"
+          >
 
-                {{ item.processedDate }}
+            <p
+              class="text-sm font-medium
+                     text-slate-600"
+            >
+              No sales visit history found.
+            </p>
 
-              </p>
-
-              <p
-                class="mt-0.5 text-[11px]
-                       text-slate-400">
-
-                By {{ item.processedBy }}
-
-              </p>
-
-            </div>
+            <p
+              class="mt-1 text-xs
+                     text-slate-400"
+            >
+              No approval records are available.
+            </p>
 
           </td>
 
@@ -335,30 +449,32 @@
     class="flex items-center justify-between
            border-t border-gray-100
            bg-gray-50/50
-           px-5 py-3">
+           px-5 py-3"
+  >
 
     <p
-      class="text-xs text-slate-500">
-
+      class="text-xs text-slate-500"
+    >
       Showing
-      <span class="font-medium text-slate-700">
-        {{ history.length }}
-      </span>
-      recently processed requests
 
+      <span
+        class="font-medium text-slate-700"
+      >
+        {{ salesVisits.length }}
+      </span>
+
+      recently processed requests
     </p>
 
     <button
       type="button"
       class="text-xs font-medium
              text-slate-600
-             hover:text-slate-900">
-
+             hover:text-slate-900"
+    >
       View Complete History →
-
     </button>
 
   </div>
 
 </div>
-

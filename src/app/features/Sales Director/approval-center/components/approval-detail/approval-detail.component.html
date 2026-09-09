@@ -193,7 +193,11 @@
             </p>
 
             <p class="value">
-              {{ approval.requestedDate || '-' }}
+               {{
+                  approval.requestedDate
+                    ? (approval.requestedDate | date:'dd/MM/yyyy')
+                    : '-'
+                }}
             </p>
 
           </div>
@@ -965,7 +969,7 @@
               </p>
 
               <p class="value">
-                {{ salesVisit.expected_closure_date || '-' }}
+                {{ salesVisit.expected_closure_date | date:'DD/MM/YYYY'}}
               </p>
 
             </div>
