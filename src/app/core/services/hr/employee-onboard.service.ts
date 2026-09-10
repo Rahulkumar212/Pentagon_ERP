@@ -184,9 +184,6 @@ generateEmployeeCodeForSelectedEmployee(): void {
 
         console.log('Employee Code:', response);
 
-        // Agar backend updated employee bhejta hai
-        // to yahan employees signal bhi update kar sakte ho.
-
       },
 
       error: console.error
@@ -215,13 +212,13 @@ generateEmployeeCodeForSelectedEmployee(): void {
 
   }
 
-   getEmployeeNameDesignation(): Observable<EmployeeNameDesignationResponse> {
+   getHiredJobApplicants(): Observable<EmployeeNameDesignationResponse> {
 
-    return this.http.get<EmployeeNameDesignationResponse>(
-      `${this.API_URL}/employee-name-designation`
-    );
+  return this.http.get<EmployeeNameDesignationResponse>(
+    `${this.API_URL}/jobApplicantName`
+  );
 
-  }
+}
 
 toggleTaskChecklist(
   taskId: number,

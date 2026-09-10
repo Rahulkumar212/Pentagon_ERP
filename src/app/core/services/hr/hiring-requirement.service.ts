@@ -93,4 +93,17 @@ export class HiringRequirementService extends BaseApiService {
       }
     );
   }
+
+
+  // =====================================================
+// DELETE JOB APPLICATION
+// =====================================================
+
+deleteJobApplication(
+  id: number
+): Observable<any> {
+  return this.http.delete(
+    `${this.API_URL}/deletejobApplication/${id}`
+  );
+}
 }

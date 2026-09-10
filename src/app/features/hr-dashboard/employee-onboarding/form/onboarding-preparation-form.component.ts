@@ -84,7 +84,7 @@ export class OnboardingPreparationFormComponent implements OnInit {
   loadEmployees(): void {
 
     this.employeeOnboardService
-      .getEmployeeNameDesignation()
+      .getHiredJobApplicants()
       .subscribe({
 
         next: (response) => {

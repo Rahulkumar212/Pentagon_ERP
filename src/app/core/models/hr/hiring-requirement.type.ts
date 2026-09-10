@@ -84,14 +84,33 @@ export interface HiringRequirementsResponse {
 // JOB APPLICATION
 // =====================================================
 
+// =====================================================
+// JOB APPLICATION
+// =====================================================
+
 export interface JobApplication {
   id: number;
+
   hiringRequirementId: number;
+
   candidateName: string;
+
   email: string;
+
   mobile: string;
+
+  cvUrl?: string | null;
+
   appliedAt: string;
+
   status?: JobApplicationStatus;
+
+  hiringRequirement?: {
+    id: number;
+    jobTitle: string;
+    department: string;
+    employmentType: string;
+  };
 }
 
 export interface UpdateJobApplicationSelectionPayload {
@@ -117,6 +136,7 @@ export interface Candidate {
   id: number;
   name: string;
   designation: string;
+  email: string;
   experience: string;
   score: number;
   cvUrl: string;
