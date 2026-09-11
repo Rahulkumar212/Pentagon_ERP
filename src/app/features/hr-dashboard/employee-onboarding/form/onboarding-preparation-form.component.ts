@@ -7,33 +7,21 @@ import {
   inject
 } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+
+import { EmployeeOnboardService } from '../../../../core/services/hr/employee-onboard.service';
 
 import {
-  FormsModule
-} from '@angular/forms';
-
-import {
-  EmployeeOnboardService
-} from '../../../../core/services/hr/employee-onboard.service';
-
-import {
-  EmployeeNameDesignation,
+  HiredJobApplicant,
   EmployeeOnboardPayload
 } from '../../../../core/models/hr/employee-onboard.type';
 
 export interface PreparationForm {
-
-  employeeId: number;
-
-  employeeName:string;
-
+  jobApplicationId: number;
+  employeeName: string;
   designation: string;
-
   joiningDate: string;
-
 }
 
 @Component({
@@ -45,7 +33,8 @@ export interface PreparationForm {
   ],
   templateUrl: './onboarding-preparation-form.component.html'
 })
-export class OnboardingPreparationFormComponent implements OnInit {
+export class OnboardingPreparationFormComponent
+  implements OnInit {
 
   private readonly employeeOnboardService =
     inject(EmployeeOnboardService);
@@ -54,143 +43,146 @@ export class OnboardingPreparationFormComponent implements OnInit {
     inject(ChangeDetectorRef);
 
   @Output()
-  close =
-    new EventEmitter<void>();
+  close = new EventEmitter<void>();
 
   @Output()
   createChecklist =
     new EventEmitter<PreparationForm>();
 
-  employees: EmployeeNameDesignation[] = [];
+  employees: HiredJobApplicant[] = [];
 
   form: PreparationForm = {
-
-    employeeId: 0,
-
-    employeeName:'',
-
-    designation: '',
-
-    joiningDate: ''
-
-  };
+  jobApplicationId: 0,
+  employeeName: '',
+  designation: '',
+  joiningDate: ''
+};
 
   ngOnInit(): void {
-
     this.loadEmployees();
-
   }
 
-  loadEmployees(): void {
+  // =====================================================
+  // GET HIRED CANDIDATES
+  // =====================================================
 
+  loadEmployees(): void {
     this.employeeOnboardService
       .getHiredJobApplicants()
       .subscribe({
-
         next: (response) => {
+
+          console.log(
+            'Hired Job Applicants:',
+            response
+          );
 
           this.employees = response.data;
 
           this.cdr.detectChanges();
-
         },
 
         error: (err) => {
-
-          console.error(err);
-
+          console.error(
+            'Failed to load hired candidates:',
+            err
+          );
         }
-
       });
-
   }
 
-  onEmployeeChange(): void {
+  // =====================================================
+  // EMPLOYEE CHANGE
+  // =====================================================
 
-    const employee = this.employees.find(
+ onEmployeeChange(): void {
 
-      emp => emp.id === this.form.employeeId
-
+  const employee =
+    this.employees.find(
+      emp =>
+        emp.id === this.form.jobApplicationId
     );
 
-    this.form.designation =
-      employee?.designation ?? '';
+  this.form.employeeName =
+    employee?.candidateName ?? '';
 
-    this.cdr.detectChanges();
+  this.form.designation =
+    employee?.hiringRequirement?.jobTitle ?? '';
 
-  }
+  this.cdr.detectChanges();
+}
 
-  isFormValid(): boolean {
+  // =====================================================
+  // FORM VALIDATION
+  // =====================================================
 
-    return (
+ isFormValid(): boolean {
+  return (
+    this.form.jobApplicationId > 0 &&
+    this.form.employeeName.trim().length > 0 &&
+    this.form.designation.trim().length > 0 &&
+    this.form.joiningDate.trim().length > 0
+  );
+}
 
-      this.form.employeeId > 0 &&
-
-      this.form.joiningDate.trim().length > 0
-
-    );
-
-  }
+  // =====================================================
+  // RESET FORM
+  // =====================================================
 
   private resetForm(): void {
 
     this.form = {
-
-      employeeId: 0,
-
-      employeeName:'',
-
+      jobApplicationId: 0,
+      employeeName: '',
       designation: '',
-
       joiningDate: ''
-
     };
 
     this.cdr.detectChanges();
-
   }
+
+  // =====================================================
+  // CANCEL
+  // =====================================================
 
   onCancel(): void {
-
     this.resetForm();
-
     this.close.emit();
-
   }
+
+  // =====================================================
+  // SUBMIT
+  // =====================================================
 
   onSubmit(): void {
 
     if (!this.isFormValid()) {
-
       return;
-
     }
 
     const payload: EmployeeOnboardPayload = {
-
-      employeeId: this.form.employeeId,
-
+      candidateName: this.form.employeeName,
+      jobTitle: this.form.designation,
       joiningDate: this.form.joiningDate
-
     };
 
-    console.log('Creating Checklist...', payload);
+    console.log(
+      'Creating Checklist:',
+      payload
+    );
 
     this.employeeOnboardService
       .createEmployeeOnboard(payload)
       .subscribe({
-
         next: (response) => {
 
           console.log(
-            'Checklist Created Successfully',
+            'Checklist Created Successfully:',
             response
           );
 
           this.createChecklist.emit({
-
             ...this.form
-
           });
 
           this.resetForm();
@@ -198,20 +190,14 @@ export class OnboardingPreparationFormComponent implements OnInit {
           this.close.emit();
 
           this.cdr.detectChanges();
-
         },
 
         error: (err) => {
-
           console.error(
-            'Create Checklist Failed',
+            'Create Checklist Failed:',
             err
           );
-
         }
-
       });
-
   }
-
 }

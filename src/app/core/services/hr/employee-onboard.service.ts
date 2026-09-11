@@ -13,6 +13,7 @@ import {
   EmployeeOnboardPayload,
   EmployeeOnboardResponse,
   EmployeeOnboardsResponse,
+  HiredJobApplicantsResponse,
   TaskChecklist,
   TaskChecklistResponse
 } from '../../models/hr/employee-onboard.type';
@@ -212,12 +213,10 @@ generateEmployeeCodeForSelectedEmployee(): void {
 
   }
 
-   getHiredJobApplicants(): Observable<EmployeeNameDesignationResponse> {
-
-  return this.http.get<EmployeeNameDesignationResponse>(
+   getHiredJobApplicants(): Observable<HiredJobApplicantsResponse> {
+  return this.http.get<HiredJobApplicantsResponse>(
     `${this.API_URL}/jobApplicantName`
   );
-
 }
 
 toggleTaskChecklist(

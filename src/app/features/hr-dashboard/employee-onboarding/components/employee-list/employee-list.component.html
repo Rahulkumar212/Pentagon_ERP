@@ -26,7 +26,7 @@
             class="flex h-12 w-12 shrink-0 items-center justify-center rounded-full bg-red-100 font-bold text-red-800"
             [class.bg-white]="selectedEmployee.id === employee.id">
 
-            {{ employee.employee.fullName.charAt(0).toUpperCase() }}
+            {{ employee.candidateName?.charAt(0)?.toUpperCase() || '?' }}
 
           </div>
 
@@ -36,7 +36,7 @@
 
             <h4 class="text-sm font-semibold">
 
-              {{ employee.employee.fullName }}
+              {{ employee.candidateName }}
 
             </h4>
 
@@ -45,7 +45,7 @@
               [class.text-red-100]="selectedEmployee.id === employee.id"
               [class.text-gray-500]="selectedEmployee.id !== employee.id">
 
-              {{ employee.employee.designation }}
+              {{ employee.jobTitle }}
 
             </p>
 
@@ -54,8 +54,8 @@
               [class.text-red-200]="selectedEmployee.id === employee.id"
               [class.text-gray-400]="selectedEmployee.id !== employee.id">
 
-              {{ employee.employee.department }}
-
+             {{ employee.jobTitle }}
+             
             </p>
 
             <p
