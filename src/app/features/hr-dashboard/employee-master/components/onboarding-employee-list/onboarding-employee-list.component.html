@@ -1,0 +1,95 @@
+<div class="rounded-xl border border-gray-200 bg-white">
+
+  <!-- Header -->
+  <div class="border-b border-gray-200 px-5 py-4">
+
+    <h3 class="text-base font-semibold text-gray-900">
+      Completed Onboarding Employees
+    </h3>
+
+    <p class="mt-1 text-sm text-gray-500">
+      Select an employee to add to Employee Master
+    </p>
+
+  </div>
+
+  <!-- Employee List -->
+  <div class="divide-y divide-gray-100">
+
+    @for (employee of employees; track employee.id) {
+
+      <div
+        class="flex items-center justify-between gap-4 px-5 py-4 transition hover:bg-gray-50">
+
+        <!-- Employee Info -->
+        <div class="flex items-center gap-4">
+
+          <!-- Avatar -->
+          <div
+            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-full bg-red-100 font-semibold text-red-800">
+
+            {{ employee.candidateName?.charAt(0)?.toUpperCase() || '?' }}
+
+          </div>
+
+          <div>
+
+            <h4 class="text-sm font-semibold text-gray-900">
+              {{ employee.candidateName }}
+            </h4>
+
+            <p class="mt-1 text-xs text-gray-500">
+              {{ employee.jobTitle }}
+            </p>
+
+            <p class="mt-1 text-xs text-gray-400">
+              Joining :
+              {{ employee.joiningDate | date:'dd MMM yyyy' }}
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- Status & Action -->
+        <div class="flex items-center gap-4">
+
+          <span
+            class="rounded-full bg-green-100 px-3 py-1 text-[11px] font-semibold text-green-700">
+
+            Completed
+
+          </span>
+
+          <button
+            type="button"
+            (click)="onSelectEmployee(employee)"
+            class="rounded-lg bg-red-800 px-4 py-2 text-xs font-semibold text-white transition hover:bg-red-900">
+
+            Select
+
+          </button>
+
+        </div>
+
+      </div>
+
+    } @empty {
+
+      <div class="py-12 text-center">
+
+        <p class="text-sm font-medium text-gray-600">
+          No completed onboarding employees found
+        </p>
+
+        <p class="mt-1 text-xs text-gray-400">
+          Complete employee onboarding to add employees here
+        </p>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

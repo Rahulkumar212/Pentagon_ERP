@@ -1,8 +1,12 @@
 <div class="space-y-8">
 
-  <app-employee-master-header
-    (addEmployee)="openForm()">
-  </app-employee-master-header>
+  <app-employee-master-header>
+</app-employee-master-header>
+
+   <app-onboarding-employee-list
+  [employees]="employeeOnboardService.employees()"
+  (selectEmployee)="selectOnboardingEmployee($event)">
+</app-onboarding-employee-list>
 
   <div class="my-2">
 
@@ -13,6 +17,8 @@
 
 
   </div>
+
+ 
 
   <div class="rounded-xl border border-gray-200 bg-white p-5">
 
@@ -27,10 +33,11 @@
 
 @if(showForm()){
 
-<app-add-employee-form
-  (close)="closeForm()"
-  (save)="addEmployee($event)">
-</app-add-employee-form>
+  <app-add-employee-form
+    [onboardingEmployee]="selectedOnboardingEmployee"
+    (close)="closeForm()"
+    (save)="addEmployee($event)">
+  </app-add-employee-form>
 
 }
 

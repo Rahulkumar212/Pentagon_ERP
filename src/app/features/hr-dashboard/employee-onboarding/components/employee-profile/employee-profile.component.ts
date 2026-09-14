@@ -1,6 +1,7 @@
 import {
   Component,
   EventEmitter,
+  inject,
   Input,
   Output
 } from '@angular/core';
@@ -8,6 +9,10 @@ import {
 import {
   CommonModule
 } from '@angular/common';
+
+import {
+  Router
+} from '@angular/router';
 
 import {
   EmployeeOnboard
@@ -23,6 +28,8 @@ import {
 })
 export class EmployeeProfileComponent {
 
+  private readonly router = inject(Router);
+
   @Input({ required: true })
   employee!: EmployeeOnboard;
 
@@ -30,18 +37,18 @@ export class EmployeeProfileComponent {
   canGenerateCode = false;
 
   @Output()
-  generateCode =
-    new EventEmitter<void>();
+  generateCode = new EventEmitter<void>();
 
-  onGenerateEmployeeCode(): void {
+  onAddEmployee(): void {
 
-    if (!this.canGenerateCode) {
-
-      return;
-
-    }
-
-    this.generateCode.emit();
+    this.router.navigate(
+      ['/employee-master'],
+      {
+        queryParams: {
+          openForm: true
+        }
+      }
+    );
 
   }
 

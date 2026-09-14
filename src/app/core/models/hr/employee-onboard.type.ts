@@ -27,6 +27,7 @@ export interface EmployeeOnboard {
   joiningDate: string;
   candidateName: string | null;
   jobTitle: string | null;
+  department:string | null;
   taskCheckLists: TaskChecklist[];
 }
 

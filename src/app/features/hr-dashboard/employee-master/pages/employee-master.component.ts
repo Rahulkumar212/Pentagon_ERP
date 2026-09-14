@@ -39,6 +39,9 @@ import {
 import {
   EmployeeService
 } from '../../../../core/services/hr/employee.service';
+import { OnboardingEmployeeListComponent } from '../components/onboarding-employee-list/onboarding-employee-list.component';
+import { EmployeeOnboardService } from '../../../../core/services/hr/employee-onboard.service';
+import { EmployeeOnboard } from '../../../../core/models/hr/employee-onboard.type';
 
 @Component({
   selector: 'app-employee-master',
@@ -49,7 +52,8 @@ import {
     EmployeeFiltersComponent,
     EmployeeListComponent,
     AddEmployeeFormComponent,
-    EmployeeProfileDrawerComponent
+    EmployeeProfileDrawerComponent,
+    OnboardingEmployeeListComponent
   ],
   templateUrl: './employee-master.component.html'
 })
@@ -58,8 +62,13 @@ export class EmployeeMasterComponent implements OnInit {
   private readonly employeeService =
     inject(EmployeeService);
 
+  readonly employeeOnboardService =
+  inject(EmployeeOnboardService);
+
   private readonly cdr =
     inject(ChangeDetectorRef);
+
+    selectedOnboardingEmployee?: EmployeeOnboard;
 
   showForm = signal(false);
 
@@ -78,7 +87,7 @@ export class EmployeeMasterComponent implements OnInit {
   ngOnInit(): void {
 
     this.loadEmployees();
-
+    this.employeeOnboardService.loadEmployees();
   }
 
   loadEmployees(): void {
@@ -115,6 +124,16 @@ export class EmployeeMasterComponent implements OnInit {
 
   }
 
+  selectOnboardingEmployee(
+  employee: EmployeeOnboard
+): void {
+
+  this.selectedOnboardingEmployee = employee;
+
+  this.showForm.set(true);
+
+}
+
   closeForm(): void {
 
     this.showForm.set(false);
@@ -124,7 +143,11 @@ export class EmployeeMasterComponent implements OnInit {
   addEmployee(
     data: CreateEmployeePayload
   ): void {
+     
+    console.log('ADD EMPLOYEE METHOD CALLED');
 
+  console.log('PAYLOAD:', data);
+  
     this.employeeService
       .createEmployee(data)
       .subscribe({

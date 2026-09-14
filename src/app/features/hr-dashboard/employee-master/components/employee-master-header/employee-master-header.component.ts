@@ -1,7 +1,5 @@
 import {
-  Component,
-  EventEmitter,
-  Output
+  Component
 } from '@angular/core';
 
 import {
@@ -17,16 +15,5 @@ import {
   templateUrl: './employee-master-header.component.html'
 })
 export class EmployeeMasterHeaderComponent {
-
-  @Output()
-  addEmployee =
-    new EventEmitter<void>();
-
-
-  onAddEmployee(): void {
-
-    this.addEmployee.emit();
-
-  }
 
 }

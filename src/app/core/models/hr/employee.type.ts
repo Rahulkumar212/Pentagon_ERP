@@ -8,6 +8,8 @@ export interface Employee {
 
   fullName: string;
 
+  employeeCode: string;
+  
   workEmail: string;
 
   mobileNumber: string;
