@@ -1,87 +1,132 @@
-<div class="w-full space-y-5">
+<div class="w-full space-y-5 bg-slate-50/60">
 
   <!-- ===================================================== -->
-  <!-- HEADER -->
+  <!-- HEADER / APPROVAL BAR -->
   <!-- ===================================================== -->
 
   <div
-    class="flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-5 shadow-sm sm:flex-row sm:items-center sm:justify-between"
+    class="relative overflow-hidden rounded-2xl bg-gradient-to-r from-slate-950 via-slate-900 to-red-950 px-6 py-6 shadow-lg"
   >
 
-    <div>
+    <!-- Decorative Background -->
+    <div
+      class="absolute -right-16 -top-20 h-56 w-56 rounded-full bg-red-500/10"
+    ></div>
 
-      <div class="flex items-center gap-3">
+    <div
+      class="absolute -bottom-24 right-32 h-44 w-44 rounded-full bg-white/5"
+    ></div>
 
-        <!-- BACK -->
+    <div
+      class="relative flex flex-col gap-6 xl:flex-row xl:items-center xl:justify-between"
+    >
+
+      <!-- LEFT -->
+      <div class="flex items-start gap-4">
+
+        <!-- Back -->
         <button
           type="button"
           (click)="closeDetail()"
-          class="flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-600 transition hover:bg-gray-50"
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl border border-white/10 bg-white/5 text-lg text-white transition hover:bg-white/10"
         >
           ←
         </button>
 
+        <!-- Icon -->
+        <div
+          class="hidden h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-red-500/15 text-xl text-red-300 ring-1 ring-red-400/20 sm:flex"
+        >
+          📋
+        </div>
+
         <div>
 
-          <div class="flex flex-wrap items-center gap-2">
+          <div class="flex flex-wrap items-center gap-3">
 
-            <h2 class="text-lg font-semibold text-slate-900">
-              {{ approval.requestTitle }}
+            <h2 class="text-xl font-bold tracking-tight text-white">
+              Sales Visit #{{ salesVisit?.id }}
             </h2>
 
             <span
-              class="rounded-full bg-yellow-50 px-2.5 py-1 text-[11px] font-semibold text-yellow-700"
+              class="inline-flex items-center gap-1.5 rounded-full bg-yellow-400/10 px-3 py-1 text-[11px] font-semibold text-yellow-300 ring-1 ring-yellow-400/20"
             >
-              {{ approval.status | titlecase }}
+              <span class="h-1.5 w-1.5 rounded-full bg-yellow-300"></span>
+
+              {{ salesVisit?.status || '-' }}
             </span>
 
           </div>
 
-          <p class="mt-1 text-xs text-gray-500">
-            {{ approval.id }} · {{ approval.category }}
+          <p class="mt-1.5 text-sm text-slate-400">
+            Sales visit approval & activity details
           </p>
+
+          <div class="mt-3 flex flex-wrap items-center gap-x-4 gap-y-2 text-xs text-slate-400">
+
+            <span>
+              Executive:
+              <strong class="font-medium text-slate-200">
+                {{ salesVisit?.executive_name || '-' }}
+              </strong>
+            </span>
+
+            <span class="hidden text-slate-600 sm:inline">•</span>
+
+            <span>
+              Visit:
+              <strong class="font-medium text-slate-200">
+                {{
+                  salesVisit?.visit_date
+                    ? (salesVisit?.visit_date | date:'dd/MM/yyyy')
+                    : '-'
+                }}
+              </strong>
+            </span>
+
+          </div>
 
         </div>
 
       </div>
 
-    </div>
 
-
-    <!-- ================================================= -->
-    <!-- ACTION BUTTONS -->
-    <!-- ================================================= -->
-
-    <div class="flex flex-wrap items-center gap-2">
-
-      <!-- Reject -->
-      <button
-        type="button"
-        (click)="rejectRequest()"
-        class="rounded-lg border border-red-200 bg-red-50 px-4 py-2 text-sm font-medium text-red-700 transition hover:bg-red-100"
+      <!-- ACTIONS -->
+      <div
+        class="flex flex-wrap items-center gap-2 xl:justify-end"
       >
-        Reject
-      </button>
 
+        <!-- Reject -->
+        <button
+          type="button"
+          (click)="rejectRequest()"
+          class="inline-flex items-center gap-2 rounded-xl border border-red-400/20 bg-red-500/10 px-4 py-2.5 text-sm font-medium text-red-300 transition hover:bg-red-500/20"
+        >
+          <span>✕</span>
+          Reject
+        </button>
 
-      <!-- Request Changes -->
-      <button
-        type="button"
-        (click)="requestChanges()"
-        class="rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition hover:bg-gray-50"
-      >
-        Request Changes
-      </button>
+        <!-- Request Changes -->
+        <button
+          type="button"
+          (click)="requestChanges()"
+          class="inline-flex items-center gap-2 rounded-xl border border-white/10 bg-white/5 px-4 py-2.5 text-sm font-medium text-slate-200 transition hover:bg-white/10"
+        >
+          <span>↻</span>
+          Request Changes
+        </button>
 
+        <!-- Approve -->
+        <button
+          type="button"
+          (click)="approveRequest()"
+          class="inline-flex items-center gap-2 rounded-xl bg-emerald-600 px-5 py-2.5 text-sm font-semibold text-white shadow-lg shadow-emerald-900/20 transition hover:bg-emerald-500"
+        >
+          <span>✓</span>
+          Approve
+        </button>
 
-      <!-- Approve -->
-      <button
-        type="button"
-        (click)="approveRequest()"
-        class="rounded-lg bg-emerald-600 px-4 py-2 text-sm font-medium text-white transition hover:bg-emerald-700"
-      >
-        Approve
-      </button>
+      </div>
 
     </div>
 
@@ -89,405 +134,378 @@
 
 
   <!-- ===================================================== -->
-  <!-- MAIN GRID -->
+  <!-- LOADING -->
   <!-- ===================================================== -->
 
-  <div class="grid grid-cols-1 gap-5 xl:grid-cols-3">
+  @if (isLoadingSalesVisit) {
 
-
-    <!-- =================================================== -->
-    <!-- LEFT / MAIN CONTENT -->
-    <!-- =================================================== -->
-
-    <div class="space-y-5 xl:col-span-2">
-
-
-      <!-- ================================================= -->
-      <!-- REQUEST OVERVIEW -->
-      <!-- ================================================= -->
+    <div
+      class="flex min-h-[350px] flex-col items-center justify-center rounded-2xl border border-gray-200 bg-white shadow-sm"
+    >
 
       <div
-        class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-      >
+        class="h-9 w-9 animate-spin rounded-full border-2 border-gray-200 border-t-red-600"
+      ></div>
 
-        <div class="mb-5">
+      <p class="mt-4 text-sm font-medium text-gray-600">
+        Loading Sales Visit details...
+      </p>
 
-          <h3 class="text-sm font-semibold text-slate-900">
-            Request Overview
+      <p class="mt-1 text-xs text-gray-400">
+        Please wait while we fetch the information
+      </p>
+
+    </div>
+
+  }
+
+
+  <!-- ===================================================== -->
+  <!-- ERROR -->
+  <!-- ===================================================== -->
+
+  @if (!isLoadingSalesVisit && salesVisitError) {
+
+    <div
+      class="rounded-2xl border border-red-200 bg-red-50 p-5 shadow-sm"
+    >
+
+      <div class="flex items-start gap-3">
+
+        <div
+          class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-red-100 text-red-600"
+        >
+          ⚠
+        </div>
+
+        <div>
+
+          <h3 class="text-sm font-semibold text-red-900">
+            Unable to Load Sales Visit
           </h3>
 
-          <p class="mt-1 text-xs text-gray-500">
-            Complete information about this approval request
-          </p>
-
-        </div>
-
-
-        <div class="grid grid-cols-1 gap-5 sm:grid-cols-2">
-
-          <!-- Request ID -->
-          <div>
-
-            <p class="label">
-              Request ID
-            </p>
-
-            <p class="value">
-              {{ approval.id }}
-            </p>
-
-          </div>
-
-
-          <!-- Category -->
-          <div>
-
-            <p class="label">
-              Category
-            </p>
-
-            <p class="value">
-              {{ approval.category || '-' }}
-            </p>
-
-          </div>
-
-
-          <!-- Requested By -->
-          <div>
-
-            <p class="label">
-              Requested By
-            </p>
-
-            <p class="value">
-              {{ approval.requestedBy || '-' }}
-            </p>
-
-            <p class="mt-0.5 text-xs text-gray-500">
-              {{ approval.requesterRole || '-' }}
-            </p>
-
-          </div>
-
-
-          <!-- Department -->
-          <div>
-
-            <p class="label">
-              Department
-            </p>
-
-            <p class="value">
-              {{ approval.department || '-' }}
-            </p>
-
-          </div>
-
-
-          <!-- Requested Date -->
-          <div>
-
-            <p class="label">
-              Requested Date
-            </p>
-
-            <p class="value">
-               {{
-                  approval.requestedDate
-                    ? (approval.requestedDate | date:'dd/MM/yyyy')
-                    : '-'
-                }}
-            </p>
-
-          </div>
-
-
-          <!-- Approval Level -->
-          <div>
-
-            <p class="label">
-              Approval Level
-            </p>
-
-            <p class="value">
-              {{ approval.approvalLevel || '-' }}
-            </p>
-
-          </div>
-
-        </div>
-
-
-        <!-- Amount -->
-
-        <div
-          class="mt-6 rounded-xl border border-gray-100 bg-gray-50 p-4"
-        >
-
-          <p class="label">
-            Requested Amount
-          </p>
-
-          <p class="mt-1 text-2xl font-bold text-slate-900">
-            {{ formatCurrency(approval.amount) }}
+          <p class="mt-1 text-sm leading-6 text-red-700">
+            {{ salesVisitError }}
           </p>
 
         </div>
 
       </div>
 
+    </div>
 
-      <!-- ================================================= -->
-      <!-- DESCRIPTION -->
-      <!-- ================================================= -->
+  }
 
-      <div
-        class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-      >
 
-        <h3 class="text-sm font-semibold text-slate-900">
-          Request Description
-        </h3>
+  <!-- ===================================================== -->
+  <!-- SALES VISIT DATA -->
+  <!-- ===================================================== -->
 
-        <p class="mt-3 text-sm leading-6 text-gray-600">
-          {{ approval.description || '-' }}
-        </p>
+  @if (!isLoadingSalesVisit && salesVisit) {
 
-      </div>
+    <div class="space-y-5">
 
 
       <!-- ================================================= -->
-      <!-- SALES VISIT ERROR -->
+      <!-- QUICK OVERVIEW -->
       <!-- ================================================= -->
 
-      @if (!isLoadingSalesVisit && salesVisitError) {
+      <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
 
+        <!-- Customer -->
         <div
-          class="rounded-xl border border-red-200 bg-red-50 p-5 shadow-sm"
+          class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
         >
 
-          <div class="flex items-start gap-3">
+          <div class="flex items-start justify-between">
+
+            <div>
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                Customer
+              </p>
+
+              <p class="mt-2 truncate text-base font-bold text-slate-900">
+                {{ salesVisit.customer_name || '-' }}
+              </p>
+            </div>
 
             <div
-              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-red-100 text-lg"
+              class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50 text-blue-600"
             >
-              ⚠️
-            </div>
-
-            <div>
-
-              <h3 class="text-sm font-semibold text-red-900">
-                Unable to Load Sales Visit
-              </h3>
-
-              <p class="mt-1 text-sm leading-6 text-red-700">
-                {{ salesVisitError }}
-              </p>
-
+              👤
             </div>
 
           </div>
 
+          <p class="mt-2 text-xs text-gray-400">
+            Client information
+          </p>
+
         </div>
 
-      }
 
-
-      <!-- ================================================= -->
-      <!-- SALES VISIT INFORMATION -->
-      <!-- ================================================= -->
-
-      @if (!isLoadingSalesVisit && salesVisit) {
-
-
-        <!-- =============================================== -->
-        <!-- SALES VISIT HEADER -->
-        <!-- =============================================== -->
-
+        <!-- Expected Value -->
         <div
-          class="rounded-xl border border-blue-200 bg-blue-50/40 p-5 shadow-sm"
+          class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
         >
 
-          <div class="flex items-start justify-between gap-4">
+          <div class="flex items-start justify-between">
 
             <div>
 
-              <h3 class="text-sm font-semibold text-slate-900">
-                Sales Visit Information
-              </h3>
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                Expected Business
+              </p>
 
-              <p class="mt-1 text-xs text-gray-500">
-                Complete information submitted from the sales activity
+              <p class="mt-2 text-lg font-bold text-emerald-600">
+                {{
+                  salesVisit.expected_business_value != null
+                    ? formatCurrency(salesVisit.expected_business_value)
+                    : '-'
+                }}
               </p>
 
             </div>
 
-            <span
-              class="rounded-full bg-blue-100 px-2.5 py-1 text-[11px] font-semibold text-blue-700"
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-xl bg-emerald-50 text-emerald-600"
             >
-              Sales Visit #{{ salesVisit.id }}
-            </span>
+              ₹
+            </div>
 
           </div>
+
+          <p class="mt-2 text-xs text-gray-400">
+            Potential business value
+          </p>
 
         </div>
 
 
-        <!-- =============================================== -->
+        <!-- Lead Priority -->
+        <div
+          class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+        >
+
+          <div class="flex items-start justify-between">
+
+            <div>
+
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                Lead Priority
+              </p>
+
+              <span
+                class="mt-2 inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-bold"
+                [ngClass]="{
+                  'bg-red-100 text-red-700':
+                    salesVisit.lead_priority?.toUpperCase()?.includes('HOT'),
+
+                  'bg-yellow-100 text-yellow-700':
+                    salesVisit.lead_priority?.toUpperCase()?.includes('WARM'),
+
+                  'bg-green-100 text-green-700':
+                    salesVisit.lead_priority?.toUpperCase()?.includes('COLD'),
+
+                  'bg-gray-100 text-gray-600':
+                    !salesVisit.lead_priority
+                }"
+              >
+                <span class="h-1.5 w-1.5 rounded-full bg-current"></span>
+                {{ salesVisit.lead_priority || '-' }}
+              </span>
+
+            </div>
+
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50 text-orange-600"
+            >
+              ★
+            </div>
+
+          </div>
+
+          <p class="mt-2 text-xs text-gray-400">
+            Current lead classification
+          </p>
+
+        </div>
+
+
+        <!-- Current Status -->
+        <div
+          class="group rounded-2xl border border-gray-200 bg-white p-5 shadow-sm transition hover:-translate-y-0.5 hover:shadow-md"
+        >
+
+          <div class="flex items-start justify-between">
+
+            <div>
+
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                Current Status
+              </p>
+
+              <p class="mt-2 text-base font-bold text-slate-900">
+                {{ salesVisit.current_status || '-' }}
+              </p>
+
+            </div>
+
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-xl bg-purple-50 text-purple-600"
+            >
+              ◉
+            </div>
+
+          </div>
+
+          <p class="mt-2 text-xs text-gray-400">
+            Sales progress
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- BASIC + CLIENT INFORMATION -->
+      <!-- ================================================= -->
+
+      <div class="grid grid-cols-1 gap-5 xl:grid-cols-2">
+
+
         <!-- BASIC INFORMATION -->
-        <!-- =============================================== -->
-
         <div
-          class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+          class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
         >
-
-          <div class="mb-5">
-
-            <h3 class="text-sm font-semibold text-slate-900">
-              Basic Information
-            </h3>
-
-            <p class="mt-1 text-xs text-gray-500">
-              Sales executive and activity information
-            </p>
-
-          </div>
-
 
           <div
-            class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
+            class="border-b border-gray-100 bg-gradient-to-r from-slate-50 to-white px-5 py-4"
           >
+
+            <div class="flex items-center gap-3">
+
+              <div
+                class="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-900 text-sm text-white"
+              >
+                ℹ
+              </div>
+
+              <div>
+
+                <h3 class="text-sm font-bold text-slate-900">
+                  Basic Information
+                </h3>
+
+                <p class="mt-0.5 text-xs text-gray-400">
+                  Sales visit and executive details
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="grid grid-cols-1 gap-x-6 gap-y-5 p-5 sm:grid-cols-2">
+
+            <!-- ID -->
+            <div>
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                ID
+              </p>
+              <p class="mt-1.5 text-sm font-semibold text-slate-900">
+                #{{ salesVisit.id }}
+              </p>
+            </div>
 
             <!-- Executive -->
             <div>
-
-              <p class="label">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                 Executive Name
               </p>
-
-              <p class="value">
+              <p class="mt-1.5 text-sm font-medium text-slate-800">
                 {{ salesVisit.executive_name || '-' }}
               </p>
-
             </div>
-
 
             <!-- Visit Date -->
             <div>
-
-              <p class="label">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                 Visit Date
               </p>
-
-              <p class="value">
-
+              <p class="mt-1.5 text-sm font-medium text-slate-800">
                 {{
                   salesVisit.visit_date
                     ? (salesVisit.visit_date | date:'dd/MM/yyyy')
                     : '-'
                 }}
-
               </p>
-
             </div>
-
 
             <!-- Visit Type -->
             <div>
-
-              <p class="label">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                 Visit Type
               </p>
-
-              <p class="value">
+              <p class="mt-1.5 text-sm font-medium text-slate-800">
                 {{ salesVisit.visit_type || '-' }}
               </p>
-
             </div>
 
-
-            <!-- Activity Type -->
+            <!-- Activity -->
             <div>
-
-              <p class="label">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                 Activity Type
               </p>
-
-              <p class="value">
+              <p class="mt-1.5 text-sm font-medium text-slate-800">
                 {{ salesVisit.activity_type || '-' }}
               </p>
-
             </div>
-
 
             <!-- Client Type -->
             <div>
-
-              <p class="label">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                 Client Type
               </p>
-
-              <p class="value">
+              <p class="mt-1.5 text-sm font-medium text-slate-800">
                 {{ salesVisit.client_type || '-' }}
               </p>
-
             </div>
-
-
-            <!-- Lead Priority -->
-            <div>
-
-              <p class="label">
-                Lead Priority
-              </p>
-
-              <p class="value">
-                {{ salesVisit.lead_priority || '-' }}
-              </p>
-
-            </div>
-
 
             <!-- Reporting Location -->
             <div>
-
-              <p class="label">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                 Reporting Location
               </p>
-
-              <p class="value">
+              <p class="mt-1.5 text-sm font-medium text-slate-800">
                 {{ salesVisit.reporting_location || '-' }}
               </p>
-
             </div>
-
 
             <!-- Type -->
             <div>
-
-              <p class="label">
-                Activity Category
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                Type
               </p>
-
-              <p class="value">
+              <p class="mt-1.5 text-sm font-medium text-slate-800">
                 {{ salesVisit.type || '-' }}
               </p>
-
             </div>
-
 
             <!-- Status -->
             <div>
-
-              <p class="label">
-                Sales Visit Status
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                Status
               </p>
 
               <span
-                class="mt-1 inline-flex rounded-full bg-yellow-50 px-2.5 py-1 text-xs font-semibold text-yellow-700"
+                class="mt-1.5 inline-flex items-center gap-1.5 rounded-full bg-yellow-50 px-3 py-1.5 text-xs font-semibold text-yellow-700"
               >
-                {{ salesVisit.status || 'Pending' }}
+                <span class="h-1.5 w-1.5 rounded-full bg-yellow-500"></span>
+                {{ salesVisit.status || '-' }}
               </span>
 
             </div>
@@ -497,110 +515,134 @@
         </div>
 
 
-        <!-- =============================================== -->
         <!-- CLIENT INFORMATION -->
-        <!-- =============================================== -->
-
         <div
-          class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+          class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
         >
 
-          <div class="mb-5">
+          <div
+            class="border-b border-gray-100 bg-gradient-to-r from-blue-50/50 to-white px-5 py-4"
+          >
 
-            <h3 class="text-sm font-semibold text-slate-900">
-              Client Information
-            </h3>
+            <div class="flex items-center gap-3">
 
-            <p class="mt-1 text-xs text-gray-500">
-              Customer and contact details
-            </p>
+              <div
+                class="flex h-9 w-9 items-center justify-center rounded-xl bg-blue-100 text-blue-600"
+              >
+                👤
+              </div>
+
+              <div>
+
+                <h3 class="text-sm font-bold text-slate-900">
+                  Client Information
+                </h3>
+
+                <p class="mt-0.5 text-xs text-gray-400">
+                  Customer and contact details
+                </p>
+
+              </div>
+
+            </div>
 
           </div>
 
 
-          <div
-            class="grid grid-cols-1 gap-5 sm:grid-cols-2"
-          >
+          <div class="grid grid-cols-1 gap-x-6 gap-y-5 p-5 sm:grid-cols-2">
 
-            <!-- Customer Name -->
             <div>
-
-              <p class="label">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                 Customer Name
               </p>
-
-              <p class="value">
+              <p class="mt-1.5 text-sm font-semibold text-slate-900">
                 {{ salesVisit.customer_name || '-' }}
               </p>
-
             </div>
 
-
-            <!-- Contact Person -->
             <div>
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                Customer Address
+              </p>
+              <p class="mt-1.5 text-sm font-medium text-slate-800">
+                {{ salesVisit.customer_address || '-' }}
+              </p>
+            </div>
 
-              <p class="label">
+            <div>
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                 Contact Person
               </p>
-
-              <p class="value">
+              <p class="mt-1.5 text-sm font-medium text-slate-800">
                 {{ salesVisit.contact_person || '-' }}
               </p>
-
             </div>
 
-
-            <!-- Contact Number -->
             <div>
-
-              <p class="label">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                 Contact Number
               </p>
-
-              <p class="value">
+              <p class="mt-1.5 text-sm font-medium text-slate-800">
                 {{ salesVisit.contact_number || '-' }}
               </p>
-
             </div>
 
-
-            <!-- Email -->
             <div>
 
-              <p class="label">
-                Email ID
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+                Customer Email
               </p>
 
-              <p class="value break-all">
+              <p class="mt-1.5 break-all text-sm font-medium text-slate-800">
                 {{ salesVisit.customer_email || '-' }}
               </p>
 
             </div>
 
-
-            <!-- City -->
             <div>
-
-              <p class="label">
+              <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
                 City
               </p>
-
-              <p class="value">
+              <p class="mt-1.5 text-sm font-medium text-slate-800">
                 {{ salesVisit.city || '-' }}
               </p>
-
             </div>
 
+          </div>
 
-            <!-- Address -->
-            <div class="sm:col-span-2">
+        </div>
 
-              <p class="label">
-                Customer Address
-              </p>
+      </div>
 
-              <p class="mt-1 text-sm font-medium leading-6 text-slate-800">
-                {{ salesVisit.customer_address || '-' }}
+
+      <!-- ================================================= -->
+      <!-- BUSINESS INFORMATION -->
+      <!-- ================================================= -->
+
+      <div
+        class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+      >
+
+        <div
+          class="border-b border-gray-100 bg-gradient-to-r from-emerald-50/50 to-white px-5 py-4"
+        >
+
+          <div class="flex items-center gap-3">
+
+            <div
+              class="flex h-9 w-9 items-center justify-center rounded-xl bg-emerald-100 text-emerald-600"
+            >
+              ₹
+            </div>
+
+            <div>
+
+              <h3 class="text-sm font-bold text-slate-900">
+                Business Information
+              </h3>
+
+              <p class="mt-0.5 text-xs text-gray-400">
+                Product and business opportunity details
               </p>
 
             </div>
@@ -610,149 +652,124 @@
         </div>
 
 
-        <!-- =============================================== -->
-        <!-- BUSINESS INFORMATION -->
-        <!-- =============================================== -->
+        <div class="grid grid-cols-1 gap-5 p-5 sm:grid-cols-2">
 
-        <div
-          class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-        >
+          <!-- Product -->
+          <div class="sm:col-span-2">
 
-          <div class="mb-5">
-
-            <h3 class="text-sm font-semibold text-slate-900">
-              Business Information
-            </h3>
-
-            <p class="mt-1 text-xs text-gray-500">
-              Product, quantity and business opportunity details
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Product Description
             </p>
 
-          </div>
+            <div
+              class="mt-2 rounded-xl border border-gray-100 bg-slate-50 p-4"
+            >
 
-
-          <div
-            class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3"
-          >
-
-            <!-- Product -->
-            <div class="sm:col-span-2 lg:col-span-3">
-
-              <p class="label">
-                Product Description
-              </p>
-
-              <p class="mt-1 text-sm font-medium leading-6 text-slate-800">
+              <p class="whitespace-pre-line text-sm leading-6 text-slate-700">
                 {{ salesVisit.product_description || '-' }}
               </p>
 
             </div>
 
-
-            <!-- Quantity -->
-            <div>
-
-              <p class="label">
-                Quantity
-              </p>
-
-              <p class="value">
-                {{ salesVisit.quantity ?? '-' }}
-              </p>
-
-            </div>
+          </div>
 
 
-            <!-- Expected Business Value -->
-            <div>
+          <!-- Quantity -->
+          <div
+            class="rounded-xl border border-gray-100 bg-gray-50 p-4"
+          >
 
-              <p class="label">
-                Expected Business Value
-              </p>
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Quantity
+            </p>
 
-              <p class="value">
+            <p class="mt-2 text-xl font-bold text-slate-900">
+              {{ salesVisit.quantity ?? '-' }}
+            </p>
 
-                {{
-                  salesVisit.expected_business_value != null
-                    ? formatCurrency(salesVisit.expected_business_value)
-                    : '-'
-                }}
-
-              </p>
-
-            </div>
+          </div>
 
 
-            <!-- Basic Amount -->
-            <div>
+          <!-- Expected -->
+          <div
+            class="rounded-xl border border-emerald-100 bg-emerald-50/60 p-4"
+          >
 
-              <p class="label">
-                Basic Amount
-              </p>
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-emerald-600">
+              Expected Business Value
+            </p>
 
-              <p class="value">
+            <p class="mt-2 text-xl font-bold text-emerald-700">
+              {{
+                salesVisit.expected_business_value != null
+                  ? formatCurrency(salesVisit.expected_business_value)
+                  : '-'
+              }}
+            </p>
 
-                {{
-                  salesVisit.basic_amount != null
-                    ? formatCurrency(salesVisit.basic_amount)
-                    : '-'
-                }}
-
-              </p>
-
-            </div>
-
-
-            <!-- Proposal Sent -->
-            <div>
-
-              <p class="label">
-                Proposal Sent
-              </p>
-
-              <p class="value">
-                {{ salesVisit.proposal_sent || '-' }}
-              </p>
-
-            </div>
+          </div>
 
 
-            <!-- Order Closed -->
-            <div>
+          <!-- Basic Amount -->
+          <div
+            class="rounded-xl border border-gray-100 bg-gray-50 p-4"
+          >
 
-              <p class="label">
-                Order Closed
-              </p>
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Basic Amount
+            </p>
 
-              <p class="value">
-                {{ salesVisit.order_closed || '-' }}
-              </p>
+            <p class="mt-2 text-lg font-bold text-slate-900">
+              {{
+                salesVisit.basic_amount != null
+                  ? formatCurrency(salesVisit.basic_amount)
+                  : '-'
+              }}
+            </p>
 
-            </div>
-
-
-            <!-- Current Status -->
-            <div>
-
-              <p class="label">
-                Current Status
-              </p>
-
-              <p class="value">
-                {{ salesVisit.current_status || '-' }}
-              </p>
-
-            </div>
+          </div>
 
 
-            <!-- Lost Reason -->
-            <div class="sm:col-span-2 lg:col-span-3">
+          <!-- Proposal -->
+          <div>
 
-              <p class="label">
-                Order Lost Reason
-              </p>
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Proposal Sent
+            </p>
 
-              <p class="mt-1 text-sm font-medium leading-6 text-slate-800">
+            <p class="mt-1.5 text-sm font-semibold text-slate-800">
+              {{ salesVisit.proposal_sent || '-' }}
+            </p>
+
+          </div>
+
+
+          <!-- Order -->
+          <div>
+
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Order Closed
+            </p>
+
+            <p class="mt-1.5 text-sm font-semibold text-slate-800">
+              {{ salesVisit.order_closed || '-' }}
+            </p>
+
+          </div>
+
+
+          <!-- Lost Reason -->
+          <div class="sm:col-span-2">
+
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Order Lost Reason
+            </p>
+
+            <div
+              class="mt-2 rounded-xl border border-gray-100 bg-gray-50 p-4"
+            >
+
+              <p class="whitespace-pre-line text-sm leading-6 text-slate-700">
                 {{ salesVisit.order_lost_reason || '-' }}
               </p>
 
@@ -762,228 +779,37 @@
 
         </div>
 
-
-        <!-- =============================================== -->
-        <!-- MEETING / DISCUSSION -->
-        <!-- =============================================== -->
-
-        <div
-          class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-        >
-
-          <div class="mb-5">
-
-            <h3 class="text-sm font-semibold text-slate-900">
-              Meeting Discussion
-            </h3>
-
-            <p class="mt-1 text-xs text-gray-500">
-              Discussion and remarks recorded during the activity
-            </p>
-
-          </div>
+      </div>
 
 
-          <div class="space-y-5">
+      <!-- ================================================= -->
+      <!-- SALES STATUS & DATES -->
+      <!-- ================================================= -->
 
-            <!-- Discussion Summary -->
-            <div>
-
-              <p class="label">
-                Discussion Summary
-              </p>
-
-              <div
-                class="mt-2 rounded-lg border border-gray-100 bg-gray-50 p-4"
-              >
-
-                <p
-                  class="whitespace-pre-line text-sm leading-6 text-slate-700"
-                >
-                  {{ salesVisit.discussion_summary || '-' }}
-                </p>
-
-              </div>
-
-            </div>
-
-
-            <!-- Remarks -->
-            <div>
-
-              <p class="label">
-                Remarks
-              </p>
-
-              <div
-                class="mt-2 rounded-lg border border-gray-100 bg-gray-50 p-4"
-              >
-
-                <p
-                  class="whitespace-pre-line text-sm leading-6 text-slate-700"
-                >
-                  {{ salesVisit.remarks || '-' }}
-                </p>
-
-              </div>
-
-            </div>
-
-
-            <!-- Additional Remarks -->
-            <div>
-
-              <p class="label">
-                Additional Remarks
-              </p>
-
-              <div
-                class="mt-2 rounded-lg border border-gray-100 bg-gray-50 p-4"
-              >
-
-                <p
-                  class="whitespace-pre-line text-sm leading-6 text-slate-700"
-                >
-                  {{ salesVisit.additional_remarks || '-' }}
-                </p>
-
-              </div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- =============================================== -->
-        <!-- SALES PROGRESS -->
-        <!-- =============================================== -->
+      <div
+        class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+      >
 
         <div
-          class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+          class="border-b border-gray-100 bg-gradient-to-r from-purple-50/50 to-white px-5 py-4"
         >
 
-          <div class="mb-5">
+          <div class="flex items-center gap-3">
 
-            <h3 class="text-sm font-semibold text-slate-900">
-              Sales Progress
-            </h3>
-
-            <p class="mt-1 text-xs text-gray-500">
-              Sales activity and follow-up metrics
-            </p>
-
-          </div>
-
-
-          <div
-            class="grid grid-cols-2 gap-4 sm:grid-cols-4"
-          >
-
-            <!-- Total Calls -->
             <div
-              class="rounded-xl border border-gray-100 bg-gray-50 p-4"
+              class="flex h-9 w-9 items-center justify-center rounded-xl bg-purple-100 text-purple-600"
             >
-
-              <p
-                class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
-              >
-                Total Calls
-              </p>
-
-              <p class="mt-2 text-xl font-bold text-slate-900">
-                {{ salesVisit.total_calls_made ?? 0 }}
-              </p>
-
+              ◷
             </div>
 
-
-            <!-- Connected Calls -->
-            <div
-              class="rounded-xl border border-gray-100 bg-gray-50 p-4"
-            >
-
-              <p
-                class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
-              >
-                Connected Calls
-              </p>
-
-              <p class="mt-2 text-xl font-bold text-slate-900">
-                {{ salesVisit.connected_calls ?? 0 }}
-              </p>
-
-            </div>
-
-
-            <!-- Meetings -->
-            <div
-              class="rounded-xl border border-gray-100 bg-gray-50 p-4"
-            >
-
-              <p
-                class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
-              >
-                Meetings
-              </p>
-
-              <p class="mt-2 text-xl font-bold text-slate-900">
-                {{ salesVisit.meetings_scheduled ?? 0 }}
-              </p>
-
-            </div>
-
-
-            <!-- New Leads -->
-            <div
-              class="rounded-xl border border-gray-100 bg-gray-50 p-4"
-            >
-
-              <p
-                class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
-              >
-                New Leads
-              </p>
-
-              <p class="mt-2 text-xl font-bold text-slate-900">
-                {{ salesVisit.new_leads_generated ?? 0 }}
-              </p>
-
-            </div>
-
-          </div>
-
-
-          <!-- Follow-up Information -->
-
-          <div
-            class="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2"
-          >
-
-            <!-- Expected Closure -->
             <div>
 
-              <p class="label">
-                Expected Closure Date
-              </p>
+              <h3 class="text-sm font-bold text-slate-900">
+                Sales Status & Dates
+              </h3>
 
-              <p class="value">
-                {{ salesVisit.expected_closure_date | date:'DD/MM/YYYY'}}
-              </p>
-
-            </div>
-
-
-            <!-- Next Follow-up -->
-            <div>
-
-              <p class="label">
-                Next Follow-up Date
-              </p>
-
-              <p class="value">
-                {{ salesVisit.next_followup_date || '-' }}
+              <p class="mt-0.5 text-xs text-gray-400">
+                Sales progress and follow-up information
               </p>
 
             </div>
@@ -993,353 +819,413 @@
         </div>
 
 
-        <!-- =============================================== -->
-        <!-- MANAGEMENT SUPPORT -->
-        <!-- =============================================== -->
+        <div class="grid grid-cols-1 gap-4 p-5 sm:grid-cols-2 lg:grid-cols-4">
 
-        <div
-          class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-        >
-
-          <div class="mb-4">
-
-            <h3 class="text-sm font-semibold text-slate-900">
-              Management Support
-            </h3>
-
-            <p class="mt-1 text-xs text-gray-500">
-              Support required from management
+          <div class="rounded-xl bg-slate-50 p-4">
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Current Status
             </p>
-
+            <p class="mt-2 text-sm font-bold text-slate-900">
+              {{ salesVisit.current_status || '-' }}
+            </p>
           </div>
 
-
-          <div
-            class="rounded-lg border border-amber-100 bg-amber-50 p-4"
-          >
-
-            <p
-              class="whitespace-pre-line text-sm leading-6 text-amber-900"
-            >
+          <div class="rounded-xl bg-slate-50 p-4">
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Expected Closure
+            </p>
+            <p class="mt-2 text-sm font-bold text-slate-900">
               {{
-                salesVisit.management_support_required
-                  || 'No management support required.'
+                salesVisit.expected_closure_date
+                  ? (salesVisit.expected_closure_date | date:'dd/MM/yyyy')
+                  : '-'
               }}
             </p>
+          </div>
 
+          <div class="rounded-xl bg-slate-50 p-4">
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Next Follow-up
+            </p>
+            <p class="mt-2 text-sm font-bold text-slate-900">
+              {{
+                salesVisit.next_followup_date
+                  ? (salesVisit.next_followup_date | date:'dd/MM/yyyy')
+                  : '-'
+              }}
+            </p>
+          </div>
+
+          <div class="rounded-xl bg-slate-50 p-4">
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Closure Date
+            </p>
+            <p class="mt-2 text-sm font-bold text-slate-900">
+              {{
+                salesVisit.closure_date
+                  ? (salesVisit.closure_date | date:'dd/MM/yyyy')
+                  : '-'
+              }}
+            </p>
           </div>
 
         </div>
 
+      </div>
 
-        <!-- =============================================== -->
-        <!-- CLOSURE INFORMATION -->
-        <!-- =============================================== -->
+
+      <!-- ================================================= -->
+      <!-- SALES METRICS -->
+      <!-- ================================================= -->
+
+      <div
+        class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+      >
 
         <div
-          class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+          class="border-b border-gray-100 px-5 py-4"
         >
 
-          <div class="mb-5">
+          <div class="flex items-center justify-between">
 
-            <h3 class="text-sm font-semibold text-slate-900">
-              Closure Information
-            </h3>
-
-            <p class="mt-1 text-xs text-gray-500">
-              Final sales closure details
-            </p>
-
-          </div>
-
-
-          <div
-            class="grid grid-cols-1 gap-5 sm:grid-cols-2"
-          >
-
-            <!-- Closure Date -->
             <div>
 
-              <p class="label">
-                Closure Date
-              </p>
-
-              <p class="value">
-                {{ salesVisit.closure_date || '-' }}
-              </p>
-
-            </div>
-
-
-            <!-- Status -->
-            <div>
-
-              <p class="label">
-                Status
-              </p>
-
-              <span
-                class="mt-1 inline-flex rounded-full bg-slate-100 px-2.5 py-1 text-xs font-semibold text-slate-700"
-              >
-                {{ salesVisit.status || 'Pending' }}
-              </span>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-        <!-- =============================================== -->
-        <!-- MEETING PHOTO -->
-        <!-- =============================================== -->
-
-        @if (salesVisit.meeting_photo) {
-
-          <div
-            class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-          >
-
-            <div class="mb-4">
-
-              <h3 class="text-sm font-semibold text-slate-900">
-                Meeting Photo
+              <h3 class="text-sm font-bold text-slate-900">
+                Sales Metrics
               </h3>
 
-              <p class="mt-1 text-xs text-gray-500">
-                Photo attached to this sales activity
+              <p class="mt-0.5 text-xs text-gray-400">
+                Activity performance overview
               </p>
 
             </div>
 
-
-            <div
-              class="overflow-hidden rounded-xl border border-gray-200"
+            <span
+              class="rounded-lg bg-red-50 px-3 py-1 text-[11px] font-semibold text-red-600"
             >
-
-              <img
-                [src]="salesVisit.meeting_photo"
-                alt="Meeting Photo"
-                class="max-h-[500px] w-full object-contain bg-gray-50"
-              />
-
-            </div>
+              Performance
+            </span>
 
           </div>
 
-        }
+        </div>
 
 
-        <!-- =============================================== -->
-        <!-- SYSTEM INFORMATION -->
-        <!-- =============================================== -->
+        <div class="grid grid-cols-2 gap-4 p-5 lg:grid-cols-4">
 
-        <div
-          class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-        >
-
-          <div class="mb-5">
-
-            <h3 class="text-sm font-semibold text-slate-900">
-              System Information
-            </h3>
-
-            <p class="mt-1 text-xs text-gray-500">
-              Record and database information
-            </p>
-
-          </div>
-
-
+          <!-- Calls -->
           <div
-            class="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4"
+            class="rounded-xl border border-blue-100 bg-blue-50/60 p-5"
           >
 
-            <!-- ID -->
-            <div>
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-blue-600">
+              Total Calls
+            </p>
 
-              <p class="label">
-                Sales Visit ID
-              </p>
-
-              <p class="value">
-                {{ salesVisit.id }}
-              </p>
-
-            </div>
-
-
-            <!-- User ID -->
-            <div>
-
-              <p class="label">
-                User ID
-              </p>
-
-              <p class="value">
-                {{ salesVisit.userId }}
-              </p>
-
-            </div>
-
-
-            <!-- Created -->
-            <div>
-
-              <p class="label">
-                Created At
-              </p>
-
-              <p class="value text-xs">
-
-                {{
-                  salesVisit.createdAt
-                    ? (salesVisit.createdAt | date:'dd/MM/yyyy hh:mm a')
-                    : '-'
-                }}
-
-              </p>
-
-            </div>
-
-
-            <!-- Updated -->
-            <div>
-
-              <p class="label">
-                Updated At
-              </p>
-
-              <p class="value text-xs">
-
-                {{
-                  salesVisit.updatedAt
-                    ? (salesVisit.updatedAt | date:'dd/MM/yyyy hh:mm a')
-                    : '-'
-                }}
-
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      }
-
-
-      <!-- ================================================= -->
-      <!-- NO SALES VISIT -->
-      <!-- ================================================= -->
-
-      @if (
-        !isLoadingSalesVisit &&
-        !salesVisit &&
-        !salesVisitError
-      ) {
-
-        <div
-          class="rounded-xl border border-amber-200 bg-amber-50 p-5"
-        >
-
-          <div class="flex items-start gap-3">
-
-            <div
-              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-amber-100 text-lg"
-            >
-              ⚠️
-            </div>
-
-            <div>
-
-              <h3 class="text-sm font-semibold text-amber-900">
-                Sales Visit Data Not Available
-              </h3>
-
-              <p class="mt-1 text-sm leading-6 text-amber-800">
-                The approval request was loaded, but the related Sales Visit
-                information could not be found.
-              </p>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      }
-
-
-      <!-- ================================================= -->
-      <!-- SUPPORTING DOCUMENTS -->
-      <!-- ================================================= -->
-
-      @if (approval.supportingDocuments.length) {
-
-        <div
-          class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-        >
-
-          <div class="mb-4">
-
-            <h3 class="text-sm font-semibold text-slate-900">
-              Supporting Documents
-            </h3>
-
-            <p class="mt-1 text-xs text-gray-500">
-              Documents attached with this request
+            <p class="mt-2 text-2xl font-bold text-blue-900">
+              {{ salesVisit.total_calls_made ?? '-' }}
             </p>
 
           </div>
 
 
-          <div class="space-y-2">
+          <!-- Connected -->
+          <div
+            class="rounded-xl border border-emerald-100 bg-emerald-50/60 p-5"
+          >
 
-            @for (
-              document of approval.supportingDocuments;
-              track document
-            ) {
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-emerald-600">
+              Connected Calls
+            </p>
+
+            <p class="mt-2 text-2xl font-bold text-emerald-900">
+              {{ salesVisit.connected_calls ?? '-' }}
+            </p>
+
+          </div>
+
+
+          <!-- Meetings -->
+          <div
+            class="rounded-xl border border-purple-100 bg-purple-50/60 p-5"
+          >
+
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-purple-600">
+              Meetings
+            </p>
+
+            <p class="mt-2 text-2xl font-bold text-purple-900">
+              {{ salesVisit.meetings_scheduled ?? '-' }}
+            </p>
+
+          </div>
+
+
+          <!-- Leads -->
+          <div
+            class="rounded-xl border border-orange-100 bg-orange-50/60 p-5"
+          >
+
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-orange-600">
+              New Leads
+            </p>
+
+            <p class="mt-2 text-2xl font-bold text-orange-900">
+              {{ salesVisit.new_leads_generated ?? '-' }}
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- DISCUSSION & REMARKS -->
+      <!-- ================================================= -->
+
+      <div
+        class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+      >
+
+        <div
+          class="border-b border-gray-100 bg-gradient-to-r from-yellow-50/50 to-white px-5 py-4"
+        >
+
+          <div class="flex items-center gap-3">
+
+            <div
+              class="flex h-9 w-9 items-center justify-center rounded-xl bg-yellow-100 text-yellow-600"
+            >
+              📝
+            </div>
+
+            <div>
+
+              <h3 class="text-sm font-bold text-slate-900">
+                Discussion & Remarks
+              </h3>
+
+              <p class="mt-0.5 text-xs text-gray-400">
+                Sales discussion and additional information
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="grid grid-cols-1 gap-5 p-5 lg:grid-cols-2">
+
+          <!-- Discussion -->
+          <div>
+
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Discussion Summary
+            </p>
+
+            <div
+              class="mt-2 min-h-[110px] rounded-xl border border-blue-100 bg-blue-50/50 p-4"
+            >
+
+              <p class="whitespace-pre-line text-sm leading-6 text-slate-700">
+                {{ salesVisit.discussion_summary || '-' }}
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- Remarks -->
+          <div>
+
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Remarks
+            </p>
+
+            <div
+              class="mt-2 min-h-[110px] rounded-xl border border-gray-100 bg-gray-50 p-4"
+            >
+
+              <p class="whitespace-pre-line text-sm leading-6 text-slate-700">
+                {{ salesVisit.remarks || '-' }}
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- Additional -->
+          <div>
+
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Additional Remarks
+            </p>
+
+            <div
+              class="mt-2 min-h-[110px] rounded-xl border border-gray-100 bg-gray-50 p-4"
+            >
+
+              <p class="whitespace-pre-line text-sm leading-6 text-slate-700">
+                {{ salesVisit.additional_remarks || '-' }}
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- Reason -->
+          <div>
+
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Reason
+            </p>
+
+            <div
+              class="mt-2 min-h-[110px] rounded-xl border border-red-100 bg-red-50/50 p-4"
+            >
+
+              <p class="whitespace-pre-line text-sm leading-6 text-slate-700">
+                {{ salesVisit.reason || '-' }}
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- MANAGEMENT SUPPORT + PHOTO -->
+      <!-- ================================================= -->
+
+      <div class="grid grid-cols-1 gap-5 xl:grid-cols-2">
+
+
+        <!-- MANAGEMENT SUPPORT -->
+        <div
+          class="overflow-hidden rounded-2xl border border-amber-200 bg-white shadow-sm"
+        >
+
+          <div
+            class="border-b border-amber-100 bg-amber-50/60 px-5 py-4"
+          >
+
+            <div class="flex items-center gap-3">
 
               <div
-                class="flex items-center justify-between rounded-lg border border-gray-100 px-4 py-3 transition hover:bg-gray-50"
+                class="flex h-9 w-9 items-center justify-center rounded-xl bg-amber-100 text-amber-600"
+              >
+                !
+              </div>
+
+              <div>
+
+                <h3 class="text-sm font-bold text-slate-900">
+                  Management Support
+                </h3>
+
+                <p class="mt-0.5 text-xs text-gray-400">
+                  Support required from management
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+          <div class="p-5">
+
+            <div
+              class="min-h-[130px] rounded-xl border border-amber-100 bg-amber-50 p-4"
+            >
+
+              <p
+                class="whitespace-pre-line text-sm leading-6 text-amber-900"
+              >
+                {{ salesVisit.management_support_required || '-' }}
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- MEETING PHOTO -->
+        <div
+          class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+        >
+
+          <div
+            class="border-b border-gray-100 px-5 py-4"
+          >
+
+            <div class="flex items-center gap-3">
+
+              <div
+                class="flex h-9 w-9 items-center justify-center rounded-xl bg-indigo-50 text-indigo-600"
+              >
+                📷
+              </div>
+
+              <div>
+
+                <h3 class="text-sm font-bold text-slate-900">
+                  Meeting Photo
+                </h3>
+
+                <p class="mt-0.5 text-xs text-gray-400">
+                  Photo attached to this sales activity
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <div class="p-5">
+
+            @if (salesVisit.meeting_photo) {
+
+              <div
+                class="group relative overflow-hidden rounded-xl border border-gray-200 bg-slate-50"
               >
 
-                <div
-                  class="flex min-w-0 items-center gap-3"
-                >
+                <img
+                  [src]="salesVisit.meeting_photo"
+                  alt="Meeting Photo"
+                  class="max-h-[320px] w-full object-contain transition duration-300 group-hover:scale-[1.01]"
+                />
 
-                  <div
-                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-red-50 text-sm"
-                  >
-                    📄
-                  </div>
+              </div>
 
-                  <div class="min-w-0">
+            } @else {
 
-                    <p
-                      class="truncate text-sm font-medium text-slate-800"
-                    >
-                      {{ document }}
-                    </p>
+              <div
+                class="flex min-h-[160px] flex-col items-center justify-center rounded-xl border border-dashed border-gray-200 bg-gray-50"
+              >
 
-                    <p class="text-[11px] text-gray-500">
-                      Supporting document
-                    </p>
-
-                  </div>
-
+                <div class="text-3xl opacity-40">
+                  📷
                 </div>
 
-
-                <button
-                  type="button"
-                  (click)="downloadDocument(document)"
-                  class="ml-4 shrink-0 text-xs font-semibold text-blue-600 hover:text-blue-700"
-                >
-                  View
-                </button>
+                <p class="mt-2 text-sm font-medium text-gray-500">
+                  No meeting photo available
+                </p>
 
               </div>
 
@@ -1349,217 +1235,101 @@
 
         </div>
 
-      }
-
-    </div>
-
-
-    <!-- =================================================== -->
-    <!-- RIGHT / SIDEBAR -->
-    <!-- =================================================== -->
-
-    <div class="space-y-5">
+      </div>
 
 
       <!-- ================================================= -->
-      <!-- PRIORITY -->
+      <!-- SYSTEM INFORMATION -->
       <!-- ================================================= -->
 
       <div
-        class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+        class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
       >
 
         <div
-          class="flex items-center justify-between"
+          class="border-b border-gray-100 px-5 py-4"
         >
 
-          <div>
+          <div class="flex items-center gap-3">
 
-            <p class="label">
-              Priority
+            <div
+              class="flex h-9 w-9 items-center justify-center rounded-xl bg-slate-100 text-slate-600"
+            >
+              ⚙
+            </div>
+
+            <div>
+
+              <h3 class="text-sm font-bold text-slate-900">
+                System Information
+              </h3>
+
+              <p class="mt-0.5 text-xs text-gray-400">
+                Record and audit information
+              </p>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <div class="grid grid-cols-1 gap-4 p-5 sm:grid-cols-3">
+
+          <div class="rounded-xl bg-slate-50 p-4">
+
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              User ID
             </p>
 
-            <p
-              class="mt-1 text-sm font-semibold capitalize text-slate-900"
-            >
-              {{ approval.priority || '-' }}
+            <p class="mt-2 text-sm font-bold text-slate-900">
+              {{ salesVisit.userId ?? '-' }}
             </p>
 
           </div>
 
-          <div
-            class="flex h-10 w-10 items-center justify-center rounded-lg bg-red-50 text-lg"
-          >
-            ⚠️
+
+          <div class="rounded-xl bg-slate-50 p-4">
+
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Created At
+            </p>
+
+            <p class="mt-2 text-sm font-medium text-slate-800">
+              {{
+                salesVisit.createdAt
+                  ? (salesVisit.createdAt | date:'dd/MM/yyyy hh:mm a')
+                  : '-'
+              }}
+            </p>
+
+          </div>
+
+
+          <div class="rounded-xl bg-slate-50 p-4">
+
+            <p class="text-[11px] font-semibold uppercase tracking-wider text-gray-400">
+              Updated At
+            </p>
+
+            <p class="mt-2 text-sm font-medium text-slate-800">
+              {{
+                salesVisit.updatedAt
+                  ? (salesVisit.updatedAt | date:'dd/MM/yyyy hh:mm a')
+                  : '-'
+              }}
+            </p>
+
           </div>
 
         </div>
 
       </div>
 
-
-      <!-- ================================================= -->
-      <!-- CURRENT APPROVER -->
-      <!-- ================================================= -->
-
-      <div
-        class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-      >
-
-        <p class="label">
-          Current Approver
-        </p>
-
-        <div
-          class="mt-3 flex items-center gap-3"
-        >
-
-          <div
-            class="flex h-10 w-10 items-center justify-center rounded-full bg-slate-100 text-sm font-semibold text-slate-700"
-          >
-            AS
-          </div>
-
-          <div>
-
-            <p
-              class="text-sm font-semibold text-slate-800"
-            >
-              {{ approval.currentApprover || '-' }}
-            </p>
-
-            <p class="text-xs text-gray-500">
-              {{ approval.approvalLevel || '-' }}
-            </p>
-
-          </div>
-
-        </div>
-
-      </div>
-
-
-      <!-- ================================================= -->
-      <!-- APPROVAL TIMELINE -->
-      <!-- ================================================= -->
-
-      <app-approval-timeline
-        [timeline]="approval.timeline"
-      >
-      </app-approval-timeline>
-
-
-      <!-- ================================================= -->
-      <!-- SALES VISIT QUICK STATUS -->
-      <!-- ================================================= -->
-
-      @if (!isLoadingSalesVisit && salesVisit) {
-
-        <div
-          class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
-        >
-
-          <div class="mb-4">
-
-            <h3 class="text-sm font-semibold text-slate-900">
-              Sales Summary
-            </h3>
-
-            <p class="mt-1 text-xs text-gray-500">
-              Quick overview of this activity
-            </p>
-
-          </div>
-
-
-          <div class="space-y-3">
-
-            <!-- Lead Priority -->
-            <div
-              class="flex items-center justify-between gap-3 border-b border-gray-100 pb-3"
-            >
-
-              <span class="text-xs text-gray-500">
-                Lead Priority
-              </span>
-
-              <span
-                class="rounded-full bg-blue-50 px-2 py-1 text-[11px] font-semibold text-blue-700"
-              >
-                {{ salesVisit.lead_priority || '-' }}
-              </span>
-
-            </div>
-
-
-            <!-- Current Status -->
-            <div
-              class="flex items-center justify-between gap-3 border-b border-gray-100 pb-3"
-            >
-
-              <span class="text-xs text-gray-500">
-                Current Status
-              </span>
-
-              <span
-                class="text-xs font-semibold text-slate-800"
-              >
-                {{ salesVisit.current_status || '-' }}
-              </span>
-
-            </div>
-
-
-            <!-- Expected Value -->
-            <div
-              class="flex items-center justify-between gap-3 border-b border-gray-100 pb-3"
-            >
-
-              <span class="text-xs text-gray-500">
-                Expected Value
-              </span>
-
-              <span
-                class="text-xs font-bold text-slate-900"
-              >
-
-                {{
-                  salesVisit.expected_business_value != null
-                    ? formatCurrency(salesVisit.expected_business_value)
-                    : '-'
-                }}
-
-              </span>
-
-            </div>
-
-
-            <!-- Next Follow-up -->
-            <div
-              class="flex items-center justify-between gap-3"
-            >
-
-              <span class="text-xs text-gray-500">
-                Next Follow-up
-              </span>
-
-              <span
-                class="text-xs font-semibold text-slate-800"
-              >
-                {{ salesVisit.next_followup_date || '-' }}
-              </span>
-
-            </div>
-
-          </div>
-
-        </div>
-
-      }
-
     </div>
 
-  </div>
+  }
 
 
   <!-- ===================================================== -->

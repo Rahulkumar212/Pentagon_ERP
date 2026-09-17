@@ -1,0 +1,29 @@
+<div class="space-y-6">
+
+  <!-- Header -->
+  <app-order-tracking-header></app-order-tracking-header>
+
+  <!-- Stats -->
+  <app-order-stats></app-order-stats>
+
+  <!-- Filters -->
+  <app-order-filters
+    (filterChange)="onFilterChange($event)">
+  </app-order-filters>
+
+  <!-- Order Table -->
+  <app-order-table
+    (viewOrder)="openOrderDetails($event)">
+  </app-order-table>
+
+</div>
+
+<!-- Order Details Drawer -->
+@if (selectedOrder(); as order) {
+
+  <app-order-details-drawer
+    [order]="order"
+    (close)="closeOrderDetails()">
+  </app-order-details-drawer>
+
+}

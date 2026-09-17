@@ -1,0 +1,385 @@
+
+<div class="w-full space-y-6">
+
+  <!-- ===================================================== -->
+  <!-- HEADER -->
+  <!-- ===================================================== -->
+
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h2 class="text-lg font-semibold text-slate-900">
+        Telecalling Approval Queue
+      </h2>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Review and manage telecalling approval requests
+      </p>
+    </div>
+
+    <div class="rounded-lg border border-gray-200 bg-white px-4 py-2">
+      <span class="text-xs text-gray-500">
+        Total Requests
+      </span>
+
+      <span class="ml-2 text-sm font-semibold text-slate-900">
+        {{ requests.length }}
+      </span>
+    </div>
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- ERROR MESSAGE -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="errorMessage"
+    class="rounded-xl border border-red-200 bg-red-50 px-4 py-3"
+  >
+    <p class="text-sm text-red-600">
+      {{ errorMessage }}
+    </p>
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- EMPTY STATE -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="!errorMessage && requests.length === 0"
+    class="rounded-xl border border-gray-200 bg-white px-6 py-12 text-center"
+  >
+    <div
+      class="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-gray-100"
+    >
+      <span class="text-xl">
+        📞
+      </span>
+    </div>
+
+    <h3 class="mt-4 text-sm font-semibold text-slate-900">
+      No Telecalling Requests
+    </h3>
+
+    <p class="mt-1 text-sm text-gray-500">
+      There are currently no telecalling requests waiting for approval.
+    </p>
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- REQUEST LIST -->
+  <!-- ===================================================== -->
+
+  <div
+    *ngIf="requests.length > 0"
+    class="space-y-4"
+  >
+
+    <div
+      *ngFor="let request of requests"
+      class="rounded-xl border border-gray-200 bg-white shadow-sm transition hover:shadow-md"
+    >
+
+      <!-- ================================================= -->
+      <!-- CARD HEADER -->
+      <!-- ================================================= -->
+
+      <div
+        class="flex flex-col gap-4 border-b border-gray-100 px-5 py-4 lg:flex-row lg:items-start lg:justify-between"
+      >
+
+        <!-- LEFT -->
+        <div class="flex min-w-0 items-start gap-3">
+
+          <div
+            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-lg bg-blue-50 text-xl"
+          >
+            {{ request.icon }}
+          </div>
+
+          <div class="min-w-0">
+
+            <div class="flex flex-wrap items-center gap-2">
+
+              <!-- TITLE -->
+              <h3 class="text-sm font-semibold text-slate-900">
+                {{ request.title }}
+              </h3>
+
+              <!-- CATEGORY -->
+              <span
+                class="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-medium text-blue-700"
+              >
+                {{ request.category }}
+              </span>
+
+              <!-- PRIORITY -->
+              <span
+                class="rounded-full px-2.5 py-1 text-[11px] font-semibold"
+                [ngClass]="{
+                  'bg-red-100 text-red-700':
+                    request.priority === 'high',
+
+                  'bg-yellow-100 text-yellow-700':
+                    request.priority === 'medium',
+
+                  'bg-green-100 text-green-700':
+                    request.priority === 'low'
+                }"
+              >
+                {{ request.leadPriority }}
+              </span>
+
+              <!-- STATUS -->
+              <span
+                class="rounded-full px-2.5 py-1 text-[11px] font-semibold"
+                [ngClass]="{
+                  'bg-yellow-100 text-yellow-700':
+                    request.status?.toUpperCase() === 'PENDING',
+
+                  'bg-green-100 text-green-700':
+                    request.status?.toUpperCase() === 'APPROVED',
+
+                  'bg-red-100 text-red-700':
+                    request.status?.toUpperCase() === 'REJECTED',
+
+                  'bg-gray-100 text-gray-600':
+                    !request.status
+                }"
+              >
+                {{ request.status || 'Pending' }}
+              </span>
+
+            </div>
+
+            <!-- DESCRIPTION -->
+            <p
+              class="mt-2 max-w-3xl text-sm leading-5 text-gray-500"
+            >
+              {{ request.description }}
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- RIGHT ACTIONS -->
+        <div class="flex shrink-0 items-center gap-2">
+
+          <!-- REVIEW -->
+          <button
+            type="button"
+            (click)="reviewRequest(request)"
+            class="rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs font-medium text-slate-600 transition hover:bg-gray-50 hover:text-slate-900"
+          >
+            Review
+          </button>
+
+          <!-- REJECT -->
+          <button
+            type="button"
+            (click)="rejectRequest(request)"
+            class="rounded-lg border border-red-200 bg-white px-3 py-2 text-xs font-medium text-red-600 transition hover:bg-red-50"
+          >
+            Reject
+          </button>
+
+          <!-- APPROVE -->
+          <button
+            type="button"
+            (click)="approveRequest(request)"
+            class="rounded-lg bg-gray-900 px-3 py-2 text-xs font-medium text-white transition hover:bg-gray-800"
+          >
+            Approve
+          </button>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- REQUEST INFORMATION -->
+      <!-- ================================================= -->
+
+      <div
+        class="grid grid-cols-1 gap-4 px-5 py-4 sm:grid-cols-2 lg:grid-cols-4"
+      >
+
+        <!-- REQUEST ID -->
+        <div>
+          <p
+            class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+          >
+            Request ID
+          </p>
+
+          <p class="mt-1 text-sm font-semibold text-slate-900">
+            #{{ request.telecallingId }}
+          </p>
+        </div>
+
+
+        <!-- CUSTOMER -->
+        <div>
+          <p
+            class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+          >
+            Customer
+          </p>
+
+          <p class="mt-1 text-sm font-medium text-slate-900">
+            {{ request.customerName }}
+          </p>
+        </div>
+
+
+        <!-- CONTACT PERSON -->
+        <div>
+          <p
+            class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+          >
+            Contact Person
+          </p>
+
+          <p class="mt-1 text-sm text-slate-700">
+            {{ request.contactPerson }}
+          </p>
+        </div>
+
+
+        <!-- CONTACT NUMBER -->
+        <div>
+          <p
+            class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+          >
+            Contact Number
+          </p>
+
+          <p class="mt-1 text-sm text-slate-700">
+            {{ request.contactNumber }}
+          </p>
+        </div>
+
+
+        <!-- EMAIL -->
+        <div>
+          <p
+            class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+          >
+            Customer Email
+          </p>
+
+          <p class="mt-1 break-all text-sm text-slate-700">
+            {{ request.customerEmail || '-' }}
+          </p>
+        </div>
+
+
+        <!-- CITY -->
+        <div>
+          <p
+            class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+          >
+            City
+          </p>
+
+          <p class="mt-1 text-sm text-slate-700">
+            {{ request.city }}
+          </p>
+        </div>
+
+
+        <!-- EXECUTIVE -->
+        <div>
+          <p
+            class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+          >
+            Executive
+          </p>
+
+          <p class="mt-1 text-sm text-slate-700">
+            {{ request.requestedBy }}
+          </p>
+        </div>
+
+
+        <!-- VISIT DATE -->
+        <div>
+          <p
+            class="text-[11px] font-medium uppercase tracking-wide text-gray-400"
+          >
+            Visit Date
+          </p>
+
+          <p class="mt-1 text-sm text-slate-700">
+            {{ request.requestedDate | date:'dd MMM yyyy' }}
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- TELECALLING APPROVAL DETAIL MODAL -->
+<!-- ===================================================== -->
+
+<div
+  *ngIf="showApprovalDetail && selectedDetailRequest"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+  (click)="closeApprovalDetail()"
+>
+
+  <div
+    class="relative flex h-[95vh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-gray-50 shadow-2xl"
+    (click)="$event.stopPropagation()"
+  >
+
+
+      <app-telecalling-approval-detail
+        [approval]="selectedDetailRequest"
+        (back)="closeApprovalDetail()"
+      >
+      </app-telecalling-approval-detail>
+
+
+  </div>
+
+</div>
+
+
+<!-- ===================================================== -->
+<!-- APPROVE CONFIRMATION -->
+<!-- ===================================================== -->
+
+<app-telecalling-approve-confirmation
+  *ngIf="showApproveConfirmation"
+  [approval]="selectedRequest"
+  (confirmed)="confirmApproval()"
+  (cancelled)="closeApproveConfirmation()"
+>
+</app-telecalling-approve-confirmation>
+
+
+<!-- ===================================================== -->
+<!-- REJECT REQUEST -->
+<!-- ===================================================== -->
+
+<app-telecalling-reject-request
+  *ngIf="showRejectRequest"
+  [isOpen]="showRejectRequest"
+  [request]="selectedRejectRequest"
+  (reject)="handleReject($event)"
+  (close)="closeRejectRequest()"
+>
+</app-telecalling-reject-request>
+

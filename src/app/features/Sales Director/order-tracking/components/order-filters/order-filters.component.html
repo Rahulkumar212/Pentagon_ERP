@@ -1,0 +1,122 @@
+<div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
+
+  <div class="flex flex-col gap-4">
+
+    <!-- Filter Header -->
+    <div class="flex items-center justify-between">
+      <div>
+        <h3 class="text-sm font-semibold text-red-900">
+          Order Filters
+        </h3>
+
+        <p class="mt-1 text-xs text-gray-500">
+          Search and filter customer orders.
+        </p>
+      </div>
+
+      <button
+        type="button"
+        (click)="resetFilters()"
+        class="text-xs font-medium text-red-700 transition hover:text-red-900"
+      >
+        Reset
+      </button>
+    </div>
+
+    <!-- Filters -->
+    <div class="grid grid-cols-1 gap-3 md:grid-cols-2 lg:grid-cols-5">
+
+      <!-- Search -->
+      <div>
+        <label class="mb-1.5 block text-xs font-medium text-gray-600">
+          Search
+        </label>
+
+        <input
+          type="text"
+          [(ngModel)]="search"
+          (ngModelChange)="applyFilters()"
+          placeholder="Order ID..."
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2
+                 text-sm text-gray-700 outline-none transition
+                 placeholder:text-gray-400
+                 focus:border-red-500 focus:ring-1 focus:ring-red-500"
+        />
+      </div>
+
+      <!-- Status -->
+      <div>
+        <label class="mb-1.5 block text-xs font-medium text-gray-600">
+          Status
+        </label>
+
+        <select
+          [(ngModel)]="status"
+          (ngModelChange)="applyFilters()"
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2
+                 text-sm text-gray-700 outline-none transition
+                 focus:border-red-500 focus:ring-1 focus:ring-red-500"
+        >
+          @for (item of statuses; track item) {
+            <option [value]="item">
+              {{ item }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <!-- Customer -->
+      <div>
+        <label class="mb-1.5 block text-xs font-medium text-gray-600">
+          Customer
+        </label>
+
+        <input
+          type="text"
+          [(ngModel)]="customer"
+          (ngModelChange)="applyFilters()"
+          placeholder="Customer name..."
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2
+                 text-sm text-gray-700 outline-none transition
+                 placeholder:text-gray-400
+                 focus:border-red-500 focus:ring-1 focus:ring-red-500"
+        />
+      </div>
+
+      <!-- From Date -->
+      <div>
+        <label class="mb-1.5 block text-xs font-medium text-gray-600">
+          From Date
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="startDate"
+          (ngModelChange)="applyFilters()"
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2
+                 text-sm text-gray-700 outline-none transition
+                 focus:border-red-500 focus:ring-1 focus:ring-red-500"
+        />
+      </div>
+
+      <!-- To Date -->
+      <div>
+        <label class="mb-1.5 block text-xs font-medium text-gray-600">
+          To Date
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="endDate"
+          (ngModelChange)="applyFilters()"
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2
+                 text-sm text-gray-700 outline-none transition
+                 focus:border-red-500 focus:ring-1 focus:ring-red-500"
+        />
+      </div>
+
+    </div>
+
+  </div>
+
+</div>

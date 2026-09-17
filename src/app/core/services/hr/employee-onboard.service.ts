@@ -8,7 +8,6 @@ import {
 } from 'rxjs';
 
 import {
-  EmployeeNameDesignationResponse,
   EmployeeOnboard,
   EmployeeOnboardPayload,
   EmployeeOnboardResponse,

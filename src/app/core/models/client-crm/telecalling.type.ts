@@ -1,4 +1,4 @@
-import { LeadPriority } from './sales-visit.type';
+import { LeadPriority,ApprovalDetailStatus } from './sales-visit.type';
 
 
 // ================= TELECALLING PAYLOAD =================
@@ -32,7 +32,7 @@ export interface Telecalling extends TelecallingPayload {
 
   id: number;
 
-  status?: string;
+  status?: ApprovalDetailStatus | string | null;
 
   createdAt?: string;
 

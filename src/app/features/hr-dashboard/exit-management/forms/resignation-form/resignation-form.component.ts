@@ -59,7 +59,9 @@ export class ResignationFormComponent {
 
     'Meera Nair (Finance Executive)',
 
-    'Rohit Singh (Product Manager)'
+    'Rohit Singh (Product Manager)',
+
+    'Sandeep Pandey(IT Manager)'
 
   ];
 

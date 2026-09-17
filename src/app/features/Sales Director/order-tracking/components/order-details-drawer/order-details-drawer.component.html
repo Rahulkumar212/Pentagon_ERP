@@ -1,0 +1,180 @@
+<!-- Backdrop -->
+<div
+  class="fixed inset-0 z-50 bg-black/40 backdrop-blur-[2px]"
+  (click)="closeDrawer()"
+></div>
+
+<!-- Drawer -->
+<div
+  class="fixed right-0 top-0 z-50 h-full w-full max-w-xl
+         overflow-y-auto bg-white shadow-2xl"
+>
+
+  <!-- Header -->
+  <div
+    class="sticky top-0 z-10 border-b border-gray-200 bg-white
+           px-6 py-4"
+  >
+
+    <div class="flex items-start justify-between gap-4">
+
+      <div class="min-w-0">
+
+        <p
+          class="text-[10px] font-semibold uppercase
+                 tracking-[0.2em] text-red-700"
+        >
+          Order Details
+        </p>
+
+        <h2
+          class="mt-1 truncate text-xl font-semibold text-red-900"
+        >
+          {{ order.orderNumber }}
+        </h2>
+
+        <p class="mt-1 text-xs text-gray-500">
+          {{ order.customerName }}
+        </p>
+
+      </div>
+
+      <!-- Close -->
+      <button
+        type="button"
+        (click)="closeDrawer()"
+        class="flex h-8 w-8 shrink-0 items-center justify-center
+               rounded-lg text-gray-400 transition
+               hover:bg-red-50 hover:text-red-800"
+        aria-label="Close"
+      >
+        <svg
+          class="h-5 w-5"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="2"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            d="M6 18L18 6M6 6l12 12"
+          />
+        </svg>
+      </button>
+
+    </div>
+
+  </div>
+
+  <!-- Content -->
+  <div class="space-y-6 p-6">
+
+    <!-- Status -->
+    <div
+      class="flex items-center justify-between rounded-xl
+             border border-gray-200 bg-gray-50 p-4"
+    >
+
+      <div>
+        <p class="text-[10px] uppercase tracking-wider text-gray-400">
+          Current Status
+        </p>
+
+        <p class="mt-1 text-sm font-medium text-gray-700">
+          Order fulfillment status
+        </p>
+      </div>
+
+      <app-order-status-badge
+        [status]="order.status">
+      </app-order-status-badge>
+
+    </div>
+
+    <!-- Order Information -->
+    <div>
+
+      <div class="mb-3">
+        <h3 class="text-sm font-semibold text-red-900">
+          Order Information
+        </h3>
+
+        <div class="mt-2 border-b border-red-100"></div>
+      </div>
+
+      <div class="grid grid-cols-2 gap-4">
+
+        <!-- Customer -->
+        <div>
+          <p class="text-[10px] uppercase tracking-wide text-gray-400">
+            Customer
+          </p>
+
+          <p class="mt-1 text-sm font-medium text-gray-800">
+            {{ order.customerName }}
+          </p>
+        </div>
+
+        <!-- Sales Executive -->
+        <div>
+          <p class="text-[10px] uppercase tracking-wide text-gray-400">
+            Sales Executive
+          </p>
+
+          <p class="mt-1 text-sm font-medium text-gray-800">
+            {{ order.salesExecutive }}
+          </p>
+        </div>
+
+        <!-- Order Date -->
+        <div>
+          <p class="text-[10px] uppercase tracking-wide text-gray-400">
+            Order Date
+          </p>
+
+          <p class="mt-1 text-sm font-medium text-gray-800">
+            {{ order.orderDate | date:'dd MMM yyyy' }}
+          </p>
+        </div>
+
+        <!-- Expected Delivery -->
+        <div>
+          <p class="text-[10px] uppercase tracking-wide text-gray-400">
+            Expected Delivery
+          </p>
+
+          <p class="mt-1 text-sm font-medium text-gray-800">
+            {{ order.expectedDelivery | date:'dd MMM yyyy' }}
+          </p>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- Amount -->
+    <div
+      class="rounded-xl border border-red-100 bg-red-50/50 p-4"
+    >
+
+      <p class="text-[10px] uppercase tracking-wider text-red-700">
+        Order Amount
+      </p>
+
+      <p class="mt-1 text-2xl font-bold text-red-900">
+        ₹{{ order.amount | number:'1.0-0' }}
+      </p>
+
+    </div>
+
+    <!-- Timeline -->
+    <app-order-timeline
+      [status]="order.status"
+      [orderDate]="order.orderDate"
+      [expectedDelivery]="order.expectedDelivery">
+    </app-order-timeline>
+
+  </div>
+
+</div>

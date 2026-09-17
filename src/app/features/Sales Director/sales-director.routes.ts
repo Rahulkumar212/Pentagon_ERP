@@ -27,12 +27,12 @@ export const SALES_DIRECTOR_ROUTES: Routes = [
         .then(m => m.AuditLogsComponent),
   },
 
-  // {
-  //   path: 'order-tracking',
-  //   loadComponent: () =>
-  //     import('./order-tracking/order-tracking.component')
-  //       .then(m => m.OrderTrackingComponent),
-  // },
+  {
+    path: 'sales-director/order-tracking',
+    loadComponent: () =>
+      import('./order-tracking/pages/order-tracking.component')
+        .then(m => m.OrderTrackingComponent),
+  },
 
 
 //   // =====================================================
