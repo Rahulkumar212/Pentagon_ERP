@@ -39,12 +39,12 @@ export const SALES_DIRECTOR_ROUTES: Routes = [
 //   // SALES MANAGEMENT
 //   // =====================================================
 
-//   {
-//     path: 'pipeline',
-//     loadComponent: () =>
-//       import('./pipeline/pipeline.component')
-//         .then(m => m.PipelineComponent),
-//   },
+  {
+    path: 'sales-director/pipeline',
+    loadComponent: () =>
+      import('./pipeline/pages/pipeline.component')
+        .then(m => m.PipelineComponent),
+  },
 
 //   {
 //     path: 'opportunities',

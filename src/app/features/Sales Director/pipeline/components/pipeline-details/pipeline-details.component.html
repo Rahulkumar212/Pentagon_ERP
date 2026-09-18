@@ -1,0 +1,357 @@
+<div
+  *ngIf="isOpen"
+  class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/60 p-4 backdrop-blur-sm"
+  (click)="close()"
+>
+
+  <div
+    class="flex max-h-[90vh] w-full max-w-3xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl"
+    (click)="$event.stopPropagation()"
+  >
+
+    <!-- ================================================= -->
+    <!-- HEADER -->
+    <!-- ================================================= -->
+
+    <div
+      class="relative overflow-hidden bg-gradient-to-r from-slate-950 via-slate-900 to-red-950 px-6 py-5 text-white"
+    >
+
+      <div
+        class="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-red-500/10"
+      ></div>
+
+      <div
+        class="relative flex items-start justify-between gap-4"
+      >
+
+        <div class="min-w-0">
+
+          <div class="mb-2 flex items-center gap-2">
+            <span class="h-2 w-2 rounded-full bg-red-500"></span>
+
+            <span
+              class="text-xs font-semibold uppercase tracking-wider text-red-300"
+            >
+              Pipeline Lead
+            </span>
+          </div>
+
+          <h2 class="truncate text-xl font-bold md:text-2xl">
+            {{ lead.customerName }}
+          </h2>
+
+          <p class="mt-1 text-sm text-slate-300">
+            {{ lead.contactPerson }}
+          </p>
+
+        </div>
+
+
+        <button
+          type="button"
+          class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-white/10 text-xl text-white transition hover:bg-white/20"
+          (click)="close()"
+        >
+          ×
+        </button>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- CONTENT -->
+    <!-- ================================================= -->
+
+    <div class="overflow-y-auto p-5 md:p-6">
+
+      <!-- SUMMARY -->
+      <div class="mb-6 grid grid-cols-1 gap-3 sm:grid-cols-3">
+
+        <!-- VALUE -->
+        <div
+          class="rounded-xl border border-slate-200 bg-slate-50 p-4"
+        >
+
+          <p
+            class="text-[10px] font-bold uppercase tracking-wider text-slate-400"
+          >
+            Opportunity Value
+          </p>
+
+          <p class="mt-2 text-xl font-bold text-slate-900">
+            {{ formatCurrency(lead.value) }}
+          </p>
+
+        </div>
+
+
+        <!-- PRIORITY -->
+        <div
+          class="rounded-xl border border-slate-200 bg-slate-50 p-4"
+        >
+
+          <p
+            class="text-[10px] font-bold uppercase tracking-wider text-slate-400"
+          >
+            Lead Priority
+          </p>
+
+          <div class="mt-2">
+
+            <span
+              class="inline-flex rounded-full border px-3 py-1.5 text-xs font-bold"
+              [ngClass]="getPriorityClass()"
+            >
+              {{ lead.priority }}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- ACTIVITY -->
+        <div
+          class="rounded-xl border border-slate-200 bg-slate-50 p-4"
+        >
+
+          <p
+            class="text-[10px] font-bold uppercase tracking-wider text-slate-400"
+          >
+            Last Activity
+          </p>
+
+          <p class="mt-2 text-sm font-bold text-slate-900">
+            {{ lead.lastActivity }}
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- CUSTOMER INFORMATION -->
+      <!-- ================================================= -->
+
+      <div class="mb-6">
+
+        <div class="mb-3 flex items-center gap-2">
+
+          <div
+            class="flex h-8 w-8 items-center justify-center rounded-lg bg-blue-50 text-sm text-blue-600"
+          >
+            👤
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold text-slate-900">
+              Customer Information
+            </h3>
+
+            <p class="text-xs text-slate-400">
+              Lead and contact details
+            </p>
+          </div>
+
+        </div>
+
+
+        <div
+          class="grid grid-cols-1 gap-3 rounded-xl border border-slate-200 p-4 sm:grid-cols-2"
+        >
+
+          <div>
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+              Customer Name
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-slate-800">
+              {{ lead.customerName || '-' }}
+            </p>
+          </div>
+
+
+          <div>
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+              Contact Person
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-slate-800">
+              {{ lead.contactPerson || '-' }}
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- SALES OWNER -->
+      <!-- ================================================= -->
+
+      <div class="mb-6">
+
+        <div class="mb-3 flex items-center gap-2">
+
+          <div
+            class="flex h-8 w-8 items-center justify-center rounded-lg bg-purple-50 text-sm text-purple-600"
+          >
+            👨‍💼
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold text-slate-900">
+              Sales Owner
+            </h3>
+
+            <p class="text-xs text-slate-400">
+              Person responsible for this lead
+            </p>
+          </div>
+
+        </div>
+
+
+        <div
+          class="flex items-center gap-3 rounded-xl border border-slate-200 p-4"
+        >
+
+          <div
+            class="flex h-11 w-11 items-center justify-center rounded-full bg-slate-900 text-sm font-bold text-white"
+          >
+            {{ getInitials() }}
+          </div>
+
+          <div>
+
+            <p class="text-sm font-bold text-slate-800">
+              {{ lead.owner || '-' }}
+            </p>
+
+            <p class="mt-0.5 text-xs text-slate-400">
+              Sales Executive
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- ================================================= -->
+      <!-- LEAD INFORMATION -->
+      <!-- ================================================= -->
+
+      <div>
+
+        <div class="mb-3 flex items-center gap-2">
+
+          <div
+            class="flex h-8 w-8 items-center justify-center rounded-lg bg-emerald-50 text-sm text-emerald-600"
+          >
+            📊
+          </div>
+
+          <div>
+            <h3 class="text-sm font-bold text-slate-900">
+              Lead Information
+            </h3>
+
+            <p class="text-xs text-slate-400">
+              Current pipeline information
+            </p>
+          </div>
+
+        </div>
+
+
+        <div
+          class="grid grid-cols-1 gap-3 rounded-xl border border-slate-200 p-4 sm:grid-cols-2"
+        >
+
+          <div>
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+              Lead ID
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-slate-800">
+              #{{ lead.id }}
+            </p>
+          </div>
+
+
+          <div>
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+              Priority
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-slate-800">
+              {{ lead.priority || '-' }}
+            </p>
+          </div>
+
+
+          <div>
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+              Opportunity Value
+            </p>
+
+            <p class="mt-1 text-sm font-bold text-emerald-600">
+              {{ formatCurrency(lead.value) }}
+            </p>
+          </div>
+
+
+          <div>
+            <p class="text-[10px] font-semibold uppercase tracking-wide text-slate-400">
+              Last Activity
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-slate-800">
+              {{ lead.lastActivity || '-' }}
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ================================================= -->
+    <!-- FOOTER -->
+    <!-- ================================================= -->
+
+    <div
+      class="flex items-center justify-end gap-3 border-t border-slate-200 bg-slate-50 px-5 py-4"
+    >
+
+      <button
+        type="button"
+        class="rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-600 transition hover:bg-slate-100"
+        (click)="close()"
+      >
+        Close
+      </button>
+
+
+      <button
+        type="button"
+        class="rounded-xl bg-red-600 px-5 py-2.5 text-sm font-semibold text-white shadow-sm transition hover:bg-red-700"
+        (click)="edit()"
+      >
+        Edit Lead
+      </button>
+
+    </div>
+
+  </div>
+
+</div>

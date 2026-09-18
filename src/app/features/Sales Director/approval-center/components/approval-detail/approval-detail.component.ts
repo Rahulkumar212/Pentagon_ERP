@@ -21,10 +21,6 @@ import {
 } from '../../forms/approve-confirmation/approve-confirmation.component';
 
 import {
-  ApprovalTimelineComponent
-} from '../../forms/approval-timeline/approval-timeline.component';
-
-import {
   RequestChangesComponent
 } from '../../forms/request-changes/request-changes.component';
 
@@ -49,7 +45,6 @@ import {
   imports: [
     CommonModule,
     ApproveConfirmationComponent,
-    ApprovalTimelineComponent,
     RequestChangesComponent,
   ],
 

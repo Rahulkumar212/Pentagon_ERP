@@ -4,13 +4,9 @@
   <div class="relative overflow-hidden bg-gradient-to-r from-slate-900 via-slate-800 to-red-900 px-6 py-6">
 
     <!-- Decorative Circle -->
-    <div
-      class="absolute -right-10 -top-16 h-40 w-40 rounded-full bg-white/5"
-    ></div>
+    <div class="absolute -right-10 -top-16 h-40 w-40 rounded-full bg-white/5"></div>
 
-    <div
-      class="absolute -bottom-20 right-20 h-32 w-32 rounded-full bg-red-500/10"
-    ></div>
+    <div class="absolute -bottom-20 right-20 h-32 w-32 rounded-full bg-red-500/10"></div>
 
     <div class="relative flex items-center justify-between">
 
@@ -18,8 +14,7 @@
 
         <!-- Icon -->
         <div
-          class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-xl text-white ring-1 ring-white/20 backdrop-blur"
-        >
+          class="flex h-12 w-12 items-center justify-center rounded-xl bg-white/10 text-xl text-white ring-1 ring-white/20 backdrop-blur">
           ☎
         </div>
 
@@ -36,11 +31,8 @@
       </div>
 
       <!-- Close -->
-      <button
-        type="button"
-        (click)="close()"
-        class="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-lg text-slate-300 transition hover:bg-white/10 hover:text-white"
-      >
+      <button type="button" (click)="close()"
+        class="flex h-9 w-9 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-lg text-slate-300 transition hover:bg-white/10 hover:text-white">
         ✕
       </button>
 
@@ -49,15 +41,10 @@
 
 
   <!-- ================= LOADING ================= -->
-  <div
-    *ngIf="isLoading"
-    class="flex min-h-[350px] items-center justify-center"
-  >
+  <div *ngIf="isLoading" class="flex min-h-[350px] items-center justify-center">
     <div class="flex flex-col items-center gap-3">
 
-      <div
-        class="h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-red-600"
-      ></div>
+      <div class="h-8 w-8 animate-spin rounded-full border-2 border-gray-200 border-t-red-600"></div>
 
       <p class="text-sm text-gray-500">
         Loading telecalling details...
@@ -68,18 +55,11 @@
 
 
   <!-- ================= ERROR ================= -->
-  <div
-    *ngIf="!isLoading && errorMessage"
-    class="p-6"
-  >
+  <div *ngIf="!isLoading && errorMessage" class="p-6">
 
-    <div
-      class="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4"
-    >
+    <div class="flex items-start gap-3 rounded-xl border border-red-200 bg-red-50 p-4">
 
-      <div
-        class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600"
-      >
+      <div class="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-red-100 text-red-600">
         !
       </div>
 
@@ -99,26 +79,17 @@
 
 
   <!-- ================= DETAILS ================= -->
-  <div
-    *ngIf="!isLoading && telecalling"
-    class="max-h-[70vh] overflow-y-auto bg-slate-50/70 p-6"
-  >
+  <div *ngIf="!isLoading && telecalling" class="max-h-[70vh] overflow-y-auto bg-slate-50/70 p-6">
 
     <!-- ================= SUMMARY ================= -->
-    <div
-      class="mb-5 grid grid-cols-1 gap-4 md:grid-cols-3"
-    >
+    <div class="mb-5 grid grid-cols-1 gap-4 md:grid-cols-3">
 
       <!-- Customer -->
-      <div
-        class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
-      >
+      <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
 
         <div class="flex items-center gap-3">
 
-          <div
-            class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600"
-          >
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600">
             👤
           </div>
 
@@ -140,15 +111,11 @@
 
 
       <!-- Executive -->
-      <div
-        class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
-      >
+      <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
 
         <div class="flex items-center gap-3">
 
-          <div
-            class="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-50 text-purple-600"
-          >
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-50 text-purple-600">
             👨‍💼
           </div>
 
@@ -170,15 +137,11 @@
 
 
       <!-- Visit Date -->
-      <div
-        class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm"
-      >
+      <div class="rounded-xl border border-gray-200 bg-white p-4 shadow-sm">
 
         <div class="flex items-center gap-3">
 
-          <div
-            class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-50 text-orange-600"
-          >
+          <div class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-50 text-orange-600">
             📅
           </div>
 
@@ -203,8 +166,7 @@
 
     <!-- ================= STATUS BAR ================= -->
     <div
-      class="mb-5 flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-5 shadow-sm md:flex-row md:items-center md:justify-between"
-    >
+      class="mb-5 flex flex-col gap-4 rounded-xl border border-gray-200 bg-white p-5 shadow-sm md:flex-row md:items-center md:justify-between">
 
       <div>
 
@@ -228,26 +190,21 @@
             Lead Priority
           </p>
 
-          <span
-            class="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold"
-            [ngClass]="{
-              'bg-red-100 text-red-700':
-                telecalling.lead_priority?.toUpperCase()?.includes('HOT'),
+          <span class="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold" [ngClass]="{
+  'bg-red-100 text-red-700':
+    (telecalling.lead_priority || '').toUpperCase().includes('HOT'),
 
-              'bg-yellow-100 text-yellow-700':
-                telecalling.lead_priority?.toUpperCase()?.includes('WARM'),
+  'bg-yellow-100 text-yellow-700':
+    (telecalling.lead_priority || '').toUpperCase().includes('WARM'),
 
-              'bg-green-100 text-green-700':
-                telecalling.lead_priority?.toUpperCase()?.includes('COLD'),
+  'bg-green-100 text-green-700':
+    (telecalling.lead_priority || '').toUpperCase().includes('COLD'),
 
-              'bg-gray-100 text-gray-600':
-                !telecalling.lead_priority
-            }"
-          >
+  'bg-gray-100 text-gray-600':
+    !telecalling.lead_priority
+}">
 
-            <span
-              class="h-1.5 w-1.5 rounded-full bg-current"
-            ></span>
+            <span class="h-1.5 w-1.5 rounded-full bg-current"></span>
 
             {{ displayValue(telecalling.lead_priority) }}
 
@@ -263,9 +220,7 @@
             Status
           </p>
 
-          <span
-            class="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold"
-            [ngClass]="{
+          <span class="inline-flex items-center gap-1.5 rounded-full px-3 py-1.5 text-xs font-semibold" [ngClass]="{
               'bg-green-100 text-green-700':
                 telecalling.status?.toUpperCase() === 'APPROVED',
 
@@ -277,12 +232,9 @@
 
               'bg-gray-100 text-gray-600':
                 !telecalling.status
-            }"
-          >
+            }">
 
-            <span
-              class="h-1.5 w-1.5 rounded-full bg-current"
-            ></span>
+            <span class="h-1.5 w-1.5 rounded-full bg-current"></span>
 
             {{ displayValue(telecalling.status) }}
 
@@ -296,19 +248,13 @@
 
 
     <!-- ================= CONTACT INFORMATION ================= -->
-    <div
-      class="mb-5 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
-    >
+    <div class="mb-5 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
 
-      <div
-        class="border-b border-gray-100 px-5 py-4"
-      >
+      <div class="border-b border-gray-100 px-5 py-4">
 
         <div class="flex items-center gap-3">
 
-          <div
-            class="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-600"
-          >
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-red-50 text-red-600">
             ☎
           </div>
 
@@ -329,9 +275,7 @@
       </div>
 
 
-      <div
-        class="grid grid-cols-1 divide-y divide-gray-100 md:grid-cols-2 md:divide-x md:divide-y-0"
-      >
+      <div class="grid grid-cols-1 divide-y divide-gray-100 md:grid-cols-2 md:divide-x md:divide-y-0">
 
         <!-- Contact Person -->
         <div class="p-5">
@@ -394,19 +338,13 @@
 
 
     <!-- ================= REQUEST INFORMATION ================= -->
-    <div
-      class="mb-5 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
-    >
+    <div class="mb-5 overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
 
-      <div
-        class="border-b border-gray-100 px-5 py-4"
-      >
+      <div class="border-b border-gray-100 px-5 py-4">
 
         <div class="flex items-center gap-3">
 
-          <div
-            class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-600"
-          >
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-slate-100 text-slate-600">
             ℹ
           </div>
 
@@ -462,19 +400,13 @@
 
 
     <!-- ================= REMARKS ================= -->
-    <div
-      class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
-    >
+    <div class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
 
-      <div
-        class="border-b border-gray-100 px-5 py-4"
-      >
+      <div class="border-b border-gray-100 px-5 py-4">
 
         <div class="flex items-center gap-3">
 
-          <div
-            class="flex h-8 w-8 items-center justify-center rounded-lg bg-yellow-50 text-yellow-600"
-          >
+          <div class="flex h-8 w-8 items-center justify-center rounded-lg bg-yellow-50 text-yellow-600">
             📝
           </div>
 
@@ -497,9 +429,7 @@
 
       <div class="p-5">
 
-        <div
-          class="min-h-[90px] rounded-lg bg-slate-50 p-4 text-sm leading-6 text-slate-700"
-        >
+        <div class="min-h-[90px] rounded-lg bg-slate-50 p-4 text-sm leading-6 text-slate-700">
           {{ displayValue(telecalling.remarks) }}
         </div>
 
@@ -511,19 +441,14 @@
 
 
   <!-- ================= FOOTER ================= -->
-  <div
-    class="flex items-center justify-between border-t border-gray-200 bg-white px-6 py-4"
-  >
+  <div class="flex items-center justify-between border-t border-gray-200 bg-white px-6 py-4">
 
     <p class="hidden text-xs text-gray-400 sm:block">
       Telecalling Request Details
     </p>
 
-    <button
-      type="button"
-      (click)="close()"
-      class="rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800 hover:shadow-md"
-    >
+    <button type="button" (click)="close()"
+      class="rounded-lg bg-slate-900 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-slate-800 hover:shadow-md">
       Close
     </button>
 
