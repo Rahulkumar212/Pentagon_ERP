@@ -2,16 +2,17 @@ import {
   Component,
   EventEmitter,
   Input,
-  Output,
+  Output
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
+
+import { OrganizationService } from '../../../../../core/services/organization.service';
 
 
 // =====================================================
 // TELECALLING REJECT DATA
 // =====================================================
-
 export interface TelecallingRejectRequestData {
   id: string;
   customerName: string;
@@ -28,7 +29,6 @@ export interface TelecallingRejectRequestData {
 // =====================================================
 // REJECT EVENT
 // =====================================================
-
 export interface TelecallingRejectEvent {
   request: TelecallingRejectRequestData;
   reason: string;
@@ -38,16 +38,12 @@ export interface TelecallingRejectEvent {
 // =====================================================
 // COMPONENT
 // =====================================================
-
 @Component({
   selector: 'app-telecalling-reject-request',
-
   standalone: true,
-
   imports: [
     CommonModule,
   ],
-
   templateUrl:
     './telecalling-reject-request.component.html',
 })
@@ -56,7 +52,6 @@ export class TelecallingRejectRequestComponent {
   // =====================================================
   // INPUT
   // =====================================================
-
   @Input()
   isOpen = false;
 
@@ -68,7 +63,6 @@ export class TelecallingRejectRequestComponent {
   // =====================================================
   // OUTPUT
   // =====================================================
-
   @Output()
   close = new EventEmitter<void>();
 
@@ -80,18 +74,14 @@ export class TelecallingRejectRequestComponent {
   // =====================================================
   // STATE
   // =====================================================
-
   selectedReason = '';
-
   customReason = '';
-
   isSubmitting = false;
 
 
   // =====================================================
   // REJECTION REASONS
   // =====================================================
-
   readonly rejectionReasons: string[] = [
     'Incomplete Information',
     'Invalid Customer Details',
@@ -103,9 +93,16 @@ export class TelecallingRejectRequestComponent {
 
 
   // =====================================================
+  // CONSTRUCTOR
+  // =====================================================
+  constructor(
+    private organizationService: OrganizationService
+  ) {}
+
+
+  // =====================================================
   // FINAL REASON
   // =====================================================
-
   get finalReason(): string {
 
     if (this.selectedReason === 'Other') {
@@ -119,7 +116,6 @@ export class TelecallingRejectRequestComponent {
   // =====================================================
   // VALIDATION
   // =====================================================
-
   get isValid(): boolean {
     return this.finalReason.length > 0;
   }
@@ -128,7 +124,6 @@ export class TelecallingRejectRequestComponent {
   // =====================================================
   // SELECT REASON
   // =====================================================
-
   selectReason(reason: string): void {
 
     this.selectedReason = reason;
@@ -142,7 +137,6 @@ export class TelecallingRejectRequestComponent {
   // =====================================================
   // CUSTOM REASON
   // =====================================================
-
   onCustomReasonChange(value: string): void {
     this.customReason = value;
   }
@@ -151,7 +145,6 @@ export class TelecallingRejectRequestComponent {
   // =====================================================
   // CLOSE
   // =====================================================
-
   onClose(): void {
 
     if (this.isSubmitting) {
@@ -159,15 +152,14 @@ export class TelecallingRejectRequestComponent {
     }
 
     this.reset();
-
     this.close.emit();
   }
 
 
   // =====================================================
-  // REJECT
+  // REJECT TELECALLING
+  // PATCH /updateTelecalling/:id
   // =====================================================
-
   onReject(): void {
 
     if (!this.request || !this.isValid) {
@@ -184,44 +176,73 @@ export class TelecallingRejectRequestComponent {
       return;
     }
 
+    const id = Number(this.request.id);
+
+    if (!id) {
+      console.error('Invalid telecalling ID');
+      return;
+    }
+
     this.isSubmitting = true;
 
-    console.log(
-      'Rejecting Telecalling:',
-      this.request
-    );
+    // =====================================================
+    // UPDATE TELECALLING
+    // =====================================================
+    this.organizationService
+      .updateTelecalling(
+        id,
+        'REJECTED',
+        reason
+      )
+      .subscribe({
 
-    console.log(
-      'Rejection Reason:',
-      reason
-    );
+        // =================================================
+        // SUCCESS
+        // =================================================
+        next: (response) => {
 
+          console.log(
+            'Telecalling rejected successfully:',
+            response
+          );
 
-    // Parent ko reject event bhejenge.
-    // Actual Telecalling Reject API parent/service
-    // me connect ki jayegi.
+          // Parent ko reject event bhejna
+          this.reject.emit({
+            request: this.request!,
+            reason
+          });
 
-    this.reject.emit({
-      request: this.request,
-      reason,
-    });
+          this.isSubmitting = false;
 
-    this.isSubmitting = false;
+          this.reset();
 
-    this.reset();
+          this.close.emit();
+        },
 
-    this.close.emit();
+        // =================================================
+        // ERROR
+        // =================================================
+        error: (error) => {
+
+          console.error(
+            'Failed to reject telecalling:',
+            error
+          );
+
+          this.isSubmitting = false;
+        }
+
+      });
   }
 
 
   // =====================================================
   // RESET
   // =====================================================
-
   private reset(): void {
 
     this.selectedReason = '';
-
     this.customReason = '';
   }
+
 }

@@ -1,23 +1,25 @@
 import {
   ChangeDetectorRef,
   Component,
-  OnInit,
+  Input,
   inject
 } from '@angular/core';
 
 import { CommonModule } from '@angular/common';
 
 import {
-  Telecalling,
-  TelecallingResponse
+  Telecalling
 } from '../../../../core/models/client-crm/telecalling.type';
 
-import {
-  OrganizationService
-} from '../../../../core/services/organization.service';
 import { CallDiscussionFormComponent } from '../call-discussion-form/call-discussion-form.component';
+
 import { CallDiscussionViewComponent } from '../call-discussion-view/call-discussion-view.component';
 
+// =====================================================
+// FILTER TYPE
+// =====================================================
+
+type TelecallingFilter = 'ALL' | 'APPROVED' | 'REJECTED';
 
 // =====================================================
 // COMPONENT
@@ -25,25 +27,57 @@ import { CallDiscussionViewComponent } from '../call-discussion-view/call-discus
 
 @Component({
   selector: 'app-telecalling-table',
-
   standalone: true,
-
   imports: [
     CommonModule,
     CallDiscussionFormComponent,
     CallDiscussionViewComponent
   ],
-
   templateUrl: './telecalling-table.html'
 })
-export class TelecallingTable implements OnInit {
+export class TelecallingTable {
 
   // =====================================================
-  // STATE
+  // DATA FROM PARENT
   // =====================================================
 
-  telecallingRecords: Telecalling[] = [];
+  @Input() approvedTelecalling: Telecalling[] = [];
 
+  @Input() rejectedTelecalling: Telecalling[] = [];
+
+  // =====================================================
+  // FILTER
+  // =====================================================
+
+  activeFilter: TelecallingFilter = 'ALL';
+
+  // =====================================================
+  // FILTERED RECORDS
+  // =====================================================
+
+  get filteredTelecalling(): Telecalling[] {
+
+    if (this.activeFilter === 'APPROVED') {
+      return this.approvedTelecalling;
+    }
+
+    if (this.activeFilter === 'REJECTED') {
+      return this.rejectedTelecalling;
+    }
+
+    return [
+      ...this.approvedTelecalling,
+      ...this.rejectedTelecalling
+    ];
+  }
+
+  // =====================================================
+  // SET FILTER
+  // =====================================================
+
+  setFilter(filter: TelecallingFilter): void {
+    this.activeFilter = filter;
+  }
 
   // =====================================================
   // CALL DISCUSSION MODAL STATE
@@ -53,7 +87,6 @@ export class TelecallingTable implements OnInit {
 
   selectedVisit: Telecalling | null = null;
 
-
   // =====================================================
   // CALL HISTORY MODAL STATE
   // =====================================================
@@ -62,74 +95,11 @@ export class TelecallingTable implements OnInit {
 
   selectedDiscussion: any = null;
 
-
   // =====================================================
   // SERVICES
   // =====================================================
 
-  private readonly organizationService =
-    inject(OrganizationService);
-
-  private readonly cdr =
-    inject(ChangeDetectorRef);
-
-
-  // =====================================================
-  // INIT
-  // =====================================================
-
-  ngOnInit(): void {
-
-    this.loadTelecalling();
-
-  }
-
-
-  // =====================================================
-  // LOAD TELECALLING
-  // =====================================================
-
-  loadTelecalling(): void {
-
-    this.organizationService
-      .fetchTelecalling()
-      .subscribe({
-
-        // -------------------------------------------------
-        // SUCCESS
-        // -------------------------------------------------
-
-        next: (response: TelecallingResponse) => {
-
-          this.telecallingRecords =
-            response.data ?? [];
-
-          this.cdr.detectChanges();
-
-        },
-
-
-        // -------------------------------------------------
-        // ERROR
-        // -------------------------------------------------
-
-        error: (error) => {
-
-          console.error(
-            'Failed to load telecalling records:',
-            error
-          );
-
-          this.telecallingRecords = [];
-
-          this.cdr.detectChanges();
-
-        }
-
-      });
-
-  }
-
+  private readonly cdr = inject(ChangeDetectorRef);
 
   // =====================================================
   // ADD CALL
@@ -143,8 +113,8 @@ export class TelecallingTable implements OnInit {
     // Open Call Discussion Form
     this.showCallModal = true;
 
+    this.cdr.detectChanges();
   }
-
 
   // =====================================================
   // CLOSE CALL MODAL
@@ -155,9 +125,7 @@ export class TelecallingTable implements OnInit {
     this.showCallModal = false;
 
     this.selectedVisit = null;
-
   }
-
 
   // =====================================================
   // CALL SAVED
@@ -168,11 +136,9 @@ export class TelecallingTable implements OnInit {
     // Close form
     this.closeCallModal();
 
-    // Reload telecalling records
-    this.loadTelecalling();
-
+    // Parent API data will be refreshed by parent.
+    // No API call from this component.
   }
-
 
   // =====================================================
   // VIEW CALL HISTORY
@@ -184,7 +150,7 @@ export class TelecallingTable implements OnInit {
     this.selectedVisit = visit;
 
     /*
-     * Yahan baad mein API call karenge:
+     * Yahan baad mein API call kar sakte hain:
      *
      * getCallDiscussionHistory(visit.id)
      *
@@ -195,9 +161,7 @@ export class TelecallingTable implements OnInit {
 
     // Open history modal
     this.showViewModal = true;
-
   }
-
 
   // =====================================================
   // CLOSE HISTORY MODAL
@@ -208,7 +172,5 @@ export class TelecallingTable implements OnInit {
     this.showViewModal = false;
 
     this.selectedDiscussion = null;
-
   }
-
 }

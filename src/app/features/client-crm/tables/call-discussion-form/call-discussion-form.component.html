@@ -1,5 +1,3 @@
-
-
 <div class="w-full rounded-2xl bg-white">
 
   <!-- ================= Header ================= -->
@@ -18,9 +16,7 @@
 
   <!-- ================= Form ================= -->
 
-  <form
-    [formGroup]="form"
-    (ngSubmit)="save()">
+  <form [formGroup]="form" (ngSubmit)="save()">
 
     <div class="space-y-8 p-8">
 
@@ -40,9 +36,7 @@
               Call Date
             </label>
 
-            <input
-              type="date"
-              formControlName="call_date"
+            <input type="date" formControlName="call_date"
               class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-red-600 focus:outline-none">
 
           </div>
@@ -53,9 +47,7 @@
               Call Time
             </label>
 
-            <input
-              type="time"
-              formControlName="call_time"
+            <input type="time" formControlName="call_time"
               class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-red-600 focus:outline-none">
 
           </div>
@@ -66,13 +58,13 @@
               Call Type
             </label>
 
-            <select
-              formControlName="call_type"
+            <select formControlName="call_type"
               class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-red-600 focus:outline-none">
-
               <option value="">
                 Select Call Type
               </option>
+
+              @if (sourceType === 'TELECALLING') {
 
               <option value="OUTGOING">
                 Outgoing Call
@@ -90,10 +82,21 @@
                 Video Meeting
               </option>
 
+              } @else {
+
               <option value="MEETING">
                 Physical Meeting
               </option>
 
+              <option value="OUTGOING">
+                Outgoing Call
+              </option>
+
+              <option value="INCOMING">
+                Incoming Call
+              </option>
+
+              }
             </select>
 
           </div>
@@ -104,9 +107,7 @@
               Duration (Minutes)
             </label>
 
-            <input
-              type="number"
-              formControlName="duration"
+            <input type="number" formControlName="duration"
               class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-red-600 focus:outline-none">
 
           </div>
@@ -131,9 +132,7 @@
               Discussion Summary
             </label>
 
-            <textarea
-              rows="2"
-              formControlName="discussion"
+            <textarea rows="2" formControlName="discussion"
               class="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-red-600 focus:outline-none">
             </textarea>
 
@@ -145,9 +144,7 @@
               Client Requirement
             </label>
 
-            <textarea
-              rows="2"
-              formControlName="requirement"
+            <textarea rows="2" formControlName="requirement"
               class="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-red-600 focus:outline-none">
             </textarea>
 
@@ -159,9 +156,7 @@
               Solution Explained
             </label>
 
-            <textarea
-              rows="2"
-              formControlName="solution"
+            <textarea rows="2" formControlName="solution"
               class="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-red-600 focus:outline-none">
             </textarea>
 
@@ -187,8 +182,7 @@
               Outcome
             </label>
 
-            <select
-              formControlName="outcome"
+            <select formControlName="outcome"
               class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-red-600 focus:outline-none">
 
               <option value="">
@@ -229,9 +223,7 @@
               Expected Order Value (₹)
             </label>
 
-            <input
-              type="number"
-              formControlName="expected_amount"
+            <input type="number" formControlName="expected_amount"
               class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-red-600 focus:outline-none">
 
           </div>
@@ -256,9 +248,7 @@
               Next Follow-up Date
             </label>
 
-            <input
-              type="date"
-              formControlName="next_followup_date"
+            <input type="date" formControlName="next_followup_date"
               class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-red-600 focus:outline-none">
 
           </div>
@@ -269,8 +259,7 @@
               Follow-up Mode
             </label>
 
-            <select
-              formControlName="followup_mode"
+            <select formControlName="followup_mode"
               class="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-red-600 focus:outline-none">
 
               <option value="">
@@ -313,9 +302,7 @@
           Remarks For Management
         </h3>
 
-        <textarea
-          rows="2"
-          formControlName="remarks"
+        <textarea rows="2" formControlName="remarks"
           class="w-full resize-none rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-red-600 focus:outline-none">
         </textarea>
 
@@ -327,18 +314,14 @@
 
     <div class="sticky bottom-0 flex justify-end gap-3 border-t border-gray-200 bg-white px-8 py-5">
 
-      <button
-        type="button"
-        (click)="cancel()"
+      <button type="button" (click)="cancel()"
         class="rounded-lg border border-gray-300 px-6 py-2.5 font-medium hover:bg-gray-100">
 
         Cancel
 
       </button>
 
-      <button
-        type="submit"
-        [disabled]="form.invalid || isSubmitting"
+      <button type="submit" [disabled]="form.invalid || isSubmitting"
         class="rounded-lg bg-red-700 px-6 py-2.5 font-semibold text-white hover:bg-red-800 disabled:cursor-not-allowed disabled:opacity-50">
 
         {{ isSubmitting ? 'Submitting...' : 'Submit For Approval' }}

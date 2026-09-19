@@ -49,12 +49,13 @@
 
   <!-- Sales Visit Table -->
   <div class="mt-6">
-   <app-physical-meeting-table
-    [canEdit]="true"
-    fetchType="APPROVED">
-</app-physical-meeting-table>
+   <app-physical-meeting-table [canEdit]="true"></app-physical-meeting-table>
 
-<app-telecalling-table></app-telecalling-table>
+<app-telecalling-table
+  [approvedTelecalling]="approvedTelecalling"
+  [rejectedTelecalling]="rejectedTelecalling">
+</app-telecalling-table>
+
   </div>
 
 </app-executive-layout>

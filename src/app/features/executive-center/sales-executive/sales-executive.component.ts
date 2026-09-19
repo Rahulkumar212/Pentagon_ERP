@@ -11,6 +11,7 @@ import { DashboardService } from '../../../core/services/executive.service';
 import { ExecutiveLayoutComponent } from '../../../layouts/executive-layout/executive-layout.component';
 import { TelecallingTable } from "../../client-crm/tables/telecalling-table/telecalling-table";
 import { PhysicalMeetingTable} from '../../client-crm/tables/physical-meeting-table/physical-meeting-table';
+import { OrganizationService } from '../../../core/services/organization.service';
 
 @Component({
   selector: 'app-sales-executive',
@@ -29,16 +30,22 @@ export class SalesExecutiveComponent implements OnInit {
   cards: ExecutiveCard[] = [];
   leads: ExecutiveLead[] = [];
 
+  approvedTelecalling: any[] = [];
+rejectedTelecalling: any[] = [];
+
   private readonly dashboardService = inject(DashboardService);
+  private readonly organizationService = inject(OrganizationService);
   private readonly cdr = inject(ChangeDetectorRef);
 
   selectedLead: ExecutiveLead | null = null;
   showDiscussionForm = false;
 
   ngOnInit(): void {
-    this.loadStats();
-    this.loadNotifications();
-  }
+  this.loadStats();
+  this.loadNotifications();
+  this.loadApprovedTelecalling();
+  this.loadRejectedTelecalling();
+}
 
   // ==========================
   // LEAD DISCUSSION
@@ -121,6 +128,33 @@ export class SalesExecutiveComponent implements OnInit {
 
       });
   }
+
+  loadApprovedTelecalling(): void {
+  this.organizationService.fetchApprovedTelecalling().subscribe({
+    next: (response: any) => {
+      this.approvedTelecalling = response?.data ?? [];
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error('Error loading approved telecalling:', err);
+      this.approvedTelecalling = [];
+    }
+  });
+}
+
+
+loadRejectedTelecalling(): void {
+  this.organizationService.fetchRejectedTelecalling().subscribe({
+    next: (response: any) => {
+      this.rejectedTelecalling = response?.data ?? [];
+      this.cdr.detectChanges();
+    },
+    error: (err) => {
+      console.error('Error loading rejected telecalling:', err);
+      this.rejectedTelecalling = [];
+    }
+  });
+}
 
   // ==========================
   // STATS

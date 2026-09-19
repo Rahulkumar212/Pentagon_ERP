@@ -56,6 +56,7 @@ export class CallDiscussionFormComponent implements OnInit {
  @Input({ required: true })
 lead!: SalesVisit | Telecalling;
 
+@Input() sourceType: 'PHYSICAL_MEETING' | 'TELECALLING' = 'PHYSICAL_MEETING';
 
   // =====================================================
   // OUTPUTS

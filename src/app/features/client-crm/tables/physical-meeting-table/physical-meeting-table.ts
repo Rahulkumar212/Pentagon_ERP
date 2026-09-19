@@ -1,3 +1,4 @@
+
 import {
   ChangeDetectorRef,
   Component,
@@ -6,193 +7,144 @@ import {
   inject
 } from '@angular/core';
 
-import {
-  CommonModule
-} from '@angular/common';
+import { CommonModule } from '@angular/common';
 
 import {
   SalesVisit,
   SalesVisitResponse
 } from '../../../../core/models/client-crm/sales-visit.type';
 
-import {
-  CallDiscussion,
-  CallDiscussionResponse
-} from '../../../../core/models/client-crm/call-discussion.type';
+import { OrganizationService } from '../../../../core/services/organization.service';
 
-import {
-  OrganizationService
-} from '../../../../core/services/organization.service';
+import { CallDiscussionFormComponent } from '../call-discussion-form/call-discussion-form.component';
 
-import {
-  CallDiscussionFormComponent
-} from '../call-discussion-form/call-discussion-form.component';
-
-import {
-  CallDiscussionViewComponent
-} from '../call-discussion-view/call-discussion-view.component';
-
-import {
-  CallDiscussionService
-} from '../../../../core/services/call-discussion.service';
-
+type PhysicalMeetingFilter =
+  | 'ALL'
+  | 'APPROVED'
+  | 'REJECTED';
 
 @Component({
   selector: 'app-physical-meeting-table',
-
   standalone: true,
-
   imports: [
     CommonModule,
-    CallDiscussionFormComponent,
-    CallDiscussionViewComponent
+    CallDiscussionFormComponent
   ],
-
   templateUrl: './physical-meeting-table.html'
 })
 export class PhysicalMeetingTable implements OnInit {
 
-
-  // =====================================================
-  // INPUTS
-  // =====================================================
-
   @Input()
   canEdit = false;
 
-
-  /**
-   * APPROVED
-   * REJECTED
-   */
   @Input()
-fetchType:
-  | 'ALL_VISITS'
-  | 'APPROVED'
-  | 'REJECTED'
-  = 'ALL_VISITS';
+  fetchType:
+    | 'ALL_VISITS'
+    | 'APPROVED'
+    | 'REJECTED'
+    = 'ALL_VISITS';
 
-
-  // =====================================================
-  // STATE
-  // =====================================================
+  activeFilter: PhysicalMeetingFilter = 'ALL';
 
   salesVisits: SalesVisit[] = [];
 
+  selectedVisit: SalesVisit | null = null;
 
-  selectedVisit:
-    SalesVisit | null = null;
-
-
-  selectedDiscussion:
-    CallDiscussion | null = null;
-
+  selectedViewVisit: SalesVisit | null = null;
 
   showCallModal = false;
 
-
   showViewModal = false;
-
-
-  // =====================================================
-  // SERVICES
-  // =====================================================
 
   private readonly organizationService =
     inject(OrganizationService);
 
-
-  private readonly callDiscussionService =
-    inject(CallDiscussionService);
-
-
   private readonly cdr =
     inject(ChangeDetectorRef);
 
-
-  // =====================================================
-  // INIT
-  // =====================================================
-
   ngOnInit(): void {
-
     this.loadSalesVisits();
-
   }
 
+  get filteredSalesVisits(): SalesVisit[] {
 
-  // =====================================================
-  // LOAD SALES VISITS
-  // =====================================================
+    if (this.activeFilter === 'ALL') {
+      return this.salesVisits;
+    }
 
- 
- loadSalesVisits(): void {
+    if (this.activeFilter === 'APPROVED') {
+      return this.salesVisits.filter(
+        visit => visit.status === 'APPROVED'
+      );
+    }
 
-  if (this.fetchType === 'APPROVED') {
-    this.loadApprovedSalesVisits();
-    return;
+    if (this.activeFilter === 'REJECTED') {
+      return this.salesVisits.filter(
+        visit => visit.status === 'REJECTED'
+      );
+    }
+
+    return this.salesVisits;
   }
 
-  if (this.fetchType === 'REJECTED') {
-    this.loadRejectedSalesVisits();
-    return;
+  setFilter(
+    filter: PhysicalMeetingFilter
+  ): void {
+    this.activeFilter = filter;
   }
 
-  // ALL_VISITS
-  this.organizationService
-    .fetchSalesVisits()
-    .subscribe({
-      next: (response: SalesVisitResponse) => {
-        this.salesVisits = response.data ?? [];
-        this.cdr.detectChanges();
-      },
+  loadSalesVisits(): void {
 
-      error: (error) => {
-        console.error(
-          'Failed to load all sales visits:',
-          error
-        );
+    if (this.fetchType === 'APPROVED') {
+      this.loadApprovedSalesVisits();
+      return;
+    }
 
-        this.salesVisits = [];
-        this.cdr.detectChanges();
-      }
-    });
-}
+    if (this.fetchType === 'REJECTED') {
+      this.loadRejectedSalesVisits();
+      return;
+    }
 
-  // =====================================================
-  // LOAD APPROVED SALES VISITS
-  // =====================================================
+    this.organizationService
+      .fetchSalesVisits()
+      .subscribe({
+        next: (
+          response: SalesVisitResponse
+        ) => {
+          this.salesVisits =
+            response?.data ?? [];
+
+          this.cdr.detectChanges();
+        },
+
+        error: (error) => {
+          console.error(
+            'Failed to load all sales visits:',
+            error
+          );
+
+          this.salesVisits = [];
+
+          this.cdr.detectChanges();
+        }
+      });
+  }
 
   private loadApprovedSalesVisits(): void {
 
     this.organizationService
       .fetchApprovedSalesVisits()
       .subscribe({
-
-        // =================================================
-        // SUCCESS
-        // =================================================
-
         next: (
           response: SalesVisitResponse
         ) => {
-
-          // Backend se status aur data dono aa rahe hain
           this.salesVisits =
-            response.data ?? [];
-
+            response?.data ?? [];
 
           this.cdr.detectChanges();
-
         },
 
-
-        // =================================================
-        // ERROR
-        // =================================================
-
         error: (error) => {
-
           console.error(
             'Failed to load approved sales visits:',
             error
@@ -201,48 +153,25 @@ fetchType:
           this.salesVisits = [];
 
           this.cdr.detectChanges();
-
         }
-
       });
-
   }
-
-
-  // =====================================================
-  // LOAD REJECTED SALES VISITS
-  // =====================================================
 
   private loadRejectedSalesVisits(): void {
 
     this.organizationService
       .fetchRejectedSalesVisits()
       .subscribe({
-
-        // =================================================
-        // SUCCESS
-        // =================================================
-
         next: (
           response: SalesVisitResponse
         ) => {
-
-          // Backend se status, reason aur data aa raha hai
           this.salesVisits =
-            response.data ?? [];
-
+            response?.data ?? [];
 
           this.cdr.detectChanges();
-
         },
 
-
-        // =================================================
-        // ERROR
-        // =================================================
-
         error: (error) => {
-
           console.error(
             'Failed to load rejected sales visits:',
             error
@@ -251,130 +180,37 @@ fetchType:
           this.salesVisits = [];
 
           this.cdr.detectChanges();
-
         }
-
       });
-
   }
-
-
-  // =====================================================
-  // ADD CALL
-  // =====================================================
 
   addCall(
     visit: SalesVisit
   ): void {
-
-    this.selectedVisit =
-      visit;
-
-    this.showCallModal =
-      true;
-
+    this.selectedVisit = visit;
+    this.showCallModal = true;
   }
-
-
-  // =====================================================
-  // CLOSE CALL MODAL
-  // =====================================================
 
   closeCallModal(): void {
-
-    this.showCallModal =
-      false;
-
-    this.selectedVisit =
-      null;
-
+    this.showCallModal = false;
+    this.selectedVisit = null;
   }
 
-
-  // =====================================================
-  // VIEW CALL HISTORY
-  // =====================================================
-
-  viewHistory(visit: SalesVisit): void {
-
-  this.callDiscussionService
-    .getAllCallDiscussions()
-    .subscribe({
-
-      next: (response: CallDiscussionResponse) => {
-
-        console.log(
-          'All Call Discussions:',
-          response
-        );
-
-        const discussions = response.data ?? [];
-
-        /**
-         * Current Sales Visit ke liye
-         * Call Discussion find kar rahe hain.
-         */
-        const discussion = discussions.find(
-          item => item.sales_visit_id === visit.id
-        );
-
-        if (discussion) {
-
-          this.selectedDiscussion = discussion;
-          this.showViewModal = true;
-
-        } else {
-
-          this.selectedDiscussion = null;
-          this.showViewModal = false;
-
-          console.warn(
-            `No call discussion found for Sales Visit ID: ${visit.id}`
-          );
-
-        }
-      },
-
-      error: (error: any) => {
-
-        console.error(
-          'Failed to load call discussion history:',
-          error
-        );
-
-        this.selectedDiscussion = null;
-        this.showViewModal = false;
-      }
-
-    });
-}
-
-
-  // =====================================================
-  // CLOSE VIEW MODAL
-  // =====================================================
+  viewDetails(
+    visit: SalesVisit
+  ): void {
+    this.selectedViewVisit = visit;
+    this.showViewModal = true;
+  }
 
   closeViewModal(): void {
-
-    this.showViewModal =
-      false;
-
-    this.selectedDiscussion =
-      null;
-
+    this.showViewModal = false;
+    this.selectedViewVisit = null;
   }
-
-
-  // =====================================================
-  // AFTER CALL UPDATED
-  // =====================================================
 
   onUpdated(): void {
-
     this.closeCallModal();
-
     this.loadSalesVisits();
-
   }
-
 }
+
