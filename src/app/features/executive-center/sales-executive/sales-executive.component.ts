@@ -1,4 +1,10 @@
-import { Component, inject, OnInit, ChangeDetectorRef } from '@angular/core';
+
+import {
+  Component,
+  inject,
+  OnInit,
+  ChangeDetectorRef
+} from '@angular/core';
 
 import {
   ExecutiveCard,
@@ -6,12 +12,33 @@ import {
   LeadDiscussion
 } from './models/sales-executive.type';
 
-import { CustomerDiscussionFormComponent } from './forms/customer-discussion-form.component';
-import { DashboardService } from '../../../core/services/executive.service';
-import { ExecutiveLayoutComponent } from '../../../layouts/executive-layout/executive-layout.component';
-import { TelecallingTable } from "../../client-crm/tables/telecalling-table/telecalling-table";
-import { PhysicalMeetingTable} from '../../client-crm/tables/physical-meeting-table/physical-meeting-table';
-import { OrganizationService } from '../../../core/services/organization.service';
+import {
+  CustomerDiscussionFormComponent
+} from './forms/customer-discussion-form.component';
+
+import {
+  DashboardService
+} from '../../../core/services/executive.service';
+
+import {
+  ExecutiveLayoutComponent
+} from '../../../layouts/executive-layout/executive-layout.component';
+
+import {
+  TelecallingTable
+} from '../../client-crm/tables/telecalling-table/telecalling-table';
+
+import {
+  PhysicalMeetingTable
+} from '../../client-crm/tables/physical-meeting-table/physical-meeting-table';
+
+import {
+  OrganizationService
+} from '../../../core/services/organization.service';
+
+import {
+  Telecalling
+} from '../../../core/models/client-crm/telecalling.type';
 
 @Component({
   selector: 'app-sales-executive',
@@ -21,37 +48,43 @@ import { OrganizationService } from '../../../core/services/organization.service
     ExecutiveLayoutComponent,
     PhysicalMeetingTable,
     TelecallingTable
-],
+  ],
   templateUrl: './sales-executive.component.html'
 })
 export class SalesExecutiveComponent implements OnInit {
 
   notifications: any[] = [];
+
   cards: ExecutiveCard[] = [];
+
   leads: ExecutiveLead[] = [];
 
-  approvedTelecalling: any[] = [];
-rejectedTelecalling: any[] = [];
+  approvedTelecalling: Telecalling[] = [];
 
-  private readonly dashboardService = inject(DashboardService);
-  private readonly organizationService = inject(OrganizationService);
-  private readonly cdr = inject(ChangeDetectorRef);
+  rejectedTelecalling: Telecalling[] = [];
+
+  private readonly dashboardService =
+    inject(DashboardService);
+
+  private readonly organizationService =
+    inject(OrganizationService);
+
+  private readonly cdr =
+    inject(ChangeDetectorRef);
 
   selectedLead: ExecutiveLead | null = null;
+
   showDiscussionForm = false;
 
   ngOnInit(): void {
-  this.loadStats();
-  this.loadNotifications();
-  this.loadApprovedTelecalling();
-  this.loadRejectedTelecalling();
-}
+    this.loadStats();
+    this.loadNotifications();
+    this.loadTelecalling();
+  }
 
-  // ==========================
-  // LEAD DISCUSSION
-  // ==========================
-
-  openLeadForm(lead: ExecutiveLead): void {
+  openLeadForm(
+    lead: ExecutiveLead
+  ): void {
     this.selectedLead = lead;
     this.showDiscussionForm = true;
   }
@@ -61,17 +94,29 @@ rejectedTelecalling: any[] = [];
     this.selectedLead = null;
   }
 
-  onDiscussionSaved(formData: LeadDiscussion): void {
+  onDiscussionSaved(
+    formData: LeadDiscussion
+  ): void {
 
     const lead = this.selectedLead;
-    if (!lead) return;
+
+    if (!lead) {
+      return;
+    }
 
     this.dashboardService
-      .leadDiscussion(lead.id, formData)
+      .leadDiscussion(
+        lead.id,
+        formData
+      )
       .subscribe({
+
         next: () => {
 
-          const index = this.leads.findIndex(l => l.id === lead.id);
+          const index =
+            this.leads.findIndex(
+              l => l.id === lead.id
+            );
 
           if (index !== -1) {
 
@@ -85,7 +130,6 @@ rejectedTelecalling: any[] = [];
               status,
               discussionData: formData
             };
-
           }
 
           this.closeDiscussionForm();
@@ -94,14 +138,13 @@ rejectedTelecalling: any[] = [];
         error: (err) => {
           console.error(err);
         }
+
       });
   }
 
-  // ==========================
-  // CONVERT LEAD
-  // ==========================
-
-  convertLead(lead: ExecutiveLead): void {
+  convertLead(
+    lead: ExecutiveLead
+  ): void {
 
     this.dashboardService
       .convertLead(lead.id)
@@ -109,9 +152,13 @@ rejectedTelecalling: any[] = [];
 
         next: () => {
 
-          const index = this.leads.findIndex(l => l.id === lead.id);
+          const index =
+            this.leads.findIndex(
+              l => l.id === lead.id
+            );
 
           if (index !== -1) {
+
             this.leads[index] = {
               ...this.leads[index],
               status: 'CONVERTED'
@@ -119,6 +166,7 @@ rejectedTelecalling: any[] = [];
           }
 
           this.loadStats();
+
           this.cdr.detectChanges();
         },
 
@@ -129,99 +177,125 @@ rejectedTelecalling: any[] = [];
       });
   }
 
-  loadApprovedTelecalling(): void {
-  this.organizationService.fetchApprovedTelecalling().subscribe({
-    next: (response: any) => {
-      this.approvedTelecalling = response?.data ?? [];
-      this.cdr.detectChanges();
-    },
-    error: (err) => {
-      console.error('Error loading approved telecalling:', err);
-      this.approvedTelecalling = [];
-    }
-  });
-}
+  loadTelecalling(): void {
 
+    this.organizationService
+      .fetchTelecalling()
+      .subscribe({
 
-loadRejectedTelecalling(): void {
-  this.organizationService.fetchRejectedTelecalling().subscribe({
-    next: (response: any) => {
-      this.rejectedTelecalling = response?.data ?? [];
-      this.cdr.detectChanges();
-    },
-    error: (err) => {
-      console.error('Error loading rejected telecalling:', err);
-      this.rejectedTelecalling = [];
-    }
-  });
-}
+        next: (response) => {
 
-  // ==========================
-  // STATS
-  // ==========================
+          const telecalling =
+            response?.data ?? [];
+
+          this.approvedTelecalling =
+            telecalling.filter(
+              (item: Telecalling) =>
+                item.status === 'APPROVED'
+            );
+
+          this.rejectedTelecalling =
+            telecalling.filter(
+              (item: Telecalling) =>
+                item.status === 'REJECTED'
+            );
+
+          this.cdr.detectChanges();
+        },
+
+        error: (err) => {
+
+          console.error(
+            'Error loading telecalling:',
+            err
+          );
+
+          this.approvedTelecalling = [];
+
+          this.rejectedTelecalling = [];
+        }
+
+      });
+  }
 
   loadStats(): void {
 
-    this.dashboardService.getStats().subscribe({
+    this.dashboardService
+      .getStats()
+      .subscribe({
 
-      next: (res: any) => {
+        next: (res: any) => {
 
-        const stats = res?.data ?? { totalLeads: 0 };
+          const stats =
+            res?.data ?? {
+              totalLeads: 0
+            };
 
-        this.cards = [
-          {
-            title: 'NEW RAW LEADS',
-            value: stats.totalLeads ?? 0,
-            description: 'Mailing & Call assignments',
-            color: 'text-red-700'
-          },
-          {
-            title: 'ACTIVE OPPORTUNITIES',
-            value: 0,
-            description: 'Quotations drafting line',
-            color: 'text-orange-500'
-          },
-          {
-            title: 'TOTAL PIPELINE VALUE',
-            value: '₹0',
-            description: 'Target forecast volume',
-            color: 'text-red-800'
-          },
-          {
-            title: 'COMPLETED CONVERSIONS',
-            value: 0,
-            description: 'Lead to Order conversions',
-            color: 'text-emerald-600'
-          }
-        ];
+          this.cards = [
 
-        this.cdr.detectChanges();
-      },
+            {
+              title: 'NEW RAW LEADS',
+              value: stats.totalLeads ?? 0,
+              description: 'Mailing & Call assignments',
+              color: 'text-red-700'
+            },
 
-      error: (err) => {
-        console.error(err);
-      }
-    });
+            {
+              title: 'ACTIVE OPPORTUNITIES',
+              value: 0,
+              description: 'Quotations drafting line',
+              color: 'text-orange-500'
+            },
+
+            {
+              title: 'TOTAL PIPELINE VALUE',
+              value: '₹0',
+              description: 'Target forecast volume',
+              color: 'text-red-800'
+            },
+
+            {
+              title: 'COMPLETED CONVERSIONS',
+              value: 0,
+              description: 'Lead to Order conversions',
+              color: 'text-emerald-600'
+            }
+
+          ];
+
+          this.cdr.detectChanges();
+        },
+
+        error: (err) => {
+          console.error(err);
+        }
+
+      });
   }
-
-  // ==========================
-  // NOTIFICATIONS
-  // ==========================
 
   loadNotifications(): void {
 
-    this.dashboardService.getNotifications().subscribe({
+    this.dashboardService
+      .getNotifications()
+      .subscribe({
 
-      next: (response: any) => {
-        this.notifications = response.data ?? [];
-        this.cdr.detectChanges();
-      },
+        next: (response: any) => {
 
-      error: (err) => {
-        console.error('Error loading notifications', err);
-      }
+          this.notifications =
+            response.data ?? [];
 
-    });
+          this.cdr.detectChanges();
+        },
 
+        error: (err) => {
+
+          console.error(
+            'Error loading notifications',
+            err
+          );
+        }
+
+      });
   }
 }
+

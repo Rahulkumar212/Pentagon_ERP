@@ -1,11 +1,7 @@
+
 <div class="bg-white border border-gray-200 rounded-xl shadow-sm mt-6 overflow-hidden w-full">
 
-  <!-- ===================================================== -->
-  <!-- HEADER -->
-  <!-- ===================================================== -->
-
   <div class="px-5 py-4 border-b border-gray-200">
-
     <h2 class="text-lg font-semibold text-gray-900">
       Telecalling Records
     </h2>
@@ -13,293 +9,162 @@
     <p class="mt-1 text-sm text-gray-500">
       Telecalling activity records
     </p>
-
   </div>
 
-
-  <!-- ===================================================== -->
-  <!-- TABLE -->
-  <!-- ===================================================== -->
-
   <div class="overflow-x-auto">
-
     <div class="max-h-112.5 overflow-y-auto">
 
       <table class="min-w-max w-full whitespace-nowrap">
 
-        <!-- ================================================= -->
-        <!-- TABLE HEADER -->
-        <!-- ================================================= -->
-
         <thead class="bg-gray-100 sticky top-0 z-10">
-
           <tr class="text-xs uppercase tracking-wide text-gray-600">
-
-            <!-- Employee -->
 
             <th class="px-5 py-4 text-left">
               Employee Name
             </th>
 
-
-            <!-- Date -->
-
             <th class="px-5 py-4 text-left">
               Date of Activity Report
             </th>
-
-
-            <!-- Client -->
 
             <th class="px-5 py-4 text-left">
               Client Name
             </th>
 
-
-            <!-- Contact Person -->
-
             <th class="px-5 py-4 text-left">
               Contact Person
             </th>
-
-
-            <!-- Contact Number -->
-
-            <th class="px-5 py-4 text-left">
-              Contact Number
-            </th>
-
-
-            <!-- Email -->
-
-            <th class="px-5 py-4 text-left">
-              Email ID
-            </th>
-
-
-            <!-- City -->
 
             <th class="px-5 py-4 text-left">
               City
             </th>
 
-
-            <!-- Lead Category -->
-
             <th class="px-5 py-4 text-left">
               Lead Category
             </th>
 
-
-            <!-- Remarks -->
-
             <th class="px-5 py-4 text-left">
-              Remarks
+              Status
             </th>
-
-
-            <!-- Action -->
 
             <th class="px-5 py-4 text-center">
               Action
             </th>
 
           </tr>
-
         </thead>
-
-
-        <!-- ================================================= -->
-        <!-- TABLE BODY -->
-        <!-- ================================================= -->
 
         <tbody>
 
           @for (
-          visit of filteredTelecalling;
-          track visit.id
+            visit of filteredTelecalling;
+            track visit.id
           ) {
 
-          <tr class="border-b border-gray-100 hover:bg-blue-50 transition">
+            <tr class="border-b border-gray-100 hover:bg-blue-50 transition">
 
-            <!-- =========================================== -->
-            <!-- Employee Name -->
-            <!-- =========================================== -->
+              <td class="px-5 py-4 font-semibold text-gray-800">
+                {{ visit.executive_name || '-' }}
+              </td>
 
-            <td class="px-5 py-4 font-semibold text-gray-800">
+              <td class="px-5 py-4">
+                {{
+                  visit.visit_date
+                    ? (visit.visit_date | date:'dd/MM/yyyy')
+                    : '-'
+                }}
+              </td>
 
-              {{ visit.executive_name || '-' }}
+              <td class="px-5 py-4">
+                {{ visit.customer_name || '-' }}
+              </td>
 
-            </td>
+              <td class="px-5 py-4">
+                {{ visit.contact_person || '-' }}
+              </td>
 
+              <td class="px-5 py-4">
+                {{ visit.city || '-' }}
+              </td>
 
-            <!-- =========================================== -->
-            <!-- Date -->
-            <!-- =========================================== -->
+              <td class="px-5 py-4">
+                <span class="px-2 py-1 rounded-full text-xs font-medium">
+                  {{ visit.lead_priority || '-' }}
+                </span>
+              </td>
 
-            <td class="px-5 py-4">
+              <td class="px-5 py-4">
+                <span
+                  class="px-2.5 py-1 rounded-full text-xs font-medium"
+                  [ngClass]="{
+                    'bg-green-100 text-green-700': visit.status === 'APPROVED',
+                    'bg-red-100 text-red-700': visit.status === 'REJECTED'
+                  }"
+                >
+                  {{ visit.status || '-' }}
+                </span>
+              </td>
 
-              {{
-              visit.visit_date
-              ? (visit.visit_date | date:'dd/MM/yyyy')
-              : '-'
-              }}
+              <td class="px-5 py-4">
 
-            </td>
+                <div class="flex items-center justify-center gap-2">
 
+                  @if (visit.status === 'APPROVED') {
 
-            <!-- =========================================== -->
-            <!-- Client -->
-            <!-- =========================================== -->
+                    <button
+                      type="button"
+                      (click)="addCall(visit)"
+                      class="rounded-lg bg-green-600 px-3 py-2 text-sm text-white hover:bg-green-700 transition"
+                    >
+                      ☎ Add Call
+                    </button>
 
-            <td class="px-5 py-4">
+                  }
 
-              {{ visit.customer_name || '-' }}
+                  <button
+                    type="button"
+                    (click)="viewDetails(visit)"
+                    class="rounded-lg bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700 transition"
+                  >
+                    👁 View
+                  </button>
 
-            </td>
+                </div>
 
+              </td>
 
-            <!-- =========================================== -->
-            <!-- Contact Person -->
-            <!-- =========================================== -->
-
-            <td class="px-5 py-4">
-
-              {{ visit.contact_person || '-' }}
-
-            </td>
-
-
-            <!-- =========================================== -->
-            <!-- Contact Number -->
-            <!-- =========================================== -->
-
-            <td class="px-5 py-4">
-
-              {{ visit.contact_number || '-' }}
-
-            </td>
-
-
-            <!-- =========================================== -->
-            <!-- Email -->
-            <!-- =========================================== -->
-
-            <td class="px-5 py-4">
-
-              {{ visit.customer_email || '-' }}
-
-            </td>
-
-
-            <!-- =========================================== -->
-            <!-- City -->
-            <!-- =========================================== -->
-
-            <td class="px-5 py-4">
-
-              {{ visit.city || '-' }}
-
-            </td>
-
-
-            <!-- =========================================== -->
-            <!-- Lead Category -->
-            <!-- =========================================== -->
-
-            <td class="px-5 py-4">
-
-              <span class="px-2 py-1 rounded-full text-xs font-medium">
-                {{ visit.lead_priority || '-' }}
-              </span>
-
-            </td>
-
-
-            <!-- =========================================== -->
-            <!-- Remarks -->
-            <!-- =========================================== -->
-
-            <td class="px-5 py-4 max-w-xs">
-
-              <div class="max-w-xs truncate" [title]="visit.remarks || ''">
-
-                {{ visit.remarks || '-' }}
-
-              </div>
-
-            </td>
-
-
-            <!-- =========================================== -->
-            <!-- ACTIONS -->
-            <!-- =========================================== -->
-
-            <td class="px-5 py-4">
-
-              <div class="flex items-center justify-center gap-2">
-
-                <!-- ===================================== -->
-                <!-- ADD CALL -->
-                <!-- ===================================== -->
-
-                <button type="button" (click)="addCall(visit)"
-                  class="rounded-lg bg-green-600 px-3 py-2 text-sm text-white hover:bg-green-700 transition">
-
-                  ☎ Add Call
-
-                </button>
-
-
-                <!-- ===================================== -->
-                <!-- VIEW HISTORY -->
-                <!-- ===================================== -->
-
-                <button type="button" (click)="viewHistory(visit)"
-                  class="rounded-lg bg-blue-600 px-3 py-2 text-sm text-white hover:bg-blue-700 transition">
-
-                  👁 View
-
-                </button>
-
-              </div>
-
-            </td>
-
-          </tr>
+            </tr>
 
           }
 
-
-          <!-- ================================================= -->
-          <!-- EMPTY STATE -->
-          <!-- ================================================= -->
-
           @empty {
 
-          <tr>
+            <tr>
 
-            <td colspan="10" class="py-12 text-center text-gray-500">
+              <td
+                colspan="8"
+                class="py-12 text-center text-gray-500"
+              >
 
-              <div class="flex flex-col items-center justify-center">
+                <div class="flex flex-col items-center justify-center">
 
-                <span class="text-3xl mb-2">
-                  📞
-                </span>
+                  <span class="text-3xl mb-2">
+                    📞
+                  </span>
 
-                <p class="font-medium text-gray-600">
-                  No Telecalling Records Found
-                </p>
+                  <p class="font-medium text-gray-600">
+                    No Telecalling Records Found
+                  </p>
 
-                <p class="text-sm text-gray-400 mt-1">
-                  There are no telecalling records available.
-                </p>
+                  <p class="text-sm text-gray-400 mt-1">
+                    There are no telecalling records available.
+                  </p>
 
-              </div>
+                </div>
 
-            </td>
+              </td>
 
-          </tr>
+            </tr>
 
           }
 
@@ -308,48 +173,244 @@
       </table>
 
     </div>
-
   </div>
 
 </div>
 
-
-<!-- ===================================================== -->
-<!-- CALL DISCUSSION MODAL -->
-<!-- ===================================================== -->
 
 @if (showCallModal && selectedVisit) {
 
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+  <div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
 
-  <div class="w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white shadow-2xl">
+    <div class="w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white shadow-2xl">
 
-    <app-call-discussion-form [lead]="selectedVisit" [sourceType]="'TELECALLING'" (close)="closeCallModal()"
-      (saved)="onUpdated()">
-    </app-call-discussion-form>
+      <app-call-discussion-form
+        [lead]="selectedVisit"
+        [sourceType]="'TELECALLING'"
+        (close)="closeCallModal()"
+        (saved)="onUpdated()"
+      />
+
+    </div>
 
   </div>
-
-</div>
 
 }
 
 
-<!-- ===================================================== -->
-<!-- CALL HISTORY VIEW MODAL -->
-<!-- ===================================================== -->
+@if (showViewModal && selectedViewVisit) {
 
-@if (showViewModal && selectedDiscussion) {
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+  >
 
-<div class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4">
+    <div
+      class="w-full max-w-4xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white shadow-2xl"
+    >
 
-  <div class="w-full max-w-5xl max-h-[92vh] overflow-y-auto rounded-2xl bg-white shadow-2xl">
+      <div class="flex items-center justify-between px-6 py-5 border-b border-gray-200">
 
-    <app-call-discussion-view [discussion]="selectedDiscussion" (close)="closeViewModal()">
-    </app-call-discussion-view>
+        <div>
+          <h2 class="text-xl font-semibold text-gray-900">
+            Telecalling Details
+          </h2>
+
+          <p class="text-sm text-gray-500 mt-1">
+            Complete telecalling activity details
+          </p>
+        </div>
+
+        <button
+          type="button"
+          (click)="closeViewModal()"
+          class="text-gray-500 hover:text-gray-800 text-2xl"
+        >
+          ×
+        </button>
+
+      </div>
+
+      <div class="p-6">
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-5">
+
+          <div>
+            <label class="block text-sm font-medium text-gray-500">
+              Employee Name
+            </label>
+
+            <p class="mt-1 text-gray-900 font-medium">
+              {{ selectedViewVisit.executive_name || '-' }}
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-500">
+              Date of Activity Report
+            </label>
+
+            <p class="mt-1 text-gray-900">
+              {{
+                selectedViewVisit.visit_date
+                  ? (selectedViewVisit.visit_date | date:'dd/MM/yyyy')
+                  : '-'
+              }}
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-500">
+              Client Name
+            </label>
+
+            <p class="mt-1 text-gray-900">
+              {{ selectedViewVisit.customer_name || '-' }}
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-500">
+              Contact Person
+            </label>
+
+            <p class="mt-1 text-gray-900">
+              {{ selectedViewVisit.contact_person || '-' }}
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-500">
+              Contact Number
+            </label>
+
+            <p class="mt-1 text-gray-900">
+              {{ selectedViewVisit.contact_number || '-' }}
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-500">
+              Email ID
+            </label>
+
+            <p class="mt-1 text-gray-900 break-all">
+              {{ selectedViewVisit.customer_email || '-' }}
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-500">
+              City
+            </label>
+
+            <p class="mt-1 text-gray-900">
+              {{ selectedViewVisit.city || '-' }}
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-500">
+              Lead Category
+            </label>
+
+            <p class="mt-1 text-gray-900">
+              {{ selectedViewVisit.lead_priority || '-' }}
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-500">
+              Status
+            </label>
+
+            <div class="mt-1">
+
+              <span
+                class="inline-flex px-2.5 py-1 rounded-full text-xs font-medium"
+                [ngClass]="{
+                  'bg-green-100 text-green-700': selectedViewVisit.status === 'APPROVED',
+                  'bg-red-100 text-red-700': selectedViewVisit.status === 'REJECTED'
+                }"
+              >
+                {{ selectedViewVisit.status || '-' }}
+              </span>
+
+            </div>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-500">
+              Record ID
+            </label>
+
+            <p class="mt-1 text-gray-900">
+              {{ selectedViewVisit.id || '-' }}
+            </p>
+          </div>
+
+          <div class="md:col-span-2">
+
+            <label class="block text-sm font-medium text-gray-500">
+              Remarks
+            </label>
+
+            <div class="mt-2 rounded-lg bg-gray-50 border border-gray-200 p-4">
+
+              <p class="text-gray-800 whitespace-pre-wrap break-words">
+                {{ selectedViewVisit.remarks || '-' }}
+              </p>
+
+            </div>
+
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-500">
+              Created At
+            </label>
+
+            <p class="mt-1 text-gray-900">
+              {{
+                selectedViewVisit.createdAt
+                  ? (selectedViewVisit.createdAt | date:'dd/MM/yyyy HH:mm')
+                  : '-'
+              }}
+            </p>
+          </div>
+
+          <div>
+            <label class="block text-sm font-medium text-gray-500">
+              Updated At
+            </label>
+
+            <p class="mt-1 text-gray-900">
+              {{
+                selectedViewVisit.updatedAt
+                  ? (selectedViewVisit.updatedAt | date:'dd/MM/yyyy HH:mm')
+                  : '-'
+              }}
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+      <div class="flex justify-end px-6 py-4 border-t border-gray-200">
+
+        <button
+          type="button"
+          (click)="closeViewModal()"
+          class="rounded-lg bg-gray-700 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-800 transition"
+        >
+          Close
+        </button>
+
+      </div>
+
+    </div>
 
   </div>
 
-</div>
-
 }
+

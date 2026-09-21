@@ -1,518 +1,86 @@
-<div
-  class="w-full overflow-hidden
-         rounded-xl
-         border border-gray-200
-         bg-white
-         shadow-sm"
->
 
-  <!-- ===================================================== -->
-  <!-- HEADER -->
-  <!-- ===================================================== -->
+<div class="w-full bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
 
   <div
-    class="flex items-center justify-between
-           border-b border-gray-100
-           px-5 py-4"
+    class="px-5 py-4 border-b border-gray-200 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4"
   >
-
     <div>
-      <h3
-        class="text-sm font-semibold
-               text-slate-900"
-      >
+      <h2 class="text-lg font-semibold text-gray-900">
         Approval History
-      </h3>
+      </h2>
 
-      <p
-        class="mt-1 text-xs text-slate-500"
-      >
-        Recently processed sales visit approvals
+      <p class="text-sm text-gray-500 mt-1">
+        View approved physical meetings and telecalling history.
       </p>
     </div>
-
-   <div class="flex items-center gap-2">
-
-  <!-- FILTER -->
-  <div class="flex items-center gap-1 rounded-lg bg-gray-100 p-1">
-
-    <button
-      type="button"
-      (click)="setFilter('ALL')"
-      class="rounded-md px-3 py-1.5 text-xs font-medium transition"
-      [class.bg-white]="activeFilter === 'ALL'"
-      [class.text-slate-900]="activeFilter === 'ALL'"
-      [class.shadow-sm]="activeFilter === 'ALL'"
-      [class.text-slate-500]="activeFilter !== 'ALL'">
-      All
-    </button>
-
-    <button
-      type="button"
-      (click)="setFilter('PHYSICAL_MEETING')"
-      class="rounded-md px-3 py-1.5 text-xs font-medium transition"
-      [class.bg-white]="activeFilter === 'PHYSICAL_MEETING'"
-      [class.text-blue-700]="activeFilter === 'PHYSICAL_MEETING'"
-      [class.shadow-sm]="activeFilter === 'PHYSICAL_MEETING'"
-      [class.text-slate-500]="activeFilter !== 'PHYSICAL_MEETING'">
-      Physical Meeting
-    </button>
-
-    <button
-      type="button"
-      (click)="setFilter('TELECALLING')"
-      class="rounded-md px-3 py-1.5 text-xs font-medium transition"
-      [class.bg-white]="activeFilter === 'TELECALLING'"
-      [class.text-purple-700]="activeFilter === 'TELECALLING'"
-      [class.shadow-sm]="activeFilter === 'TELECALLING'"
-      [class.text-slate-500]="activeFilter !== 'TELECALLING'">
-      Telecalling
-    </button>
-
   </div>
 
-  <!-- VIEW ALL -->
-  <button
-    type="button"
-    class="rounded-lg border border-gray-200 px-3 py-2
-           text-xs font-medium text-slate-600
-           transition hover:bg-gray-50
-           hover:text-slate-900">
-    View All
-  </button>
-
-</div>
-
-  </div>
-
-
-  <!-- ===================================================== -->
-  <!-- TABLE -->
-  <!-- ===================================================== -->
-
-  <div class="overflow-x-auto">
-
-    <table class="w-full min-w-[1200px]">
-
-      <!-- TABLE HEADER -->
-
-      <thead>
-
-        <tr
-          class="border-b border-gray-100
-                 bg-gray-50/70"
-        >
-
-          <th
-            class="px-5 py-3 text-left
-                   text-[11px] font-semibold
-                   uppercase tracking-wide
-                   text-slate-500"
-          >
-            Customer
-          </th>
-
-          <th
-            class="px-5 py-3 text-left
-                   text-[11px] font-semibold
-                   uppercase tracking-wide
-                   text-slate-500"
-          >
-            Executive
-          </th>
-
-          <th
-            class="px-5 py-3 text-left
-                   text-[11px] font-semibold
-                   uppercase tracking-wide
-                   text-slate-500"
-          >
-            Visit Date
-          </th>
-
-          <th
-            class="px-5 py-3 text-left
-                   text-[11px] font-semibold
-                   uppercase tracking-wide
-                   text-slate-500"
-          >
-            Activity
-          </th>
-
-          <th
-            class="px-5 py-3 text-left
-                   text-[11px] font-semibold
-                   uppercase tracking-wide
-                   text-slate-500"
-          >
-            Client Type
-          </th>
-
-          <th
-            class="px-5 py-3 text-left
-                   text-[11px] font-semibold
-                   uppercase tracking-wide
-                   text-slate-500"
-          >
-            Priority
-          </th>
-
-          <th
-            class="px-5 py-3 text-right
-                   text-[11px] font-semibold
-                   uppercase tracking-wide
-                   text-slate-500"
-          >
-            Expected Business
-          </th>
-
-          <th
-            class="px-5 py-3 text-center
-                   text-[11px] font-semibold
-                   uppercase tracking-wide
-                   text-slate-500"
-          >
-            Current Status
-          </th>
-
-          <th
-            class="px-5 py-3 text-left
-                   text-[11px] font-semibold
-                   uppercase tracking-wide
-                   text-slate-500"
-          >
-            Next Follow-up
-          </th>
-
-          <th
-            class="px-5 py-3 text-center
-                   text-[11px] font-semibold
-                   uppercase tracking-wide
-                   text-slate-500"
-          >
-            Approval
-          </th>
-
-        </tr>
-
-      </thead>
-
-
-      <!-- ===================================================== -->
-      <!-- TABLE BODY -->
-      <!-- ===================================================== -->
-
-      <tbody>
-
-        <tr
-          *ngFor="let item of filteredRecords"
-          class="border-b border-gray-100
-                 last:border-0
-                 transition
-                 hover:bg-slate-50"
-        >
-
-          <!-- CUSTOMER -->
-
-          <td class="px-5 py-4">
-
-            <div>
-
-              <p
-                class="text-sm font-medium
-                       text-slate-800"
-              >
-                {{ item.customer_name }}
-              </p>
-
-              <p
-                class="mt-0.5 text-[11px]
-                       text-slate-400"
-              >
-                {{ item.city || '-' }}
-              </p>
-
-            </div>
-
-          </td>
-
-
-          <!-- EXECUTIVE -->
-
-          <td class="px-5 py-4">
-
-            <p
-              class="text-sm font-medium
-                     text-slate-700"
-            >
-              {{ item.executive_name }}
-            </p>
-
-          </td>
-
-
-          <!-- VISIT DATE -->
-
-          <td class="px-5 py-4">
-
-            <p
-              class="text-xs font-medium
-                     text-slate-700"
-            >
-              {{ item.visit_date | date:'dd MMM yyyy':'Asia/Kolkata' }}
-            </p>
-
-          </td>
-
-
-          <!-- ACTIVITY -->
-
-          <td class="px-5 py-4">
-
-            <span
-              class="rounded-md
-                     bg-slate-100
-                     px-2.5 py-1
-                     text-xs font-medium
-                     text-slate-600"
-            >
-              {{ item.activity_type || '-' }}
-            </span>
-
-          </td>
-
-
-          <!-- CLIENT TYPE -->
-
-          <td class="px-5 py-4">
-
-            <span
-              class="rounded-md
-                     bg-blue-50
-                     px-2.5 py-1
-                     text-xs font-medium
-                     text-blue-700"
-            >
-              {{ item.client_type || '-' }}
-            </span>
-
-          </td>
-
-
-          <!-- PRIORITY -->
-
-          <td class="px-5 py-4">
-
-            <span
-              class="rounded-full
-                     bg-amber-50
-                     px-2.5 py-1
-                     text-xs font-medium
-                     text-amber-700"
-            >
-              {{ item.lead_priority || '-' }}
-            </span>
-
-          </td>
-
-
-          <!-- EXPECTED BUSINESS -->
-
-          <td
-            class="px-5 py-4 text-right"
-          >
-
-            <span
-              class="text-sm font-semibold
-                     text-slate-800"
-            >
-              {{ formatCurrency(item.expected_business_value || 0) }}
-            </span>
-
-          </td>
-
-
-          <!-- CURRENT STATUS -->
-
-          <td
-            class="px-5 py-4 text-center"
-          >
-
-            <span
-              class="rounded-full
-                     bg-blue-50
-                     px-2.5 py-1
-                     text-xs font-medium
-                     text-blue-700"
-            >
-              {{ item.current_status || '-' }}
-            </span>
-
-          </td>
-
-
-          <!-- NEXT FOLLOW-UP -->
-
-          <td class="px-5 py-4">
-
-            <p
-              class="text-xs font-medium
-                     text-slate-700"
-            >
-              {{
-                item.next_followup_date
-                  ? (item.next_followup_date | date:'dd MMM yyyy':'Asia/Kolkata')
-                  : '-'
-              }}
-            </p>
-
-          </td>
-
-
-          <!-- APPROVAL STATUS -->
-
-          <td
-            class="px-5 py-4 text-center"
-          >
-
-            <span
-              *ngIf="item.status === 'APPROVED'"
-              class="inline-flex items-center gap-1.5
-                     rounded-full
-                     bg-emerald-50
-                     px-2.5 py-1
-                     text-xs font-medium
-                     text-emerald-700"
-            >
-
-              <span
-                class="h-1.5 w-1.5
-                       rounded-full
-                       bg-emerald-500"
-              ></span>
-
-              Approved
-
-            </span>
-
-
-            <span
-              *ngIf="item.status === 'REJECTED'"
-              class="inline-flex items-center gap-1.5
-                     rounded-full
-                     bg-red-50
-                     px-2.5 py-1
-                     text-xs font-medium
-                     text-red-700"
-            >
-
-              <span
-                class="h-1.5 w-1.5
-                       rounded-full
-                       bg-red-500"
-              ></span>
-
-              Rejected
-
-            </span>
-
-
-            <span
-              *ngIf="
-                item.status !== 'APPROVED' &&
-                item.status !== 'REJECTED'
-              "
-              class="inline-flex items-center gap-1.5
-                     rounded-full
-                     bg-amber-50
-                     px-2.5 py-1
-                     text-xs font-medium
-                     text-amber-700"
-            >
-
-              <span
-                class="h-1.5 w-1.5
-                       rounded-full
-                       bg-amber-500"
-              ></span>
-
-              Pending
-
-            </span>
-
-          </td>
-
-        </tr>
-
-
-        <!-- EMPTY STATE -->
-
-        <tr *ngIf="filteredRecords.length === 0">
-
-          <td
-            colspan="10"
-            class="px-6 py-12 text-center"
-          >
-
-            <p
-              class="text-sm font-medium
-                     text-slate-600"
-            >
-              No sales visit history found.
-            </p>
-
-            <p
-              class="mt-1 text-xs
-                     text-slate-400"
-            >
-              No approval records are available.
-            </p>
-
-          </td>
-
-        </tr>
-
-      </tbody>
-
-    </table>
-
-  </div>
-
-
-  <!-- ===================================================== -->
-  <!-- FOOTER -->
-  <!-- ===================================================== -->
-
-  <div
-    class="flex items-center justify-between
-           border-t border-gray-100
-           bg-gray-50/50
-           px-5 py-3"
-  >
-
-    <p
-      class="text-xs text-slate-500"
-    >
-      Showing
-
-      <span
-        class="font-medium text-slate-700"
+  <div class="px-5 py-4 border-b border-gray-200">
+    <div class="flex flex-wrap items-center gap-2">
+
+      <button
+        type="button"
+        (click)="setFilter('ALL')"
+        [ngClass]="
+          activeFilter === 'ALL'
+            ? 'bg-gray-900 text-white border-gray-900'
+            : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+        "
+        class="px-4 py-2 rounded-lg text-sm font-medium border transition-all duration-200"
       >
-        {{ filteredRecords.length }}
-      </span>
+        All
+      </button>
 
-      recently processed requests
-    </p>
+      <button
+        type="button"
+        (click)="setFilter('PHYSICAL_MEETING')"
+        [ngClass]="
+          activeFilter === 'PHYSICAL_MEETING'
+            ? 'bg-gray-900 text-white border-gray-900'
+            : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+        "
+        class="px-4 py-2 rounded-lg text-sm font-medium border transition-all duration-200"
+      >
+        Physical Meeting
+      </button>
 
-    <button
-      type="button"
-      class="text-xs font-medium
-             text-slate-600
-             hover:text-slate-900"
-    >
-      View Complete History →
-    </button>
+      <button
+        type="button"
+        (click)="setFilter('TELECALLING')"
+        [ngClass]="
+          activeFilter === 'TELECALLING'
+            ? 'bg-gray-900 text-white border-gray-900'
+            : 'bg-white text-gray-600 border-gray-200 hover:bg-gray-50'
+        "
+        class="px-4 py-2 rounded-lg text-sm font-medium border transition-all duration-200"
+      >
+        Telecalling
+      </button>
+
+    </div>
+  </div>
+
+  <div class="p-5">
+
+    @if (activeFilter === 'ALL') {
+      <div class="space-y-8">
+
+        <app-physical-meeting-history></app-physical-meeting-history>
+
+        <app-telecalling-history></app-telecalling-history>
+
+      </div>
+    }
+
+    @if (activeFilter === 'PHYSICAL_MEETING') {
+      <app-physical-meeting-history></app-physical-meeting-history>
+    }
+
+    @if (activeFilter === 'TELECALLING') {
+      <app-telecalling-history></app-telecalling-history>
+    }
 
   </div>
 
 </div>
+
