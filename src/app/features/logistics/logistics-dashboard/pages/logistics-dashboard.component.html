@@ -1,0 +1,91 @@
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+
+  <!-- ========================================================= -->
+  <!-- HEADER -->
+  <!-- ========================================================= -->
+
+  <div
+    class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">
+        Logistics Overview
+      </h1>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Track orders, shipments and delivery operations
+      </p>
+    </div>
+
+    <!-- Header Actions -->
+    <div class="flex items-center gap-3">
+
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:border-gray-300 hover:bg-gray-50"
+      >
+        <span>↻</span>
+        Refresh
+      </button>
+
+      <button
+        type="button"
+        class="rounded-lg bg-red-600 px-4 py-2 text-sm font-medium text-white shadow-sm transition-colors hover:bg-red-700"
+      >
+        + New Shipment
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ========================================================= -->
+  <!-- SUMMARY CARDS -->
+  <!-- ========================================================= -->
+
+  <section>
+    <app-overview-summary></app-overview-summary>
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- ORDER OVERVIEW + SHIPMENT STATUS -->
+  <!-- ========================================================= -->
+
+  <section
+    class="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-2"
+  >
+
+    <app-order-overview></app-order-overview>
+
+    <app-shipment-status></app-shipment-status>
+
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- DELIVERY PERFORMANCE -->
+  <!-- ========================================================= -->
+
+  <section>
+    <app-delivery-performance></app-delivery-performance>
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- PENDING ACTIONS + RECENT SHIPMENTS -->
+  <!-- ========================================================= -->
+
+  <section
+    class="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-2"
+  >
+
+    <app-pending-actions></app-pending-actions>
+
+    <app-recent-shipments></app-recent-shipments>
+
+  </section>
+
+</div>

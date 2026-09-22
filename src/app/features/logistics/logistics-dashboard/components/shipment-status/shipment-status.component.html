@@ -1,0 +1,146 @@
+<div class="mt-6 rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+  <div
+    class="flex flex-col gap-2 border-b border-gray-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+
+    <div>
+      <h2 class="text-lg font-semibold text-gray-900">
+        Shipment Status
+      </h2>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Current distribution of all shipments
+      </p>
+    </div>
+
+    <div class="text-left sm:text-right">
+
+      <p class="text-xs text-gray-500">
+        Total Shipments
+      </p>
+
+      <p class="mt-1 text-xl font-bold text-gray-900">
+        {{ totalShipments }}
+      </p>
+
+    </div>
+
+  </div>
+
+  <!-- Status List -->
+  <div class="divide-y divide-gray-100">
+
+    @for (status of shipmentStatuses; track status.key) {
+
+      <div class="px-5 py-4">
+
+        <!-- Top -->
+        <div
+          class="flex items-center justify-between gap-4"
+        >
+
+          <!-- Left -->
+          <div class="flex min-w-0 items-center gap-3">
+
+            <div
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg"
+              [ngClass]="status.iconBg"
+            >
+              <span
+                class="text-lg font-semibold"
+                [ngClass]="status.iconColor"
+              >
+                {{ status.icon }}
+              </span>
+            </div>
+
+            <div class="min-w-0">
+
+              <h3 class="text-sm font-semibold text-gray-900">
+                {{ status.label }}
+              </h3>
+
+              <p class="mt-1 text-xs text-gray-500">
+                {{ status.description }}
+              </p>
+
+            </div>
+
+          </div>
+
+          <!-- Count -->
+          <div class="shrink-0 text-right">
+
+            <p class="text-lg font-bold text-gray-900">
+              {{ status.count }}
+            </p>
+
+            <p class="text-xs font-medium text-gray-500">
+              {{ getPercentage(status.count) }}%
+            </p>
+
+          </div>
+
+        </div>
+
+        <!-- Progress -->
+        <div class="mt-4">
+
+          <div
+            class="h-2 w-full overflow-hidden rounded-full bg-gray-100"
+          >
+
+            <div
+              class="h-full rounded-full transition-all duration-500"
+              [ngClass]="status.progressColor"
+              [style.width]="getProgressWidth(status.count)"
+            ></div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+    @if (shipmentStatuses.length === 0) {
+
+      <div class="px-5 py-10 text-center">
+
+        <p class="text-sm text-gray-500">
+          No shipment status data available.
+        </p>
+
+      </div>
+
+    }
+
+  </div>
+
+  <!-- Footer Summary -->
+  <div
+    class="grid grid-cols-2 gap-4 border-t border-gray-100 bg-gray-50 px-5 py-4 sm:grid-cols-4"
+  >
+
+    @for (status of shipmentStatuses; track status.key) {
+
+      <div>
+
+        <p class="text-xs text-gray-500">
+          {{ status.label }}
+        </p>
+
+        <p class="mt-1 text-lg font-semibold text-gray-900">
+          {{ status.count }}
+        </p>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

@@ -120,7 +120,7 @@ export class SidebarComponent implements OnInit {
       case 'SCM_MANAGER':
       case 'SCM_EXECUTIVE':
       case 'SUPPLY_CHAIN_EXECUTIVE':
-        return 'SCM';
+        return 'LOGISTICS';
 
       case 'OPERATIONS_MANAGER':
       case 'OPERATIONS_EXECUTIVE':
@@ -184,7 +184,7 @@ export class SidebarComponent implements OnInit {
 
       case 'SUPPLY_CHAIN_EXECUTIVE':
 
-        return '/scm-executive';
+        return '/logistics/dashboard-overview';
 
 
 

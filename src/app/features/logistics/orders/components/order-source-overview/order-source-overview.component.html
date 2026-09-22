@@ -1,0 +1,180 @@
+<div
+  class="rounded-xl border border-gray-200 bg-white p-5 shadow-sm"
+>
+  <!-- HEADER -->
+  <div
+    class="mb-5 flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div>
+      <h2 class="text-base font-semibold text-gray-900">
+        Order Source Overview
+      </h2>
+
+      <p class="mt-1 text-xs text-gray-500">
+        Track where orders are coming from
+      </p>
+    </div>
+
+    <div class="rounded-lg bg-gray-50 px-3 py-2">
+      <p class="text-[11px] font-medium text-gray-500">
+        Total Orders
+      </p>
+
+      <p class="mt-0.5 text-lg font-bold text-gray-900">
+        {{ getTotalOrders() }}
+      </p>
+    </div>
+  </div>
+
+  <!-- SOURCE LIST -->
+  <div class="space-y-5">
+
+    @for (source of sourceOverview; track source.source) {
+
+      <div class="rounded-xl border border-gray-100 bg-gray-50/60 p-4">
+
+        <!-- SOURCE HEADER -->
+        <div
+          class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+        >
+
+          <div class="flex items-center gap-3">
+
+            <!-- ICON -->
+            <div
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-lg text-lg"
+              [ngClass]="getSourceColor(source.source)"
+            >
+              {{ source.icon }}
+            </div>
+
+            <!-- NAME -->
+            <div>
+              <h3 class="text-sm font-semibold text-gray-900">
+                {{ source.label }}
+              </h3>
+
+              <p class="mt-0.5 text-xs text-gray-500">
+                {{ source.description }}
+              </p>
+            </div>
+
+          </div>
+
+          <!-- TOTAL -->
+          <div class="sm:text-right">
+            <p class="text-xl font-bold text-gray-900">
+              {{ source.totalOrders }}
+            </p>
+
+            <p class="text-[11px] text-gray-500">
+              {{ getPercentage(source.totalOrders) }}% of total
+            </p>
+          </div>
+
+        </div>
+
+        <!-- PROGRESS -->
+        <div class="mt-4">
+          <div
+            class="h-2 overflow-hidden rounded-full bg-gray-200"
+          >
+            <div
+              class="h-full rounded-full transition-all duration-300"
+              [ngClass]="getProgressColor(source.source)"
+              [style.width.%]="getPercentage(source.totalOrders)"
+            ></div>
+          </div>
+        </div>
+
+        <!-- STATUS BREAKDOWN -->
+        <div
+          class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4 xl:grid-cols-7"
+        >
+
+          <!-- NEW -->
+          <div>
+            <p class="text-[10px] font-medium uppercase tracking-wide text-gray-400">
+              New
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-purple-600">
+              {{ source.newOrders }}
+            </p>
+          </div>
+
+          <!-- PROCESSING -->
+          <div>
+            <p class="text-[10px] font-medium uppercase tracking-wide text-gray-400">
+              Processing
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-orange-600">
+              {{ source.processing }}
+            </p>
+          </div>
+
+          <!-- READY -->
+          <div>
+            <p class="text-[10px] font-medium uppercase tracking-wide text-gray-400">
+              Ready
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-yellow-600">
+              {{ source.readyForDispatch }}
+            </p>
+          </div>
+
+          <!-- DISPATCHED -->
+          <div>
+            <p class="text-[10px] font-medium uppercase tracking-wide text-gray-400">
+              Dispatched
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-indigo-600">
+              {{ source.dispatched }}
+            </p>
+          </div>
+
+          <!-- IN TRANSIT -->
+          <div>
+            <p class="text-[10px] font-medium uppercase tracking-wide text-gray-400">
+              In Transit
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-cyan-600">
+              {{ source.inTransit }}
+            </p>
+          </div>
+
+          <!-- DELIVERED -->
+          <div>
+            <p class="text-[10px] font-medium uppercase tracking-wide text-gray-400">
+              Delivered
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-green-600">
+              {{ source.delivered }}
+            </p>
+          </div>
+
+          <!-- DELAYED -->
+          <div>
+            <p class="text-[10px] font-medium uppercase tracking-wide text-gray-400">
+              Delayed
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-red-600">
+              {{ source.delayed }}
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

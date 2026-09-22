@@ -1,0 +1,416 @@
+
+<div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- HEADER -->
+  <div class="border-b border-gray-100 px-5 py-4 sm:px-6">
+
+    <div
+      class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+    >
+
+      <div>
+        <div class="flex items-center gap-2">
+
+          <span
+            class="flex h-8 w-8 items-center justify-center rounded-lg bg-cyan-50 text-cyan-600"
+          >
+            📍
+          </span>
+
+          <h2 class="text-base font-semibold text-gray-900">
+            Active Shipment Tracking
+          </h2>
+
+        </div>
+
+        <p class="mt-1 text-xs text-gray-500">
+          Monitor shipments currently moving through the delivery network
+        </p>
+      </div>
+
+      <div
+        class="flex items-center gap-2"
+      >
+
+        <span
+          class="flex items-center gap-1.5 rounded-full bg-green-50 px-2.5 py-1 text-[10px] font-semibold text-green-700"
+        >
+          <span
+            class="h-1.5 w-1.5 rounded-full bg-green-500"
+          ></span>
+
+          Live Tracking
+        </span>
+
+        <span
+          class="rounded-lg bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-600"
+        >
+          {{ shipments.length }} Shipments
+        </span>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- TRACKING ITEMS -->
+  <div class="divide-y divide-gray-100">
+
+    @for (
+      shipment of shipments;
+      track shipment.id
+    ) {
+
+      <div
+        class="p-5 transition-colors duration-200 hover:bg-gray-50/60 sm:p-6"
+      >
+
+        <!-- TOP INFORMATION -->
+        <div
+          class="flex flex-col gap-4 xl:flex-row xl:items-start xl:justify-between"
+        >
+
+          <!-- SHIPMENT -->
+          <div class="flex min-w-0 items-start gap-3">
+
+            <div
+              class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-gray-100 text-lg"
+            >
+              🚚
+            </div>
+
+            <div class="min-w-0">
+
+              <div
+                class="flex flex-wrap items-center gap-2"
+              >
+
+                <h3
+                  class="text-sm font-bold text-gray-900"
+                >
+                  {{ shipment.shipmentNumber }}
+                </h3>
+
+                <span
+                  class="rounded-full px-2.5 py-1 text-[10px] font-semibold"
+                  [ngClass]="getStatusClass(shipment.status)"
+                >
+                  {{ getStatusLabel(shipment.status) }}
+                </span>
+
+              </div>
+
+              <p
+                class="mt-1 text-xs text-gray-500"
+              >
+                Order {{ shipment.orderNumber }}
+                · {{ shipment.customerName }}
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- LOCATION -->
+          <div
+            class="grid grid-cols-2 gap-4 sm:grid-cols-4 xl:min-w-[520px]"
+          >
+
+            <div>
+              <p
+                class="text-[10px] font-semibold uppercase tracking-wide text-gray-400"
+              >
+                From
+              </p>
+
+              <p
+                class="mt-1 truncate text-xs font-medium text-gray-700"
+              >
+                {{ shipment.origin }}
+              </p>
+            </div>
+
+            <div>
+              <p
+                class="text-[10px] font-semibold uppercase tracking-wide text-gray-400"
+              >
+                Destination
+              </p>
+
+              <p
+                class="mt-1 truncate text-xs font-medium text-gray-700"
+              >
+                {{ shipment.destination }}
+              </p>
+            </div>
+
+            <div>
+              <p
+                class="text-[10px] font-semibold uppercase tracking-wide text-gray-400"
+              >
+                Current Location
+              </p>
+
+              <p
+                class="mt-1 truncate text-xs font-semibold text-cyan-700"
+              >
+                {{ shipment.currentLocation }}
+              </p>
+            </div>
+
+            <div>
+              <p
+                class="text-[10px] font-semibold uppercase tracking-wide text-gray-400"
+              >
+                Carrier
+              </p>
+
+              <p
+                class="mt-1 truncate text-xs font-medium text-gray-700"
+              >
+                {{ shipment.carrier }}
+              </p>
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- ROUTE -->
+        <div class="mt-6">
+
+          <div
+            class="mb-2 flex items-center justify-between"
+          >
+
+            <span
+              class="text-[10px] font-medium text-gray-400"
+            >
+              Shipment Progress
+            </span>
+
+            <span
+              class="text-[10px] font-bold text-gray-600"
+            >
+              {{ getProgressWidth(shipment) }}%
+            </span>
+
+          </div>
+
+
+          <!-- PROGRESS BAR -->
+          <div
+            class="relative h-2 overflow-hidden rounded-full bg-gray-100"
+          >
+
+            <div
+              class="absolute left-0 top-0 h-full rounded-full transition-all duration-500"
+              [ngClass]="getProgressClass(shipment)"
+              [style.width.%]="getProgressWidth(shipment)"
+            ></div>
+
+          </div>
+
+
+          <!-- STEPS -->
+          <div
+            class="mt-5 grid grid-cols-4"
+          >
+
+            @for (
+              step of trackingSteps;
+              track step;
+              let last = $last
+            ) {
+
+              <div
+                class="relative flex flex-col items-center"
+              >
+
+                <!-- CONNECTING LINE -->
+                @if (!last) {
+
+                  <div
+                    class="absolute left-1/2 top-3 h-px w-full bg-gray-200"
+                  ></div>
+
+                }
+
+                <!-- STEP DOT -->
+                <div
+                  class="relative z-10 flex h-6 w-6 items-center justify-center rounded-full border-2 text-[9px] font-bold"
+                  [ngClass]="
+                    isStepCompleted(shipment, step)
+                      ? 'border-cyan-500 bg-cyan-500 text-white'
+                      : 'border-gray-200 bg-white text-gray-300'
+                  "
+                >
+
+                  @if (
+                    isStepCompleted(shipment, step)
+                  ) {
+
+                    ✓
+
+                  } @else {
+
+                    {{ $index + 1 }}
+
+                  }
+
+                </div>
+
+
+                <!-- STEP LABEL -->
+                <p
+                  class="mt-2 text-center text-[10px] font-medium"
+                  [ngClass]="
+                    isCurrentStep(shipment, step)
+                      ? 'text-cyan-700'
+                      : isStepCompleted(shipment, step)
+                        ? 'text-gray-700'
+                        : 'text-gray-400'
+                  "
+                >
+                  {{ getStatusLabel(step) }}
+                </p>
+
+              </div>
+
+            }
+
+          </div>
+
+        </div>
+
+
+        <!-- BOTTOM -->
+        <div
+          class="mt-5 flex flex-col gap-3 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between"
+        >
+
+          <div
+            class="flex flex-wrap items-center gap-x-5 gap-y-2"
+          >
+
+            <div>
+              <span
+                class="text-[10px] text-gray-400"
+              >
+                Tracking No.
+              </span>
+
+              <span
+                class="ml-1 text-[10px] font-semibold text-gray-700"
+              >
+                {{ shipment.trackingNumber }}
+              </span>
+            </div>
+
+            <div>
+              <span
+                class="text-[10px] text-gray-400"
+              >
+                Expected
+              </span>
+
+              <span
+                class="ml-1 text-[10px] font-semibold text-gray-700"
+              >
+                {{ shipment.expectedDelivery | date: 'dd MMM yyyy' }}
+              </span>
+            </div>
+
+            <div>
+              <span
+                class="text-[10px] text-gray-400"
+              >
+                Updated
+              </span>
+
+              <span
+                class="ml-1 text-[10px] font-semibold text-gray-700"
+              >
+                {{ shipment.lastUpdated }}
+              </span>
+            </div>
+
+          </div>
+
+
+          <button
+            type="button"
+            (click)="onViewShipment(shipment)"
+            class="inline-flex items-center justify-center rounded-lg border border-gray-200 bg-white px-4 py-2 text-xs font-semibold text-gray-700 transition-colors hover:border-cyan-200 hover:bg-cyan-50 hover:text-cyan-700"
+          >
+            View Tracking
+            <span class="ml-1">→</span>
+          </button>
+
+        </div>
+
+
+        <!-- DELAY WARNING -->
+        @if (shipment.status === 'DELAYED') {
+
+          <div
+            class="mt-4 flex items-start gap-2 rounded-lg border border-red-100 bg-red-50 px-3 py-2.5"
+          >
+
+            <span class="text-sm text-red-600">
+              ⚠
+            </span>
+
+            <div>
+
+              <p
+                class="text-[11px] font-semibold text-red-800"
+              >
+                Shipment Delayed
+              </p>
+
+              <p
+                class="mt-0.5 text-[10px] text-red-700"
+              >
+                Expected delivery date has passed. Logistics team attention is required.
+              </p>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  </div>
+
+
+  <!-- FOOTER -->
+  <div
+    class="flex items-center justify-between border-t border-gray-100 bg-gray-50 px-5 py-3 sm:px-6"
+  >
+
+    <p
+      class="text-[10px] text-gray-400"
+    >
+      Tracking information is updated based on latest shipment activity.
+    </p>
+
+    <button
+      type="button"
+      class="text-xs font-semibold text-cyan-700 transition-colors hover:text-cyan-800"
+    >
+      View All Shipments →
+    </button>
+
+  </div>
+
+</div>
+

@@ -1,5 +1,6 @@
 import { FINANCE_SIDEBAR } from './finance-sidebar.config';
 import { HR_SIDEBAR } from './hr-sidebar.config';
+import { LOGISTICS_SIDEBAR } from './logistics.config';
 import { SALES_DIRECTOR_SIDEBAR } from './sales-director-sidebar.config';
 
 import {
@@ -11,7 +12,7 @@ const CRM = {
   consoleTitle: 'Main Console',
 
   sections: [
-    
+
     {
       heading: '',
 
@@ -151,35 +152,6 @@ const TASKS = {
 
 };
 
-/* ===========================================================
-   SCM
-=========================================================== */
-
-const SCM = {
-
-  consoleTitle: 'Main Console',
-
-  sections: [
-
-    {
-
-      heading: 'Logistics & SCM',
-
-      items: [
-
-        {
-          label: 'Supply Chain SCM',
-          icon: '⊞',
-          route: '/supply-chain'
-        }
-
-      ]
-
-    }
-
-  ]
-
-};
 
 /* ===========================================================
    OPERATIONS
@@ -261,12 +233,11 @@ export const SIDEBAR_CONFIG: SidebarConfig = {
 
   TASKS,
 
-  SCM,
-
   OPERATIONS,
 
   GEM,
 
-   SALES_DIRECTOR: SALES_DIRECTOR_SIDEBAR,
+  SALES_DIRECTOR: SALES_DIRECTOR_SIDEBAR,
+  LOGISTICS: LOGISTICS_SIDEBAR,
 
 };

@@ -1,0 +1,135 @@
+<div
+  class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8"
+>
+  <!-- ====================================================== -->
+  <!-- HEADER -->
+  <!-- ====================================================== -->
+
+  <div
+    class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+
+    <div>
+      <div class="flex items-center gap-3">
+
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-xl"
+        >
+          📦
+        </div>
+
+        <div>
+
+          <h1
+            class="text-2xl font-bold tracking-tight text-gray-900"
+          >
+            Orders Center
+          </h1>
+
+          <p
+            class="mt-1 text-sm text-gray-500"
+          >
+            Monitor and manage incoming orders from
+            Sales, GEM and Sales Director
+          </p>
+
+        </div>
+
+      </div>
+    </div>
+
+    <!-- HEADER INFO -->
+    <div
+      class="flex items-center gap-3"
+    >
+
+      <div
+        class="rounded-lg border border-gray-200 bg-white px-4 py-2.5 shadow-sm"
+      >
+
+        <p
+          class="text-[10px] font-medium uppercase tracking-wide text-gray-400"
+        >
+          Showing
+        </p>
+
+        <p
+          class="mt-0.5 text-sm font-bold text-gray-900"
+        >
+          {{ filteredOrders.length }}
+          <span
+            class="font-normal text-gray-500"
+          >
+            / {{ allOrders.length }}
+          </span>
+        </p>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- ====================================================== -->
+  <!-- ORDER SUMMARY -->
+  <!-- ====================================================== -->
+
+  <section>
+    <app-order-summary></app-order-summary>
+  </section>
+
+
+  <!-- ====================================================== -->
+  <!-- SOURCE + STATUS OVERVIEW -->
+  <!-- ====================================================== -->
+
+  <section
+    class="mt-6 grid grid-cols-1 gap-6 xl:grid-cols-2"
+  >
+
+    <app-order-source-overview></app-order-source-overview>
+
+    <app-order-status-overview></app-order-status-overview>
+
+  </section>
+
+
+  <!-- ====================================================== -->
+  <!-- FILTERS -->
+  <!-- ====================================================== -->
+
+  <section class="mt-6">
+
+    <app-order-filters
+      (filterChange)="onFilterChange($event)"
+    ></app-order-filters>
+
+  </section>
+
+
+  <!-- ====================================================== -->
+  <!-- ORDER LIST -->
+  <!-- ====================================================== -->
+
+  <section class="mt-6">
+
+    <app-order-list
+      [orders]="filteredOrders"
+      (viewOrder)="onViewOrder($event)"
+    ></app-order-list>
+
+  </section>
+
+
+  <!-- ====================================================== -->
+  <!-- ORDER DETAIL -->
+  <!-- ====================================================== -->
+
+  <app-order-detail
+    [order]="selectedOrder"
+    [isOpen]="isOrderDetailOpen"
+    (close)="onCloseOrderDetail()"
+  ></app-order-detail>
+
+</div>

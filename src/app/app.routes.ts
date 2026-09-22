@@ -8,6 +8,7 @@ import { FINANCE_ROUTES } from './features/Finance/finance.routes';
 
 import { authGuard } from './core/guards/auth.guards';
 import { SALES_DIRECTOR_ROUTES } from './features/Sales Director/sales-director.routes';
+import { LOGISTICS_ROUTES } from './features/logistics/logistics.route';
 
 export const routes: Routes = [
 
@@ -28,15 +29,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/executive-center/sales-executive/sales-executive.component')
             .then(m => m.SalesExecutiveComponent),
-      },
-
-      // SCM Executive
-      {
-        path: 'scm-executive',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/executive-center/scm-executive/scm-executive.component')
-            .then(m => m.ScmExecutiveComponent),
       },
 
       // CRM
@@ -75,6 +67,9 @@ export const routes: Routes = [
       // sales director
       ...SALES_DIRECTOR_ROUTES,
 
+      // logistics
+      ...LOGISTICS_ROUTES,
+
       // Sales Analytics
       {
         path: 'sales-analytics',
@@ -91,15 +86,6 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/task-collaboration/pages/task-collaboration.component')
             .then(m => m.TaskCollaborationComponent),
-      },
-
-      // SCM Dashboard
-      {
-        path: 'supply-chain',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/scm-dashboard/pages/scm-dashboard.component')
-            .then(m => m.ScmDashboardComponent),
       },
 
       // Operations

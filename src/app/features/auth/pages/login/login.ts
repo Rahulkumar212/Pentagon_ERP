@@ -104,7 +104,7 @@ export class LoginComponent {
           case 'SCM_MANAGER':
           case 'SCM_EXECUTIVE':
           case 'SUPPLY_CHAIN_EXECUTIVE':
-            this.router.navigate(['/scm-executive']);
+            this.router.navigate(['logistics/dashboard-overview']);
             break;
 
 

@@ -1,0 +1,119 @@
+
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+
+  <!-- HEADER -->
+  <div
+    class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+
+    <div>
+
+      <div class="flex items-center gap-3">
+
+        <div
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-cyan-50 text-xl"
+        >
+          🚚
+        </div>
+
+        <div>
+
+          <h1
+            class="text-2xl font-bold tracking-tight text-gray-900"
+          >
+            Shipments & Delivery Tracking
+          </h1>
+
+          <p
+            class="mt-1 text-sm text-gray-500"
+          >
+            Monitor dispatched shipments and track their delivery progress
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- HEADER ACTIONS -->
+    <div class="flex items-center gap-3">
+
+      <div
+        class="hidden rounded-lg border border-gray-200 bg-white px-4 py-2.5 shadow-sm sm:block"
+      >
+
+        <p
+          class="text-[10px] font-medium uppercase tracking-wide text-gray-400"
+        >
+          Tracking
+        </p>
+
+        <p
+          class="mt-0.5 flex items-center gap-1.5 text-sm font-semibold text-green-600"
+        >
+
+          <span
+            class="h-1.5 w-1.5 rounded-full bg-green-500"
+          ></span>
+
+          Live
+
+        </p>
+
+      </div>
+
+
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 shadow-sm transition-colors hover:border-gray-300 hover:bg-gray-50"
+      >
+
+        <span>
+          ↻
+        </span>
+
+        Refresh
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- KPI STRIP -->
+  <section>
+
+    <app-shipment-kpi-strip>
+    </app-shipment-kpi-strip>
+
+  </section>
+
+
+  <!-- TRACKING BOARD -->
+  <section class="mt-6">
+
+    <app-shipment-tracking-board
+      (viewShipment)="onViewShipment($event)"
+    >
+    </app-shipment-tracking-board>
+
+  </section>
+
+
+  <!--
+    DETAIL COMPONENT WILL BE ADDED LATER.
+
+    Example future structure:
+
+    <app-shipment-detail
+      [shipment]="selectedShipment"
+      [isOpen]="isTrackingOpen"
+      (close)="onCloseTracking()"
+    ></app-shipment-detail>
+  -->
+
+</div>
+

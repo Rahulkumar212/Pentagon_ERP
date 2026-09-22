@@ -1,0 +1,91 @@
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+
+  <!-- PAGE HEADER -->
+  <div
+    class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div>
+      <h1 class="text-2xl font-bold text-gray-900">
+        Pending Actions
+      </h1>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Review and manage pending logistics activities
+      </p>
+    </div>
+
+    <!-- TOTAL -->
+    <div
+      class="inline-flex w-fit items-center gap-2 rounded-lg border border-gray-200 bg-white px-4 py-2.5 shadow-sm"
+    >
+      <span class="text-lg">
+        ⚠️
+      </span>
+
+      <div>
+        <p class="text-xs text-gray-500">
+          Pending Actions
+        </p>
+
+        <p class="text-sm font-semibold text-gray-900">
+          {{ filteredActions.length }}
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- SUMMARY -->
+  <section>
+    <app-pending-action-summary></app-pending-action-summary>
+  </section>
+
+  <!-- FILTERS -->
+  <section class="mt-6">
+    <app-pending-action-filters
+      (filterChange)="onFilterChange($event)"
+    ></app-pending-action-filters>
+  </section>
+
+  <!-- LIST -->
+  <section class="mt-6">
+    @if (filteredActions.length > 0) {
+
+      <app-pending-action-list
+        [pendingActions]="filteredActions"
+        (viewAction)="onViewAction($event)"
+      ></app-pending-action-list>
+
+    } @else {
+
+      <div
+        class="rounded-xl border border-gray-200 bg-white px-6 py-12 text-center shadow-sm"
+      >
+        <div
+          class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-2xl"
+        >
+          🔍
+        </div>
+
+        <h3 class="mt-4 text-base font-semibold text-gray-900">
+          No Pending Actions Found
+        </h3>
+
+        <p class="mx-auto mt-2 max-w-md text-sm text-gray-500">
+          No pending actions match the selected filters.
+          Try changing or resetting the filters.
+        </p>
+
+      </div>
+
+    }
+  </section>
+
+  <!-- DETAIL MODAL -->
+  <app-pending-action-detail
+    [action]="selectedAction"
+    [isOpen]="isDetailOpen"
+    (close)="onCloseDetail()"
+    (takeAction)="onTakeAction($event)"
+  ></app-pending-action-detail>
+
+</div>
