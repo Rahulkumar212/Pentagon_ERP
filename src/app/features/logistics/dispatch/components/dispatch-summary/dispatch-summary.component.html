@@ -1,0 +1,67 @@
+<div class="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+  <!-- Header -->
+  <div class="border-b border-gray-100 px-5 py-4">
+    <div class="flex items-center justify-between gap-4">
+      <div>
+        <h2 class="text-base font-semibold text-gray-900">
+          Dispatch Overview
+        </h2>
+
+        <p class="mt-1 text-xs text-gray-500">
+          Current warehouse dispatch workload and priority
+        </p>
+      </div>
+
+      <div
+        class="hidden items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-xs font-medium text-gray-600 sm:flex"
+      >
+        <span class="h-2 w-2 rounded-full bg-green-500"></span>
+        Live Operations
+      </div>
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 divide-y divide-gray-100 sm:grid-cols-2 sm:divide-x sm:divide-y-0 xl:grid-cols-6">
+    @for (item of summaryItems; track item.key) {
+      <div
+        class="group relative p-5 transition-colors hover:bg-gray-50"
+      >
+        <!-- Top -->
+        <div class="flex items-start justify-between gap-3">
+          <div
+            class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl text-lg"
+            [ngClass]="getIconClass(item.type)"
+          >
+            {{ item.icon }}
+          </div>
+
+          <span
+            class="rounded-full px-2 py-1 text-[10px] font-semibold"
+            [ngClass]="getTrendClass(item.trendType)"
+          >
+            {{ item.trend }}
+          </span>
+        </div>
+
+        <!-- Content -->
+        <div class="mt-4">
+          <p class="text-xs font-medium text-gray-500">
+            {{ item.title }}
+          </p>
+
+          <p
+            class="mt-1 text-2xl font-bold tracking-tight"
+            [ngClass]="getValueClass(item.type)"
+          >
+            {{ item.value }}
+          </p>
+
+          <p class="mt-1.5 text-[11px] leading-4 text-gray-400">
+            {{ item.description }}
+          </p>
+        </div>
+      </div>
+    }
+  </div>
+</div>

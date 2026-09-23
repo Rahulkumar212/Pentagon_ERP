@@ -1,0 +1,392 @@
+<div class="w-full overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+  <div
+    class="flex flex-col gap-3 border-b border-gray-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div>
+      <div class="flex items-center gap-2">
+        <h2 class="text-base font-semibold text-gray-900">
+          Dispatch Queue
+        </h2>
+
+        <span
+          class="rounded-full bg-gray-100 px-2 py-0.5 text-[10px] font-semibold text-gray-600"
+        >
+          {{ orders.length }} Orders
+        </span>
+      </div>
+
+      <p class="mt-1 text-xs text-gray-500">
+        Orders currently waiting for warehouse dispatch processing
+      </p>
+    </div>
+
+    <div class="flex items-center gap-2">
+      <span
+        class="flex items-center gap-1.5 rounded-lg bg-green-50 px-3 py-2 text-xs font-medium text-green-700"
+      >
+        <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+        Warehouse Active
+      </span>
+    </div>
+  </div>
+
+  @if (orders.length > 0) {
+
+    <!-- Desktop Table -->
+    <div class="hidden overflow-x-auto lg:block">
+      <table class="w-full min-w-[1200px]">
+        <thead>
+          <tr class="border-b border-gray-100 bg-gray-50/70">
+            <th
+              class="px-5 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-gray-500"
+            >
+              Order
+            </th>
+
+            <th
+              class="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-gray-500"
+            >
+              Customer
+            </th>
+
+            <th
+              class="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-gray-500"
+            >
+              Source
+            </th>
+
+            <th
+              class="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-gray-500"
+            >
+              Destination
+            </th>
+
+            <th
+              class="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-gray-500"
+            >
+              Items
+            </th>
+
+            <th
+              class="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-gray-500"
+            >
+              Carrier
+            </th>
+
+            <th
+              class="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-gray-500"
+            >
+              Priority
+            </th>
+
+            <th
+              class="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wider text-gray-500"
+            >
+              Status
+            </th>
+
+            <th
+              class="px-4 py-3 text-right text-[10px] font-semibold uppercase tracking-wider text-gray-500"
+            >
+              Action
+            </th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-100">
+          @for (order of orders; track order.id) {
+            <tr class="transition-colors hover:bg-gray-50">
+
+              <!-- Order -->
+              <td class="px-5 py-4">
+                <div>
+                  <button
+                    type="button"
+                    class="text-sm font-semibold text-gray-900 transition-colors hover:text-red-600"
+                    (click)="onViewOrder(order)"
+                  >
+                    {{ order.orderNumber }}
+                  </button>
+
+                  <p class="mt-0.5 text-[11px] text-gray-400">
+                    {{ order.createdDate }}
+                  </p>
+                </div>
+              </td>
+
+              <!-- Customer -->
+              <td class="px-4 py-4">
+                <div class="max-w-[180px]">
+                  <p
+                    class="truncate text-sm font-medium text-gray-800"
+                    [title]="order.customerName"
+                  >
+                    {{ order.customerName }}
+                  </p>
+
+                  <p class="mt-0.5 text-[11px] text-gray-400">
+                    {{ order.customerCode }}
+                  </p>
+                </div>
+              </td>
+
+              <!-- Source -->
+              <td class="px-4 py-4">
+                <span
+                  class="inline-flex rounded-full px-2.5 py-1 text-[10px] font-semibold"
+                  [ngClass]="getSourceClass(order.source)"
+                >
+                  {{ getSourceLabel(order.source) }}
+                </span>
+              </td>
+
+              <!-- Destination -->
+              <td class="px-4 py-4">
+                <div class="flex items-center gap-2">
+                  <span class="text-sm">📍</span>
+
+                  <span class="text-sm text-gray-700">
+                    {{ order.destination }}
+                  </span>
+                </div>
+              </td>
+
+              <!-- Items -->
+              <td class="px-4 py-4">
+                <div>
+                  <p class="text-sm font-semibold text-gray-800">
+                    {{ order.totalItems }} Items
+                  </p>
+
+                  <p class="mt-0.5 text-[11px] text-gray-400">
+                    {{ order.totalUnits }} Units
+                  </p>
+                </div>
+              </td>
+
+              <!-- Carrier -->
+              <td class="px-4 py-4">
+                <div>
+                  <p class="text-sm text-gray-700">
+                    {{ order.carrier }}
+                  </p>
+
+                  <p
+                    class="mt-0.5 text-[10px]"
+                    [ngClass]="getPaymentClass(order.paymentStatus)"
+                  >
+                    Payment: {{ order.paymentStatus }}
+                  </p>
+                </div>
+              </td>
+
+              <!-- Priority -->
+              <td class="px-4 py-4">
+                <span
+                  class="inline-flex rounded-full border px-2.5 py-1 text-[10px] font-semibold"
+                  [ngClass]="getPriorityClass(order.priority)"
+                >
+                  {{ order.priority }}
+                </span>
+              </td>
+
+              <!-- Status -->
+              <td class="px-4 py-4">
+                <span
+                  class="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold"
+                  [ngClass]="getStatusClass(order.status)"
+                >
+                  <span
+                    class="h-1.5 w-1.5 rounded-full"
+                    [ngClass]="getStatusDotClass(order.status)"
+                  ></span>
+
+                  {{ getStatusLabel(order.status) }}
+                </span>
+              </td>
+
+              <!-- Action -->
+              <td class="px-4 py-4 text-right">
+                <div class="flex items-center justify-end gap-2">
+
+                  <button
+                    type="button"
+                    class="rounded-lg border border-gray-200 bg-white px-3 py-1.5 text-[11px] font-medium text-gray-600 transition-colors hover:border-gray-300 hover:bg-gray-50"
+                    (click)="onViewOrder(order)"
+                  >
+                    View
+                  </button>
+
+                  @if (order.status !== 'DISPATCHED') {
+                    <button
+                      type="button"
+                      class="rounded-lg bg-red-600 px-3 py-1.5 text-[11px] font-medium text-white transition-colors hover:bg-red-700"
+                      (click)="onProcessOrder(order)"
+                    >
+                      {{ getActionLabel(order.status) }}
+                    </button>
+                  }
+                </div>
+              </td>
+            </tr>
+          }
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile / Tablet Cards -->
+    <div class="divide-y divide-gray-100 lg:hidden">
+      @for (order of orders; track order.id) {
+        <div class="p-4 sm:p-5">
+
+          <!-- Top -->
+          <div class="flex items-start justify-between gap-3">
+
+            <div>
+              <button
+                type="button"
+                class="text-sm font-semibold text-gray-900 hover:text-red-600"
+                (click)="onViewOrder(order)"
+              >
+                {{ order.orderNumber }}
+              </button>
+
+              <p class="mt-1 text-xs text-gray-500">
+                {{ order.customerName }}
+              </p>
+            </div>
+
+            <span
+              class="inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold"
+              [ngClass]="getStatusClass(order.status)"
+            >
+              <span
+                class="h-1.5 w-1.5 rounded-full"
+                [ngClass]="getStatusDotClass(order.status)"
+              ></span>
+
+              {{ getStatusLabel(order.status) }}
+            </span>
+          </div>
+
+          <!-- Meta -->
+          <div class="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-4">
+
+            <div class="rounded-lg bg-gray-50 p-3">
+              <p class="text-[10px] uppercase tracking-wide text-gray-400">
+                Source
+              </p>
+
+              <span
+                class="mt-1 inline-flex rounded-full px-2 py-0.5 text-[10px] font-semibold"
+                [ngClass]="getSourceClass(order.source)"
+              >
+                {{ getSourceLabel(order.source) }}
+              </span>
+            </div>
+
+            <div class="rounded-lg bg-gray-50 p-3">
+              <p class="text-[10px] uppercase tracking-wide text-gray-400">
+                Destination
+              </p>
+
+              <p class="mt-1 text-xs font-medium text-gray-700">
+                {{ order.destination }}
+              </p>
+            </div>
+
+            <div class="rounded-lg bg-gray-50 p-3">
+              <p class="text-[10px] uppercase tracking-wide text-gray-400">
+                Quantity
+              </p>
+
+              <p class="mt-1 text-xs font-medium text-gray-700">
+                {{ order.totalItems }} Items
+                <span class="text-gray-400">
+                  / {{ order.totalUnits }} Units
+                </span>
+              </p>
+            </div>
+
+            <div class="rounded-lg bg-gray-50 p-3">
+              <p class="text-[10px] uppercase tracking-wide text-gray-400">
+                Priority
+              </p>
+
+              <span
+                class="mt-1 inline-flex rounded-full border px-2 py-0.5 text-[10px] font-semibold"
+                [ngClass]="getPriorityClass(order.priority)"
+              >
+                {{ order.priority }}
+              </span>
+            </div>
+          </div>
+
+          <!-- Bottom -->
+          <div
+            class="mt-4 flex flex-col gap-3 border-t border-gray-100 pt-4 sm:flex-row sm:items-center sm:justify-between"
+          >
+            <div class="flex flex-wrap items-center gap-x-4 gap-y-1 text-xs text-gray-500">
+              <span>
+                🚚 {{ order.carrier }}
+              </span>
+
+              <span>
+                Dispatch: {{ order.expectedDispatchDate }}
+              </span>
+
+              <span
+                [ngClass]="getPaymentClass(order.paymentStatus)"
+              >
+                Payment: {{ order.paymentStatus }}
+              </span>
+            </div>
+
+            <div class="flex items-center gap-2">
+
+              <button
+                type="button"
+                class="flex-1 rounded-lg border border-gray-200 px-3 py-2 text-xs font-medium text-gray-600 hover:bg-gray-50 sm:flex-none"
+                (click)="onViewOrder(order)"
+              >
+                View Details
+              </button>
+
+              @if (order.status !== 'DISPATCHED') {
+                <button
+                  type="button"
+                  class="flex-1 rounded-lg bg-red-600 px-3 py-2 text-xs font-medium text-white hover:bg-red-700 sm:flex-none"
+                  (click)="onProcessOrder(order)"
+                >
+                  {{ getActionLabel(order.status) }}
+                </button>
+              }
+            </div>
+          </div>
+        </div>
+      }
+    </div>
+
+  } @else {
+
+    <!-- Empty State -->
+    <div class="flex min-h-[260px] flex-col items-center justify-center px-6 py-10 text-center">
+      <div
+        class="flex h-14 w-14 items-center justify-center rounded-2xl bg-gray-100 text-2xl"
+      >
+        📦
+      </div>
+
+      <h3 class="mt-4 text-sm font-semibold text-gray-900">
+        No dispatch orders found
+      </h3>
+
+      <p class="mt-1 max-w-sm text-xs leading-5 text-gray-500">
+        No orders match the current dispatch filters. Try changing the filters
+        or resetting them.
+      </p>
+    </div>
+  }
+</div>

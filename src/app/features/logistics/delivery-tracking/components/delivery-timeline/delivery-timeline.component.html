@@ -1,0 +1,200 @@
+<section
+  class="rounded-xl border border-gray-200 bg-white shadow-sm"
+>
+
+  <!-- Header -->
+  <div
+    class="flex items-center justify-between border-b border-gray-100 px-5 py-4"
+  >
+
+    <div class="flex items-center gap-3">
+
+      <div
+        class="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-100"
+      >
+        <span
+          class="material-symbols-outlined text-[20px] text-gray-600"
+        >
+          timeline
+        </span>
+      </div>
+
+      <div>
+        <h2 class="text-sm font-semibold text-gray-900">
+          Delivery Timeline
+        </h2>
+
+        <p class="mt-0.5 text-xs text-gray-500">
+          Complete delivery movement history
+        </p>
+      </div>
+
+    </div>
+
+    <div
+      class="hidden items-center gap-1.5 rounded-full bg-gray-50 px-3 py-1.5 sm:flex"
+    >
+      <span
+        class="material-symbols-outlined text-[16px] text-gray-500"
+      >
+        history
+      </span>
+
+      <span class="text-xs font-medium text-gray-600">
+        {{ timeline.length }} Events
+      </span>
+    </div>
+
+  </div>
+
+
+  <!-- Timeline -->
+  <div class="p-5">
+
+    @if (timeline.length === 0) {
+
+      <div
+        class="flex min-h-[220px] flex-col items-center justify-center text-center"
+      >
+
+        <div
+          class="flex h-12 w-12 items-center justify-center rounded-full bg-gray-100"
+        >
+          <span
+            class="material-symbols-outlined text-[25px] text-gray-400"
+          >
+            timeline
+          </span>
+        </div>
+
+        <p class="mt-3 text-sm font-medium text-gray-700">
+          No timeline available
+        </p>
+
+        <p class="mt-1 text-xs text-gray-500">
+          Delivery activity will appear here.
+        </p>
+
+      </div>
+
+    } @else {
+
+      <div class="relative">
+
+        @for (
+          item of timeline;
+          track trackByTimeline($index, item);
+          let last = $last
+        ) {
+
+          <div class="relative flex gap-4">
+
+            <!-- Timeline Icon + Line -->
+            <div class="relative flex w-10 shrink-0 justify-center">
+
+              <!-- Connector -->
+              @if (!last) {
+                <div
+                  class="absolute left-1/2 top-10 h-[calc(100%-8px)] w-px -translate-x-1/2"
+                  [ngClass]="getLineClass(item.status)"
+                ></div>
+              }
+
+              <!-- Icon -->
+              <div
+                class="relative z-10 flex h-10 w-10 items-center justify-center rounded-full"
+                [ngClass]="getIconClass(item.status)"
+              >
+                <span class="material-symbols-outlined text-[20px]">
+                  {{ item.icon }}
+                </span>
+              </div>
+
+            </div>
+
+
+            <!-- Content -->
+            <div
+              class="min-w-0 flex-1 pb-8"
+              [class.pb-0]="last"
+            >
+
+              <!-- Top Row -->
+              <div
+                class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between"
+              >
+
+                <div>
+
+                  <div class="flex flex-wrap items-center gap-2">
+
+                    <h3
+                      class="text-sm font-semibold text-gray-900"
+                    >
+                      {{ item.title }}
+                    </h3>
+
+                    <span
+                      class="inline-flex rounded-full border px-2 py-0.5 text-[10px] font-semibold"
+                      [ngClass]="getStatusClass(item.status)"
+                    >
+                      {{ getStatusLabel(item.status) }}
+                    </span>
+
+                  </div>
+
+                  <p class="mt-1 text-xs leading-5 text-gray-500">
+                    {{ item.description }}
+                  </p>
+
+                </div>
+
+
+                <!-- Date / Time -->
+                <div
+                  class="shrink-0 text-left sm:text-right"
+                >
+
+                  <p class="text-xs font-medium text-gray-700">
+                    {{ item.date | date:'dd MMM yyyy' }}
+                  </p>
+
+                  <p class="mt-0.5 text-[11px] text-gray-400">
+                    {{ item.time }}
+                  </p>
+
+                </div>
+
+              </div>
+
+
+              <!-- Location -->
+              <div
+                class="mt-3 inline-flex items-center gap-1.5 rounded-lg bg-gray-50 px-3 py-2"
+              >
+
+                <span
+                  class="material-symbols-outlined text-[16px] text-gray-400"
+                >
+                  location_on
+                </span>
+
+                <span class="text-xs font-medium text-gray-600">
+                  {{ item.location }}
+                </span>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  </div>
+
+</section>

@@ -1,7 +1,9 @@
-
 <div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
 
+  <!-- ========================================================= -->
   <!-- HEADER -->
+  <!-- ========================================================= -->
+
   <div
     class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
   >
@@ -37,7 +39,10 @@
     </div>
 
 
+    <!-- ======================================================= -->
     <!-- HEADER ACTIONS -->
+    <!-- ======================================================= -->
+
     <div class="flex items-center gap-3">
 
       <div
@@ -83,7 +88,10 @@
   </div>
 
 
+  <!-- ========================================================= -->
   <!-- KPI STRIP -->
+  <!-- ========================================================= -->
+
   <section>
 
     <app-shipment-kpi-strip>
@@ -92,7 +100,10 @@
   </section>
 
 
-  <!-- TRACKING BOARD -->
+  <!-- ========================================================= -->
+  <!-- ACTIVE TRACKING BOARD -->
+  <!-- ========================================================= -->
+
   <section class="mt-6">
 
     <app-shipment-tracking-board
@@ -103,17 +114,66 @@
   </section>
 
 
+  <!-- ========================================================= -->
+  <!-- SHIPMENT FILTERS -->
+  <!-- ========================================================= -->
+
+  <section class="mt-6">
+
+    <app-shipment-filters
+      (filterChange)="onFilterChange($event)"
+      (reset)="onResetFilters()"
+    >
+    </app-shipment-filters>
+
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- SHIPMENT LIST -->
+  <!-- ========================================================= -->
+
+  <section class="mt-6">
+
+    <app-shipment-list
+      [shipments]="filteredShipments"
+      (viewShipment)="onViewShipmentFromList($event)"
+    >
+    </app-shipment-list>
+
+  </section>
+
+
+  <!-- ========================================================= -->
+  <!-- SHIPMENT TIMELINE -->
+  <!-- ========================================================= -->
+
+  @if (selectedShipmentNumber) {
+
+    <section class="mt-6">
+
+      <app-shipment-timeline
+        [shipmentNumber]="selectedShipmentNumber"
+        [events]="timelineEvents"
+      >
+      </app-shipment-timeline>
+
+    </section>
+
+  }
+
+  <!-- ========================================================= -->
+  <!-- FUTURE DETAIL COMPONENT -->
+  <!-- ========================================================= -->
+
   <!--
-    DETAIL COMPONENT WILL BE ADDED LATER.
 
-    Example future structure:
-
-    <app-shipment-detail
-      [shipment]="selectedShipment"
-      [isOpen]="isTrackingOpen"
-      (close)="onCloseTracking()"
-    ></app-shipment-detail>
+  <app-shipment-detail
+    [shipment]="selectedShipment"
+    [isOpen]="isTrackingOpen"
+    (close)="onCloseTracking()"
+  >
+  </app-shipment-detail>
   -->
 
 </div>
-

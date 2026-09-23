@@ -1,0 +1,212 @@
+<section
+  class="rounded-xl border border-gray-200 bg-white shadow-sm"
+>
+
+  <!-- Header -->
+  <div
+    class="flex flex-col gap-3 border-b border-gray-100 px-5 py-4 lg:flex-row lg:items-center lg:justify-between"
+  >
+
+    <div>
+      <div class="flex items-center gap-2">
+        <div
+          class="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-100"
+        >
+          <span
+            class="material-symbols-outlined text-[20px] text-gray-600"
+          >
+            filter_alt
+          </span>
+        </div>
+
+        <div>
+          <h3 class="text-sm font-semibold text-gray-900">
+            Delivery Filters
+          </h3>
+
+          <p class="text-xs text-gray-500">
+            Filter deliveries by status, carrier and priority
+          </p>
+        </div>
+      </div>
+    </div>
+
+    @if (hasActiveFilters()) {
+      <button
+        type="button"
+        class="inline-flex items-center gap-1.5 self-start rounded-lg px-3 py-2 text-xs font-medium text-red-600 transition hover:bg-red-50 lg:self-auto"
+        (click)="clearFilters()"
+      >
+        <span class="material-symbols-outlined text-[17px]">
+          filter_alt_off
+        </span>
+
+        Clear Filters
+      </button>
+    }
+
+  </div>
+
+
+  <!-- Filters -->
+  <div class="p-5">
+
+    <div
+      class="grid grid-cols-1 gap-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6"
+    >
+
+      <!-- Search -->
+      <div class="xl:col-span-2">
+        <label
+          class="mb-1.5 block text-xs font-medium text-gray-700"
+        >
+          Search
+        </label>
+
+        <div class="relative">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[19px] text-gray-400"
+          >
+            search
+          </span>
+
+          <input
+            type="text"
+            [(ngModel)]="filters.search"
+            (ngModelChange)="onFilterChange()"
+            placeholder="Order no, customer or tracking no..."
+            class="h-10 w-full rounded-lg border border-gray-200 bg-white pl-10 pr-3 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
+          />
+        </div>
+      </div>
+
+
+      <!-- Status -->
+      <div>
+        <label
+          class="mb-1.5 block text-xs font-medium text-gray-700"
+        >
+          Delivery Status
+        </label>
+
+        <select
+          [(ngModel)]="filters.status"
+          (ngModelChange)="onFilterChange()"
+          class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
+        >
+          @for (
+            status of filterOptions.statuses;
+            track status.value
+          ) {
+            <option [value]="status.value">
+              {{ status.label }}
+            </option>
+          }
+        </select>
+      </div>
+
+
+      <!-- Carrier -->
+      <div>
+        <label
+          class="mb-1.5 block text-xs font-medium text-gray-700"
+        >
+          Carrier
+        </label>
+
+        <select
+          [(ngModel)]="filters.carrier"
+          (ngModelChange)="onFilterChange()"
+          class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
+        >
+          @for (
+            carrier of filterOptions.carriers;
+            track carrier
+          ) {
+            <option [value]="carrier">
+              {{ carrier }}
+            </option>
+          }
+        </select>
+      </div>
+
+
+      <!-- Priority -->
+      <div>
+        <label
+          class="mb-1.5 block text-xs font-medium text-gray-700"
+        >
+          Priority
+        </label>
+
+        <select
+          [(ngModel)]="filters.priority"
+          (ngModelChange)="onFilterChange()"
+          class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
+        >
+          @for (
+            priority of filterOptions.priorities;
+            track priority.value
+          ) {
+            <option [value]="priority.value">
+              {{ priority.label }}
+            </option>
+          }
+        </select>
+      </div>
+
+
+      <!-- From Date -->
+      <div>
+        <label
+          class="mb-1.5 block text-xs font-medium text-gray-700"
+        >
+          From Date
+        </label>
+
+        <div class="relative">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-gray-400"
+          >
+            calendar_today
+          </span>
+
+          <input
+            type="date"
+            [(ngModel)]="filters.fromDate"
+            (ngModelChange)="onFilterChange()"
+            class="h-10 w-full rounded-lg border border-gray-200 bg-white pl-10 pr-3 text-sm text-gray-700 outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
+          />
+        </div>
+      </div>
+
+
+      <!-- To Date -->
+      <div>
+        <label
+          class="mb-1.5 block text-xs font-medium text-gray-700"
+        >
+          To Date
+        </label>
+
+        <div class="relative">
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-gray-400"
+          >
+            event
+          </span>
+
+          <input
+            type="date"
+            [(ngModel)]="filters.toDate"
+            (ngModelChange)="onFilterChange()"
+            class="h-10 w-full rounded-lg border border-gray-200 bg-white pl-10 pr-3 text-sm text-gray-700 outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
+          />
+        </div>
+      </div>
+
+    </div>
+
+  </div>
+
+</section>

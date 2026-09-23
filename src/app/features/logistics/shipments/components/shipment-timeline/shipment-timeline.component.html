@@ -1,0 +1,195 @@
+<div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- HEADER -->
+  <div class="flex flex-col gap-3 border-b border-gray-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between">
+
+    <div>
+      <div class="flex items-center gap-3">
+
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-cyan-50 text-lg">
+          🕐
+        </div>
+
+        <div>
+          <h2 class="text-sm font-bold text-gray-900">
+            Shipment Timeline
+          </h2>
+
+          <p class="mt-0.5 text-xs text-gray-500">
+            Movement history for {{ shipmentNumber }}
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <div class="flex items-center gap-2">
+
+      <span
+        class="rounded-full bg-gray-100 px-3 py-1.5 font-mono text-[10px] font-semibold text-gray-600"
+      >
+        {{ shipmentNumber }}
+      </span>
+
+    </div>
+
+  </div>
+
+  <!-- TIMELINE -->
+  <div class="p-5 sm:p-6">
+
+    @if (events.length === 0) {
+
+      <!-- EMPTY STATE -->
+      <div class="flex flex-col items-center justify-center py-12 text-center">
+
+        <div class="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-2xl">
+          🕐
+        </div>
+
+        <h3 class="mt-4 text-sm font-semibold text-gray-900">
+          No tracking history
+        </h3>
+
+        <p class="mt-1 max-w-sm text-xs leading-5 text-gray-500">
+          No shipment movement events are available for this shipment.
+        </p>
+
+      </div>
+
+    } @else {
+
+      <div class="relative">
+
+        @for (event of events; track event.id; let i = $index) {
+
+          <div class="relative flex gap-4">
+
+            <!-- VERTICAL LINE -->
+            @if (!isLastEvent(i)) {
+
+              <div
+                class="absolute left-[19px] top-10 h-[calc(100%-10px)] w-px bg-gray-200"
+              ></div>
+
+            }
+
+            <!-- ICON -->
+            <div class="relative z-10 shrink-0">
+
+              <div
+                class="flex h-10 w-10 items-center justify-center rounded-full border text-sm shadow-sm"
+                [ngClass]="getIconContainerClass(event.status)"
+              >
+                {{ event.icon }}
+              </div>
+
+            </div>
+
+            <!-- EVENT CONTENT -->
+            <div
+              class="min-w-0 flex-1 pb-7"
+              [class.pb-1]="isLastEvent(i)"
+            >
+
+              <!-- TOP ROW -->
+              <div class="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
+
+                <div class="min-w-0">
+
+                  <div class="flex flex-wrap items-center gap-2">
+
+                    <h3 class="text-sm font-bold text-gray-900">
+                      {{ event.title }}
+                    </h3>
+
+                    <span
+                      class="inline-flex items-center gap-1 rounded-full border px-2 py-0.5 text-[9px] font-semibold"
+                      [ngClass]="getStatusClass(event.status)"
+                    >
+
+                      @if (event.status === 'CURRENT') {
+                        <span
+                          class="h-1.5 w-1.5 animate-pulse rounded-full bg-cyan-500"
+                        ></span>
+                      }
+
+                      {{ getStatusLabel(event.status) }}
+
+                    </span>
+
+                  </div>
+
+                  <p class="mt-1 text-xs leading-5 text-gray-500">
+                    {{ event.description }}
+                  </p>
+
+                </div>
+
+                <!-- DATE/TIME -->
+                <div class="shrink-0 sm:text-right">
+
+                  <p class="text-[11px] font-semibold text-gray-700">
+                    {{ event.date }}
+                  </p>
+
+                  <p class="mt-0.5 text-[10px] text-gray-400">
+                    {{ event.time }}
+                  </p>
+
+                </div>
+
+              </div>
+
+              <!-- LOCATION -->
+              <div class="mt-3 inline-flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2">
+
+                <span class="text-xs">
+                  📍
+                </span>
+
+                <div>
+
+                  <p class="text-[9px] font-semibold uppercase tracking-wide text-gray-400">
+                    Location
+                  </p>
+
+                  <p class="mt-0.5 text-xs font-medium text-gray-700">
+                    {{ event.location }}
+                  </p>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        }
+
+      </div>
+
+    }
+
+  </div>
+
+  <!-- FOOTER -->
+  @if (events.length > 0) {
+
+    <div class="flex items-center justify-between border-t border-gray-100 bg-gray-50/50 px-5 py-3">
+
+      <p class="text-[10px] text-gray-400">
+        {{ events.length }} tracking events
+      </p>
+
+      <span class="inline-flex items-center gap-1.5 text-[10px] font-medium text-gray-500">
+        <span class="h-1.5 w-1.5 rounded-full bg-green-500"></span>
+        Tracking history
+      </span>
+
+    </div>
+
+  }
+
+</div>

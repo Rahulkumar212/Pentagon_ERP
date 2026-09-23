@@ -47,31 +47,31 @@ export const LOGISTICS_ROUTES: Routes = [
       ),
   },
 
-//   // =====================================================
-//   // DISPATCH
-//   // =====================================================
-//   {
-//     path: 'dispatch',
-//     loadComponent: () =>
-//       import(
-//         './logistics-dispatch/pages/logistics-dispatch.component'
-//       ).then(
-//         (m) => m.LogisticsDispatchComponent
-//       ),
-//   },
+  // =====================================================
+  // DISPATCH
+  // =====================================================
+  {
+    path: 'logistics/dispatch',
+    loadComponent: () =>
+      import(
+        './dispatch/pages/dispatch.component'
+      ).then(
+        (m) => m.DispatchComponent
+      ),
+  },
 
-//   // =====================================================
-//   // DELIVERY TRACKING
-//   // =====================================================
-//   {
-//     path: 'delivery-tracking',
-//     loadComponent: () =>
-//       import(
-//         './delivery-tracking/pages/delivery-tracking.component'
-//       ).then(
-//         (m) => m.DeliveryTrackingComponent
-//       ),
-//   },
+  // =====================================================
+  // DELIVERY TRACKING
+  // =====================================================
+  {
+    path: 'logistics/delivery-tracking',
+    loadComponent: () =>
+      import(
+        './delivery-tracking/pages/delivery-tracking.component'
+      ).then(
+        (m) => m.DeliveryTrackingComponent
+      ),
+  },
 
 //   // =====================================================
 //   // STOCK MANAGEMENT

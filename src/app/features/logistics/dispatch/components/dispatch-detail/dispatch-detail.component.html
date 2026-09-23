@@ -1,0 +1,479 @@
+@if (isOpen) {
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4"
+    (click)="onOverlayClick($event)"
+  >
+    <div
+      class="flex max-h-[92vh] w-full max-w-6xl flex-col overflow-hidden rounded-2xl bg-white shadow-2xl"
+    >
+
+      <!-- Header -->
+      <div
+        class="flex flex-col gap-4 border-b border-gray-100 px-5 py-5 sm:flex-row sm:items-center sm:justify-between"
+      >
+        <div class="flex items-start gap-3">
+          <div
+            class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-xl"
+          >
+            📤
+          </div>
+
+          <div>
+            <div class="flex flex-wrap items-center gap-2">
+              <h2 class="text-lg font-bold text-gray-900">
+                Dispatch Detail
+              </h2>
+
+              <span
+                class="rounded-full border px-2.5 py-1 text-[10px] font-semibold"
+                [ngClass]="getStatusClass(detail.status)"
+              >
+                {{ getStatusLabel(detail.status) }}
+              </span>
+
+              <span
+                class="rounded-full border px-2.5 py-1 text-[10px] font-semibold"
+                [ngClass]="getPriorityClass(detail.priority)"
+              >
+                {{ detail.priority }} Priority
+              </span>
+            </div>
+
+            <p class="mt-1 text-sm text-gray-500">
+              {{ detail.orderNumber }}
+              <span class="mx-1 text-gray-300">•</span>
+              {{ detail.customerName }}
+            </p>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          class="inline-flex h-9 w-9 items-center justify-center rounded-lg border border-gray-200 text-gray-500 transition-colors hover:bg-gray-50 hover:text-gray-800"
+          (click)="onClose()"
+        >
+          ✕
+        </button>
+      </div>
+
+      <!-- Scrollable Content -->
+      <div class="flex-1 overflow-y-auto">
+
+        <!-- Quick Info -->
+        <div class="border-b border-gray-100 bg-gray-50/60 px-5 py-5">
+          <div class="grid grid-cols-2 gap-4 lg:grid-cols-5">
+
+            <div>
+              <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                Order Source
+              </p>
+
+              <span
+                class="mt-2 inline-flex rounded-full px-2.5 py-1 text-[10px] font-semibold"
+                [ngClass]="getSourceClass(detail.source)"
+              >
+                {{ getSourceLabel(detail.source) }}
+              </span>
+            </div>
+
+            <div>
+              <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                Items
+              </p>
+
+              <p class="mt-1 text-lg font-bold text-gray-900">
+                {{ detail.totalItems }}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                Total Units
+              </p>
+
+              <p class="mt-1 text-lg font-bold text-gray-900">
+                {{ detail.totalUnits }}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                Payment
+              </p>
+
+              <p
+                class="mt-1 text-sm font-bold"
+                [ngClass]="getPaymentClass(detail.paymentStatus)"
+              >
+                {{ detail.paymentStatus }}
+              </p>
+
+              <p class="mt-0.5 text-[10px] text-gray-400">
+                {{ detail.paymentReference }}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                Dispatch Date
+              </p>
+
+              <p class="mt-1 text-sm font-bold text-gray-800">
+                {{ detail.expectedDispatchDate }}
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Main Grid -->
+        <div class="grid grid-cols-1 gap-6 p-5 xl:grid-cols-[1.45fr_0.9fr]">
+
+          <!-- Left -->
+          <div class="space-y-6">
+
+            <!-- Customer -->
+            <section class="rounded-xl border border-gray-200">
+              <div class="border-b border-gray-100 px-4 py-4">
+                <h3 class="text-sm font-semibold text-gray-900">
+                  Customer & Delivery
+                </h3>
+              </div>
+
+              <div class="grid grid-cols-1 gap-5 p-4 sm:grid-cols-2">
+
+                <div>
+                  <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                    Customer
+                  </p>
+
+                  <p class="mt-1 text-sm font-semibold text-gray-800">
+                    {{ detail.customerName }}
+                  </p>
+
+                  <p class="mt-0.5 text-xs text-gray-500">
+                    {{ detail.customerCode }}
+                  </p>
+                </div>
+
+                <div>
+                  <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                    Contact Person
+                  </p>
+
+                  <p class="mt-1 text-sm font-semibold text-gray-800">
+                    {{ detail.contactPerson }}
+                  </p>
+
+                  <p class="mt-0.5 text-xs text-gray-500">
+                    {{ detail.contactNumber }}
+                  </p>
+                </div>
+
+                <div class="sm:col-span-2">
+                  <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                    Delivery Address
+                  </p>
+
+                  <div class="mt-2 flex items-start gap-2 rounded-lg bg-gray-50 p-3">
+                    <span>📍</span>
+
+                    <p class="text-xs leading-5 text-gray-700">
+                      {{ detail.deliveryAddress }}
+                    </p>
+                  </div>
+                </div>
+
+              </div>
+            </section>
+
+            <!-- Items -->
+            <section class="rounded-xl border border-gray-200">
+              <div
+                class="flex items-center justify-between border-b border-gray-100 px-4 py-4"
+              >
+                <div>
+                  <h3 class="text-sm font-semibold text-gray-900">
+                    Dispatch Items
+                  </h3>
+
+                  <p class="mt-1 text-xs text-gray-500">
+                    Products included in this dispatch
+                  </p>
+                </div>
+
+                <span
+                  class="rounded-full bg-gray-100 px-2.5 py-1 text-[10px] font-semibold text-gray-600"
+                >
+                  {{ getTotalQuantity() }} Units
+                </span>
+              </div>
+
+              <div class="overflow-x-auto">
+                <table class="w-full min-w-[550px]">
+                  <thead>
+                    <tr class="border-b border-gray-100 bg-gray-50">
+                      <th class="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wide text-gray-500">
+                        Product
+                      </th>
+
+                      <th class="px-4 py-3 text-left text-[10px] font-semibold uppercase tracking-wide text-gray-500">
+                        SKU
+                      </th>
+
+                      <th class="px-4 py-3 text-right text-[10px] font-semibold uppercase tracking-wide text-gray-500">
+                        Quantity
+                      </th>
+
+                      <th class="px-4 py-3 text-right text-[10px] font-semibold uppercase tracking-wide text-gray-500">
+                        Unit
+                      </th>
+                    </tr>
+                  </thead>
+
+                  <tbody class="divide-y divide-gray-100">
+                    @for (item of detail.items; track item.id) {
+                      <tr class="hover:bg-gray-50">
+
+                        <td class="px-4 py-3">
+                          <p class="text-xs font-semibold text-gray-800">
+                            {{ item.productName }}
+                          </p>
+                        </td>
+
+                        <td class="px-4 py-3 text-xs text-gray-500">
+                          {{ item.sku }}
+                        </td>
+
+                        <td class="px-4 py-3 text-right text-sm font-semibold text-gray-800">
+                          {{ item.quantity }}
+                        </td>
+
+                        <td class="px-4 py-3 text-right text-xs text-gray-500">
+                          {{ item.unit }}
+                        </td>
+
+                      </tr>
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </section>
+
+            <!-- Dispatch Information -->
+            <section class="rounded-xl border border-gray-200">
+              <div class="border-b border-gray-100 px-4 py-4">
+                <h3 class="text-sm font-semibold text-gray-900">
+                  Dispatch Information
+                </h3>
+              </div>
+
+              <div class="grid grid-cols-1 gap-5 p-4 sm:grid-cols-2 lg:grid-cols-4">
+
+                <div>
+                  <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                    Warehouse
+                  </p>
+
+                  <p class="mt-1 text-sm font-semibold text-gray-800">
+                    {{ detail.warehouse }}
+                  </p>
+                </div>
+
+                <div>
+                  <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                    Carrier
+                  </p>
+
+                  <p class="mt-1 text-sm font-semibold text-gray-800">
+                    {{ detail.carrier }}
+                  </p>
+                </div>
+
+                <div>
+                  <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                    Tracking Number
+                  </p>
+
+                  <p class="mt-1 break-all text-sm font-semibold text-gray-800">
+                    {{ detail.trackingNumber }}
+                  </p>
+                </div>
+
+                <div>
+                  <p class="text-[10px] font-semibold uppercase tracking-wide text-gray-400">
+                    Order Date
+                  </p>
+
+                  <p class="mt-1 text-sm font-semibold text-gray-800">
+                    {{ detail.orderDate }}
+                  </p>
+                </div>
+
+              </div>
+            </section>
+
+            <!-- Notes -->
+            <section class="rounded-xl border border-gray-200">
+              <div class="border-b border-gray-100 px-4 py-4">
+                <h3 class="text-sm font-semibold text-gray-900">
+                  Dispatch Notes
+                </h3>
+              </div>
+
+              <div class="p-4">
+                <div class="rounded-lg border border-orange-100 bg-orange-50 p-3">
+                  <p class="text-xs leading-5 text-orange-800">
+                    {{ detail.notes }}
+                  </p>
+                </div>
+              </div>
+            </section>
+
+          </div>
+
+          <!-- Right -->
+          <div>
+
+            <!-- Activity -->
+            <section class="rounded-xl border border-gray-200">
+              <div class="border-b border-gray-100 px-4 py-4">
+                <h3 class="text-sm font-semibold text-gray-900">
+                  Dispatch Activity
+                </h3>
+
+                <p class="mt-1 text-xs text-gray-500">
+                  Order processing history
+                </p>
+              </div>
+
+              <div class="p-4">
+
+                <div class="relative">
+
+                  @for (
+                    activity of detail.activities;
+                    track activity.id;
+                    let last = $last
+                  ) {
+
+                    <div class="relative flex gap-3">
+
+                      <!-- Line -->
+                      @if (!last) {
+                        <div
+                          class="absolute left-4 top-9 h-[calc(100%-10px)] w-px bg-gray-200"
+                        ></div>
+                      }
+
+                      <!-- Icon -->
+                      <div
+                        class="relative z-10 flex h-8 w-8 shrink-0 items-center justify-center rounded-full border text-xs"
+                        [ngClass]="getActivityIconClass(activity.status)"
+                      >
+                        {{ activity.icon }}
+                      </div>
+
+                      <!-- Content -->
+                      <div class="min-w-0 flex-1 pb-6">
+                        <div class="flex flex-wrap items-center justify-between gap-2">
+                          <p class="text-xs font-semibold text-gray-800">
+                            {{ activity.title }}
+                          </p>
+
+                          <span
+                            class="text-[10px] font-semibold"
+                            [ngClass]="getActivityStatusClass(activity.status)"
+                          >
+                            {{ getActivityStatusLabel(activity.status) }}
+                          </span>
+                        </div>
+
+                        <p class="mt-1 text-[11px] leading-4 text-gray-500">
+                          {{ activity.description }}
+                        </p>
+
+                        <p class="mt-2 text-[10px] text-gray-400">
+                          {{ activity.date }}
+                          <span class="mx-1">•</span>
+                          {{ activity.time }}
+                        </p>
+                      </div>
+                    </div>
+                  }
+
+                </div>
+              </div>
+            </section>
+
+          </div>
+        </div>
+      </div>
+
+      <!-- Footer -->
+      <div
+        class="flex flex-col gap-3 border-t border-gray-100 bg-gray-50/70 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+      >
+
+        <div>
+          @if (detail.status === 'DISPATCHED') {
+            <p class="text-xs font-medium text-green-600">
+              ✓ This order has already been dispatched.
+            </p>
+          } @else if (detail.status === 'ON_HOLD') {
+            <p class="text-xs font-medium text-red-600">
+              ⚠ This order is currently on hold.
+            </p>
+          } @else {
+            <p class="text-xs text-gray-500">
+              Review all dispatch information before processing.
+            </p>
+          }
+        </div>
+
+        <div class="flex flex-col gap-2 sm:flex-row">
+
+          <button
+            type="button"
+            class="rounded-lg border border-gray-200 bg-white px-4 py-2.5 text-xs font-medium text-gray-700 hover:bg-gray-50"
+            (click)="onClose()"
+          >
+            Close
+          </button>
+
+          @if (canProcess()) {
+            <button
+              type="button"
+              class="rounded-lg bg-indigo-600 px-4 py-2.5 text-xs font-medium text-white hover:bg-indigo-700"
+              (click)="onProcess()"
+            >
+              Process Preparation
+            </button>
+          }
+
+          @if (canMarkReady()) {
+            <button
+              type="button"
+              class="rounded-lg bg-indigo-600 px-4 py-2.5 text-xs font-medium text-white hover:bg-indigo-700"
+              (click)="onMarkReady()"
+            >
+              Mark Ready
+            </button>
+          }
+
+          @if (canConfirmDispatch()) {
+            <button
+              type="button"
+              class="rounded-lg bg-red-600 px-4 py-2.5 text-xs font-medium text-white shadow-sm hover:bg-red-700"
+              (click)="onConfirmDispatch()"
+            >
+              Confirm Dispatch
+            </button>
+          }
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+}

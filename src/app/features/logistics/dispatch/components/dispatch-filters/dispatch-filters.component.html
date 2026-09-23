@@ -1,0 +1,235 @@
+<div class="w-full rounded-xl border border-gray-200 bg-white shadow-sm">
+
+  <!-- Header -->
+  <div
+    class="flex flex-col gap-3 border-b border-gray-100 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div>
+      <div class="flex items-center gap-2">
+        <h2 class="text-base font-semibold text-gray-900">
+          Dispatch Queue Filters
+        </h2>
+
+        @if (activeFilterCount > 0) {
+          <span
+            class="inline-flex h-5 min-w-5 items-center justify-center rounded-full bg-red-50 px-1.5 text-[10px] font-bold text-red-600"
+          >
+            {{ activeFilterCount }}
+          </span>
+        }
+      </div>
+
+      <p class="mt-1 text-xs text-gray-500">
+        Filter dispatch orders by status, source, priority and carrier
+      </p>
+    </div>
+
+    <button
+      type="button"
+      class="text-xs font-medium text-gray-500 transition-colors hover:text-red-600"
+      (click)="resetFilters()"
+    >
+      Reset Filters
+    </button>
+  </div>
+
+  <!-- Filters -->
+  <div class="p-5">
+
+    <!-- First Row -->
+    <div class="grid grid-cols-1 gap-4 lg:grid-cols-2 xl:grid-cols-4">
+
+      <!-- Search -->
+      <div class="xl:col-span-2">
+        <label
+          class="mb-1.5 block text-xs font-medium text-gray-600"
+        >
+          Search
+        </label>
+
+        <div class="relative">
+          <span
+            class="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-sm text-gray-400"
+          >
+            🔍
+          </span>
+
+          <input
+            type="text"
+            [(ngModel)]="filter.search"
+            (input)="onSearchChange()"
+            placeholder="Search order, customer or destination..."
+            class="w-full rounded-lg border border-gray-200 bg-white py-2.5 pl-9 pr-3 text-sm text-gray-900 outline-none transition-all placeholder:text-gray-400 focus:border-red-400 focus:ring-2 focus:ring-red-100"
+          />
+        </div>
+      </div>
+
+      <!-- Status -->
+      <div>
+        <label
+          class="mb-1.5 block text-xs font-medium text-gray-600"
+        >
+          Dispatch Status
+        </label>
+
+        <select
+          [(ngModel)]="filter.status"
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none transition-all focus:border-red-400 focus:ring-2 focus:ring-red-100"
+        >
+          @for (option of statusOptions; track option.value) {
+            <option [value]="option.value">
+              {{ option.label }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <!-- Source -->
+      <div>
+        <label
+          class="mb-1.5 block text-xs font-medium text-gray-600"
+        >
+          Order Source
+        </label>
+
+        <select
+          [(ngModel)]="filter.source"
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none transition-all focus:border-red-400 focus:ring-2 focus:ring-red-100"
+        >
+          @for (option of sourceOptions; track option.value) {
+            <option [value]="option.value">
+              {{ option.label }}
+            </option>
+          }
+        </select>
+      </div>
+    </div>
+
+    <!-- Second Row -->
+    <div class="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
+
+      <!-- Priority -->
+      <div>
+        <label
+          class="mb-1.5 block text-xs font-medium text-gray-600"
+        >
+          Priority
+        </label>
+
+        <select
+          [(ngModel)]="filter.priority"
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none transition-all focus:border-red-400 focus:ring-2 focus:ring-red-100"
+        >
+          @for (option of priorityOptions; track option.value) {
+            <option [value]="option.value">
+              {{ option.label }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <!-- Carrier -->
+      <div>
+        <label
+          class="mb-1.5 block text-xs font-medium text-gray-600"
+        >
+          Carrier
+        </label>
+
+        <select
+          [(ngModel)]="filter.carrier"
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none transition-all focus:border-red-400 focus:ring-2 focus:ring-red-100"
+        >
+          @for (carrier of carrierOptions; track carrier) {
+            <option [value]="carrier">
+              {{ carrier === 'ALL' ? 'All Carriers' : carrier }}
+            </option>
+          }
+        </select>
+      </div>
+
+      <!-- Dispatch Date -->
+      <div>
+        <label
+          class="mb-1.5 block text-xs font-medium text-gray-600"
+        >
+          Dispatch Date
+        </label>
+
+        <input
+          type="date"
+          [(ngModel)]="filter.dispatchDate"
+          class="w-full rounded-lg border border-gray-200 bg-white px-3 py-2.5 text-sm text-gray-700 outline-none transition-all focus:border-red-400 focus:ring-2 focus:ring-red-100"
+        />
+      </div>
+
+      <!-- Apply -->
+      <div class="flex items-end">
+        <button
+          type="button"
+          class="w-full rounded-lg bg-red-600 px-4 py-2.5 text-sm font-medium text-white shadow-sm transition-colors hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-red-200"
+          (click)="applyFilters()"
+        >
+          Apply Filters
+        </button>
+      </div>
+    </div>
+
+    <!-- Active Filters -->
+    @if (activeFilterCount > 0) {
+      <div class="mt-4 flex flex-wrap items-center gap-2 border-t border-gray-100 pt-4">
+        <span class="mr-1 text-[11px] font-medium text-gray-400">
+          Active:
+        </span>
+
+        @if (filter.search.trim()) {
+          <span
+            class="rounded-full bg-gray-100 px-2.5 py-1 text-[11px] font-medium text-gray-600"
+          >
+            Search: {{ filter.search }}
+          </span>
+        }
+
+        @if (filter.status !== 'ALL') {
+          <span
+            class="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-medium text-blue-700"
+          >
+            Status: {{ filter.status }}
+          </span>
+        }
+
+        @if (filter.source !== 'ALL') {
+          <span
+            class="rounded-full bg-purple-50 px-2.5 py-1 text-[11px] font-medium text-purple-700"
+          >
+            Source: {{ filter.source }}
+          </span>
+        }
+
+        @if (filter.priority !== 'ALL') {
+          <span
+            class="rounded-full bg-orange-50 px-2.5 py-1 text-[11px] font-medium text-orange-700"
+          >
+            Priority: {{ filter.priority }}
+          </span>
+        }
+
+        @if (filter.carrier !== 'ALL') {
+          <span
+            class="rounded-full bg-cyan-50 px-2.5 py-1 text-[11px] font-medium text-cyan-700"
+          >
+            Carrier: {{ filter.carrier }}
+          </span>
+        }
+
+        @if (filter.dispatchDate) {
+          <span
+            class="rounded-full bg-green-50 px-2.5 py-1 text-[11px] font-medium text-green-700"
+          >
+            Date: {{ filter.dispatchDate }}
+          </span>
+        }
+      </div>
+    }
+  </div>
+</div>

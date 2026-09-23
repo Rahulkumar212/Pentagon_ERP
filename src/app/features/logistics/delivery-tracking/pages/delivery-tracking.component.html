@@ -1,0 +1,264 @@
+<div class="min-h-full bg-gray-50 p-4 sm:p-5 lg:p-6">
+
+  <!-- ===================================================== -->
+  <!-- PAGE HEADER -->
+  <!-- ===================================================== -->
+
+  <div
+    class="mb-6 flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
+  >
+
+    <div>
+
+      <div class="flex items-center gap-2">
+
+        <div
+          class="flex h-10 w-10 items-center justify-center rounded-xl bg-gray-900"
+        >
+          <span
+            class="material-symbols-outlined text-[22px] text-white"
+          >
+            location_on
+          </span>
+        </div>
+
+        <div>
+
+          <h1
+            class="text-xl font-bold tracking-tight text-gray-900"
+          >
+            Delivery Tracking
+          </h1>
+
+          <p
+            class="mt-0.5 text-sm text-gray-500"
+          >
+            Monitor delivery progress and track shipments
+            in real time.
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Page Actions -->
+    <div class="flex items-center gap-2">
+
+      <button
+        type="button"
+        class="inline-flex items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2 text-xs font-medium text-gray-700 shadow-sm transition hover:bg-gray-50"
+        (click)="showFilters = !showFilters"
+      >
+
+        <span
+          class="material-symbols-outlined text-[18px]"
+        >
+          filter_alt
+        </span>
+
+        {{ showFilters ? 'Hide Filters' : 'Show Filters' }}
+
+      </button>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- SUMMARY -->
+  <!-- ===================================================== -->
+
+  <app-tracking-summary></app-tracking-summary>
+
+
+  <!-- ===================================================== -->
+  <!-- ACTIVE DELIVERIES -->
+  <!-- ===================================================== -->
+
+  <section class="mt-6">
+
+    <app-active-deliveries
+      [deliveries]="activeDeliveries"
+      (viewDelivery)="onViewActiveDelivery($event)"
+      (trackDelivery)="onTrackActiveDelivery($event)"
+    ></app-active-deliveries>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- FILTERS -->
+  <!-- ===================================================== -->
+
+  @if (showFilters) {
+
+    <section class="mt-6">
+
+      <app-tracking-filters
+        (filtersChange)="onFiltersChange($event)"
+        (clear)="onClearFilters()"
+      ></app-tracking-filters>
+
+    </section>
+
+  }
+
+
+  <!-- ===================================================== -->
+  <!-- DELIVERY LIST -->
+  <!-- ===================================================== -->
+
+  <section class="mt-6">
+
+    <app-delivery-list
+      [deliveries]="filteredDeliveries"
+      (viewDetails)="onViewDeliveryDetails($event)"
+      (trackDelivery)="onTrackDelivery($event)"
+    ></app-delivery-list>
+
+  </section>
+
+
+  <!-- ===================================================== -->
+  <!-- DELIVERY DETAIL -->
+  <!-- ===================================================== -->
+
+  @if (
+    isDeliveryDetailOpen &&
+    selectedDelivery
+  ) {
+
+    <app-delivery-detail
+      [detail]="selectedDelivery"
+      [isOpen]="isDeliveryDetailOpen"
+      (close)="onCloseDeliveryDetail()"
+      (track)="onTrackDeliveryDetail($event)"
+      (contactDriver)="onContactDeliveryDriver($event)"
+    ></app-delivery-detail>
+
+  }
+
+
+  <!-- ===================================================== -->
+  <!-- DELIVERY TIMELINE -->
+  <!-- ===================================================== -->
+
+  @if (isTimelineOpen) {
+
+    <section
+      class="fixed inset-0 z-50 flex items-center justify-center bg-black/50 p-4 backdrop-blur-sm"
+      (click)="onCloseTimeline()"
+    >
+
+      <div
+        class="max-h-[90vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-gray-50 shadow-2xl"
+        (click)="$event.stopPropagation()"
+      >
+
+        <!-- Timeline Header -->
+        <div
+          class="flex items-center justify-between border-b border-gray-200 bg-white px-5 py-4 sm:px-6"
+        >
+
+          <div>
+
+            <div class="flex items-center gap-2">
+
+              <div
+                class="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-900"
+              >
+                <span
+                  class="material-symbols-outlined text-[19px] text-white"
+                >
+                  route
+                </span>
+              </div>
+
+              <div>
+
+                <h2
+                  class="text-sm font-semibold text-gray-900"
+                >
+                  Delivery Timeline
+                </h2>
+
+                @if (selectedDelivery) {
+
+                  <p
+                    class="mt-0.5 text-xs text-gray-500"
+                  >
+                    {{ selectedDelivery.orderNumber }}
+                    ·
+                    {{ selectedDelivery.trackingNumber }}
+                  </p>
+
+                }
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <button
+            type="button"
+            class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition hover:bg-gray-100 hover:text-gray-800"
+            (click)="onCloseTimeline()"
+          >
+
+            <span
+              class="material-symbols-outlined text-[21px]"
+            >
+              close
+            </span>
+
+          </button>
+
+        </div>
+
+
+        <!-- Timeline -->
+        <div class="p-5 sm:p-6">
+
+          <app-delivery-timeline
+            [timeline]="timeline"
+          ></app-delivery-timeline>
+
+        </div>
+
+
+        <!-- Footer -->
+        <div
+          class="flex justify-end border-t border-gray-200 bg-white px-5 py-4 sm:px-6"
+        >
+
+          <button
+            type="button"
+            class="inline-flex items-center gap-2 rounded-lg border border-gray-200 px-4 py-2.5 text-xs font-medium text-gray-700 transition hover:bg-gray-50"
+            (click)="onCloseTimeline()"
+          >
+
+            <span
+              class="material-symbols-outlined text-[17px]"
+            >
+              close
+            </span>
+
+            Close
+
+          </button>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  }
+
+</div>

@@ -1,0 +1,141 @@
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+
+  <!-- ================================================== -->
+  <!-- HEADER -->
+  <!-- ================================================== -->
+
+  <div
+    class="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+    <div>
+      <div class="flex items-center gap-3">
+
+        <div
+          class="flex h-11 w-11 shrink-0 items-center justify-center rounded-xl bg-red-50 text-xl"
+        >
+          📤
+        </div>
+
+        <div>
+          <h1
+            class="text-2xl font-bold tracking-tight text-gray-900"
+          >
+            Dispatch Operations
+          </h1>
+
+          <p class="mt-1 text-sm text-gray-500">
+            Prepare, verify and dispatch orders from the warehouse
+          </p>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Header Right -->
+    <div class="flex items-center gap-3">
+
+      <div
+        class="hidden rounded-lg border border-gray-200 bg-white px-4 py-2.5 shadow-sm sm:block"
+      >
+        <p
+          class="text-[10px] font-medium uppercase tracking-wide text-gray-400"
+        >
+          Queue
+        </p>
+
+        <p class="mt-0.5 text-sm font-bold text-gray-900">
+          {{ filteredOrders.length }}
+          <span class="font-normal text-gray-500">
+            orders
+          </span>
+        </p>
+      </div>
+
+      <div
+        class="flex items-center gap-2 rounded-lg border border-green-100 bg-green-50 px-3 py-2.5"
+      >
+        <span
+          class="h-2 w-2 rounded-full bg-green-500"
+        ></span>
+
+        <span
+          class="text-xs font-medium text-green-700"
+        >
+          Warehouse Active
+        </span>
+      </div>
+
+    </div>
+  </div>
+
+
+  <!-- ================================================== -->
+  <!-- SUMMARY -->
+  <!-- ================================================== -->
+
+  <section>
+    <app-dispatch-summary></app-dispatch-summary>
+  </section>
+
+
+  <!-- ================================================== -->
+  <!-- FILTERS -->
+  <!-- ================================================== -->
+
+  <section class="mt-6">
+    <app-dispatch-filters
+      (filterChange)="onFilterChange($event)"
+      (reset)="onResetFilters()"
+    ></app-dispatch-filters>
+  </section>
+
+
+  <!-- ================================================== -->
+  <!-- DISPATCH QUEUE -->
+  <!-- ================================================== -->
+
+  <section class="mt-6">
+    <app-dispatch-queue
+      [orders]="filteredOrders"
+      (viewOrder)="onViewOrder($event)"
+      (processOrder)="onProcessOrder($event)"
+    ></app-dispatch-queue>
+  </section>
+
+
+  <!-- ================================================== -->
+  <!-- DISPATCH PREPARATION -->
+  <!-- ================================================== -->
+
+  @if (isPreparationOpen && selectedPreparation) {
+
+    <section class="mt-6">
+      <app-dispatch-preparation
+        [preparation]="selectedPreparation"
+        [isOpen]="isPreparationOpen"
+        (close)="onClosePreparation()"
+        (save)="onSavePreparation($event)"
+        (readyForDispatch)="onReadyForDispatch($event)"
+        (dispatch)="onPreparationConfirmDispatch($event)"
+      ></app-dispatch-preparation>
+    </section>
+
+  }
+
+
+  <!-- ================================================== -->
+  <!-- DISPATCH DETAIL MODAL -->
+  <!-- ================================================== -->
+
+  @if (isDispatchDetailOpen && selectedDispatch) {
+  <app-dispatch-detail
+    [detail]="selectedDispatch"
+    [isOpen]="isDispatchDetailOpen"
+    (close)="onCloseDispatchDetail()"
+    (process)="onProcessDispatch($event)"
+    (markReady)="onMarkDispatchReady($event)"
+    (confirmDispatch)="onConfirmDispatch($event)"
+  ></app-dispatch-detail>
+}
+
+</div>

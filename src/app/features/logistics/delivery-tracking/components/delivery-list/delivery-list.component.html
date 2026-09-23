@@ -1,0 +1,423 @@
+<section
+  class="overflow-hidden rounded-xl border border-gray-200 bg-white shadow-sm"
+>
+
+  <!-- Header -->
+  <div
+    class="flex flex-col gap-3 border-b border-gray-100 px-5 py-4 lg:flex-row lg:items-center lg:justify-between"
+  >
+
+    <div>
+      <div class="flex items-center gap-2">
+        <div
+          class="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-100"
+        >
+          <span
+            class="material-symbols-outlined text-[20px] text-gray-600"
+          >
+            local_shipping
+          </span>
+        </div>
+
+        <div>
+          <h2 class="text-sm font-semibold text-gray-900">
+            Delivery List
+          </h2>
+
+          <p class="text-xs text-gray-500">
+            Monitor current delivery progress
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="flex items-center gap-2 rounded-lg bg-gray-50 px-3 py-2"
+    >
+      <span class="material-symbols-outlined text-[17px] text-gray-500">
+        inventory_2
+      </span>
+
+      <span class="text-xs font-medium text-gray-600">
+        {{ deliveries.length }} Deliveries
+      </span>
+    </div>
+
+  </div>
+
+
+  <!-- Empty State -->
+  @if (deliveries.length === 0) {
+
+    <div class="flex min-h-[280px] flex-col items-center justify-center px-6 text-center">
+
+      <div
+        class="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100"
+      >
+        <span
+          class="material-symbols-outlined text-[28px] text-gray-400"
+        >
+          local_shipping
+        </span>
+      </div>
+
+      <h3 class="mt-4 text-sm font-semibold text-gray-800">
+        No deliveries found
+      </h3>
+
+      <p class="mt-1 max-w-sm text-xs text-gray-500">
+        No delivery records match the selected filters.
+      </p>
+
+    </div>
+
+  } @else {
+
+    <!-- Desktop Table -->
+    <div class="hidden overflow-x-auto lg:block">
+
+      <table class="w-full min-w-[1150px]">
+
+        <thead>
+          <tr class="border-b border-gray-100 bg-gray-50/70">
+
+            <th class="px-5 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-gray-500">
+              Delivery
+            </th>
+
+            <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-gray-500">
+              Customer
+            </th>
+
+            <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-gray-500">
+              Destination
+            </th>
+
+            <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-gray-500">
+              Carrier
+            </th>
+
+            <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-gray-500">
+              Status
+            </th>
+
+            <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-gray-500">
+              Expected
+            </th>
+
+            <th class="px-4 py-3 text-left text-[11px] font-semibold uppercase tracking-wide text-gray-500">
+              Priority
+            </th>
+
+            <th class="px-5 py-3 text-right text-[11px] font-semibold uppercase tracking-wide text-gray-500">
+              Action
+            </th>
+
+          </tr>
+        </thead>
+
+
+        <tbody class="divide-y divide-gray-100">
+
+          @for (
+            delivery of deliveries;
+            track trackByDelivery($index, delivery)
+          ) {
+
+            <tr class="group transition hover:bg-gray-50/70">
+
+              <!-- Delivery -->
+              <td class="px-5 py-4">
+
+                <div>
+                  <p class="text-sm font-semibold text-gray-900">
+                    {{ delivery.orderNumber }}
+                  </p>
+
+                  <div class="mt-1 flex items-center gap-1">
+                    <span class="material-symbols-outlined text-[14px] text-gray-400">
+                      qr_code
+                    </span>
+
+                    <span class="text-xs text-gray-500">
+                      {{ delivery.trackingNumber }}
+                    </span>
+                  </div>
+
+                  <span class="mt-1 inline-block text-[10px] font-medium text-gray-400">
+                    {{ getSourceLabel(delivery.source) }}
+                  </span>
+                </div>
+
+              </td>
+
+
+              <!-- Customer -->
+              <td class="px-4 py-4">
+
+                <p class="max-w-[180px] truncate text-sm font-medium text-gray-800">
+                  {{ delivery.customerName }}
+                </p>
+
+                <p class="mt-1 text-xs text-gray-500">
+                  {{ delivery.customerCode }}
+                </p>
+
+              </td>
+
+
+              <!-- Destination -->
+              <td class="px-4 py-4">
+
+                <div class="flex items-center gap-1.5">
+
+                  <span
+                    class="material-symbols-outlined text-[17px] text-gray-400"
+                  >
+                    location_on
+                  </span>
+
+                  <span class="text-sm text-gray-700">
+                    {{ delivery.destination }}
+                  </span>
+
+                </div>
+
+              </td>
+
+
+              <!-- Carrier -->
+              <td class="px-4 py-4">
+
+                <p class="text-sm font-medium text-gray-700">
+                  {{ delivery.carrier }}
+                </p>
+
+                <p class="mt-1 text-xs text-gray-400">
+                  {{ delivery.totalUnits }} units
+                </p>
+
+              </td>
+
+
+              <!-- Status -->
+              <td class="px-4 py-4">
+
+                <span
+                  class="inline-flex items-center gap-1.5 rounded-full border px-2.5 py-1 text-[11px] font-semibold"
+                  [ngClass]="getStatusClass(delivery.status)"
+                >
+
+                  <span
+                    class="h-1.5 w-1.5 rounded-full bg-current"
+                  ></span>
+
+                  {{ getStatusLabel(delivery.status) }}
+
+                </span>
+
+              </td>
+
+
+              <!-- Expected -->
+              <td class="px-4 py-4">
+
+                <p class="text-sm font-medium text-gray-700">
+                  {{ delivery.expectedDeliveryDate | date:'dd MMM yyyy' }}
+                </p>
+
+                <p class="mt-1 text-xs text-gray-400">
+                  {{ delivery.totalItems }} items
+                </p>
+
+              </td>
+
+
+              <!-- Priority -->
+              <td class="px-4 py-4">
+
+                <span
+                  class="inline-flex rounded-md px-2 py-1 text-[11px] font-semibold"
+                  [ngClass]="getPriorityClass(delivery.priority)"
+                >
+                  {{ getPriorityLabel(delivery.priority) }}
+                </span>
+
+              </td>
+
+
+              <!-- Actions -->
+              <td class="px-5 py-4">
+
+                <div class="flex items-center justify-end gap-1">
+
+                  <button
+                    type="button"
+                    title="Track Delivery"
+                    class="flex h-8 w-8 items-center justify-center rounded-lg text-gray-500 transition hover:bg-blue-50 hover:text-blue-600"
+                    (click)="onTrackDelivery(delivery)"
+                  >
+                    <span class="material-symbols-outlined text-[18px]">
+                      route
+                    </span>
+                  </button>
+
+                  <button
+                    type="button"
+                    title="View Details"
+                    class="flex h-8 w-8 items-center justify-center rounded-lg text-gray-500 transition hover:bg-gray-100 hover:text-gray-800"
+                    (click)="onViewDetails(delivery)"
+                  >
+                    <span class="material-symbols-outlined text-[18px]">
+                      visibility
+                    </span>
+                  </button>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <!-- Mobile / Tablet Cards -->
+    <div class="divide-y divide-gray-100 lg:hidden">
+
+      @for (
+        delivery of deliveries;
+        track trackByDelivery($index, delivery)
+      ) {
+
+        <div class="p-4">
+
+          <!-- Card Header -->
+          <div class="flex items-start justify-between gap-3">
+
+            <div>
+              <p class="text-sm font-semibold text-gray-900">
+                {{ delivery.orderNumber }}
+              </p>
+
+              <p class="mt-1 text-xs text-gray-500">
+                {{ delivery.trackingNumber }}
+              </p>
+            </div>
+
+            <span
+              class="inline-flex shrink-0 items-center gap-1.5 rounded-full border px-2.5 py-1 text-[10px] font-semibold"
+              [ngClass]="getStatusClass(delivery.status)"
+            >
+              <span class="h-1.5 w-1.5 rounded-full bg-current"></span>
+              {{ getStatusLabel(delivery.status) }}
+            </span>
+
+          </div>
+
+
+          <!-- Customer -->
+          <div class="mt-4">
+            <p class="text-sm font-medium text-gray-800">
+              {{ delivery.customerName }}
+            </p>
+
+            <p class="mt-1 text-xs text-gray-500">
+              {{ delivery.destination }}
+            </p>
+          </div>
+
+
+          <!-- Info -->
+          <div class="mt-4 grid grid-cols-2 gap-3">
+
+            <div>
+              <p class="text-[10px] uppercase tracking-wide text-gray-400">
+                Carrier
+              </p>
+
+              <p class="mt-1 text-xs font-medium text-gray-700">
+                {{ delivery.carrier }}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-[10px] uppercase tracking-wide text-gray-400">
+                Expected
+              </p>
+
+              <p class="mt-1 text-xs font-medium text-gray-700">
+                {{ delivery.expectedDeliveryDate | date:'dd MMM yyyy' }}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-[10px] uppercase tracking-wide text-gray-400">
+                Units
+              </p>
+
+              <p class="mt-1 text-xs font-medium text-gray-700">
+                {{ delivery.totalUnits }}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-[10px] uppercase tracking-wide text-gray-400">
+                Priority
+              </p>
+
+              <span
+                class="mt-1 inline-flex rounded-md px-2 py-1 text-[10px] font-semibold"
+                [ngClass]="getPriorityClass(delivery.priority)"
+              >
+                {{ getPriorityLabel(delivery.priority) }}
+              </span>
+            </div>
+
+          </div>
+
+
+          <!-- Actions -->
+          <div class="mt-4 flex gap-2">
+
+            <button
+              type="button"
+              class="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-gray-200 px-3 py-2 text-xs font-medium text-gray-700 transition hover:bg-gray-50"
+              (click)="onViewDetails(delivery)"
+            >
+              <span class="material-symbols-outlined text-[17px]">
+                visibility
+              </span>
+
+              View Details
+            </button>
+
+            <button
+              type="button"
+              class="flex flex-1 items-center justify-center gap-1.5 rounded-lg bg-gray-900 px-3 py-2 text-xs font-medium text-white transition hover:bg-gray-800"
+              (click)="onTrackDelivery(delivery)"
+            >
+              <span class="material-symbols-outlined text-[17px]">
+                route
+              </span>
+
+              Track
+            </button>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  }
+
+</section>
