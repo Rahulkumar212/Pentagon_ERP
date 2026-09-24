@@ -73,18 +73,18 @@ export const LOGISTICS_ROUTES: Routes = [
       ),
   },
 
-//   // =====================================================
-//   // STOCK MANAGEMENT
-//   // =====================================================
-//   {
-//     path: 'stock-management',
-//     loadComponent: () =>
-//       import(
-//         './stock-management/pages/stock-management.component'
-//       ).then(
-//         (m) => m.StockManagementComponent
-//       ),
-//   },
+  // =====================================================
+  // STOCK MANAGEMENT
+  // =====================================================
+  {
+    path: 'logistics/stock-management',
+    loadComponent: () =>
+      import(
+        './stock-management/pages/stock-management.component'
+      ).then(
+        (m) => m.StockManagementComponent
+      ),
+  },
 
 //   // =====================================================
 //   // STOCK MOVEMENT

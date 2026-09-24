@@ -1,0 +1,720 @@
+<div class="space-y-6">
+
+  <!-- Header -->
+  <div class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between">
+
+    <div>
+
+      <div class="flex items-center gap-3">
+
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-purple-50 text-purple-600"
+        >
+          <span class="material-symbols-outlined text-[24px]">
+            present_to_all
+          </span>
+        </div>
+
+        <div>
+
+          <h2 class="text-xl font-semibold text-gray-900">
+            Demo Units
+          </h2>
+
+          <p class="mt-1 text-sm text-gray-500">
+            Manage demo inventory issued to customers and sites
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <button
+      type="button"
+      (click)="onIssueDemo()"
+      class="inline-flex w-full items-center justify-center gap-2 rounded-xl bg-gray-900 px-4 py-2.5 text-sm font-semibold text-white transition hover:bg-gray-800 lg:w-auto"
+    >
+      <span class="material-symbols-outlined text-[19px]">
+        add
+      </span>
+
+      Issue Demo Unit
+    </button>
+
+  </div>
+
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+    <!-- Total Records -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+
+      <div class="flex items-center justify-between">
+
+        <div>
+
+          <p class="text-sm font-medium text-gray-500">
+            Demo Records
+          </p>
+
+          <p class="mt-2 text-2xl font-bold text-gray-900">
+            {{ totalDemoRecords }}
+          </p>
+
+        </div>
+
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-purple-50 text-purple-600"
+        >
+          <span class="material-symbols-outlined">
+            inventory
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Total Units -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+
+      <div class="flex items-center justify-between">
+
+        <div>
+
+          <p class="text-sm font-medium text-gray-500">
+            Demo Units
+          </p>
+
+          <p class="mt-2 text-2xl font-bold text-gray-900">
+            {{ totalDemoUnits | number }}
+          </p>
+
+        </div>
+
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600"
+        >
+          <span class="material-symbols-outlined">
+            devices
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Active Demos -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+
+      <div class="flex items-center justify-between">
+
+        <div>
+
+          <p class="text-sm font-medium text-gray-500">
+            Active Demos
+          </p>
+
+          <p class="mt-2 text-2xl font-bold text-purple-600">
+            {{ activeDemos }}
+          </p>
+
+        </div>
+
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-purple-50 text-purple-600"
+        >
+          <span class="material-symbols-outlined">
+            play_circle
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Available -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+
+      <div class="flex items-center justify-between">
+
+        <div>
+
+          <p class="text-sm font-medium text-gray-500">
+            Available for Demo
+          </p>
+
+          <p class="mt-2 text-2xl font-bold text-green-600">
+            {{ availableUnits }}
+          </p>
+
+        </div>
+
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-green-50 text-green-600"
+        >
+          <span class="material-symbols-outlined">
+            check_circle
+          </span>
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Filters -->
+  <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+
+    <div class="mb-4 flex items-center justify-between gap-3">
+
+      <div>
+
+        <h3 class="text-sm font-semibold text-gray-900">
+          Demo Filters
+        </h3>
+
+        <p class="mt-1 text-xs text-gray-500">
+          Search and filter demo units
+        </p>
+
+      </div>
+
+
+      <button
+        type="button"
+        (click)="clearFilters()"
+        class="shrink-0 text-sm font-medium text-red-600 hover:text-red-700"
+      >
+        Clear Filters
+      </button>
+
+    </div>
+
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+
+      <!-- Search -->
+      <div>
+
+        <label class="mb-1.5 block text-xs font-medium text-gray-600">
+          Search
+        </label>
+
+        <div class="relative">
+
+          <span
+            class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-[20px] text-gray-400"
+          >
+            search
+          </span>
+
+          <input
+            type="text"
+            [(ngModel)]="search"
+            placeholder="Search demo, customer, site..."
+            class="w-full rounded-xl border border-gray-200 bg-gray-50 py-2.5 pl-10 pr-3 text-sm text-gray-900 outline-none transition focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-100"
+          />
+
+        </div>
+
+      </div>
+
+
+      <!-- Status -->
+      <div>
+
+        <label class="mb-1.5 block text-xs font-medium text-gray-600">
+          Status
+        </label>
+
+        <select
+          [(ngModel)]="status"
+          class="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-700 outline-none focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-100"
+        >
+          <option value="ALL">All Status</option>
+          <option value="AVAILABLE">Available</option>
+          <option value="RESERVED">Reserved</option>
+          <option value="ISSUED">Issued</option>
+          <option value="RETURN_REQUESTED">Return Requested</option>
+          <option value="RETURNED">Returned</option>
+          <option value="OVERDUE">Overdue</option>
+          <option value="DAMAGED">Damaged</option>
+        </select>
+
+      </div>
+
+
+      <!-- Demo Type -->
+      <div>
+
+        <label class="mb-1.5 block text-xs font-medium text-gray-600">
+          Demo Type
+        </label>
+
+        <select
+          [(ngModel)]="demoType"
+          class="w-full rounded-xl border border-gray-200 bg-gray-50 px-3 py-2.5 text-sm text-gray-700 outline-none focus:border-red-500 focus:bg-white focus:ring-2 focus:ring-red-100"
+        >
+          <option value="ALL">All Demo Types</option>
+          <option value="CUSTOMER_DEMO">Customer Demo</option>
+          <option value="SITE_DEMO">Site Demo</option>
+          <option value="EXHIBITION">Exhibition</option>
+          <option value="TRIAL">Trial</option>
+          <option value="INTERNAL_DEMO">Internal Demo</option>
+        </select>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Desktop Table -->
+  <div
+    class="hidden overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm lg:block"
+  >
+
+    <div class="overflow-x-auto">
+
+      <table class="min-w-full">
+
+        <thead class="border-b border-gray-200 bg-gray-50">
+
+          <tr>
+
+            <th
+              class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Demo
+            </th>
+
+            <th
+              class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Item
+            </th>
+
+            <th
+              class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Customer / Site
+            </th>
+
+            <th
+              class="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Qty
+            </th>
+
+            <th
+              class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Demo Type
+            </th>
+
+            <th
+              class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Status
+            </th>
+
+            <th
+              class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Expected Return
+            </th>
+
+            <th
+              class="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Action
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody class="divide-y divide-gray-100">
+
+          @for (item of filteredDemoUnits; track item.id) {
+
+            <tr class="transition hover:bg-gray-50">
+
+              <!-- Demo -->
+              <td class="px-5 py-4">
+
+                <div>
+
+                  <p class="text-sm font-semibold text-gray-900">
+                    {{ item.demoNumber }}
+                  </p>
+
+                  <p class="mt-0.5 text-xs text-gray-500">
+                    {{ item.referenceNumber }}
+                  </p>
+
+                </div>
+
+              </td>
+
+
+              <!-- Item -->
+              <td class="px-5 py-4">
+
+                <div class="flex items-center gap-3">
+
+                  <div
+                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-purple-50 text-purple-600"
+                  >
+                    <span class="material-symbols-outlined text-[19px]">
+                      {{ item.icon }}
+                    </span>
+                  </div>
+
+                  <div>
+
+                    <p class="text-sm font-semibold text-gray-900">
+                      {{ item.itemName }}
+                    </p>
+
+                    <p class="mt-0.5 text-xs text-gray-500">
+                      {{ item.category }}
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+
+              <!-- Customer -->
+              <td class="px-5 py-4">
+
+                <p class="text-sm font-medium text-gray-800">
+                  {{ item.customerName }}
+                </p>
+
+                <p class="mt-0.5 text-xs text-gray-500">
+                  {{ item.siteName }}
+                </p>
+
+              </td>
+
+
+              <!-- Quantity -->
+              <td class="px-5 py-4 text-center">
+
+                <p class="text-sm font-semibold text-gray-900">
+                  {{ item.quantity | number }}
+                </p>
+
+                <p class="text-xs text-gray-400">
+                  {{ item.unit }}
+                </p>
+
+              </td>
+
+
+              <!-- Demo Type -->
+              <td class="px-5 py-4">
+
+                <span
+                  class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium"
+                  [ngClass]="getDemoTypeClass(item.demoType)"
+                >
+                  {{ getDemoTypeLabel(item.demoType) }}
+                </span>
+
+              </td>
+
+
+              <!-- Status -->
+              <td class="px-5 py-4">
+
+                <span
+                  class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium"
+                  [ngClass]="getStatusClass(item.status)"
+                >
+                  {{ getStatusLabel(item.status) }}
+                </span>
+
+              </td>
+
+
+              <!-- Return -->
+              <td class="px-5 py-4">
+
+                <div class="flex items-center gap-1.5">
+
+                  <span class="material-symbols-outlined text-[17px] text-gray-400">
+                    event
+                  </span>
+
+                  <span class="text-sm text-gray-700">
+                    {{ item.expectedReturnDate }}
+                  </span>
+
+                </div>
+
+              </td>
+
+
+              <!-- Action -->
+              <td class="px-5 py-4 text-right">
+
+                <button
+                  type="button"
+                  (click)="onViewDetails(item)"
+                  class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-700 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+                >
+                  <span class="material-symbols-outlined text-[17px]">
+                    visibility
+                  </span>
+
+                  View
+                </button>
+
+              </td>
+
+            </tr>
+
+          }
+
+
+          @empty {
+
+            <tr>
+
+              <td colspan="8" class="px-5 py-14 text-center">
+
+                <div class="flex flex-col items-center">
+
+                  <div
+                    class="flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-gray-400"
+                  >
+                    <span class="material-symbols-outlined text-[28px]">
+                      present_to_all
+                    </span>
+                  </div>
+
+                  <p class="mt-4 text-sm font-semibold text-gray-900">
+                    No demo units found
+                  </p>
+
+                  <p class="mt-1 text-xs text-gray-500">
+                    Try changing your search or filters.
+                  </p>
+
+                </div>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+  </div>
+
+
+  <!-- Mobile Cards -->
+  <div class="space-y-3 lg:hidden">
+
+    @for (item of filteredDemoUnits; track item.id) {
+
+      <div
+        class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm"
+      >
+
+        <!-- Header -->
+        <div class="flex items-start justify-between gap-3">
+
+          <div class="flex min-w-0 items-center gap-3">
+
+            <div
+              class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-purple-50 text-purple-600"
+            >
+              <span class="material-symbols-outlined">
+                {{ item.icon }}
+              </span>
+            </div>
+
+            <div class="min-w-0">
+
+              <p class="truncate text-sm font-semibold text-gray-900">
+                {{ item.itemName }}
+              </p>
+
+              <p class="mt-0.5 text-xs text-gray-500">
+                {{ item.demoNumber }}
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <span
+            class="shrink-0 rounded-full px-2.5 py-1 text-[11px] font-medium"
+            [ngClass]="getStatusClass(item.status)"
+          >
+            {{ getStatusLabel(item.status) }}
+          </span>
+
+        </div>
+
+
+        <!-- Customer -->
+        <div class="mt-4 rounded-xl bg-gray-50 p-3">
+
+          <p class="text-xs text-gray-400">
+            Customer / Site
+          </p>
+
+          <p class="mt-1 text-sm font-semibold text-gray-800">
+            {{ item.customerName }}
+          </p>
+
+          <p class="mt-0.5 text-xs text-gray-500">
+            {{ item.siteName }}
+          </p>
+
+        </div>
+
+
+        <!-- Stats -->
+        <div
+          class="mt-3 grid grid-cols-3 gap-3 border-y border-gray-100 py-3"
+        >
+
+          <div>
+
+            <p class="text-[11px] text-gray-400">
+              Quantity
+            </p>
+
+            <p class="mt-1 text-sm font-semibold text-gray-900">
+              {{ item.quantity }}
+            </p>
+
+          </div>
+
+
+          <div>
+
+            <p class="text-[11px] text-gray-400">
+              Type
+            </p>
+
+            <span
+              class="mt-1 inline-flex rounded-full px-2 py-0.5 text-[10px] font-medium"
+              [ngClass]="getDemoTypeClass(item.demoType)"
+            >
+              {{ getDemoTypeLabel(item.demoType) }}
+            </span>
+
+          </div>
+
+
+          <div>
+
+            <p class="text-[11px] text-gray-400">
+              Return
+            </p>
+
+            <p class="mt-1 text-xs font-medium text-gray-700">
+              {{ item.expectedReturnDate }}
+            </p>
+
+          </div>
+
+        </div>
+
+
+        <!-- Reference -->
+        <div class="mt-3 flex items-center justify-between">
+
+          <div>
+
+            <p class="text-[11px] text-gray-400">
+              Reference
+            </p>
+
+            <p class="mt-0.5 text-xs font-medium text-gray-700">
+              {{ item.referenceNumber }}
+            </p>
+
+          </div>
+
+          <span class="text-xs text-gray-400">
+            {{ item.issuedBy }}
+          </span>
+
+        </div>
+
+
+        <!-- Action -->
+        <button
+          type="button"
+          (click)="onViewDetails(item)"
+          class="mt-4 flex w-full items-center justify-center gap-2 rounded-xl border border-gray-200 py-2.5 text-xs font-semibold text-gray-700 hover:bg-gray-50"
+        >
+          <span class="material-symbols-outlined text-[17px]">
+            visibility
+          </span>
+
+          View Demo Details
+        </button>
+
+      </div>
+
+    }
+
+
+    @empty {
+
+      <div
+        class="rounded-2xl border border-gray-200 bg-white px-5 py-14 text-center shadow-sm"
+      >
+
+        <div
+          class="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-gray-100 text-gray-400"
+        >
+          <span class="material-symbols-outlined text-[28px]">
+            present_to_all
+          </span>
+        </div>
+
+        <p class="mt-4 text-sm font-semibold text-gray-900">
+          No demo units found
+        </p>
+
+        <p class="mt-1 text-xs text-gray-500">
+          Try changing your search or filters.
+        </p>
+
+      </div>
+
+    }
+
+  </div>
+
+</div>

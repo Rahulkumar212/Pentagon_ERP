@@ -1,0 +1,1020 @@
+<div class="space-y-6">
+
+  <!-- Header -->
+  <div
+    class="flex flex-col gap-4
+           sm:flex-row sm:items-center
+           sm:justify-between"
+  >
+
+    <div>
+      <h2 class="text-lg font-semibold text-gray-900">
+        Stock Exit
+      </h2>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Track materials leaving the main warehouse
+      </p>
+    </div>
+
+    <button
+      type="button"
+      (click)="onCreateExit()"
+      class="inline-flex items-center
+             justify-center gap-2
+             rounded-lg bg-gray-900
+             px-4 py-2.5
+             text-sm font-medium text-white
+             transition hover:bg-gray-800"
+    >
+      <span class="material-symbols-outlined text-[18px]">
+        output
+      </span>
+
+      New Stock Exit
+    </button>
+
+  </div>
+
+
+  <!-- Summary Cards -->
+  <div
+    class="grid grid-cols-1 gap-4
+           sm:grid-cols-2 xl:grid-cols-4"
+  >
+
+    <!-- Total Exits -->
+    <div
+      class="rounded-xl border border-gray-200
+             bg-white p-4 shadow-sm"
+    >
+
+      <div class="flex items-center justify-between">
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   uppercase tracking-wide
+                   text-gray-500"
+          >
+            Total Exits
+          </p>
+
+          <p
+            class="mt-2 text-2xl
+                   font-bold text-gray-900"
+          >
+            {{ totalExits }}
+          </p>
+
+        </div>
+
+        <div
+          class="flex h-10 w-10
+                 items-center justify-center
+                 rounded-lg bg-blue-50"
+        >
+          <span
+            class="material-symbols-outlined
+                   text-blue-600"
+          >
+            outbox
+          </span>
+        </div>
+
+      </div>
+
+      <p class="mt-3 text-xs text-gray-500">
+        Total stock exit records
+      </p>
+
+    </div>
+
+
+    <!-- Units Exited -->
+    <div
+      class="rounded-xl border border-gray-200
+             bg-white p-4 shadow-sm"
+    >
+
+      <div class="flex items-center justify-between">
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   uppercase tracking-wide
+                   text-gray-500"
+          >
+            Units Exited
+          </p>
+
+          <p
+            class="mt-2 text-2xl
+                   font-bold text-indigo-600"
+          >
+            {{ totalUnitsExited | number }}
+          </p>
+
+        </div>
+
+        <div
+          class="flex h-10 w-10
+                 items-center justify-center
+                 rounded-lg bg-indigo-50"
+        >
+          <span
+            class="material-symbols-outlined
+                   text-indigo-600"
+          >
+            inventory_2
+          </span>
+        </div>
+
+      </div>
+
+      <p class="mt-3 text-xs text-gray-500">
+        Total units moved out
+      </p>
+
+    </div>
+
+
+    <!-- Pending -->
+    <div
+      class="rounded-xl border border-gray-200
+             bg-white p-4 shadow-sm"
+    >
+
+      <div class="flex items-center justify-between">
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   uppercase tracking-wide
+                   text-gray-500"
+          >
+            Pending
+          </p>
+
+          <p
+            class="mt-2 text-2xl
+                   font-bold text-orange-600"
+          >
+            {{ pendingExits }}
+          </p>
+
+        </div>
+
+        <div
+          class="flex h-10 w-10
+                 items-center justify-center
+                 rounded-lg bg-orange-50"
+        >
+          <span
+            class="material-symbols-outlined
+                   text-orange-600"
+          >
+            pending_actions
+          </span>
+        </div>
+
+      </div>
+
+      <p class="mt-3 text-xs text-gray-500">
+        Awaiting approval or dispatch
+      </p>
+
+    </div>
+
+
+    <!-- Completed -->
+    <div
+      class="rounded-xl border border-gray-200
+             bg-white p-4 shadow-sm"
+    >
+
+      <div class="flex items-center justify-between">
+
+        <div>
+
+          <p
+            class="text-xs font-medium
+                   uppercase tracking-wide
+                   text-gray-500"
+          >
+            Completed
+          </p>
+
+          <p
+            class="mt-2 text-2xl
+                   font-bold text-green-600"
+          >
+            {{ completedExits }}
+          </p>
+
+        </div>
+
+        <div
+          class="flex h-10 w-10
+                 items-center justify-center
+                 rounded-lg bg-green-50"
+        >
+          <span
+            class="material-symbols-outlined
+                   text-green-600"
+          >
+            check_circle
+          </span>
+        </div>
+
+      </div>
+
+      <p class="mt-3 text-xs text-gray-500">
+        Successfully completed exits
+      </p>
+
+    </div>
+
+  </div>
+
+
+  <!-- Filters -->
+  <div
+    class="rounded-xl border border-gray-200
+           bg-white p-4 shadow-sm"
+  >
+
+    <div
+      class="grid grid-cols-1 gap-4
+             md:grid-cols-2 xl:grid-cols-4"
+    >
+
+      <!-- Search -->
+      <div class="xl:col-span-2">
+
+        <label
+          class="mb-1.5 block text-xs
+                 font-medium text-gray-600"
+        >
+          Search
+        </label>
+
+        <div class="relative">
+
+          <span
+            class="material-symbols-outlined
+                   absolute left-3 top-1/2
+                   -translate-y-1/2
+                   text-[19px] text-gray-400"
+          >
+            search
+          </span>
+
+          <input
+            type="text"
+            [(ngModel)]="search"
+            placeholder="Search exit, item, destination or reference..."
+            class="w-full rounded-lg
+                   border border-gray-200
+                   bg-white py-2.5 pl-10 pr-3
+                   text-sm text-gray-900
+                   outline-none transition
+                   placeholder:text-gray-400
+                   focus:border-gray-400
+                   focus:ring-2 focus:ring-gray-100"
+          />
+
+        </div>
+
+      </div>
+
+
+      <!-- Exit Type -->
+      <div>
+
+        <label
+          class="mb-1.5 block text-xs
+                 font-medium text-gray-600"
+        >
+          Exit Type
+        </label>
+
+        <select
+          [(ngModel)]="exitType"
+          class="w-full rounded-lg
+                 border border-gray-200
+                 bg-white px-3 py-2.5
+                 text-sm text-gray-700
+                 outline-none
+                 focus:border-gray-400
+                 focus:ring-2 focus:ring-gray-100"
+        >
+
+          <option value="ALL">
+            All Exit Types
+          </option>
+
+          <option value="SALES_ORDER">
+            Sales Order
+          </option>
+
+          <option value="GEM_ORDER">
+            GEM Order
+          </option>
+
+          <option value="DEMO">
+            Demo
+          </option>
+
+          <option value="OFFICE_USE">
+            Office Use
+          </option>
+
+          <option value="REPLACEMENT">
+            Replacement
+          </option>
+
+          <option value="INSTALLATION">
+            Installation
+          </option>
+
+          <option value="OTHER">
+            Other
+          </option>
+
+        </select>
+
+      </div>
+
+
+      <!-- Status -->
+      <div>
+
+        <label
+          class="mb-1.5 block text-xs
+                 font-medium text-gray-600"
+        >
+          Status
+        </label>
+
+        <select
+          [(ngModel)]="status"
+          class="w-full rounded-lg
+                 border border-gray-200
+                 bg-white px-3 py-2.5
+                 text-sm text-gray-700
+                 outline-none
+                 focus:border-gray-400
+                 focus:ring-2 focus:ring-gray-100"
+        >
+
+          <option value="ALL">
+            All Status
+          </option>
+
+          <option value="PENDING">
+            Pending
+          </option>
+
+          <option value="APPROVED">
+            Approved
+          </option>
+
+          <option value="COMPLETED">
+            Completed
+          </option>
+
+          <option value="REJECTED">
+            Rejected
+          </option>
+
+          <option value="CANCELLED">
+            Cancelled
+          </option>
+
+        </select>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  <!-- Stock Exit List -->
+  <div
+    class="overflow-hidden rounded-xl
+           border border-gray-200
+           bg-white shadow-sm"
+  >
+
+    <!-- Header -->
+    <div
+      class="flex flex-col gap-2
+             border-b border-gray-200
+             px-5 py-4
+             sm:flex-row
+             sm:items-center
+             sm:justify-between"
+    >
+
+      <div>
+
+        <h3 class="text-sm font-semibold text-gray-900">
+          Stock Exit Records
+        </h3>
+
+        <p class="mt-1 text-xs text-gray-500">
+          {{ filteredExits.length }} record(s) found
+        </p>
+
+      </div>
+
+      <span class="text-xs text-gray-500">
+        Main Warehouse
+      </span>
+
+    </div>
+
+
+    <!-- Desktop Table -->
+    <div class="hidden overflow-x-auto md:block">
+
+      <table class="w-full min-w-[1150px]">
+
+        <thead class="bg-gray-50">
+
+          <tr class="border-b border-gray-200">
+
+            <th
+              class="px-5 py-3 text-left text-xs
+                     font-semibold uppercase
+                     tracking-wide text-gray-500"
+            >
+              Exit
+            </th>
+
+            <th
+              class="px-5 py-3 text-left text-xs
+                     font-semibold uppercase
+                     tracking-wide text-gray-500"
+            >
+              Item
+            </th>
+
+            <th
+              class="px-5 py-3 text-left text-xs
+                     font-semibold uppercase
+                     tracking-wide text-gray-500"
+            >
+              Exit Type
+            </th>
+
+            <th
+              class="px-5 py-3 text-right text-xs
+                     font-semibold uppercase
+                     tracking-wide text-gray-500"
+            >
+              Quantity
+            </th>
+
+            <th
+              class="px-5 py-3 text-left text-xs
+                     font-semibold uppercase
+                     tracking-wide text-gray-500"
+            >
+              Destination
+            </th>
+
+            <th
+              class="px-5 py-3 text-left text-xs
+                     font-semibold uppercase
+                     tracking-wide text-gray-500"
+            >
+              Reference
+            </th>
+
+            <th
+              class="px-5 py-3 text-left text-xs
+                     font-semibold uppercase
+                     tracking-wide text-gray-500"
+            >
+              Status
+            </th>
+
+            <th
+              class="px-5 py-3 text-right text-xs
+                     font-semibold uppercase
+                     tracking-wide text-gray-500"
+            >
+              Action
+            </th>
+
+          </tr>
+
+        </thead>
+
+
+        <tbody class="divide-y divide-gray-100">
+
+          @for (exit of filteredExits; track exit.id) {
+
+            <tr class="transition hover:bg-gray-50">
+
+              <!-- Exit -->
+              <td class="px-5 py-4">
+
+                <p
+                  class="text-sm
+                         font-semibold text-gray-900"
+                >
+                  {{ exit.exitNumber }}
+                </p>
+
+                <p
+                  class="mt-1 text-xs
+                         text-gray-500"
+                >
+                  {{ exit.exitDate }}
+                </p>
+
+              </td>
+
+
+              <!-- Item -->
+              <td class="px-5 py-4">
+
+                <div class="flex items-center gap-3">
+
+                  <div
+                    class="flex h-9 w-9
+                           shrink-0
+                           items-center
+                           justify-center
+                           rounded-lg bg-gray-50"
+                  >
+
+                    <span
+                      class="material-symbols-outlined
+                             text-[19px]
+                             text-gray-600"
+                    >
+                      {{ exit.icon }}
+                    </span>
+
+                  </div>
+
+                  <div>
+
+                    <p
+                      class="text-sm
+                             font-medium
+                             text-gray-900"
+                    >
+                      {{ exit.itemName }}
+                    </p>
+
+                    <p
+                      class="mt-1 text-xs
+                             text-gray-500"
+                    >
+                      {{ exit.category }}
+                    </p>
+
+                  </div>
+
+                </div>
+
+              </td>
+
+
+              <!-- Exit Type -->
+              <td class="px-5 py-4">
+
+                <span
+                  class="inline-flex rounded-full
+                         px-2.5 py-1
+                         text-xs font-medium"
+                  [ngClass]="
+                    getExitTypeClass(exit.exitType)
+                  "
+                >
+                  {{ getExitTypeLabel(exit.exitType) }}
+                </span>
+
+              </td>
+
+
+              <!-- Quantity -->
+              <td
+                class="px-5 py-4 text-right"
+              >
+
+                <p
+                  class="text-sm
+                         font-semibold
+                         text-gray-900"
+                >
+                  {{ exit.quantity | number }}
+                </p>
+
+                <p
+                  class="mt-1 text-xs
+                         text-gray-500"
+                >
+                  {{ exit.unit }}
+                </p>
+
+              </td>
+
+
+              <!-- Destination -->
+              <td class="px-5 py-4">
+
+                <p
+                  class="max-w-[190px]
+                         truncate text-sm
+                         text-gray-700"
+                >
+                  {{ exit.destination }}
+                </p>
+
+              </td>
+
+
+              <!-- Reference -->
+              <td class="px-5 py-4">
+
+                <p
+                  class="text-sm
+                         font-medium
+                         text-gray-700"
+                >
+                  {{ exit.referenceNumber }}
+                </p>
+
+                <p
+                  class="mt-1 text-xs
+                         text-gray-500"
+                >
+                  {{ exit.referenceType }}
+                </p>
+
+              </td>
+
+
+              <!-- Status -->
+              <td class="px-5 py-4">
+
+                <span
+                  class="inline-flex rounded-full
+                         px-2.5 py-1
+                         text-xs font-medium"
+                  [ngClass]="
+                    getStatusClass(exit.status)
+                  "
+                >
+                  {{ getStatusLabel(exit.status) }}
+                </span>
+
+              </td>
+
+
+              <!-- Action -->
+              <td
+                class="px-5 py-4
+                       text-right"
+              >
+
+                <button
+                  type="button"
+                  (click)="onViewDetails(exit)"
+                  class="inline-flex
+                         items-center
+                         gap-1.5 rounded-lg
+                         border border-gray-200
+                         px-3 py-1.5
+                         text-xs font-medium
+                         text-gray-700
+                         transition
+                         hover:bg-gray-50"
+                >
+
+                  <span
+                    class="material-symbols-outlined
+                           text-[16px]"
+                  >
+                    visibility
+                  </span>
+
+                  View
+
+                </button>
+
+              </td>
+
+            </tr>
+
+          }
+
+
+          <!-- Empty -->
+          @if (filteredExits.length === 0) {
+
+            <tr>
+
+              <td
+                colspan="8"
+                class="px-5 py-12
+                       text-center"
+              >
+
+                <span
+                  class="material-symbols-outlined
+                         text-4xl
+                         text-gray-300"
+                >
+                  outbox
+                </span>
+
+                <p
+                  class="mt-2 text-sm
+                         font-medium
+                         text-gray-700"
+                >
+                  No stock exits found
+                </p>
+
+                <p
+                  class="mt-1 text-xs
+                         text-gray-500"
+                >
+                  Try changing your search
+                  or filters.
+                </p>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+
+    <!-- Mobile Cards -->
+    <div
+      class="divide-y
+             divide-gray-100
+             md:hidden"
+    >
+
+      @for (exit of filteredExits; track exit.id) {
+
+        <div class="p-4">
+
+          <!-- Top -->
+          <div
+            class="flex items-start
+                   justify-between gap-3"
+          >
+
+            <div
+              class="flex items-start
+                     gap-3"
+            >
+
+              <div
+                class="flex h-10 w-10
+                       shrink-0
+                       items-center
+                       justify-center
+                       rounded-lg
+                       bg-gray-50"
+              >
+
+                <span
+                  class="material-symbols-outlined
+                         text-gray-600"
+                >
+                  {{ exit.icon }}
+                </span>
+
+              </div>
+
+              <div>
+
+                <p
+                  class="text-sm
+                         font-semibold
+                         text-gray-900"
+                >
+                  {{ exit.itemName }}
+                </p>
+
+                <p
+                  class="mt-1 text-xs
+                         text-gray-500"
+                >
+                  {{ exit.exitNumber }}
+                </p>
+
+              </div>
+
+            </div>
+
+
+            <span
+              class="shrink-0
+                     rounded-full
+                     px-2.5 py-1
+                     text-[11px]
+                     font-medium"
+              [ngClass]="
+                getStatusClass(exit.status)
+              "
+            >
+              {{ getStatusLabel(exit.status) }}
+            </span>
+
+          </div>
+
+
+          <!-- Information -->
+          <div
+            class="mt-4 grid
+                   grid-cols-2 gap-3"
+          >
+
+            <div
+              class="rounded-lg
+                     bg-gray-50 p-3"
+            >
+
+              <p
+                class="text-[11px]
+                       text-gray-500"
+              >
+                Quantity
+              </p>
+
+              <p
+                class="mt-1 text-sm
+                       font-semibold
+                       text-gray-900"
+              >
+                {{ exit.quantity | number }}
+                {{ exit.unit }}
+              </p>
+
+            </div>
+
+
+            <div
+              class="rounded-lg
+                     bg-gray-50 p-3"
+            >
+
+              <p
+                class="text-[11px]
+                       text-gray-500"
+              >
+                Exit Type
+              </p>
+
+              <span
+                class="mt-1 inline-flex
+                       rounded-full
+                       px-2 py-0.5
+                       text-[11px]
+                       font-medium"
+                [ngClass]="
+                  getExitTypeClass(exit.exitType)
+                "
+              >
+                {{ getExitTypeLabel(exit.exitType) }}
+              </span>
+
+            </div>
+
+
+            <div
+              class="rounded-lg
+                     bg-gray-50 p-3"
+            >
+
+              <p
+                class="text-[11px]
+                       text-gray-500"
+              >
+                Destination
+              </p>
+
+              <p
+                class="mt-1 truncate
+                       text-sm
+                       font-semibold
+                       text-gray-900"
+              >
+                {{ exit.destination }}
+              </p>
+
+            </div>
+
+
+            <div
+              class="rounded-lg
+                     bg-gray-50 p-3"
+            >
+
+              <p
+                class="text-[11px]
+                       text-gray-500"
+              >
+                Reference
+              </p>
+
+              <p
+                class="mt-1 text-sm
+                       font-semibold
+                       text-gray-900"
+              >
+                {{ exit.referenceNumber }}
+              </p>
+
+            </div>
+
+          </div>
+
+
+          <!-- Action -->
+          <button
+            type="button"
+            (click)="onViewDetails(exit)"
+            class="mt-4 flex w-full
+                   items-center
+                   justify-center
+                   gap-2 rounded-lg
+                   border border-gray-200
+                   px-3 py-2
+                   text-xs font-medium
+                   text-gray-700
+                   transition
+                   hover:bg-gray-50"
+          >
+
+            <span
+              class="material-symbols-outlined
+                     text-[17px]"
+            >
+              visibility
+            </span>
+
+            View Stock Exit Details
+
+          </button>
+
+        </div>
+
+      }
+
+
+      @if (filteredExits.length === 0) {
+
+        <div
+          class="px-5 py-12
+                 text-center"
+        >
+
+          <span
+            class="material-symbols-outlined
+                   text-4xl
+                   text-gray-300"
+          >
+            outbox
+          </span>
+
+          <p
+            class="mt-2 text-sm
+                   font-medium
+                   text-gray-700"
+          >
+            No stock exits found
+          </p>
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</div>

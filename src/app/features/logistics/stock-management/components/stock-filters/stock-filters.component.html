@@ -1,0 +1,299 @@
+<section
+  class="rounded-xl border border-gray-200 bg-white shadow-sm"
+>
+
+  <!-- ===================================================== -->
+  <!-- HEADER -->
+  <!-- ===================================================== -->
+
+  <div
+    class="flex flex-col gap-3 border-b border-gray-100 px-4 py-4 sm:flex-row sm:items-center sm:justify-between"
+  >
+
+    <div>
+
+      <div class="flex items-center gap-2">
+
+        <div
+          class="flex h-9 w-9 items-center justify-center rounded-lg bg-gray-100"
+        >
+
+          <span
+            class="material-symbols-outlined text-[19px] text-gray-700"
+          >
+            filter_alt
+          </span>
+
+        </div>
+
+
+        <div>
+
+          <h3
+            class="text-sm font-semibold text-gray-900"
+          >
+            Stock Filters
+          </h3>
+
+          <p
+            class="mt-0.5 text-xs text-gray-500"
+          >
+            Filter inventory by category, status and condition
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Clear Filters -->
+
+    @if (hasActiveFilters()) {
+
+      <button
+        type="button"
+        class="inline-flex w-fit items-center gap-1.5 rounded-lg px-3 py-2 text-xs font-medium text-gray-600 transition hover:bg-gray-100 hover:text-gray-900"
+        (click)="clearFilters()"
+      >
+
+        <span
+          class="material-symbols-outlined text-[16px]"
+        >
+          filter_alt_off
+        </span>
+
+        Clear Filters
+
+      </button>
+
+    }
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- FILTER BODY -->
+  <!-- ===================================================== -->
+
+  <div
+    class="grid grid-cols-1 gap-4 p-4 md:grid-cols-2 xl:grid-cols-4"
+  >
+
+    <!-- =================================================== -->
+    <!-- SEARCH -->
+    <!-- =================================================== -->
+
+    <div class="md:col-span-2 xl:col-span-1">
+
+      <label
+        class="mb-1.5 block text-xs font-medium text-gray-700"
+      >
+        Search Stock
+      </label>
+
+
+      <div class="relative">
+
+        <span
+          class="material-symbols-outlined pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[18px] text-gray-400"
+        >
+          search
+        </span>
+
+
+        <input
+          type="text"
+          [(ngModel)]="filters.search"
+          (ngModelChange)="onFilterChange()"
+          placeholder="Search product, SKU..."
+          class="h-10 w-full rounded-lg border border-gray-200 bg-white pl-10 pr-3 text-sm text-gray-800 outline-none transition placeholder:text-gray-400 focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
+        />
+
+      </div>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- CATEGORY -->
+    <!-- =================================================== -->
+
+    <div>
+
+      <label
+        class="mb-1.5 block text-xs font-medium text-gray-700"
+      >
+        Category
+      </label>
+
+
+      <select
+        [(ngModel)]="filters.category"
+        (ngModelChange)="onFilterChange()"
+        class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
+      >
+
+        @for (
+          category of filterOptions.categories;
+          track category.value
+        ) {
+
+          <option
+            [value]="category.value"
+          >
+            {{ category.label }}
+          </option>
+
+        }
+
+      </select>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- STATUS -->
+    <!-- =================================================== -->
+
+    <div>
+
+      <label
+        class="mb-1.5 block text-xs font-medium text-gray-700"
+      >
+        Stock Status
+      </label>
+
+
+      <select
+        [(ngModel)]="filters.status"
+        (ngModelChange)="onFilterChange()"
+        class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
+      >
+
+        @for (
+          status of filterOptions.statuses;
+          track status.value
+        ) {
+
+          <option
+            [value]="status.value"
+          >
+            {{ status.label }}
+          </option>
+
+        }
+
+      </select>
+
+    </div>
+
+
+    <!-- =================================================== -->
+    <!-- CONDITION -->
+    <!-- =================================================== -->
+
+    <div>
+
+      <label
+        class="mb-1.5 block text-xs font-medium text-gray-700"
+      >
+        Condition
+      </label>
+
+
+      <select
+        [(ngModel)]="filters.condition"
+        (ngModelChange)="onFilterChange()"
+        class="h-10 w-full rounded-lg border border-gray-200 bg-white px-3 text-sm text-gray-700 outline-none transition focus:border-gray-400 focus:ring-2 focus:ring-gray-100"
+      >
+
+        @for (
+          condition of filterOptions.conditions;
+          track condition.value
+        ) {
+
+          <option
+            [value]="condition.value"
+          >
+            {{ condition.label }}
+          </option>
+
+        }
+
+      </select>
+
+    </div>
+
+  </div>
+
+
+  <!-- ===================================================== -->
+  <!-- ACTIVE FILTER INDICATOR -->
+  <!-- ===================================================== -->
+
+  @if (hasActiveFilters()) {
+
+    <div
+      class="flex flex-wrap items-center gap-2 border-t border-gray-100 bg-gray-50 px-4 py-3"
+    >
+
+      <span
+        class="text-[11px] font-medium text-gray-500"
+      >
+        Active filters:
+      </span>
+
+
+      @if (filters.search.trim()) {
+
+        <span
+          class="rounded-full bg-blue-50 px-2.5 py-1 text-[11px] font-medium text-blue-700"
+        >
+          Search: {{ filters.search }}
+        </span>
+
+      }
+
+
+      @if (filters.category !== 'ALL') {
+
+        <span
+          class="rounded-full bg-indigo-50 px-2.5 py-1 text-[11px] font-medium text-indigo-700"
+        >
+          Category:
+          {{ filters.category }}
+        </span>
+
+      }
+
+
+      @if (filters.status !== 'ALL') {
+
+        <span
+          class="rounded-full bg-orange-50 px-2.5 py-1 text-[11px] font-medium text-orange-700"
+        >
+          Status:
+          {{ filters.status }}
+        </span>
+
+      }
+
+
+      @if (filters.condition !== 'ALL') {
+
+        <span
+          class="rounded-full bg-purple-50 px-2.5 py-1 text-[11px] font-medium text-purple-700"
+        >
+          Condition:
+          {{ filters.condition }}
+        </span>
+
+      }
+
+    </div>
+
+  }
+
+</section>
