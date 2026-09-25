@@ -1,0 +1,326 @@
+
+<div class="space-y-5">
+
+  <!-- Header -->
+  <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h2 class="text-lg font-semibold text-gray-900">
+        Delayed Delivery Performance
+      </h2>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Monitor delayed shipments and identify operational issues
+      </p>
+    </div>
+
+    <div
+      class="inline-flex w-fit items-center gap-2 rounded-full border border-orange-200 bg-orange-50 px-3 py-1.5 text-xs font-semibold text-orange-700"
+    >
+      <span class="material-symbols-outlined text-[17px]">
+        warning
+      </span>
+
+      {{ totalDelayed }} Delayed
+    </div>
+  </div>
+
+  <!-- Summary -->
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+
+    <!-- Total Delayed -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50">
+          <span class="material-symbols-outlined text-orange-600">
+            local_shipping
+          </span>
+        </div>
+
+        <div>
+          <p class="text-xs font-medium text-gray-500">
+            Total Delayed
+          </p>
+
+          <p class="mt-1 text-2xl font-bold text-gray-900">
+            {{ totalDelayed }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Critical -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50">
+          <span class="material-symbols-outlined text-red-600">
+            error
+          </span>
+        </div>
+
+        <div>
+          <p class="text-xs font-medium text-gray-500">
+            Critical Delays
+          </p>
+
+          <p class="mt-1 text-2xl font-bold text-red-600">
+            {{ criticalCount }}
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Average Delay -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+      <div class="flex items-center gap-3">
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50">
+          <span class="material-symbols-outlined text-blue-600">
+            schedule
+          </span>
+        </div>
+
+        <div>
+          <p class="text-xs font-medium text-gray-500">
+            Average Delay
+          </p>
+
+          <p class="mt-1 text-2xl font-bold text-blue-600">
+            {{ averageDelay }} Days
+          </p>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Delayed Shipments -->
+  <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+
+    <!-- Table Header -->
+    <div class="border-b border-gray-200 px-5 py-4">
+      <h3 class="text-sm font-semibold text-gray-900">
+        Delayed Shipments
+      </h3>
+
+      <p class="mt-1 text-xs text-gray-500">
+        Shipments requiring monitoring or corrective action
+      </p>
+    </div>
+
+    <!-- Desktop Table -->
+    <div class="hidden overflow-x-auto lg:block">
+      <table class="w-full min-w-[1100px]">
+        <thead>
+          <tr class="border-b border-gray-200 bg-gray-50 text-left">
+            <th class="px-5 py-3 text-xs font-semibold text-gray-500">
+              Shipment
+            </th>
+
+            <th class="px-5 py-3 text-xs font-semibold text-gray-500">
+              Customer
+            </th>
+
+            <th class="px-5 py-3 text-xs font-semibold text-gray-500">
+              Destination
+            </th>
+
+            <th class="px-5 py-3 text-xs font-semibold text-gray-500">
+              Delay
+            </th>
+
+            <th class="px-5 py-3 text-xs font-semibold text-gray-500">
+              Reason
+            </th>
+
+            <th class="px-5 py-3 text-xs font-semibold text-gray-500">
+              Priority
+            </th>
+
+            <th class="px-5 py-3 text-xs font-semibold text-gray-500">
+              Status
+            </th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-100">
+
+          @for (shipment of delayedShipments; track shipment.id) {
+            <tr class="transition-colors hover:bg-gray-50">
+
+              <!-- Shipment -->
+              <td class="px-5 py-4">
+                <div>
+                  <p class="text-sm font-semibold text-gray-900">
+                    {{ shipment.trackingNumber }}
+                  </p>
+
+                  <p class="mt-1 text-xs text-gray-500">
+                    {{ shipment.orderNumber }}
+                  </p>
+
+                  <p class="mt-1 text-xs text-gray-400">
+                    {{ shipment.carrier }}
+                  </p>
+                </div>
+              </td>
+
+              <!-- Customer -->
+              <td class="px-5 py-4">
+                <p class="max-w-[190px] truncate text-sm font-medium text-gray-800">
+                  {{ shipment.customerName }}
+                </p>
+              </td>
+
+              <!-- Destination -->
+              <td class="px-5 py-4">
+                <div class="flex items-center gap-1.5">
+                  <span class="material-symbols-outlined text-[17px] text-gray-400">
+                    location_on
+                  </span>
+
+                  <span class="text-sm text-gray-700">
+                    {{ shipment.destination }}
+                  </span>
+                </div>
+              </td>
+
+              <!-- Delay -->
+              <td class="px-5 py-4">
+                <span class="text-sm font-bold text-red-600">
+                  {{ shipment.delayDays }} Days
+                </span>
+
+                <p class="mt-1 text-xs text-gray-400">
+                  Expected {{ shipment.expectedDate }}
+                </p>
+              </td>
+
+              <!-- Reason -->
+              <td class="px-5 py-4">
+                <span class="text-sm text-gray-700">
+                  {{ getReasonLabel(shipment.reason) }}
+                </span>
+              </td>
+
+              <!-- Priority -->
+              <td class="px-5 py-4">
+                <span
+                  class="rounded-full px-2.5 py-1 text-[11px] font-semibold"
+                  [ngClass]="getPriorityClass(shipment.priority)"
+                >
+                  {{ shipment.priority }}
+                </span>
+              </td>
+
+              <!-- Status -->
+              <td class="px-5 py-4">
+                <span
+                  class="rounded-full px-2.5 py-1 text-[11px] font-semibold"
+                  [ngClass]="getStatusClass(shipment.status)"
+                >
+                  {{ getStatusLabel(shipment.status) }}
+                </span>
+              </td>
+
+            </tr>
+          }
+
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Mobile / Tablet Cards -->
+    <div class="divide-y divide-gray-100 lg:hidden">
+
+      @for (shipment of delayedShipments; track shipment.id) {
+        <div class="p-5">
+
+          <!-- Top -->
+          <div class="flex items-start justify-between gap-3">
+
+            <div>
+              <p class="text-sm font-semibold text-gray-900">
+                {{ shipment.trackingNumber }}
+              </p>
+
+              <p class="mt-1 text-xs text-gray-500">
+                {{ shipment.orderNumber }}
+              </p>
+            </div>
+
+            <span
+              class="shrink-0 rounded-full px-2.5 py-1 text-[11px] font-semibold"
+              [ngClass]="getStatusClass(shipment.status)"
+            >
+              {{ getStatusLabel(shipment.status) }}
+            </span>
+
+          </div>
+
+          <!-- Customer -->
+          <div class="mt-4">
+            <p class="text-xs text-gray-400">
+              Customer
+            </p>
+
+            <p class="mt-1 text-sm font-medium text-gray-800">
+              {{ shipment.customerName }}
+            </p>
+          </div>
+
+          <!-- Details -->
+          <div class="mt-4 grid grid-cols-2 gap-4">
+
+            <div>
+              <p class="text-xs text-gray-400">
+                Destination
+              </p>
+
+              <p class="mt-1 text-sm text-gray-700">
+                {{ shipment.destination }}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-xs text-gray-400">
+                Delay
+              </p>
+
+              <p class="mt-1 text-sm font-bold text-red-600">
+                {{ shipment.delayDays }} Days
+              </p>
+            </div>
+
+            <div>
+              <p class="text-xs text-gray-400">
+                Reason
+              </p>
+
+              <p class="mt-1 text-sm text-gray-700">
+                {{ getReasonLabel(shipment.reason) }}
+              </p>
+            </div>
+
+            <div>
+              <p class="text-xs text-gray-400">
+                Priority
+              </p>
+
+              <span
+                class="mt-1 inline-block rounded-full px-2.5 py-1 text-[11px] font-semibold"
+                [ngClass]="getPriorityClass(shipment.priority)"
+              >
+                {{ shipment.priority }}
+              </span>
+            </div>
+
+          </div>
+
+        </div>
+      }
+
+    </div>
+
+  </div>
+
+</div>
+

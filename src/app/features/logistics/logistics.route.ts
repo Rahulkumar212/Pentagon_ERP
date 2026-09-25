@@ -86,44 +86,44 @@ export const LOGISTICS_ROUTES: Routes = [
       ),
   },
 
-//   // =====================================================
-//   // STOCK MOVEMENT
-//   // =====================================================
-//   {
-//     path: 'stock-movement',
-//     loadComponent: () =>
-//       import(
-//         './stock-movement/pages/stock-movement.component'
-//       ).then(
-//         (m) => m.StockMovementComponent
-//       ),
-//   },
+  // =====================================================
+  // STOCK MOVEMENT
+  // =====================================================
+  {
+    path: 'logistics/stock-movement',
+    loadComponent: () =>
+      import(
+        './stock-movement/pages/stock-movement.component'
+      ).then(
+        (m) => m.StockMovementComponent
+      ),
+  },
 
-//   // =====================================================
-//   // DELIVERY PERFORMANCE
-//   // =====================================================
-//   {
-//     path: 'delivery-performance',
-//     loadComponent: () =>
-//       import(
-//         './delivery-performance/pages/delivery-performance.component'
-//       ).then(
-//         (m) => m.DeliveryPerformanceComponent
-//       ),
-//   },
+  // =====================================================
+  // DELIVERY PERFORMANCE
+  // =====================================================
+  {
+    path: 'logistics/delivery-performance',
+    loadComponent: () =>
+      import(
+        './delivery-performance/pages/delivery-performance.component'
+      ).then(
+        (m) => m.DeliveryPerformanceComponent
+      ),
+  },
 
-//   // =====================================================
-//   // REPORTS
-//   // =====================================================
-//   {
-//     path: 'reports',
-//     loadComponent: () =>
-//       import(
-//         './logistics-reports/pages/logistics-reports.component'
-//       ).then(
-//         (m) => m.LogisticsReportsComponent
-//       ),
-//   },
+  // =====================================================
+  // REPORTS
+  // =====================================================
+  {
+    path: 'logistics/reports',
+    loadComponent: () =>
+      import(
+        './reports/pages/reports.component'
+      ).then(
+        (m) => m.ReportsComponent
+      ),
+  },
 
   
   {

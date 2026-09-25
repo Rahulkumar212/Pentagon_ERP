@@ -1,0 +1,861 @@
+<div class="space-y-6">
+
+  <!-- Header -->
+  <div
+    class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
+  >
+    <div>
+      <div class="flex items-center gap-3">
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-red-50 text-red-600"
+        >
+          <span class="material-symbols-outlined text-[24px]">
+            receipt_long
+          </span>
+        </div>
+
+        <div>
+          <h2 class="text-xl font-semibold text-gray-900">
+            Order Report
+          </h2>
+
+          <p class="mt-1 text-sm text-gray-500">
+            Overview of orders received from GEM, Sales and Directors
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="inline-flex w-fit items-center gap-2 rounded-full border border-gray-200 bg-white px-4 py-2 text-sm font-medium text-gray-700"
+    >
+      <span class="material-symbols-outlined text-[18px] text-red-500">
+        warehouse
+      </span>
+
+      Main Warehouse
+    </div>
+  </div>
+
+  <!-- Summary Cards -->
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+    <!-- Total Orders -->
+    <div
+      class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-500">
+            Total Orders
+          </p>
+
+          <p class="mt-2 text-2xl font-bold text-gray-900">
+            {{ summary.totalOrders | number }}
+          </p>
+
+          <p class="mt-1 text-xs text-gray-400">
+            All orders
+          </p>
+        </div>
+
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600"
+        >
+          <span class="material-symbols-outlined">
+            shopping_cart
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Pending -->
+    <div
+      class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-500">
+            Pending
+          </p>
+
+          <p class="mt-2 text-2xl font-bold text-yellow-600">
+            {{ summary.pendingOrders | number }}
+          </p>
+
+          <p class="mt-1 text-xs text-gray-400">
+            Awaiting action
+          </p>
+        </div>
+
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-yellow-50 text-yellow-600"
+        >
+          <span class="material-symbols-outlined">
+            pending_actions
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Processing -->
+    <div
+      class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-500">
+            Processing
+          </p>
+
+          <p class="mt-2 text-2xl font-bold text-blue-600">
+            {{ summary.processingOrders | number }}
+          </p>
+
+          <p class="mt-1 text-xs text-gray-400">
+            Orders being processed
+          </p>
+        </div>
+
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600"
+        >
+          <span class="material-symbols-outlined">
+            sync
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delivered -->
+    <div
+      class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-500">
+            Delivered
+          </p>
+
+          <p class="mt-2 text-2xl font-bold text-green-600">
+            {{ summary.deliveredOrders | number }}
+          </p>
+
+          <p class="mt-1 text-xs text-gray-400">
+            Successfully completed
+          </p>
+        </div>
+
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-green-50 text-green-600"
+        >
+          <span class="material-symbols-outlined">
+            check_circle
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Source Overview -->
+  <div
+    class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+  >
+    <div class="mb-5">
+      <h3 class="text-sm font-semibold text-gray-900">
+        Order Sources
+      </h3>
+
+      <p class="mt-1 text-xs text-gray-500">
+        Distribution of orders by source
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 gap-4 md:grid-cols-3">
+
+      <!-- GEM -->
+      <div
+        class="rounded-xl border border-gray-100 bg-gray-50 p-4"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-lg bg-purple-50 text-purple-600"
+            >
+              <span class="material-symbols-outlined">
+                account_balance
+              </span>
+            </div>
+
+            <div>
+              <p class="text-sm font-semibold text-gray-900">
+                GEM
+              </p>
+
+              <p class="text-xs text-gray-500">
+                Government orders
+              </p>
+            </div>
+          </div>
+
+          <span class="text-lg font-bold text-purple-600">
+            {{ getSourceCount('GEM') }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Sales -->
+      <div
+        class="rounded-xl border border-gray-100 bg-gray-50 p-4"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-lg bg-blue-50 text-blue-600"
+            >
+              <span class="material-symbols-outlined">
+                storefront
+              </span>
+            </div>
+
+            <div>
+              <p class="text-sm font-semibold text-gray-900">
+                Sales
+              </p>
+
+              <p class="text-xs text-gray-500">
+                Sales team orders
+              </p>
+            </div>
+          </div>
+
+          <span class="text-lg font-bold text-blue-600">
+            {{ getSourceCount('SALES') }}
+          </span>
+        </div>
+      </div>
+
+      <!-- Director -->
+      <div
+        class="rounded-xl border border-gray-100 bg-gray-50 p-4"
+      >
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-3">
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-lg bg-orange-50 text-orange-600"
+            >
+              <span class="material-symbols-outlined">
+                supervisor_account
+              </span>
+            </div>
+
+            <div>
+              <p class="text-sm font-semibold text-gray-900">
+                Director
+              </p>
+
+              <p class="text-xs text-gray-500">
+                Director initiated orders
+              </p>
+            </div>
+          </div>
+
+          <span class="text-lg font-bold text-orange-600">
+            {{ getSourceCount('DIRECTOR') }}
+          </span>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Order Table -->
+  <div
+    class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+  >
+    <div
+      class="flex flex-col gap-3 border-b border-gray-200 px-5 py-4 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <div>
+        <h3 class="text-sm font-semibold text-gray-900">
+          Order Details
+        </h3>
+
+        <p class="mt-1 text-xs text-gray-500">
+          Complete order report
+        </p>
+      </div>
+
+      <div
+        class="inline-flex w-fit items-center gap-2 rounded-lg bg-gray-50 px-3 py-2 text-xs font-medium text-gray-600"
+      >
+        <span class="material-symbols-outlined text-[17px]">
+          inventory_2
+        </span>
+
+        {{ orders.length }} Records
+      </div>
+    </div>
+
+    <div class="overflow-x-auto">
+      <table class="min-w-full">
+
+        <thead class="border-b border-gray-200 bg-gray-50">
+          <tr>
+            <th
+              class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Order
+            </th>
+
+            <th
+              class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Source
+            </th>
+
+            <th
+              class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Customer
+            </th>
+
+            <th
+              class="px-5 py-4 text-center text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Quantity
+            </th>
+
+            <th
+              class="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Amount
+            </th>
+
+            <th
+              class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Status
+            </th>
+
+            <th
+              class="px-5 py-4 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Delivery
+            </th>
+
+            <th
+              class="px-5 py-4 text-right text-xs font-semibold uppercase tracking-wide text-gray-500"
+            >
+              Action
+            </th>
+          </tr>
+        </thead>
+
+        <tbody class="divide-y divide-gray-100">
+
+          @for (order of orders; track order.id) {
+
+            <tr class="transition hover:bg-gray-50">
+
+              <!-- Order -->
+              <td class="px-5 py-4">
+                <div>
+                  <p class="text-sm font-semibold text-gray-900">
+                    {{ order.orderNumber }}
+                  </p>
+
+                  <p class="mt-1 text-xs text-gray-500">
+                    {{ order.orderDate | date:'dd MMM yyyy' }}
+                  </p>
+                </div>
+              </td>
+
+              <!-- Source -->
+              <td class="px-5 py-4">
+                <span
+                  class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium"
+                  [ngClass]="getSourceClass(order.source)"
+                >
+                  {{ getSourceLabel(order.source) }}
+                </span>
+              </td>
+
+              <!-- Customer -->
+              <td class="px-5 py-4">
+                <div>
+                  <p class="text-sm font-medium text-gray-900">
+                    {{ order.customerName }}
+                  </p>
+
+                  <p class="mt-1 text-xs text-gray-500">
+                    {{ order.itemCount }} items
+                  </p>
+                </div>
+              </td>
+
+              <!-- Quantity -->
+              <td class="px-5 py-4 text-center">
+                <span class="text-sm font-semibold text-gray-900">
+                  {{ order.totalQuantity | number }}
+                </span>
+
+                <span class="block text-xs text-gray-400">
+                  Units
+                </span>
+              </td>
+
+              <!-- Amount -->
+              <td class="px-5 py-4 text-right">
+                <span class="text-sm font-semibold text-gray-900">
+                  {{ formatCurrency(order.amount) }}
+                </span>
+              </td>
+
+              <!-- Status -->
+              <td class="px-5 py-4">
+                <span
+                  class="inline-flex rounded-full px-2.5 py-1 text-xs font-medium"
+                  [ngClass]="getStatusClass(order.status)"
+                >
+                  {{ getStatusLabel(order.status) }}
+                </span>
+              </td>
+
+              <!-- Delivery -->
+              <td class="px-5 py-4">
+                <div class="flex items-center gap-1.5 text-sm text-gray-700">
+                  <span
+                    class="material-symbols-outlined text-[17px] text-gray-400"
+                  >
+                    event
+                  </span>
+
+                  {{ order.deliveryDate === '-'
+                    ? '-'
+                    : (order.deliveryDate | date:'dd MMM yyyy') }}
+                </div>
+              </td>
+
+              <!-- Action -->
+              <td class="px-5 py-4 text-right">
+                <button
+                  type="button"
+                  (click)="onViewOrder(order)"
+                  class="inline-flex items-center gap-1.5 rounded-lg border border-gray-200 px-3 py-2 text-xs font-semibold text-gray-700 transition hover:border-red-200 hover:bg-red-50 hover:text-red-600"
+                >
+                  <span class="material-symbols-outlined text-[17px]">
+                    visibility
+                  </span>
+
+                  View
+                </button>
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+    </div>
+  </div>
+
+  <!-- Bottom Summary -->
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+    <div
+      class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-500">
+            Total Quantity
+          </p>
+
+          <p class="mt-2 text-2xl font-bold text-gray-900">
+            {{ summary.totalQuantity | number }}
+          </p>
+
+          <p class="mt-1 text-xs text-gray-400">
+            Items across all orders
+          </p>
+        </div>
+
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-blue-50 text-blue-600"
+        >
+          <span class="material-symbols-outlined">
+            inventory
+          </span>
+        </div>
+      </div>
+    </div>
+
+    <div
+      class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm"
+    >
+      <div class="flex items-center justify-between">
+        <div>
+          <p class="text-sm font-medium text-gray-500">
+            Total Order Value
+          </p>
+
+          <p class="mt-2 text-2xl font-bold text-green-600">
+            {{ formatCurrency(summary.totalValue) }}
+          </p>
+
+          <p class="mt-1 text-xs text-gray-400">
+            Combined order value
+          </p>
+        </div>
+
+        <div
+          class="flex h-11 w-11 items-center justify-center rounded-xl bg-green-50 text-green-600"
+        >
+          <span class="material-symbols-outlined">
+            payments
+          </span>
+        </div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+
+
+```html
+<!-- Order Detail Modal -->
+@if (isOrderDetailOpen && selectedOrder) {
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4"
+    (click)="closeOrderDetail()"
+  >
+
+    <!-- Modal -->
+    <div
+      class="w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl"
+      (click)="$event.stopPropagation()"
+    >
+
+      <!-- Modal Header -->
+      <div
+        class="flex items-center justify-between border-b border-gray-200 px-6 py-4"
+      >
+        <div>
+          <div class="flex items-center gap-3">
+
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600"
+            >
+              <span class="material-symbols-outlined">
+                receipt_long
+              </span>
+            </div>
+
+            <div>
+              <h3 class="text-lg font-semibold text-gray-900">
+                Order Details
+              </h3>
+
+              <p class="mt-1 text-xs text-gray-500">
+                {{ selectedOrder.orderNumber }}
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <button
+          type="button"
+          (click)="closeOrderDetail()"
+          class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-500 transition hover:bg-gray-100 hover:text-gray-800"
+        >
+          <span class="material-symbols-outlined">
+            close
+          </span>
+        </button>
+      </div>
+
+      <!-- Modal Body -->
+      <div class="max-h-[75vh] overflow-y-auto p-6">
+
+        <!-- Basic Information -->
+        <div class="mb-6">
+          <h4 class="mb-3 text-sm font-semibold text-gray-900">
+            Order Information
+          </h4>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-3">
+
+            <!-- Order Number -->
+            <div class="rounded-xl border border-gray-100 bg-gray-50 p-4">
+              <p class="text-xs text-gray-500">
+                Order Number
+              </p>
+
+              <p class="mt-1 text-sm font-semibold text-gray-900">
+                {{ selectedOrder.orderNumber }}
+              </p>
+            </div>
+
+            <!-- Order Date -->
+            <div class="rounded-xl border border-gray-100 bg-gray-50 p-4">
+              <p class="text-xs text-gray-500">
+                Order Date
+              </p>
+
+              <p class="mt-1 text-sm font-semibold text-gray-900">
+                {{ selectedOrder.orderDate | date:'dd MMM yyyy' }}
+              </p>
+            </div>
+
+            <!-- Source -->
+            <div class="rounded-xl border border-gray-100 bg-gray-50 p-4">
+              <p class="text-xs text-gray-500">
+                Source
+              </p>
+
+              <span
+                class="mt-1 inline-flex rounded-full px-2.5 py-1 text-xs font-semibold"
+                [ngClass]="getSourceClass(selectedOrder.source)"
+              >
+                {{ getSourceLabel(selectedOrder.source) }}
+              </span>
+            </div>
+
+            <!-- Customer -->
+            <div class="rounded-xl border border-gray-100 bg-gray-50 p-4 sm:col-span-2">
+              <p class="text-xs text-gray-500">
+                Customer
+              </p>
+
+              <p class="mt-1 text-sm font-semibold text-gray-900">
+                {{ selectedOrder.customerName }}
+              </p>
+            </div>
+
+            <!-- Created By -->
+            <div class="rounded-xl border border-gray-100 bg-gray-50 p-4">
+              <p class="text-xs text-gray-500">
+                Created By
+              </p>
+
+              <p class="mt-1 text-sm font-semibold text-gray-900">
+                {{ selectedOrder.createdBy }}
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Order Status -->
+        <div class="mb-6">
+          <h4 class="mb-3 text-sm font-semibold text-gray-900">
+            Order Status
+          </h4>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+
+            <!-- Status -->
+            <div class="rounded-xl border border-gray-100 bg-gray-50 p-4">
+              <p class="text-xs text-gray-500">
+                Current Status
+              </p>
+
+              <span
+                class="mt-2 inline-flex rounded-full px-3 py-1 text-xs font-semibold"
+                [ngClass]="getStatusClass(selectedOrder.status)"
+              >
+                {{ getStatusLabel(selectedOrder.status) }}
+              </span>
+            </div>
+
+            <!-- Delivery Date -->
+            <div class="rounded-xl border border-gray-100 bg-gray-50 p-4">
+              <p class="text-xs text-gray-500">
+                Delivery Date
+              </p>
+
+              <p class="mt-1 text-sm font-semibold text-gray-900">
+                {{
+                  selectedOrder.deliveryDate === '-'
+                    ? '-'
+                    : (selectedOrder.deliveryDate | date:'dd MMM yyyy')
+                }}
+              </p>
+            </div>
+
+            <!-- Warehouse -->
+            <div class="rounded-xl border border-gray-100 bg-gray-50 p-4">
+              <p class="text-xs text-gray-500">
+                Warehouse
+              </p>
+
+              <p class="mt-1 text-sm font-semibold text-gray-900">
+                {{ selectedOrder.warehouse }}
+              </p>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Order Metrics -->
+        <div class="mb-6">
+          <h4 class="mb-3 text-sm font-semibold text-gray-900">
+            Order Summary
+          </h4>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-3">
+
+            <!-- Items -->
+            <div
+              class="rounded-xl border border-blue-100 bg-blue-50 p-4"
+            >
+              <div class="flex items-center gap-3">
+
+                <div
+                  class="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-blue-600"
+                >
+                  <span class="material-symbols-outlined">
+                    inventory_2
+                  </span>
+                </div>
+
+                <div>
+                  <p class="text-xs text-blue-600">
+                    Items
+                  </p>
+
+                  <p class="mt-1 text-xl font-bold text-blue-700">
+                    {{ selectedOrder.itemCount }}
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Quantity -->
+            <div
+              class="rounded-xl border border-purple-100 bg-purple-50 p-4"
+            >
+              <div class="flex items-center gap-3">
+
+                <div
+                  class="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-purple-600"
+                >
+                  <span class="material-symbols-outlined">
+                    package_2
+                  </span>
+                </div>
+
+                <div>
+                  <p class="text-xs text-purple-600">
+                    Total Quantity
+                  </p>
+
+                  <p class="mt-1 text-xl font-bold text-purple-700">
+                    {{ selectedOrder.totalQuantity | number }}
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Amount -->
+            <div
+              class="rounded-xl border border-green-100 bg-green-50 p-4"
+            >
+              <div class="flex items-center gap-3">
+
+                <div
+                  class="flex h-10 w-10 items-center justify-center rounded-lg bg-white text-green-600"
+                >
+                  <span class="material-symbols-outlined">
+                    payments
+                  </span>
+                </div>
+
+                <div>
+                  <p class="text-xs text-green-600">
+                    Order Value
+                  </p>
+
+                  <p class="mt-1 text-lg font-bold text-green-700">
+                    {{ formatCurrency(selectedOrder.amount) }}
+                  </p>
+                </div>
+
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Source Flow -->
+        <div>
+          <h4 class="mb-3 text-sm font-semibold text-gray-900">
+            Order Flow
+          </h4>
+
+          <div class="rounded-xl border border-gray-200 bg-white p-5">
+
+            <div class="flex flex-wrap items-center gap-2">
+
+              <!-- Source -->
+              <div
+                class="rounded-lg bg-gray-50 px-3 py-2 text-xs font-semibold text-gray-700"
+              >
+                {{ getSourceLabel(selectedOrder.source) }}
+              </div>
+
+              <span class="material-symbols-outlined text-gray-400">
+                arrow_forward
+              </span>
+
+              <!-- Processing -->
+              <div
+                class="rounded-lg bg-blue-50 px-3 py-2 text-xs font-semibold text-blue-700"
+              >
+                Logistics
+              </div>
+
+              <span class="material-symbols-outlined text-gray-400">
+                arrow_forward
+              </span>
+
+              <!-- Status -->
+              <div
+                class="rounded-lg px-3 py-2 text-xs font-semibold"
+                [ngClass]="getStatusClass(selectedOrder.status)"
+              >
+                {{ getStatusLabel(selectedOrder.status) }}
+              </div>
+
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- Modal Footer -->
+      <div
+        class="flex items-center justify-end border-t border-gray-200 bg-gray-50 px-6 py-4"
+      >
+        <button
+          type="button"
+          (click)="closeOrderDetail()"
+          class="rounded-lg bg-gray-900 px-4 py-2 text-sm font-semibold text-white transition hover:bg-gray-800"
+        >
+          Close
+        </button>
+      </div>
+
+    </div>
+  </div>
+}
+

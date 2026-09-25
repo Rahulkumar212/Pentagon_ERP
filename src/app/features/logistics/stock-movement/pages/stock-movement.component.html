@@ -1,0 +1,132 @@
+
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+
+  <div class="mx-auto max-w-[1600px] space-y-6">
+
+
+    <!-- ====================================================== -->
+    <!-- Page Header -->
+    <!-- ====================================================== -->
+
+    <div
+      class="flex flex-col gap-4 rounded-2xl border border-gray-200 bg-white p-5 shadow-sm sm:p-6 lg:flex-row lg:items-center lg:justify-between"
+    >
+
+      <div>
+
+        <div class="flex items-center gap-3">
+
+          <div
+            class="flex h-12 w-12 items-center justify-center rounded-xl bg-gray-900 text-white shadow-sm"
+          >
+            <span class="material-icons text-[25px]">
+              swap_vert
+            </span>
+          </div>
+
+          <div>
+
+            <h1
+              class="text-xl font-bold text-gray-900 sm:text-2xl"
+            >
+              Stock Movement
+            </h1>
+
+            <p
+              class="mt-1 text-sm text-gray-500"
+            >
+              Track all stock entries and exits across the warehouse
+            </p>
+
+          </div>
+
+        </div>
+
+      </div>
+
+
+      <!-- Warehouse -->
+      <div
+        class="flex w-fit items-center gap-2 rounded-xl border border-gray-200 bg-gray-50 px-4 py-2.5"
+      >
+
+        <span
+          class="material-icons text-[19px] text-gray-500"
+        >
+          warehouse
+        </span>
+
+        <div>
+
+          <p
+            class="text-[10px] font-medium uppercase tracking-wide text-gray-400"
+          >
+            Warehouse
+          </p>
+
+          <p
+            class="text-sm font-semibold text-gray-800"
+          >
+            Main Warehouse
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- ====================================================== -->
+    <!-- Summary -->
+    <!-- ====================================================== -->
+
+    <app-movement-summary>
+    </app-movement-summary>
+
+
+    <!-- ====================================================== -->
+    <!-- Filters -->
+    <!-- ====================================================== -->
+
+    <app-movement-filters
+      [filters]="currentFilters"
+      (filtersChange)="onFiltersChange($event)"
+      (clear)="onClearFilters()"
+    >
+    </app-movement-filters>
+
+
+    <!-- ====================================================== -->
+    <!-- Movement List -->
+    <!-- ====================================================== -->
+
+    <app-movement-list
+      [movements]="filteredMovements"
+      (viewDetails)="onViewMovementDetails($event)"
+    >
+    </app-movement-list>
+
+
+    <!-- ====================================================== -->
+    <!-- Detail Modal -->
+    <!-- ====================================================== -->
+
+    @if (
+      isMovementDetailOpen &&
+      selectedMovement
+    ) {
+
+      <app-movement-detail
+        [detail]="selectedMovement"
+        [isOpen]="isMovementDetailOpen"
+        (close)="onCloseMovementDetail()"
+      >
+      </app-movement-detail>
+
+    }
+
+  </div>
+
+</div>
+

@@ -1,0 +1,468 @@
+<section class="space-y-5">
+
+    <!-- Header -->
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+        <div class="flex items-center gap-3">
+            <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50">
+                <span class="material-symbols-outlined text-[21px] text-orange-600">
+                    warning
+                </span>
+            </div>
+
+            <div>
+                <h2 class="text-lg font-bold text-gray-900">
+                    Delayed Shipment Report
+                </h2>
+
+                <p class="text-sm text-gray-500">
+                    Monitor shipment delays, reasons, priorities and resolution status
+                </p>
+            </div>
+        </div>
+
+        <div class="flex w-fit items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2">
+            <span class="material-symbols-outlined text-[18px] text-gray-500">
+                schedule
+            </span>
+
+            <span class="text-xs font-semibold text-gray-700">
+                Delay Monitoring
+            </span>
+        </div>
+    </div>
+
+    <!-- Summary Cards -->
+    <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-5">
+
+        <!-- Total Delayed -->
+        <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-50">
+                <span class="material-symbols-outlined text-[19px] text-orange-600">
+                    local_shipping
+                </span>
+            </div>
+
+            <p class="mt-4 text-2xl font-bold text-orange-600">
+                {{ totalDelayed }}
+            </p>
+
+            <p class="mt-1 text-xs text-gray-500">
+                Delayed Shipments
+            </p>
+        </div>
+
+        <!-- Total Delay Days -->
+        <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-red-50">
+                <span class="material-symbols-outlined text-[19px] text-red-600">
+                    hourglass_top
+                </span>
+            </div>
+
+            <p class="mt-4 text-2xl font-bold text-red-600">
+                {{ totalDelayDays }}
+            </p>
+
+            <p class="mt-1 text-xs text-gray-500">
+                Total Delay Days
+            </p>
+        </div>
+
+        <!-- Average Delay -->
+        <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-purple-50">
+                <span class="material-symbols-outlined text-[19px] text-purple-600">
+                    timer
+                </span>
+            </div>
+
+            <p class="mt-4 text-2xl font-bold text-purple-600">
+                {{ averageDelayDays }}
+            </p>
+
+            <p class="mt-1 text-xs text-gray-500">
+                Average Delay Days
+            </p>
+        </div>
+
+        <!-- Critical -->
+        <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-red-50">
+                <span class="material-symbols-outlined text-[19px] text-red-600">
+                    priority_high
+                </span>
+            </div>
+
+            <p class="mt-4 text-2xl font-bold text-red-600">
+                {{ criticalCount }}
+            </p>
+
+            <p class="mt-1 text-xs text-gray-500">
+                High Priority
+            </p>
+        </div>
+
+        <!-- Resolving -->
+        <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+            <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50">
+                <span class="material-symbols-outlined text-[19px] text-blue-600">
+                    sync
+                </span>
+            </div>
+
+            <p class="mt-4 text-2xl font-bold text-blue-600">
+                {{ resolvingCount }}
+            </p>
+
+            <p class="mt-1 text-xs text-gray-500">
+                Being Resolved
+            </p>
+        </div>
+
+    </div>
+
+    <!-- Delay Reasons -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-5 shadow-sm">
+
+        <div class="flex items-center justify-between">
+            <div>
+                <h3 class="text-base font-bold text-gray-900">
+                    Delay Analysis
+                </h3>
+
+                <p class="mt-1 text-xs text-gray-500">
+                    Common reasons affecting shipment delivery
+                </p>
+            </div>
+
+            <span class="rounded-full bg-gray-100 px-3 py-1.5 text-xs font-semibold text-gray-600">
+                {{ delayReasonCount }} Reasons
+            </span>
+        </div>
+
+        <div class="mt-5 grid grid-cols-1 gap-3 sm:grid-cols-2 lg:grid-cols-4">
+
+
+            @for (reason of delayReasons; track reason) {
+
+            <div class="rounded-xl border border-gray-100 bg-gray-50 p-4">
+
+                <div class="flex items-center justify-between gap-3">
+
+                    <div class="flex items-center gap-3">
+
+                        <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-50">
+                            <span class="material-symbols-outlined text-[18px] text-orange-600">
+                                warning
+                            </span>
+                        </div>
+
+                        <div>
+                            <p class="text-sm font-semibold text-gray-800">
+                                {{ getReasonLabel(reason) }}
+                            </p>
+
+                            <p class="mt-0.5 text-xs text-gray-400">
+                                {{ getReasonCount(reason) }} shipment(s)
+                            </p>
+                        </div>
+
+                    </div>
+
+                    <span class="text-sm font-bold text-gray-700">
+                        {{ getReasonPercentage(reason) }}%
+                    </span>
+
+                </div>
+
+                <div class="mt-3 h-1.5 overflow-hidden rounded-full bg-gray-200">
+
+                    <div class="h-full rounded-full bg-orange-500 transition-all"
+                        [style.width.%]="getReasonPercentage(reason)"></div>
+
+                </div>
+
+            </div>
+
+            }
+
+
+
+        </div>
+
+    </div>
+
+    <!-- Delayed Shipment Table -->
+    <div class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm">
+
+        <!-- Header -->
+        <div class="flex flex-col gap-2 border-b border-gray-100 p-5 sm:flex-row sm:items-center sm:justify-between">
+            <div>
+                <h3 class="text-base font-bold text-gray-900">
+                    Delayed Shipments
+                </h3>
+
+                <p class="mt-1 text-xs text-gray-500">
+                    Shipment-wise delay details
+                </p>
+            </div>
+
+            <span class="rounded-full bg-orange-50 px-3 py-1.5 text-xs font-semibold text-orange-700">
+                {{ totalDelayed }} Delayed
+            </span>
+        </div>
+
+        <!-- Desktop Table -->
+        <div class="hidden overflow-x-auto lg:block">
+            <table class="w-full min-w-[1200px] text-left">
+
+                <thead class="bg-gray-50">
+                    <tr class="border-b border-gray-100">
+
+                        <th class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            Shipment
+                        </th>
+
+                        <th class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            Customer
+                        </th>
+
+                        <th class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            Destination
+                        </th>
+
+                        <th class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            Carrier
+                        </th>
+
+                        <th class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            Delay
+                        </th>
+
+                        <th class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            Reason
+                        </th>
+
+                        <th class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            Priority
+                        </th>
+
+                        <th class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            Status
+                        </th>
+
+                        <th class="px-5 py-3 text-xs font-semibold uppercase tracking-wide text-gray-500">
+                            Expected
+                        </th>
+
+                    </tr>
+                </thead>
+
+                <tbody class="divide-y divide-gray-100">
+
+                    @for (item of delayedShipments; track item.id) {
+
+                    <tr class="transition hover:bg-gray-50">
+
+                        <!-- Shipment -->
+                        <td class="px-5 py-4">
+                            <div>
+                                <p class="text-sm font-semibold text-gray-800">
+                                    {{ item.trackingNumber }}
+                                </p>
+
+                                <p class="mt-0.5 text-xs text-gray-400">
+                                    {{ item.orderNumber }}
+                                </p>
+                            </div>
+                        </td>
+
+                        <!-- Customer -->
+                        <td class="px-5 py-4">
+                            <span class="text-sm font-medium text-gray-700">
+                                {{ item.customerName }}
+                            </span>
+                        </td>
+
+                        <!-- Destination -->
+                        <td class="px-5 py-4">
+                            <div class="flex items-center gap-1.5">
+                                <span class="material-symbols-outlined text-[16px] text-gray-400">
+                                    location_on
+                                </span>
+
+                                <span class="text-sm text-gray-700">
+                                    {{ item.destination }}
+                                </span>
+                            </div>
+                        </td>
+
+                        <!-- Carrier -->
+                        <td class="px-5 py-4">
+                            <span class="text-sm font-medium text-gray-700">
+                                {{ item.carrier }}
+                            </span>
+                        </td>
+
+                        <!-- Delay -->
+                        <td class="px-5 py-4">
+                            <div>
+                                <span class="text-sm font-bold" [ngClass]="getDelayClass(item.delayDays)">
+                                    {{ item.delayDays }} Days
+                                </span>
+
+                                <p class="mt-0.5 text-[10px] text-gray-400">
+                                    Expected: {{ item.expectedDate }}
+                                </p>
+                            </div>
+                        </td>
+
+                        <!-- Reason -->
+                        <td class="px-5 py-4">
+                            <span class="rounded-lg bg-gray-100 px-2.5 py-1.5 text-[11px] font-medium text-gray-700">
+                                {{ getReasonLabel(item.reason) }}
+                            </span>
+                        </td>
+
+                        <!-- Priority -->
+                        <td class="px-5 py-4">
+                            <span class="rounded-full px-2.5 py-1 text-[11px] font-semibold"
+                                [ngClass]="getPriorityClass(item.priority)">
+                                {{ getPriorityLabel(item.priority) }}
+                            </span>
+                        </td>
+
+                        <!-- Status -->
+                        <td class="px-5 py-4">
+                            <span class="rounded-full px-2.5 py-1 text-[11px] font-semibold"
+                                [ngClass]="getStatusClass(item.status)">
+                                {{ getStatusLabel(item.status) }}
+                            </span>
+                        </td>
+
+                        <!-- Expected Date -->
+                        <td class="px-5 py-4">
+                            <span class="text-xs font-medium text-gray-600">
+                                {{ item.expectedDate }}
+                            </span>
+                        </td>
+
+                    </tr>
+
+                    }
+
+                </tbody>
+
+            </table>
+        </div>
+
+        <!-- Mobile Cards -->
+        <div class="divide-y divide-gray-100 lg:hidden">
+
+            @for (item of delayedShipments; track item.id) {
+
+            <div class="p-5">
+
+                <!-- Top -->
+                <div class="flex items-start justify-between gap-3">
+
+                    <div>
+                        <p class="text-sm font-bold text-gray-900">
+                            {{ item.trackingNumber }}
+                        </p>
+
+                        <p class="mt-1 text-xs text-gray-400">
+                            {{ item.orderNumber }}
+                        </p>
+                    </div>
+
+                    <span class="rounded-full px-2.5 py-1 text-[10px] font-semibold"
+                        [ngClass]="getStatusClass(item.status)">
+                        {{ getStatusLabel(item.status) }}
+                    </span>
+
+                </div>
+
+                <!-- Customer -->
+                <div class="mt-4">
+                    <p class="text-[10px] font-medium uppercase tracking-wide text-gray-400">
+                        Customer
+                    </p>
+
+                    <p class="mt-1 text-sm font-semibold text-gray-800">
+                        {{ item.customerName }}
+                    </p>
+                </div>
+
+                <!-- Details -->
+                <div class="mt-4 grid grid-cols-2 gap-3">
+
+                    <div class="rounded-xl bg-gray-50 p-3">
+                        <p class="text-[10px] uppercase text-gray-400">
+                            Destination
+                        </p>
+
+                        <p class="mt-1 text-sm font-semibold text-gray-700">
+                            {{ item.destination }}
+                        </p>
+                    </div>
+
+                    <div class="rounded-xl bg-gray-50 p-3">
+                        <p class="text-[10px] uppercase text-gray-400">
+                            Carrier
+                        </p>
+
+                        <p class="mt-1 text-sm font-semibold text-gray-700">
+                            {{ item.carrier }}
+                        </p>
+                    </div>
+
+                    <div class="rounded-xl bg-orange-50 p-3">
+                        <p class="text-[10px] uppercase text-orange-600">
+                            Delay
+                        </p>
+
+                        <p class="mt-1 text-sm font-bold" [ngClass]="getDelayClass(item.delayDays)">
+                            {{ item.delayDays }} Days
+                        </p>
+                    </div>
+
+                    <div class="rounded-xl bg-gray-50 p-3">
+                        <p class="text-[10px] uppercase text-gray-400">
+                            Reason
+                        </p>
+
+                        <p class="mt-1 text-sm font-semibold text-gray-700">
+                            {{ getReasonLabel(item.reason) }}
+                        </p>
+                    </div>
+
+                </div>
+
+                <!-- Bottom -->
+                <div class="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-gray-100 pt-3">
+                    <div>
+                        <p class="text-[10px] text-gray-400">
+                            Expected Delivery
+                        </p>
+
+                        <p class="mt-1 text-xs font-semibold text-gray-700">
+                            {{ item.expectedDate }}
+                        </p>
+                    </div>
+
+                    <span class="rounded-full px-2.5 py-1 text-[10px] font-semibold"
+                        [ngClass]="getPriorityClass(item.priority)">
+                        {{ getPriorityLabel(item.priority) }} Priority
+                    </span>
+                </div>
+
+            </div>
+
+            }
+
+        </div>
+
+    </div>
+
+</section>

@@ -1,0 +1,80 @@
+
+<div class="min-h-screen bg-gray-50 p-4 sm:p-6 lg:p-8">
+
+  <div class="mx-auto max-w-[1600px] space-y-8">
+
+    <!-- Page Header -->
+    <div
+      class="flex flex-col gap-4 lg:flex-row lg:items-center lg:justify-between"
+    >
+      <div>
+        <div class="flex items-center gap-3">
+          <div
+            class="flex h-12 w-12 items-center justify-center rounded-2xl bg-red-50"
+          >
+            <span class="material-symbols-outlined text-2xl text-red-600">
+              analytics
+            </span>
+          </div>
+
+          <div>
+            <h1 class="text-2xl font-bold tracking-tight text-gray-900">
+              Delivery Performance
+            </h1>
+
+            <p class="mt-1 text-sm text-gray-500">
+              Monitor delivery efficiency, delays, success rates and carrier performance
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <!-- Page Context -->
+      <div
+        class="flex w-fit items-center gap-2 rounded-xl border border-gray-200 bg-white px-4 py-2.5 shadow-sm"
+      >
+        <span class="material-symbols-outlined text-[19px] text-gray-500">
+          warehouse
+        </span>
+
+        <div>
+          <p class="text-[10px] font-medium uppercase tracking-wide text-gray-400">
+            Warehouse
+          </p>
+
+          <p class="text-sm font-semibold text-gray-800">
+            Main Warehouse
+          </p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Summary -->
+    <section>
+      <app-performance-summary></app-performance-summary>
+    </section>
+
+    <!-- Delivery Metrics -->
+    <section>
+      <app-delivery-metrics></app-delivery-metrics>
+    </section>
+
+    <!-- Performance Breakdown -->
+    <section>
+      <app-performance-breakdown></app-performance-breakdown>
+    </section>
+
+    <!-- Delayed Performance -->
+    <section>
+      <app-delayed-performance></app-delayed-performance>
+    </section>
+
+    <!-- Performance Detail -->
+    <section>
+      <app-performance-detail></app-performance-detail>
+    </section>
+
+  </div>
+
+</div>
+

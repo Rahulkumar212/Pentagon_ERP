@@ -1,0 +1,559 @@
+
+<section class="space-y-5">
+
+  <!-- Header -->
+  <div class="flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-between">
+
+    <div class="flex items-center gap-3">
+      <div
+        class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-50"
+      >
+        <span class="material-symbols-outlined text-[21px] text-blue-600">
+          swap_vert
+        </span>
+      </div>
+
+      <div>
+        <h2 class="text-lg font-bold text-gray-900">
+          Stock Movement Report
+        </h2>
+
+        <p class="text-sm text-gray-500">
+          Track all stock entries, exits and movement activity
+        </p>
+      </div>
+    </div>
+
+    <div
+      class="flex w-fit items-center gap-2 rounded-lg border border-gray-200 bg-white px-3 py-2"
+    >
+      <span class="material-symbols-outlined text-[18px] text-gray-500">
+        inventory
+      </span>
+
+      <span class="text-xs font-semibold text-gray-700">
+        Main Warehouse
+      </span>
+    </div>
+
+  </div>
+
+  <!-- Summary -->
+  <div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-6">
+
+    <!-- Total -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-blue-50">
+        <span class="material-symbols-outlined text-[19px] text-blue-600">
+          swap_vert
+        </span>
+      </div>
+
+      <p class="mt-4 text-2xl font-bold text-gray-900">
+        {{ totalMovements }}
+      </p>
+
+      <p class="mt-1 text-xs text-gray-500">
+        Total Movements
+      </p>
+    </div>
+
+    <!-- Entries -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-green-50">
+        <span class="material-symbols-outlined text-[19px] text-green-600">
+          input
+        </span>
+      </div>
+
+      <p class="mt-4 text-2xl font-bold text-green-600">
+        {{ totalEntries }}
+      </p>
+
+      <p class="mt-1 text-xs text-gray-500">
+        Stock Entries
+      </p>
+    </div>
+
+    <!-- Exits -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-50">
+        <span class="material-symbols-outlined text-[19px] text-orange-600">
+          output
+        </span>
+      </div>
+
+      <p class="mt-4 text-2xl font-bold text-orange-600">
+        {{ totalExits }}
+      </p>
+
+      <p class="mt-1 text-xs text-gray-500">
+        Stock Exits
+      </p>
+    </div>
+
+    <!-- Entry Quantity -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-green-50">
+        <span class="material-symbols-outlined text-[19px] text-green-600">
+          add_box
+        </span>
+      </div>
+
+      <p class="mt-4 text-2xl font-bold text-green-600">
+        {{ totalEntryQuantity | number }}
+      </p>
+
+      <p class="mt-1 text-xs text-gray-500">
+        Entry Quantity
+      </p>
+    </div>
+
+    <!-- Exit Quantity -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-orange-50">
+        <span class="material-symbols-outlined text-[19px] text-orange-600">
+          remove_circle
+        </span>
+      </div>
+
+      <p class="mt-4 text-2xl font-bold text-orange-600">
+        {{ totalExitQuantity | number }}
+      </p>
+
+      <p class="mt-1 text-xs text-gray-500">
+        Exit Quantity
+      </p>
+    </div>
+
+    <!-- Completed -->
+    <div class="rounded-2xl border border-gray-200 bg-white p-4 shadow-sm">
+      <div class="flex h-9 w-9 items-center justify-center rounded-lg bg-green-50">
+        <span class="material-symbols-outlined text-[19px] text-green-600">
+          check_circle
+        </span>
+      </div>
+
+      <p class="mt-4 text-2xl font-bold text-green-600">
+        {{ completedCount }}
+      </p>
+
+      <p class="mt-1 text-xs text-gray-500">
+        Completed
+      </p>
+    </div>
+
+  </div>
+
+  <!-- Movement Overview -->
+  <div class="grid grid-cols-1 gap-5 lg:grid-cols-3">
+
+    <!-- Pending -->
+    <div class="rounded-2xl border border-yellow-100 bg-yellow-50/40 p-5">
+      <div class="flex items-center justify-between">
+
+        <div>
+          <p class="text-xs font-medium text-yellow-700">
+            Pending Movements
+          </p>
+
+          <p class="mt-2 text-2xl font-bold text-yellow-700">
+            {{ pendingCount }}
+          </p>
+        </div>
+
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-yellow-100">
+          <span class="material-symbols-outlined text-yellow-700">
+            pending_actions
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Rejected -->
+    <div class="rounded-2xl border border-red-100 bg-red-50/40 p-5">
+      <div class="flex items-center justify-between">
+
+        <div>
+          <p class="text-xs font-medium text-red-700">
+            Rejected Movements
+          </p>
+
+          <p class="mt-2 text-2xl font-bold text-red-700">
+            {{ rejectedCount }}
+          </p>
+        </div>
+
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-100">
+          <span class="material-symbols-outlined text-red-700">
+            cancel
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- Net Movement -->
+    <div class="rounded-2xl border border-blue-100 bg-blue-50/40 p-5">
+      <div class="flex items-center justify-between">
+
+        <div>
+          <p class="text-xs font-medium text-blue-700">
+            Net Quantity
+          </p>
+
+          <p class="mt-2 text-2xl font-bold text-blue-700">
+            {{ totalEntryQuantity - totalExitQuantity | number }}
+          </p>
+        </div>
+
+        <div class="flex h-10 w-10 items-center justify-center rounded-xl bg-blue-100">
+          <span class="material-symbols-outlined text-blue-700">
+            inventory_2
+          </span>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Table -->
+  <div
+    class="overflow-hidden rounded-2xl border border-gray-200 bg-white shadow-sm"
+  >
+
+    <div
+      class="flex flex-col gap-2 border-b border-gray-100 p-5 sm:flex-row sm:items-center sm:justify-between"
+    >
+      <div>
+        <h3 class="text-base font-bold text-gray-900">
+          Movement Transactions
+        </h3>
+
+        <p class="mt-1 text-xs text-gray-500">
+          Detailed stock movement history
+        </p>
+      </div>
+
+      <span
+        class="rounded-full bg-blue-50 px-3 py-1.5 text-xs font-semibold text-blue-700"
+      >
+        {{ totalMovements }} Records
+      </span>
+    </div>
+
+    <!-- Desktop -->
+    <div class="hidden overflow-x-auto lg:block">
+
+      <table class="w-full min-w-[1250px]">
+
+        <thead class="border-b border-gray-100 bg-gray-50">
+
+          <tr>
+
+            <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Movement
+            </th>
+
+            <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Stock
+            </th>
+
+            <th class="px-5 py-3 text-center text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Type
+            </th>
+
+            <th class="px-5 py-3 text-center text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Quantity
+            </th>
+
+            <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Reference
+            </th>
+
+            <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Performed By
+            </th>
+
+            <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Location
+            </th>
+
+            <th class="px-5 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+              Status
+            </th>
+
+          </tr>
+
+        </thead>
+
+        <tbody class="divide-y divide-gray-100">
+
+          @for (movement of movements; track movement.id) {
+
+            <tr class="transition hover:bg-gray-50">
+
+              <!-- Movement -->
+              <td class="px-5 py-4">
+
+                <div>
+                  <p class="text-sm font-semibold text-gray-900">
+                    {{ movement.movementNumber }}
+                  </p>
+
+                  <p class="mt-0.5 text-xs text-gray-400">
+                    {{ movement.movementDate }}
+                  </p>
+                </div>
+
+              </td>
+
+              <!-- Stock -->
+              <td class="px-5 py-4">
+
+                <div class="flex items-center gap-3">
+
+                  <div
+                    class="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg bg-gray-100"
+                  >
+                    <span class="material-symbols-outlined text-[19px] text-gray-600">
+                      {{ movement.icon }}
+                    </span>
+                  </div>
+
+                  <div>
+                    <p class="text-sm font-semibold text-gray-800">
+                      {{ movement.itemName }}
+                    </p>
+
+                    <p class="mt-0.5 text-xs text-gray-400">
+                      {{ movement.stockCode }}
+                    </p>
+                  </div>
+
+                </div>
+
+              </td>
+
+              <!-- Type -->
+              <td class="px-5 py-4 text-center">
+
+                <span
+                  class="inline-flex items-center gap-1.5 rounded-full px-2.5 py-1 text-[11px] font-semibold"
+                  [ngClass]="getMovementTypeClass(movement.movementType)"
+                >
+
+                  <span class="material-symbols-outlined text-[15px]">
+                    {{ getMovementIcon(movement.movementType) }}
+                  </span>
+
+                  {{ getMovementTypeLabel(movement.movementType) }}
+
+                </span>
+
+              </td>
+
+              <!-- Quantity -->
+              <td class="px-5 py-4 text-center">
+
+                <p class="text-sm font-bold text-gray-900">
+                  {{ movement.quantity | number }}
+                </p>
+
+                <p class="text-[10px] text-gray-400">
+                  {{ movement.unit }}
+                </p>
+
+              </td>
+
+              <!-- Reference -->
+              <td class="px-5 py-4">
+
+                <div>
+                  <p class="text-sm font-semibold text-gray-700">
+                    {{ movement.referenceNumber }}
+                  </p>
+
+                  <p class="mt-0.5 text-[10px] text-gray-400">
+                    {{ getReferenceTypeLabel(movement.referenceType) }}
+                  </p>
+                </div>
+
+              </td>
+
+              <!-- Performed -->
+              <td class="px-5 py-4">
+
+                <span class="text-sm text-gray-700">
+                  {{ movement.performedBy }}
+                </span>
+
+              </td>
+
+              <!-- Location -->
+              <td class="px-5 py-4">
+
+                <div>
+                  <p class="text-sm text-gray-700">
+                    {{ movement.warehouse }}
+                  </p>
+
+                  <p class="mt-0.5 text-xs text-gray-400">
+                    {{ movement.location }}
+                  </p>
+                </div>
+
+              </td>
+
+              <!-- Status -->
+              <td class="px-5 py-4">
+
+                <span
+                  class="rounded-full px-2.5 py-1 text-[11px] font-semibold"
+                  [ngClass]="getStatusClass(movement.status)"
+                >
+                  {{ getStatusLabel(movement.status) }}
+                </span>
+
+              </td>
+
+            </tr>
+
+          }
+
+        </tbody>
+
+      </table>
+
+    </div>
+
+    <!-- Mobile -->
+    <div class="divide-y divide-gray-100 lg:hidden">
+
+      @for (movement of movements; track movement.id) {
+
+        <div class="p-5">
+
+          <div class="flex items-start justify-between gap-3">
+
+            <div class="flex min-w-0 items-center gap-3">
+
+              <div
+                class="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-gray-100"
+              >
+                <span class="material-symbols-outlined text-gray-600">
+                  {{ movement.icon }}
+                </span>
+              </div>
+
+              <div class="min-w-0">
+
+                <p class="truncate text-sm font-bold text-gray-900">
+                  {{ movement.itemName }}
+                </p>
+
+                <p class="mt-0.5 text-xs text-gray-400">
+                  {{ movement.movementNumber }}
+                </p>
+
+              </div>
+
+            </div>
+
+            <span
+              class="shrink-0 rounded-full px-2.5 py-1 text-[10px] font-semibold"
+              [ngClass]="getStatusClass(movement.status)"
+            >
+              {{ getStatusLabel(movement.status) }}
+            </span>
+
+          </div>
+
+          <div class="mt-4 grid grid-cols-2 gap-3">
+
+            <div class="rounded-xl bg-gray-50 p-3">
+              <p class="text-[10px] text-gray-400">
+                Movement
+              </p>
+
+              <span
+                class="mt-1 inline-flex items-center gap-1 text-xs font-semibold"
+                [ngClass]="
+                  movement.movementType === 'ENTRY'
+                    ? 'text-green-600'
+                    : 'text-orange-600'
+                "
+              >
+                <span class="material-symbols-outlined text-[15px]">
+                  {{ getMovementIcon(movement.movementType) }}
+                </span>
+
+                {{ getMovementTypeLabel(movement.movementType) }}
+              </span>
+            </div>
+
+            <div class="rounded-xl bg-gray-50 p-3">
+              <p class="text-[10px] text-gray-400">
+                Quantity
+              </p>
+
+              <p class="mt-1 text-sm font-bold text-gray-800">
+                {{ movement.quantity | number }}
+                {{ movement.unit }}
+              </p>
+            </div>
+
+            <div class="rounded-xl bg-gray-50 p-3">
+              <p class="text-[10px] text-gray-400">
+                Reference
+              </p>
+
+              <p class="mt-1 text-xs font-semibold text-gray-700">
+                {{ movement.referenceNumber }}
+              </p>
+            </div>
+
+            <div class="rounded-xl bg-gray-50 p-3">
+              <p class="text-[10px] text-gray-400">
+                Performed By
+              </p>
+
+              <p class="mt-1 text-xs font-semibold text-gray-700">
+                {{ movement.performedBy }}
+              </p>
+            </div>
+
+          </div>
+
+          <div
+            class="mt-4 flex items-center justify-between border-t border-gray-100 pt-3"
+          >
+
+            <div>
+              <p class="text-[10px] text-gray-400">
+                Location
+              </p>
+
+              <p class="mt-1 text-xs font-medium text-gray-700">
+                {{ movement.location }}
+              </p>
+            </div>
+
+            <p class="text-xs text-gray-400">
+              {{ movement.movementDate }}
+            </p>
+
+          </div>
+
+        </div>
+
+      }
+
+    </div>
+
+  </div>
+
+</section>
+
