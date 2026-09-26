@@ -1,0 +1,333 @@
+
+@if (isOpen) {
+  <div
+    class="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 p-4 backdrop-blur-[2px]"
+    (click)="onBackdropClick()"
+  >
+    <div
+      class="w-full max-w-3xl overflow-hidden rounded-2xl bg-white shadow-2xl"
+      (click)="$event.stopPropagation()"
+    >
+
+      <!-- HEADER -->
+      <div
+        class="flex items-center justify-between border-b border-gray-200 px-5 py-4 sm:px-6"
+      >
+        <div>
+          <div class="flex items-center gap-3">
+            <div
+              class="flex h-10 w-10 items-center justify-center rounded-xl bg-red-50 text-red-600"
+            >
+              <span class="material-symbols-outlined">
+                local_shipping
+              </span>
+            </div>
+
+            <div>
+              <h2 class="text-lg font-bold text-gray-900">
+                Create New Shipment
+              </h2>
+
+              <p class="mt-0.5 text-xs text-gray-500">
+                Create a shipment for a dispatched order
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <button
+          type="button"
+          (click)="onClose()"
+          class="flex h-9 w-9 items-center justify-center rounded-lg text-gray-400 transition hover:bg-gray-100 hover:text-gray-700"
+        >
+          <span class="material-symbols-outlined text-[20px]">
+            close
+          </span>
+        </button>
+      </div>
+
+      <!-- BODY -->
+      <div class="max-h-[75vh] overflow-y-auto px-5 py-5 sm:px-6">
+
+        <!-- ORDER INFORMATION -->
+        <div class="mb-6">
+          <div class="mb-4">
+            <h3 class="text-sm font-semibold text-gray-900">
+              Order Information
+            </h3>
+
+            <p class="mt-1 text-xs text-gray-500">
+              Select the order and customer for this shipment.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+            <!-- Order Number -->
+            <div>
+              <label
+                class="mb-1.5 block text-xs font-medium text-gray-700"
+              >
+                Order Number
+                <span class="text-red-500">*</span>
+              </label>
+
+              <input
+                type="text"
+                [(ngModel)]="shipmentForm.orderNumber"
+                placeholder="SO-2026-142"
+                class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+              />
+            </div>
+
+            <!-- Customer -->
+            <div>
+              <label
+                class="mb-1.5 block text-xs font-medium text-gray-700"
+              >
+                Customer
+                <span class="text-red-500">*</span>
+              </label>
+
+              <input
+                type="text"
+                [(ngModel)]="shipmentForm.customerName"
+                placeholder="Customer name"
+                class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+              />
+            </div>
+
+            <!-- Source -->
+            <div>
+              <label
+                class="mb-1.5 block text-xs font-medium text-gray-700"
+              >
+                Order Source
+              </label>
+
+              <select
+                [(ngModel)]="shipmentForm.source"
+                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+              >
+                <option value="SALES">Sales</option>
+                <option value="GEM">GEM</option>
+                <option value="DIRECTOR">Director</option>
+              </select>
+            </div>
+
+            <!-- Priority -->
+            <div>
+              <label
+                class="mb-1.5 block text-xs font-medium text-gray-700"
+              >
+                Priority
+              </label>
+
+              <select
+                [(ngModel)]="shipmentForm.priority"
+                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+              >
+                <option value="HIGH">High</option>
+                <option value="MEDIUM">Medium</option>
+                <option value="LOW">Low</option>
+              </select>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- SHIPPING INFORMATION -->
+        <div class="mb-6">
+          <div class="mb-4">
+            <h3 class="text-sm font-semibold text-gray-900">
+              Shipping Information
+            </h3>
+
+            <p class="mt-1 text-xs text-gray-500">
+              Enter carrier and tracking details.
+            </p>
+          </div>
+
+          <div class="grid grid-cols-1 gap-4 sm:grid-cols-2">
+
+            <!-- Carrier -->
+            <div>
+              <label
+                class="mb-1.5 block text-xs font-medium text-gray-700"
+              >
+                Carrier
+                <span class="text-red-500">*</span>
+              </label>
+
+              <select
+                [(ngModel)]="shipmentForm.carrier"
+                class="w-full rounded-lg border border-gray-300 bg-white px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+              >
+                <option value="">
+                  Select carrier
+                </option>
+
+                <option value="BlueDart">
+                  BlueDart
+                </option>
+
+                <option value="Delhivery">
+                  Delhivery
+                </option>
+
+                <option value="DTDC">
+                  DTDC
+                </option>
+              </select>
+            </div>
+
+            <!-- Tracking Number -->
+            <div>
+              <label
+                class="mb-1.5 block text-xs font-medium text-gray-700"
+              >
+                Tracking Number
+                <span class="text-red-500">*</span>
+              </label>
+
+              <input
+                type="text"
+                [(ngModel)]="shipmentForm.trackingNumber"
+                placeholder="TRK-2026-0001"
+                class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+              />
+            </div>
+
+            <!-- Expected Delivery -->
+            <div>
+              <label
+                class="mb-1.5 block text-xs font-medium text-gray-700"
+              >
+                Expected Delivery Date
+                <span class="text-red-500">*</span>
+              </label>
+
+              <input
+                type="date"
+                [(ngModel)]="shipmentForm.expectedDeliveryDate"
+                class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+              />
+            </div>
+
+            <!-- Quantity -->
+            <div>
+              <label
+                class="mb-1.5 block text-xs font-medium text-gray-700"
+              >
+                Quantity
+                <span class="text-red-500">*</span>
+              </label>
+
+              <input
+                type="number"
+                min="1"
+                [(ngModel)]="shipmentForm.quantity"
+                class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+              />
+            </div>
+
+          </div>
+        </div>
+
+        <!-- DELIVERY INFORMATION -->
+        <div class="mb-6">
+          <div class="mb-4">
+            <h3 class="text-sm font-semibold text-gray-900">
+              Delivery Information
+            </h3>
+
+            <p class="mt-1 text-xs text-gray-500">
+              Add delivery destination and shipment item details.
+            </p>
+          </div>
+
+          <div class="space-y-4">
+
+            <!-- Item -->
+            <div>
+              <label
+                class="mb-1.5 block text-xs font-medium text-gray-700"
+              >
+                Item
+                <span class="text-red-500">*</span>
+              </label>
+
+              <input
+                type="text"
+                [(ngModel)]="shipmentForm.itemName"
+                placeholder="Dell Latitude 5440"
+                class="w-full rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+              />
+            </div>
+
+            <!-- Address -->
+            <div>
+              <label
+                class="mb-1.5 block text-xs font-medium text-gray-700"
+              >
+                Delivery Address
+                <span class="text-red-500">*</span>
+              </label>
+
+              <textarea
+                rows="3"
+                [(ngModel)]="shipmentForm.deliveryAddress"
+                placeholder="Enter complete delivery address"
+                class="w-full resize-none rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+              ></textarea>
+            </div>
+
+            <!-- Notes -->
+            <div>
+              <label
+                class="mb-1.5 block text-xs font-medium text-gray-700"
+              >
+                Notes
+              </label>
+
+              <textarea
+                rows="2"
+                [(ngModel)]="shipmentForm.notes"
+                placeholder="Additional shipment instructions..."
+                class="w-full resize-none rounded-lg border border-gray-300 px-3 py-2.5 text-sm outline-none transition focus:border-red-500 focus:ring-2 focus:ring-red-100"
+              ></textarea>
+            </div>
+
+          </div>
+        </div>
+
+      </div>
+
+      <!-- FOOTER -->
+      <div
+        class="flex flex-col-reverse gap-3 border-t border-gray-200 bg-gray-50 px-5 py-4 sm:flex-row sm:justify-end sm:px-6"
+      >
+        <button
+          type="button"
+          (click)="onClose()"
+          class="rounded-lg border border-gray-300 bg-white px-4 py-2.5 text-sm font-medium text-gray-700 transition hover:bg-gray-100"
+        >
+          Cancel
+        </button>
+
+        <button
+          type="button"
+          (click)="onSubmit()"
+          class="rounded-lg bg-red-600 px-5 py-2.5 text-sm font-medium text-white shadow-sm transition hover:bg-red-700"
+        >
+          <span class="material-symbols-outlined mr-1 align-middle text-[18px]">
+            local_shipping
+          </span>
+
+          Create Shipment
+        </button>
+      </div>
+
+    </div>
+  </div>
+}

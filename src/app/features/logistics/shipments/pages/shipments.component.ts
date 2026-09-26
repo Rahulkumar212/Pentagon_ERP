@@ -1,14 +1,11 @@
+
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 
 import { ShipmentKpiStripComponent } from '../components/shipment-kpi-strip/shipment-kpi-strip.component';
-
 import { ShipmentTrackingBoardComponent } from '../components/shipment-tracking-board/shipment-tracking-board.component';
-
 import { ShipmentFiltersComponent } from '../components/shipment-filters/shipment-filters.component';
-
 import { ShipmentListComponent } from '../components/shipment-list/shipment-list.component';
-
 import { ShipmentTimelineComponent } from '../components/shipment-timeline/shipment-timeline.component';
 
 import {
@@ -29,25 +26,68 @@ import {
   ShipmentTimelineEvent,
 } from '../utils/shipment-timeline.util';
 
+import {
+  NewShipmentFormComponent,
+  NewShipmentFormData,
+} from '../forms/new-shipment-form/new-shipment-form.component';
+
 @Component({
   selector: 'app-shipments',
   standalone: true,
   imports: [
     CommonModule,
 
+    // Shipment Components
     ShipmentKpiStripComponent,
-
     ShipmentTrackingBoardComponent,
-
     ShipmentFiltersComponent,
-
     ShipmentListComponent,
-
     ShipmentTimelineComponent,
+
+    // New Shipment Modal
+    NewShipmentFormComponent,
   ],
   templateUrl: './shipments.component.html',
 })
 export class ShipmentsComponent {
+
+  // ============================================================
+  // NEW SHIPMENT MODAL
+  // ============================================================
+
+  isNewShipmentOpen = false;
+
+  openNewShipment(): void {
+    this.isNewShipmentOpen = true;
+  }
+
+  closeNewShipment(): void {
+    this.isNewShipmentOpen = false;
+  }
+
+  onCreateShipment(
+    shipment: NewShipmentFormData
+  ): void {
+
+    console.log('New shipment:', shipment);
+
+    /*
+      Future API integration:
+
+      this.shipmentService.createShipment(shipment).subscribe({
+        next: () => {
+          this.closeNewShipment();
+          this.fetchShipments();
+        },
+        error: (error) => {
+          console.error('Failed to create shipment:', error);
+        }
+      });
+    */
+
+    this.closeNewShipment();
+  }
+
 
   // ============================================================
   // TRACKING BOARD
@@ -204,6 +244,10 @@ export class ShipmentsComponent {
               filters.toDate;
 
 
+          // ------------------------------------------------------
+          // FINAL RESULT
+          // ------------------------------------------------------
+
           return (
             matchesSearch &&
             matchesStatus &&
@@ -245,3 +289,4 @@ export class ShipmentsComponent {
     ];
   }
 }
+
