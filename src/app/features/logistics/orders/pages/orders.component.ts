@@ -128,9 +128,13 @@ export class OrdersComponent {
   onViewOrder(
     order: Order
   ): void {
+    console.log('PARENT RECEIVED:', order);
     this.selectedOrder = order;
 
     this.isOrderDetailOpen = true;
+
+    console.log('selectedOrder:', this.selectedOrder); 
+    console.log('isOrderDetailOpen:', this.isOrderDetailOpen);
   }
 
   /**

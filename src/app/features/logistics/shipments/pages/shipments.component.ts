@@ -7,20 +7,14 @@ import { ShipmentTrackingBoardComponent } from '../components/shipment-tracking-
 import { ShipmentFiltersComponent } from '../components/shipment-filters/shipment-filters.component';
 import { ShipmentListComponent } from '../components/shipment-list/shipment-list.component';
 import { ShipmentTimelineComponent } from '../components/shipment-timeline/shipment-timeline.component';
+import { ShipmentDetailComponent } from '../components/shipment-detail/shipment-detail.component';
 
-import {
-  ShipmentTrackingItem,
-} from '../utils/shipment-tracking-board.util';
-
-import {
-  ShipmentFilter,
-} from '../utils/shipment-filters.util';
-
+import { ShipmentTrackingItem } from '../utils/shipment-tracking-board.util';
+import { ShipmentFilter } from '../utils/shipment-filters.util';
 import {
   SHIPMENT_LIST_DATA,
   ShipmentListItem,
 } from '../utils/shipment-list.util';
-
 import {
   SHIPMENT_TIMELINE_DATA,
   ShipmentTimelineEvent,
@@ -37,23 +31,22 @@ import {
   imports: [
     CommonModule,
 
-    // Shipment Components
     ShipmentKpiStripComponent,
     ShipmentTrackingBoardComponent,
     ShipmentFiltersComponent,
     ShipmentListComponent,
     ShipmentTimelineComponent,
+    ShipmentDetailComponent,
 
-    // New Shipment Modal
     NewShipmentFormComponent,
   ],
   templateUrl: './shipments.component.html',
 })
 export class ShipmentsComponent {
 
-  // ============================================================
-  // NEW SHIPMENT MODAL
-  // ============================================================
+  // =========================================================
+  // NEW SHIPMENT
+  // =========================================================
 
   isNewShipmentOpen = false;
 
@@ -65,42 +58,16 @@ export class ShipmentsComponent {
     this.isNewShipmentOpen = false;
   }
 
-  onCreateShipment(
-    shipment: NewShipmentFormData
-  ): void {
-
+  onCreateShipment(shipment: NewShipmentFormData): void {
     console.log('New shipment:', shipment);
-
-    /*
-      Future API integration:
-
-      this.shipmentService.createShipment(shipment).subscribe({
-        next: () => {
-          this.closeNewShipment();
-          this.fetchShipments();
-        },
-        error: (error) => {
-          console.error('Failed to create shipment:', error);
-        }
-      });
-    */
 
     this.closeNewShipment();
   }
 
 
-  // ============================================================
-  // TRACKING BOARD
-  // ============================================================
-
-  selectedShipment: ShipmentTrackingItem | null = null;
-
-  isTrackingOpen = false;
-
-
-  // ============================================================
-  // SHIPMENT LIST
-  // ============================================================
+  // =========================================================
+  // SHIPMENT DATA
+  // =========================================================
 
   readonly allShipments: ShipmentListItem[] = [
     ...SHIPMENT_LIST_DATA,
@@ -111,51 +78,53 @@ export class ShipmentsComponent {
   ];
 
 
-  // ============================================================
-  // TIMELINE
-  // ============================================================
+  // =========================================================
+  // SHIPMENT DETAIL / TRACKING
+  // =========================================================
+
+  selectedShipment: ShipmentTrackingItem | null = null;
+
+  isTrackingOpen = false;
+
+  selectedShipmentNumber = '';
 
   timelineEvents: ShipmentTimelineEvent[] = [
     ...SHIPMENT_TIMELINE_DATA,
   ];
 
-  selectedShipmentNumber = '';
 
-
-  // ============================================================
-  // OPEN SHIPMENT TRACKING
-  // ============================================================
+  // =========================================================
+  // VIEW SHIPMENT FROM TRACKING BOARD
+  // =========================================================
 
   onViewShipment(
     shipment: ShipmentTrackingItem
   ): void {
 
+    console.log('Tracking board shipment:', shipment);
+
     this.selectedShipment = shipment;
-
-    this.selectedShipmentNumber =
-      shipment.shipmentNumber;
-
+    this.selectedShipmentNumber = shipment.shipmentNumber;
     this.isTrackingOpen = true;
   }
 
 
-  // ============================================================
-  // CLOSE TRACKING
-  // ============================================================
+  // =========================================================
+  // CLOSE SHIPMENT DETAIL
+  // =========================================================
 
   onCloseTracking(): void {
 
     this.selectedShipment = null;
-
     this.selectedShipmentNumber = '';
 
     this.isTrackingOpen = false;
   }
 
 
-  // ============================================================
-  // FILTER SHIPMENTS
-  // ============================================================
+  // =========================================================
+  // FILTERS
+  // =========================================================
 
   onFilterChange(
     filters: ShipmentFilter
@@ -169,10 +138,6 @@ export class ShipmentsComponent {
     this.filteredShipments =
       this.allShipments.filter(
         (shipment) => {
-
-          // ------------------------------------------------------
-          // SEARCH
-          // ------------------------------------------------------
 
           const matchesSearch =
             !search ||
@@ -197,56 +162,30 @@ export class ShipmentsComponent {
               .includes(search);
 
 
-          // ------------------------------------------------------
-          // STATUS
-          // ------------------------------------------------------
-
           const matchesStatus =
             filters.status === 'ALL' ||
             shipment.status === filters.status;
 
-
-          // ------------------------------------------------------
-          // CARRIER
-          // ------------------------------------------------------
 
           const matchesCarrier =
             filters.carrier === 'ALL' ||
             shipment.carrier === filters.carrier;
 
 
-          // ------------------------------------------------------
-          // DESTINATION
-          // ------------------------------------------------------
-
           const matchesDestination =
             filters.destination === 'ALL' ||
             shipment.destination === filters.destination;
 
 
-          // ------------------------------------------------------
-          // FROM DATE
-          // ------------------------------------------------------
-
           const matchesFromDate =
             !filters.fromDate ||
-            shipment.dispatchDate >=
-              filters.fromDate;
+            shipment.dispatchDate >= filters.fromDate;
 
-
-          // ------------------------------------------------------
-          // TO DATE
-          // ------------------------------------------------------
 
           const matchesToDate =
             !filters.toDate ||
-            shipment.dispatchDate <=
-              filters.toDate;
+            shipment.dispatchDate <= filters.toDate;
 
-
-          // ------------------------------------------------------
-          // FINAL RESULT
-          // ------------------------------------------------------
 
           return (
             matchesSearch &&
@@ -261,9 +200,9 @@ export class ShipmentsComponent {
   }
 
 
-  // ============================================================
+  // =========================================================
   // RESET FILTERS
-  // ============================================================
+  // =========================================================
 
   onResetFilters(): void {
 
@@ -273,13 +212,20 @@ export class ShipmentsComponent {
   }
 
 
-  // ============================================================
+  // =========================================================
   // VIEW SHIPMENT FROM LIST
-  // ============================================================
+  // =========================================================
 
   onViewShipmentFromList(
     shipment: ShipmentListItem
   ): void {
+
+    console.log('Shipment list item:', shipment);
+
+    /*
+     * List item and tracking-board item are different types.
+     * We only need the shipment number here to show timeline.
+     */
 
     this.selectedShipmentNumber =
       shipment.shipmentNumber;

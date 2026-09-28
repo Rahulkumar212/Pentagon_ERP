@@ -140,6 +140,7 @@ export class OrderListComponent {
   }
 
   onViewOrder(order: Order): void {
+    console.log('VIEW CLICKED:', order);
     this.viewOrder.emit(order);
   }
 
