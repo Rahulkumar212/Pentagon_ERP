@@ -112,10 +112,10 @@ export class SidebarComponent implements OnInit {
       return 'SALES_DIRECTOR';
 
       case 'SALES_MANAGER':
-        return 'CRM';
+        return 'SALES';
 
       case 'SALES_EXECUTIVE':
-        return 'EXECUTIVE';
+        return 'SALES';
 
       case 'SCM_MANAGER':
       case 'SCM_EXECUTIVE':

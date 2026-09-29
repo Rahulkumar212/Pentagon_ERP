@@ -1,0 +1,564 @@
+
+@if (isOpen && order) {
+
+  <!-- Overlay -->
+  <div
+    class="fixed inset-0 z-50 flex items-center justify-center
+           bg-black/50 p-4 backdrop-blur-sm"
+    (click)="onClose()"
+  >
+
+    <!-- Modal -->
+    <div
+      class="max-h-[92vh] w-full max-w-5xl overflow-hidden
+             rounded-2xl border border-gray-200
+             bg-white shadow-2xl"
+      (click)="$event.stopPropagation()"
+    >
+
+      <!-- Header -->
+      <div
+        class="flex items-start justify-between
+               border-b border-gray-200
+               px-5 py-4 sm:px-6"
+      >
+
+        <div>
+
+          <div class="flex flex-wrap items-center gap-2">
+
+            <h2 class="text-lg font-bold text-gray-900">
+              {{ order.orderNumber }}
+            </h2>
+
+            <span
+              class="rounded-full px-2.5 py-1 text-xs font-medium"
+              [class]="getStatusClass(order.status)"
+            >
+              {{ getStatusLabel(order.status) }}
+            </span>
+
+          </div>
+
+          <p class="mt-1 text-xs text-gray-500">
+            Order created on
+            {{ order.orderDate | date:'dd MMM yyyy' }}
+          </p>
+
+        </div>
+
+        <!-- Close -->
+        <button
+          type="button"
+          (click)="onClose()"
+          class="flex h-9 w-9 items-center justify-center
+                 rounded-lg text-lg text-gray-500
+                 transition-all duration-150
+                 hover:bg-red-50
+                 hover:text-red-800"
+          aria-label="Close"
+        >
+          ✕
+        </button>
+
+      </div>
+
+
+      <!-- Content -->
+      <div
+        class="max-h-[calc(92vh-75px)]
+               overflow-y-auto p-5 sm:p-6"
+      >
+
+        <!-- Summary -->
+        <div
+          class="grid grid-cols-1 gap-4
+                 sm:grid-cols-2 lg:grid-cols-4"
+        >
+
+          <!-- Order Amount -->
+          <div
+            class="rounded-xl border border-gray-200
+                   bg-gray-50 p-4
+                   transition-shadow duration-150
+                   hover:shadow-sm"
+          >
+
+            <p class="text-xs font-medium text-gray-500">
+              Order Amount
+            </p>
+
+            <p
+              class="mt-2 text-xl font-bold text-gray-900"
+            >
+              ₹{{ order.amount | number:'1.0-0' }}
+            </p>
+
+          </div>
+
+
+          <!-- Total Items -->
+          <div
+            class="rounded-xl border border-gray-200
+                   bg-gray-50 p-4
+                   transition-shadow duration-150
+                   hover:shadow-sm"
+          >
+
+            <p class="text-xs font-medium text-gray-500">
+              Total Items
+            </p>
+
+            <p
+              class="mt-2 text-xl font-bold text-gray-900"
+            >
+              {{ order.items }}
+            </p>
+
+          </div>
+
+
+          <!-- Quantity -->
+          <div
+            class="rounded-xl border border-gray-200
+                   bg-gray-50 p-4
+                   transition-shadow duration-150
+                   hover:shadow-sm"
+          >
+
+            <p class="text-xs font-medium text-gray-500">
+              Quantity
+            </p>
+
+            <p
+              class="mt-2 text-xl font-bold text-gray-900"
+            >
+              {{ order.quantity }}
+            </p>
+
+          </div>
+
+
+          <!-- Priority -->
+          <div
+            class="rounded-xl border border-gray-200
+                   bg-gray-50 p-4
+                   transition-shadow duration-150
+                   hover:shadow-sm"
+          >
+
+            <p class="text-xs font-medium text-gray-500">
+              Priority
+            </p>
+
+            <span
+              class="mt-2 inline-flex rounded-full
+                     px-2.5 py-1 text-xs font-medium"
+              [class]="getPriorityClass(order.priority)"
+            >
+              {{ order.priority }}
+            </span>
+
+          </div>
+
+        </div>
+
+
+        <!-- Customer + Order Information -->
+        <div
+          class="mt-6 grid grid-cols-1 gap-5 lg:grid-cols-2"
+        >
+
+          <!-- Customer -->
+          <div
+            class="rounded-xl border border-gray-200
+                   bg-white p-5"
+          >
+
+            <h3
+              class="text-sm font-semibold text-gray-900"
+            >
+              Customer Information
+            </h3>
+
+            <div class="mt-4 space-y-4">
+
+              <div>
+
+                <p class="text-xs font-medium text-gray-500">
+                  Customer Name
+                </p>
+
+                <p
+                  class="mt-1 text-sm font-medium text-gray-800"
+                >
+                  {{ order.customerName }}
+                </p>
+
+              </div>
+
+
+              <div>
+
+                <p class="text-xs font-medium text-gray-500">
+                  Customer Code
+                </p>
+
+                <p
+                  class="mt-1 text-sm font-medium text-gray-800"
+                >
+                  {{ order.customerCode }}
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+
+          <!-- Order Information -->
+          <div
+            class="rounded-xl border border-gray-200
+                   bg-white p-5"
+          >
+
+            <h3
+              class="text-sm font-semibold text-gray-900"
+            >
+              Order Information
+            </h3>
+
+            <div
+              class="mt-4 grid grid-cols-2 gap-4"
+            >
+
+              <div>
+
+                <p class="text-xs font-medium text-gray-500">
+                  Order Number
+                </p>
+
+                <p
+                  class="mt-1 text-sm font-medium text-gray-800"
+                >
+                  {{ order.orderNumber }}
+                </p>
+
+              </div>
+
+
+              <div>
+
+                <p class="text-xs font-medium text-gray-500">
+                  Reference
+                </p>
+
+                <p
+                  class="mt-1 text-sm font-medium text-gray-800"
+                >
+                  {{ order.reference }}
+                </p>
+
+              </div>
+
+
+              <div>
+
+                <p class="text-xs font-medium text-gray-500">
+                  Order Date
+                </p>
+
+                <p
+                  class="mt-1 text-sm font-medium text-gray-800"
+                >
+                  {{ order.orderDate | date:'dd MMM yyyy' }}
+                </p>
+
+              </div>
+
+
+              <div>
+
+                <p class="text-xs font-medium text-gray-500">
+                  Expected Delivery
+                </p>
+
+                <p
+                  class="mt-1 text-sm font-medium text-gray-800"
+                >
+                  {{ order.expectedDelivery | date:'dd MMM yyyy' }}
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Payment & Status -->
+        <div
+          class="mt-5 rounded-xl border border-gray-200
+                 bg-white p-5"
+        >
+
+          <h3
+            class="text-sm font-semibold text-gray-900"
+          >
+            Order Status & Payment
+          </h3>
+
+          <div
+            class="mt-4 grid grid-cols-1
+                   gap-4 sm:grid-cols-2"
+          >
+
+            <div>
+
+              <p class="text-xs font-medium text-gray-500">
+                Order Status
+              </p>
+
+              <span
+                class="mt-2 inline-flex rounded-full
+                       px-2.5 py-1 text-xs font-medium"
+                [class]="getStatusClass(order.status)"
+              >
+                {{ getStatusLabel(order.status) }}
+              </span>
+
+            </div>
+
+
+            <div>
+
+              <p class="text-xs font-medium text-gray-500">
+                Payment Status
+              </p>
+
+              <span
+                class="mt-2 inline-flex rounded-full
+                       px-2.5 py-1 text-xs font-medium"
+                [class]="getPaymentClass(order.paymentStatus)"
+              >
+                {{ getPaymentLabel(order.paymentStatus) }}
+              </span>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Order Timeline -->
+        <div
+          class="mt-5 rounded-xl border border-gray-200
+                 bg-white p-5"
+        >
+
+          <h3
+            class="text-sm font-semibold text-gray-900"
+          >
+            Order Progress
+          </h3>
+
+          <div class="mt-5 overflow-x-auto">
+
+            <div
+              class="flex min-w-[650px]
+                     items-start"
+            >
+
+              <!-- Order Created -->
+              <div
+                class="flex flex-1
+                       flex-col items-center"
+              >
+
+                <div
+                  class="flex h-9 w-9 items-center
+                         justify-center rounded-full
+                         bg-red-50 text-sm font-semibold
+                         text-red-800 ring-1 ring-red-100"
+                >
+                  ✓
+                </div>
+
+                <p
+                  class="mt-2 text-xs font-medium
+                         text-gray-700"
+                >
+                  Order Created
+                </p>
+
+              </div>
+
+
+              <!-- Connector -->
+              <div
+                class="mt-4 h-0.5 flex-1
+                       bg-red-100"
+              ></div>
+
+
+              <!-- Processing -->
+              <div
+                class="flex flex-1
+                       flex-col items-center"
+              >
+
+                <div
+                  class="flex h-9 w-9 items-center
+                         justify-center rounded-full
+                         bg-red-50 text-sm font-semibold
+                         text-red-800 ring-1 ring-red-100"
+                >
+                  ✓
+                </div>
+
+                <p
+                  class="mt-2 text-xs font-medium
+                         text-gray-700"
+                >
+                  Processing
+                </p>
+
+              </div>
+
+
+              <!-- Connector -->
+              <div
+                class="mt-4 h-0.5 flex-1
+                       bg-gray-200"
+              ></div>
+
+
+              <!-- Dispatch -->
+              <div
+                class="flex flex-1
+                       flex-col items-center"
+              >
+
+                <div
+                  class="flex h-9 w-9 items-center
+                         justify-center rounded-full
+                         bg-gray-100 text-sm font-medium
+                         text-gray-400 ring-1 ring-gray-200"
+                >
+                  3
+                </div>
+
+                <p
+                  class="mt-2 text-xs font-medium
+                         text-gray-500"
+                >
+                  Dispatch
+                </p>
+
+              </div>
+
+
+              <!-- Connector -->
+              <div
+                class="mt-4 h-0.5 flex-1
+                       bg-gray-200"
+              ></div>
+
+
+              <!-- Shipment -->
+              <div
+                class="flex flex-1
+                       flex-col items-center"
+              >
+
+                <div
+                  class="flex h-9 w-9 items-center
+                         justify-center rounded-full
+                         bg-gray-100 text-sm font-medium
+                         text-gray-400 ring-1 ring-gray-200"
+                >
+                  4
+                </div>
+
+                <p
+                  class="mt-2 text-xs font-medium
+                         text-gray-500"
+                >
+                  Shipment
+                </p>
+
+              </div>
+
+
+              <!-- Connector -->
+              <div
+                class="mt-4 h-0.5 flex-1
+                       bg-gray-200"
+              ></div>
+
+
+              <!-- Delivered -->
+              <div
+                class="flex flex-1
+                       flex-col items-center"
+              >
+
+                <div
+                  class="flex h-9 w-9 items-center
+                         justify-center rounded-full
+                         bg-gray-100 text-sm font-medium
+                         text-gray-400 ring-1 ring-gray-200"
+                >
+                  5
+                </div>
+
+                <p
+                  class="mt-2 text-xs font-medium
+                         text-gray-500"
+                >
+                  Delivered
+                </p>
+
+              </div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+
+        <!-- Footer -->
+        <div
+          class="mt-6 flex justify-end
+                 border-t border-gray-200 pt-5"
+        >
+
+          <button
+            type="button"
+            (click)="onClose()"
+            class="rounded-xl bg-red-800
+                   px-5 py-2.5 text-sm font-medium
+                   text-white shadow-sm
+                   transition-all duration-150
+                   hover:bg-red-900
+                   hover:shadow-md
+                   active:scale-[0.98]"
+          >
+            Close
+          </button>
+
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+}
+

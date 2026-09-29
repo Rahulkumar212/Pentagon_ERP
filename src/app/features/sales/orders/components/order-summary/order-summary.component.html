@@ -1,0 +1,80 @@
+
+<div class="grid grid-cols-1 gap-4 sm:grid-cols-2 xl:grid-cols-4">
+
+  @for (item of summary; track item.label) {
+
+    <div
+      class="group rounded-2xl border border-gray-200 bg-white p-5
+             shadow-sm transition-all duration-200
+             hover:-translate-y-0.5 hover:shadow-md"
+    >
+
+      <!-- Top -->
+      <div class="flex items-start justify-between">
+
+        <!-- Icon -->
+        <div
+          class="flex h-11 w-11 items-center justify-center
+                 rounded-xl bg-red-50 text-xl
+                 transition-colors duration-200
+                 group-hover:bg-red-100"
+        >
+          {{ item.icon }}
+        </div>
+
+
+        <!-- Value -->
+        <div class="text-right">
+
+          <p
+            class="text-2xl font-bold text-gray-900"
+          >
+            {{ item.value }}
+          </p>
+
+          <p
+            class="mt-1 text-xs font-medium text-gray-500"
+          >
+            Orders
+          </p>
+
+        </div>
+
+      </div>
+
+
+      <!-- Label -->
+      <div class="mt-4">
+
+        <h3
+          class="text-sm font-semibold text-gray-800"
+        >
+          {{ item.label }}
+        </h3>
+
+        @if (item.description) {
+
+          <p
+            class="mt-1 text-xs text-gray-500"
+          >
+            {{ item.description }}
+          </p>
+
+        }
+
+      </div>
+
+
+      <!-- Subtle Accent -->
+      <div
+        class="mt-4 h-0.5 w-8 rounded-full bg-red-800/70
+               transition-all duration-200
+               group-hover:w-12"
+      ></div>
+
+    </div>
+
+  }
+
+</div>
+

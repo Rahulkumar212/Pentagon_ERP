@@ -9,6 +9,7 @@ import { FINANCE_ROUTES } from './features/Finance/finance.routes';
 import { authGuard } from './core/guards/auth.guards';
 import { SALES_DIRECTOR_ROUTES } from './features/Sales Director/sales-director.routes';
 import { LOGISTICS_ROUTES } from './features/logistics/logistics.route';
+import { SALES_ROUTES } from './features/sales/sales.routes';
 
 export const routes: Routes = [
 
@@ -22,41 +23,8 @@ export const routes: Routes = [
 
     children: [
 
-      // Sales Executive
-      {
-        path: 'sales-executive',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/executive-center/sales-executive/sales-executive.component')
-            .then(m => m.SalesExecutiveComponent),
-      },
-
-      // CRM
-      {
-        path: 'crm',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/client-crm/client-crm.component')
-            .then(m => m.ClientCrmComponent),
-      },
-
-      // Billing
-      {
-        path: 'billing-orders',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/billing-orders/pages/billing-orders.component')
-            .then(m => m.BillingOrdersComponent),
-      },
-
-      // Institution
-      {
-        path: 'institution-visit-planner',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/institution-visit-planner/pages/institution-visit-planner.component')
-            .then(m => m.InstitutionVisitPlannerComponent),
-      },
+      // sales
+      ...SALES_ROUTES,
 
       // HR
       ...HR_ROUTES,
@@ -77,26 +45,7 @@ export const routes: Routes = [
         loadComponent: () =>
           import('./features/sales-analytics/pages/sales-analytics.component')
             .then(m => m.SalesAnalyticsComponent),
-      },
-
-      // Task Collaboration
-      {
-        path: 'task-collaboration',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/task-collaboration/pages/task-collaboration.component')
-            .then(m => m.TaskCollaborationComponent),
-      },
-
-      // Operations
-      {
-        path: 'operations',
-        canActivate: [authGuard],
-        loadComponent: () =>
-          import('./features/operations/operations-dashboard.component')
-            .then(m => m.OperationsDashboardComponent),
       }
-
     ]
 
   },

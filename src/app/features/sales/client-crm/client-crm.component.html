@@ -1,0 +1,57 @@
+
+<div class="w-full min-w-0 overflow-x-hidden space-y-6">
+
+  <!-- Header -->
+  <div class="border-b border-gray-200 pb-5">
+
+    <p class="uppercase tracking-[0.2em] text-red-800 text-xs font-bold">
+      Sales & Customer Operations
+    </p>
+
+    <h1 class="text-3xl font-bold text-gray-900 mt-1">
+      Sales Hub
+    </h1>
+
+    <p class="text-gray-500 mt-3 text-sm">
+      Manage customer visits, lead tracking, client information,
+      product inquiries, sales opportunities, and follow-up activities
+      from one centralized workspace.
+    </p>
+
+  </div>
+
+
+  <!-- Action -->
+  <button
+    (click)="openOrganizationModal()"
+    class="bg-red-800 hover:bg-red-900 text-white px-6 py-3 rounded-lg font-semibold">
+
+    ➕ Add Sales Visit
+
+  </button>
+
+</div>
+
+
+<!-- ================= Organization Modal ================= -->
+
+@if(showOrganizationModal){
+
+  <div
+    class="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4">
+
+    <div
+      class="bg-white w-full max-w-4xl max-h-[90vh] overflow-y-auto shadow-2xl">
+
+      <app-organization-form
+        *ngIf="showOrganizationModal"
+        (save)="saveOrganization($event)"
+        (cancel)="closeOrganizationModal()">
+      </app-organization-form>
+
+    </div>
+
+  </div>
+
+}
+

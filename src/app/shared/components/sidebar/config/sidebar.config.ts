@@ -2,6 +2,7 @@ import { FINANCE_SIDEBAR } from './finance-sidebar.config';
 import { HR_SIDEBAR } from './hr-sidebar.config';
 import { LOGISTICS_SIDEBAR } from './logistics.config';
 import { SALES_DIRECTOR_SIDEBAR } from './sales-director-sidebar.config';
+import { SALES_SIDEBAR } from './sales.config';
 
 import {
   SidebarConfig
@@ -239,5 +240,5 @@ export const SIDEBAR_CONFIG: SidebarConfig = {
 
   SALES_DIRECTOR: SALES_DIRECTOR_SIDEBAR,
   LOGISTICS: LOGISTICS_SIDEBAR,
-
+  SALES:SALES_SIDEBAR
 };

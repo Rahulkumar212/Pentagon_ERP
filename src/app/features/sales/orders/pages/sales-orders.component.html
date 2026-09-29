@@ -1,0 +1,117 @@
+
+<div class="min-h-full bg-gray-50 p-4 sm:p-6">
+
+  <!-- Page Header -->
+  <div
+    class="mb-6 flex flex-col gap-4
+           lg:flex-row lg:items-center lg:justify-between"
+  >
+
+    <!-- Title -->
+    <div>
+
+      <div class="flex items-center gap-3">
+
+        <!-- Page Icon -->
+        <div
+          class="flex h-11 w-11 items-center justify-center
+                 rounded-xl bg-red-50 text-xl
+                 shadow-sm"
+        >
+          🛒
+        </div>
+
+        <!-- Title Content -->
+        <div>
+
+          <h1
+            class="text-xl font-bold text-gray-900"
+          >
+            Sales Orders
+          </h1>
+
+          <p
+            class="mt-1 text-sm text-gray-500"
+          >
+            Manage customer orders and track order progress
+          </p>
+
+        </div>
+
+      </div>
+
+    </div>
+
+
+    <!-- Create Order -->
+    <button
+      type="button"
+      (click)="onCreateOrder()"
+      class="inline-flex items-center justify-center gap-2
+             rounded-xl bg-red-800 px-4 py-2.5
+             text-sm font-medium text-white
+             shadow-sm transition-all duration-200
+             hover:bg-red-900
+             hover:shadow-md
+             active:scale-[0.98]"
+    >
+
+      <span class="text-base">
+        ＋
+      </span>
+
+      Create Order
+
+    </button>
+
+  </div>
+
+
+  <!-- Summary -->
+  <section class="mb-6">
+
+    <app-order-summary
+      [summary]="summary"
+    ></app-order-summary>
+
+  </section>
+
+
+  <!-- Filters -->
+  <section class="mb-6">
+
+    <app-order-filters
+      (filterChange)="onFilterChange($event)"
+    ></app-order-filters>
+
+  </section>
+
+
+  <!-- Order List -->
+  <section>
+
+    <app-order-list
+      [orders]="filteredOrders"
+      (viewOrder)="onViewOrder($event)"
+    ></app-order-list>
+
+  </section>
+
+
+  <!-- Order Detail -->
+  <app-order-detail
+    [order]="selectedOrder"
+    [isOpen]="isOrderDetailOpen"
+    (close)="onCloseOrderDetail()"
+  ></app-order-detail>
+
+
+  <!-- Create Order Form -->
+  <app-order-form
+    *ngIf="isOrderFormOpen"
+    (close)="onCloseOrderForm()"
+    (submitOrder)="onSubmitOrder($event)"
+  ></app-order-form>
+
+</div>
+

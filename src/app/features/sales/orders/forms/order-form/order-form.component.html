@@ -1,0 +1,633 @@
+
+<!-- Overlay -->
+<div
+  class="fixed inset-0 z-50 flex items-center justify-center
+         bg-black/50 p-4 backdrop-blur-sm"
+>
+  <!-- Modal -->
+  <div
+    class="flex max-h-[94vh] w-full max-w-5xl
+           flex-col overflow-hidden rounded-2xl
+           border border-gray-200 bg-white shadow-2xl"
+  >
+
+    <!-- Header -->
+    <div
+      class="flex items-start justify-between
+             border-b border-gray-200
+             px-5 py-4 sm:px-6"
+    >
+
+      <div>
+        <div class="flex items-center gap-3">
+
+          <div
+            class="flex h-10 w-10 items-center justify-center
+                   rounded-xl bg-red-50 text-lg"
+          >
+            🛒
+          </div>
+
+          <div>
+            <h2 class="text-lg font-bold text-gray-900">
+              Create Sales Order
+            </h2>
+
+            <p class="mt-1 text-xs text-gray-500">
+              Create a new customer sales order
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Close -->
+      <button
+        type="button"
+        (click)="onClose()"
+        class="flex h-9 w-9 items-center justify-center
+               rounded-lg text-lg text-gray-500
+               transition-all duration-150
+               hover:bg-red-50
+               hover:text-red-800"
+        aria-label="Close"
+      >
+        ✕
+      </button>
+
+    </div>
+
+
+    <!-- Form Content -->
+    <div class="flex-1 overflow-y-auto p-5 sm:p-6">
+
+      <!-- Customer Information -->
+      <section
+        class="rounded-xl border border-gray-200
+               bg-white p-5"
+      >
+
+        <div class="mb-5">
+
+          <h3 class="text-sm font-semibold text-gray-900">
+            Customer Information
+          </h3>
+
+          <p class="mt-1 text-xs text-gray-500">
+            Enter the customer details for this order.
+          </p>
+
+        </div>
+
+        <div
+          class="grid grid-cols-1 gap-4
+                 md:grid-cols-2"
+        >
+
+          <!-- Customer Name -->
+          <div>
+
+            <label
+              class="mb-1.5 block text-xs
+                     font-medium text-gray-600"
+            >
+              Customer Name
+              <span class="text-red-800">*</span>
+            </label>
+
+            <input
+              type="text"
+              [(ngModel)]="order.customerName"
+              placeholder="Enter customer name"
+              class="w-full rounded-xl border border-gray-200
+                     bg-gray-50 px-3 py-2.5 text-sm
+                     text-gray-800 outline-none
+                     transition-all
+                     placeholder:text-gray-400
+                     focus:border-red-800
+                     focus:bg-white
+                     focus:ring-2 focus:ring-red-100"
+            />
+
+          </div>
+
+
+          <!-- Customer Code -->
+          <div>
+
+            <label
+              class="mb-1.5 block text-xs
+                     font-medium text-gray-600"
+            >
+              Customer Code
+              <span class="text-red-800">*</span>
+            </label>
+
+            <input
+              type="text"
+              [(ngModel)]="order.customerCode"
+              placeholder="e.g. CUS-1042"
+              class="w-full rounded-xl border border-gray-200
+                     bg-gray-50 px-3 py-2.5 text-sm
+                     text-gray-800 outline-none
+                     transition-all
+                     placeholder:text-gray-400
+                     focus:border-red-800
+                     focus:bg-white
+                     focus:ring-2 focus:ring-red-100"
+            />
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- Order Information -->
+      <section
+        class="mt-5 rounded-xl border border-gray-200
+               bg-white p-5"
+      >
+
+        <div class="mb-5">
+
+          <h3 class="text-sm font-semibold text-gray-900">
+            Order Information
+          </h3>
+
+          <p class="mt-1 text-xs text-gray-500">
+            Configure dates, priority and payment details.
+          </p>
+
+        </div>
+
+        <div
+          class="grid grid-cols-1 gap-4
+                 sm:grid-cols-2 lg:grid-cols-3"
+        >
+
+          <!-- Order Date -->
+          <div>
+
+            <label
+              class="mb-1.5 block text-xs
+                     font-medium text-gray-600"
+            >
+              Order Date
+              <span class="text-red-800">*</span>
+            </label>
+
+            <input
+              type="date"
+              [(ngModel)]="order.orderDate"
+              class="w-full rounded-xl border border-gray-200
+                     bg-gray-50 px-3 py-2.5 text-sm
+                     text-gray-800 outline-none
+                     transition-all
+                     focus:border-red-800
+                     focus:bg-white
+                     focus:ring-2 focus:ring-red-100"
+            />
+
+          </div>
+
+
+          <!-- Expected Delivery -->
+          <div>
+
+            <label
+              class="mb-1.5 block text-xs
+                     font-medium text-gray-600"
+            >
+              Expected Delivery
+              <span class="text-red-800">*</span>
+            </label>
+
+            <input
+              type="date"
+              [(ngModel)]="order.expectedDelivery"
+              class="w-full rounded-xl border border-gray-200
+                     bg-gray-50 px-3 py-2.5 text-sm
+                     text-gray-800 outline-none
+                     transition-all
+                     focus:border-red-800
+                     focus:bg-white
+                     focus:ring-2 focus:ring-red-100"
+            />
+
+          </div>
+
+
+          <!-- Priority -->
+          <div>
+
+            <label
+              class="mb-1.5 block text-xs
+                     font-medium text-gray-600"
+            >
+              Priority
+            </label>
+
+            <select
+              [(ngModel)]="order.priority"
+              class="w-full rounded-xl border border-gray-200
+                     bg-gray-50 px-3 py-2.5 text-sm
+                     text-gray-800 outline-none
+                     transition-all
+                     focus:border-red-800
+                     focus:bg-white
+                     focus:ring-2 focus:ring-red-100"
+            >
+              <option value="HIGH">High</option>
+              <option value="MEDIUM">Medium</option>
+              <option value="LOW">Low</option>
+            </select>
+
+          </div>
+
+
+          <!-- Payment Status -->
+          <div>
+
+            <label
+              class="mb-1.5 block text-xs
+                     font-medium text-gray-600"
+            >
+              Payment Status
+            </label>
+
+            <select
+              [(ngModel)]="order.paymentStatus"
+              class="w-full rounded-xl border border-gray-200
+                     bg-gray-50 px-3 py-2.5 text-sm
+                     text-gray-800 outline-none
+                     transition-all
+                     focus:border-red-800
+                     focus:bg-white
+                     focus:ring-2 focus:ring-red-100"
+            >
+              <option value="PENDING">Pending</option>
+              <option value="PARTIAL">Partial</option>
+              <option value="PAID">Paid</option>
+            </select>
+
+          </div>
+
+
+          <!-- Reference -->
+          <div class="sm:col-span-2">
+
+            <label
+              class="mb-1.5 block text-xs
+                     font-medium text-gray-600"
+            >
+              Reference
+            </label>
+
+            <input
+              type="text"
+              [(ngModel)]="order.reference"
+              placeholder="Lead / quotation / reference number"
+              class="w-full rounded-xl border border-gray-200
+                     bg-gray-50 px-3 py-2.5 text-sm
+                     text-gray-800 outline-none
+                     transition-all
+                     placeholder:text-gray-400
+                     focus:border-red-800
+                     focus:bg-white
+                     focus:ring-2 focus:ring-red-100"
+            />
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- Order Items -->
+      <section
+        class="mt-5 rounded-xl border border-gray-200
+               bg-white p-5"
+      >
+
+        <div
+          class="mb-5 flex flex-col gap-3
+                 sm:flex-row sm:items-center
+                 sm:justify-between"
+        >
+
+          <div>
+
+            <h3 class="text-sm font-semibold text-gray-900">
+              Order Items
+            </h3>
+
+            <p class="mt-1 text-xs text-gray-500">
+              Add products and quantities for this order.
+            </p>
+
+          </div>
+
+          <button
+            type="button"
+            (click)="addItem()"
+            class="inline-flex items-center
+                   justify-center gap-1.5
+                   rounded-lg border border-red-200
+                   bg-red-50 px-3 py-2
+                   text-xs font-medium text-red-800
+                   transition-all duration-150
+                   hover:bg-red-100"
+          >
+            <span class="text-sm">＋</span>
+            Add Item
+          </button>
+
+        </div>
+
+
+        <!-- Items -->
+        <div class="space-y-3">
+
+          @for (item of order.items; track $index) {
+
+            <div
+              class="rounded-xl border border-gray-200
+                     bg-gray-50 p-4"
+            >
+
+              <div
+                class="grid grid-cols-1 gap-4
+                       lg:grid-cols-12"
+              >
+
+                <!-- Product -->
+                <div class="lg:col-span-5">
+
+                  <label
+                    class="mb-1.5 block text-xs
+                           font-medium text-gray-600"
+                  >
+                    Product Name
+                  </label>
+
+                  <input
+                    type="text"
+                    [(ngModel)]="item.productName"
+                    placeholder="Enter product name"
+                    class="w-full rounded-xl
+                           border border-gray-200
+                           bg-white px-3 py-2.5 text-sm
+                           text-gray-800 outline-none
+                           transition-all
+                           placeholder:text-gray-400
+                           focus:border-red-800
+                           focus:ring-2 focus:ring-red-100"
+                  />
+
+                </div>
+
+
+                <!-- Quantity -->
+                <div class="lg:col-span-2">
+
+                  <label
+                    class="mb-1.5 block text-xs
+                           font-medium text-gray-600"
+                  >
+                    Quantity
+                  </label>
+
+                  <input
+                    type="number"
+                    min="1"
+                    [(ngModel)]="item.quantity"
+                    class="w-full rounded-xl
+                           border border-gray-200
+                           bg-white px-3 py-2.5 text-sm
+                           text-gray-800 outline-none
+                           transition-all
+                           focus:border-red-800
+                           focus:ring-2 focus:ring-red-100"
+                  />
+
+                </div>
+
+
+                <!-- Unit Price -->
+                <div class="lg:col-span-2">
+
+                  <label
+                    class="mb-1.5 block text-xs
+                           font-medium text-gray-600"
+                  >
+                    Unit Price
+                  </label>
+
+                  <input
+                    type="number"
+                    min="0"
+                    [(ngModel)]="item.unitPrice"
+                    class="w-full rounded-xl
+                           border border-gray-200
+                           bg-white px-3 py-2.5 text-sm
+                           text-gray-800 outline-none
+                           transition-all
+                           focus:border-red-800
+                           focus:ring-2 focus:ring-red-100"
+                  />
+
+                </div>
+
+
+                <!-- Item Total -->
+                <div class="lg:col-span-2">
+
+                  <label
+                    class="mb-1.5 block text-xs
+                           font-medium text-gray-600"
+                  >
+                    Item Total
+                  </label>
+
+                  <div
+                    class="flex h-[42px] items-center
+                           rounded-xl border
+                           border-gray-200
+                           bg-white px-3"
+                  >
+                    <span
+                      class="text-sm font-semibold
+                             text-gray-900"
+                    >
+                      ₹{{ getItemTotal(item) | number:'1.0-0' }}
+                    </span>
+                  </div>
+
+                </div>
+
+
+                <!-- Remove -->
+                <div
+                  class="flex items-end
+                         lg:col-span-1"
+                >
+
+                  <button
+                    type="button"
+                    (click)="removeItem($index)"
+                    [disabled]="order.items.length === 1"
+                    class="flex h-[42px] w-full
+                           items-center justify-center
+                           rounded-xl border
+                           border-gray-200
+                           bg-white text-sm
+                           text-gray-500
+                           transition-all duration-150
+                           hover:border-red-200
+                           hover:bg-red-50
+                           hover:text-red-800
+                           disabled:cursor-not-allowed
+                           disabled:opacity-40"
+                    aria-label="Remove item"
+                  >
+                    ✕
+                  </button>
+
+                </div>
+
+              </div>
+
+            </div>
+
+          }
+
+        </div>
+
+
+        <!-- Order Totals -->
+        <div
+          class="mt-5 grid grid-cols-1
+                 gap-3 sm:grid-cols-2"
+        >
+
+          <div
+            class="rounded-xl border
+                   border-gray-200 bg-gray-50 p-4"
+          >
+
+            <p class="text-xs font-medium text-gray-500">
+              Total Quantity
+            </p>
+
+            <p
+              class="mt-1 text-lg font-bold
+                     text-gray-900"
+            >
+              {{ totalQuantity }}
+            </p>
+
+          </div>
+
+
+          <div
+            class="rounded-xl border
+                   border-red-100 bg-red-50 p-4"
+          >
+
+            <p class="text-xs font-medium text-red-700">
+              Total Order Amount
+            </p>
+
+            <p
+              class="mt-1 text-lg font-bold
+                     text-red-900"
+            >
+              ₹{{ totalAmount | number:'1.0-0' }}
+            </p>
+
+          </div>
+
+        </div>
+
+      </section>
+
+
+      <!-- Notes -->
+      <section
+        class="mt-5 rounded-xl border border-gray-200
+               bg-white p-5"
+      >
+
+        <h3 class="text-sm font-semibold text-gray-900">
+          Notes
+        </h3>
+
+        <p class="mt-1 text-xs text-gray-500">
+          Add any additional information related to this order.
+        </p>
+
+        <textarea
+          rows="4"
+          [(ngModel)]="order.notes"
+          placeholder="Enter order notes..."
+          class="mt-4 w-full resize-none
+                 rounded-xl border border-gray-200
+                 bg-gray-50 px-3 py-2.5 text-sm
+                 text-gray-800 outline-none
+                 transition-all
+                 placeholder:text-gray-400
+                 focus:border-red-800
+                 focus:bg-white
+                 focus:ring-2 focus:ring-red-100"
+        ></textarea>
+
+      </section>
+
+    </div>
+
+
+    <!-- Footer -->
+    <div
+      class="flex flex-col-reverse gap-3
+             border-t border-gray-200
+             bg-gray-50 px-5 py-4
+             sm:flex-row sm:justify-end sm:px-6"
+    >
+
+      <button
+        type="button"
+        (click)="onClose()"
+        class="rounded-xl border border-gray-200
+               bg-white px-5 py-2.5
+               text-sm font-medium text-gray-700
+               transition-all duration-150
+               hover:border-gray-300
+               hover:bg-gray-100"
+      >
+        Cancel
+      </button>
+
+
+      <button
+        type="button"
+        (click)="onSubmit()"
+        class="rounded-xl bg-red-800
+               px-5 py-2.5 text-sm
+               font-medium text-white
+               shadow-sm
+               transition-all duration-150
+               hover:bg-red-900
+               hover:shadow-md
+               active:scale-[0.98]"
+      >
+        Create Order
+      </button>
+
+    </div>
+
+  </div>
+</div>
+
