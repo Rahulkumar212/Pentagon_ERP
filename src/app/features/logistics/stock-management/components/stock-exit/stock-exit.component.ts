@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -11,21 +12,25 @@ import {
   StockExitItem,
 } from '../../utils/stock-exit.util';
 
+import {
+  StockExitFormComponent,
+  StockExitFormData,
+} from '../../forms/stock-exit-form/stock-exit-form.component';
+
 @Component({
   selector: 'app-stock-exit',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
+    StockExitFormComponent,
   ],
   templateUrl: './stock-exit.component.html',
 })
 export class StockExitComponent {
-  @Output()
-  viewDetails = new EventEmitter<StockExitItem>();
 
   @Output()
-  createExit = new EventEmitter<void>();
+  viewDetails = new EventEmitter<StockExitItem>();
 
   exits: StockExitItem[] = STOCK_EXIT_DATA;
 
@@ -33,18 +38,36 @@ export class StockExitComponent {
   status = 'ALL';
   exitType = 'ALL';
 
+  isStockExitFormOpen = false;
+
   get filteredExits(): StockExitItem[] {
-    const searchTerm = this.search.trim().toLowerCase();
+
+    const searchTerm = this.search
+      .trim()
+      .toLowerCase();
 
     return this.exits.filter((exit) => {
+
       const matchesSearch =
         !searchTerm ||
-        exit.exitNumber.toLowerCase().includes(searchTerm) ||
-        exit.itemName.toLowerCase().includes(searchTerm) ||
-        exit.category.toLowerCase().includes(searchTerm) ||
-        exit.referenceNumber.toLowerCase().includes(searchTerm) ||
-        exit.destination.toLowerCase().includes(searchTerm) ||
-        exit.requestedBy.toLowerCase().includes(searchTerm);
+        exit.exitNumber
+          .toLowerCase()
+          .includes(searchTerm) ||
+        exit.itemName
+          .toLowerCase()
+          .includes(searchTerm) ||
+        exit.category
+          .toLowerCase()
+          .includes(searchTerm) ||
+        exit.referenceNumber
+          .toLowerCase()
+          .includes(searchTerm) ||
+        exit.destination
+          .toLowerCase()
+          .includes(searchTerm) ||
+        exit.requestedBy
+          .toLowerCase()
+          .includes(searchTerm);
 
       const matchesStatus =
         this.status === 'ALL' ||
@@ -68,27 +91,32 @@ export class StockExitComponent {
 
   get totalUnitsExited(): number {
     return this.exits.reduce(
-      (total, exit) => total + exit.quantity,
+      (total, exit) =>
+        total + exit.quantity,
       0
     );
   }
 
   get pendingExits(): number {
     return this.exits.filter(
-      (exit) => exit.status === 'PENDING'
+      (exit) =>
+        exit.status === 'PENDING'
     ).length;
   }
 
   get completedExits(): number {
     return this.exits.filter(
-      (exit) => exit.status === 'COMPLETED'
+      (exit) =>
+        exit.status === 'COMPLETED'
     ).length;
   }
 
   getStatusLabel(
     status: StockExitItem['status']
   ): string {
+
     switch (status) {
+
       case 'PENDING':
         return 'Pending';
 
@@ -112,7 +140,9 @@ export class StockExitComponent {
   getStatusClass(
     status: StockExitItem['status']
   ): string {
+
     switch (status) {
+
       case 'PENDING':
         return 'bg-orange-50 text-orange-700';
 
@@ -136,7 +166,9 @@ export class StockExitComponent {
   getExitTypeLabel(
     type: StockExitItem['exitType']
   ): string {
+
     switch (type) {
+
       case 'SALES_ORDER':
         return 'Sales Order';
 
@@ -166,7 +198,9 @@ export class StockExitComponent {
   getExitTypeClass(
     type: StockExitItem['exitType']
   ): string {
+
     switch (type) {
+
       case 'SALES_ORDER':
         return 'bg-blue-50 text-blue-700';
 
@@ -190,11 +224,37 @@ export class StockExitComponent {
     }
   }
 
-  onViewDetails(exit: StockExitItem): void {
+  onViewDetails(
+    exit: StockExitItem
+  ): void {
     this.viewDetails.emit(exit);
   }
 
   onCreateExit(): void {
-    this.createExit.emit();
+    this.isStockExitFormOpen = true;
+  }
+
+  onCancelStockExit(): void {
+    this.isStockExitFormOpen = false;
+  }
+
+  onSaveStockExit(
+    data: StockExitFormData
+  ): void {
+
+    console.log(
+      'New Stock Exit:',
+      data
+    );
+
+    // Yahan baad me API call kar sakte ho.
+    //
+    // this.stockExitService.create(data).subscribe({
+    //   next: () => {
+    //     this.isStockExitFormOpen = false;
+    //   }
+    // });
+
+    this.isStockExitFormOpen = false;
   }
 }

@@ -1018,3 +1018,104 @@
   </div>
 
 </div>
+
+
+
+
+@if (isStockExitFormOpen) {
+
+  <div
+    class="fixed inset-0 z-[100]
+           flex items-center justify-center
+           bg-black/50 p-4
+           backdrop-blur-[2px]"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="stock-exit-modal-title"
+  >
+
+    <div
+      class="relative flex w-full max-w-4xl
+             max-h-[92vh] flex-col
+             overflow-hidden rounded-2xl
+             bg-white shadow-2xl"
+      (click)="$event.stopPropagation()"
+    >
+
+      <!-- MODAL HEADER -->
+      <div
+        class="flex shrink-0 items-center
+               justify-between
+               border-b border-gray-200
+               bg-white px-5 py-4
+               sm:px-6"
+      >
+
+        <div>
+
+          <p
+            class="text-[11px] font-semibold
+                   uppercase tracking-wider
+                   text-red-800"
+          >
+            Stock Management
+          </p>
+
+          <h2
+            id="stock-exit-modal-title"
+            class="mt-1 text-lg font-semibold
+                   text-gray-900"
+          >
+            New Stock Exit
+          </h2>
+
+          <p
+            class="mt-1 text-xs text-gray-500"
+          >
+            Record material leaving the warehouse.
+          </p>
+
+        </div>
+
+
+        <!-- CLOSE BUTTON -->
+        <button
+          type="button"
+          (click)="onCancelStockExit()"
+          class="flex h-9 w-9 shrink-0
+                 items-center justify-center
+                 rounded-lg text-gray-500
+                 transition
+                 hover:bg-gray-100
+                 hover:text-gray-900"
+          aria-label="Close"
+        >
+
+          <span
+            class="material-symbols-outlined text-[20px]"
+          >
+            close
+          </span>
+
+        </button>
+
+      </div>
+
+
+      <!-- FORM -->
+      <div
+        class="min-h-0 flex-1 overflow-y-auto"
+      >
+
+        <app-stock-exit-form
+          (save)="onSaveStockExit($event)"
+          (cancel)="onCancelStockExit()"
+        />
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

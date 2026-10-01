@@ -1,0 +1,570 @@
+
+<div class="w-full bg-white">
+
+  <!-- HEADER -->
+  <div
+    class="flex items-start justify-between
+           border-b border-gray-200
+           px-6 py-5"
+  >
+
+    <div>
+
+      <p
+        class="text-xs font-semibold uppercase
+               tracking-wider text-red-800"
+      >
+        Stock Management
+      </p>
+
+      <h2 class="mt-1 text-xl font-bold text-gray-900">
+        New Stock Entry
+      </h2>
+
+      <p class="mt-1 text-sm text-gray-500">
+        Record materials received into the warehouse.
+      </p>
+
+    </div>
+
+    <button
+      type="button"
+      (click)="close()"
+      class="flex h-9 w-9 items-center
+             justify-center rounded-lg
+             text-xl text-gray-400
+             transition hover:bg-gray-100
+             hover:text-gray-700"
+    >
+      ×
+    </button>
+
+  </div>
+
+
+  <!-- FORM -->
+  <form
+    #stockEntryForm="ngForm"
+    (ngSubmit)="submit()"
+    class="space-y-6 p-6"
+  >
+
+
+    <!-- PROCUREMENT REFERENCE -->
+    <section>
+
+      <div class="mb-4">
+
+        <h3 class="text-sm font-semibold text-gray-900">
+          Procurement Reference
+        </h3>
+
+        <p class="mt-1 text-xs text-gray-500">
+          Link this stock entry with the related procurement request.
+        </p>
+
+      </div>
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+
+        <!-- PROCUREMENT NUMBER -->
+        <div>
+
+          <label
+            class="mb-1.5 block text-xs
+                   font-medium text-gray-600"
+          >
+            Procurement Request No.
+          </label>
+
+          <input
+            type="text"
+            name="procurementNumber"
+            [(ngModel)]="formData.procurementNumber"
+            placeholder="e.g. PR-0001"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   bg-white px-3 py-2.5
+                   text-sm text-gray-900
+                   outline-none transition
+                   placeholder:text-gray-400
+                   focus:border-gray-400
+                   focus:ring-2 focus:ring-gray-100"
+          />
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- MATERIAL INFORMATION -->
+    <section
+      class="border-t border-gray-200 pt-6"
+    >
+
+      <div class="mb-4">
+
+        <h3 class="text-sm font-semibold text-gray-900">
+          Material Information
+        </h3>
+
+        <p class="mt-1 text-xs text-gray-500">
+          Enter the material received in the warehouse.
+        </p>
+
+      </div>
+
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+
+
+        <!-- ITEM NAME -->
+        <div class="md:col-span-2">
+
+          <label
+            class="mb-1.5 block text-xs
+                   font-medium text-gray-600"
+          >
+            Item Name *
+          </label>
+
+          <input
+            type="text"
+            name="itemName"
+            [(ngModel)]="formData.itemName"
+            required
+            placeholder="e.g. Laptop, Printer, Barcode Scanner"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   bg-white px-3 py-2.5
+                   text-sm text-gray-900
+                   outline-none transition
+                   placeholder:text-gray-400
+                   focus:border-gray-400
+                   focus:ring-2 focus:ring-gray-100"
+          />
+
+        </div>
+
+
+        <!-- CATEGORY -->
+        <div>
+
+          <label
+            class="mb-1.5 block text-xs
+                   font-medium text-gray-600"
+          >
+            Category *
+          </label>
+
+          <select
+            name="category"
+            [(ngModel)]="formData.category"
+            required
+            class="w-full rounded-lg
+                   border border-gray-200
+                   bg-white px-3 py-2.5
+                   text-sm text-gray-700
+                   outline-none
+                   focus:border-gray-400
+                   focus:ring-2 focus:ring-gray-100"
+          >
+
+            <option value="">
+              Select Category
+            </option>
+
+            <option value="IT EQUIPMENT">
+              IT Equipment
+            </option>
+
+            <option value="OFFICE EQUIPMENT">
+              Office Equipment
+            </option>
+
+            <option value="ELECTRONICS">
+              Electronics
+            </option>
+
+            <option value="FURNITURE">
+              Furniture
+            </option>
+
+            <option value="STATIONERY">
+              Stationery
+            </option>
+
+            <option value="DEMO MATERIAL">
+              Demo Material
+            </option>
+
+            <option value="OTHER">
+              Other
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- UNIT -->
+        <div>
+
+          <label
+            class="mb-1.5 block text-xs
+                   font-medium text-gray-600"
+          >
+            Unit *
+          </label>
+
+          <select
+            name="unit"
+            [(ngModel)]="formData.unit"
+            required
+            class="w-full rounded-lg
+                   border border-gray-200
+                   bg-white px-3 py-2.5
+                   text-sm text-gray-700
+                   outline-none
+                   focus:border-gray-400
+                   focus:ring-2 focus:ring-gray-100"
+          >
+
+            <option value="PCS">
+              Pieces
+            </option>
+
+            <option value="BOX">
+              Box
+            </option>
+
+            <option value="SET">
+              Set
+            </option>
+
+            <option value="KG">
+              Kg
+            </option>
+
+            <option value="LITRE">
+              Litre
+            </option>
+
+            <option value="METER">
+              Meter
+            </option>
+
+            <option value="OTHER">
+              Other
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- RECEIVED QUANTITY -->
+        <div>
+
+          <label
+            class="mb-1.5 block text-xs
+                   font-medium text-gray-600"
+          >
+            Received Quantity *
+          </label>
+
+          <input
+            type="number"
+            name="receivedQuantity"
+            [(ngModel)]="formData.receivedQuantity"
+            min="1"
+            required
+            placeholder="Enter received quantity"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   bg-white px-3 py-2.5
+                   text-sm text-gray-900
+                   outline-none
+                   focus:border-gray-400
+                   focus:ring-2 focus:ring-gray-100"
+          />
+
+        </div>
+
+
+        <!-- SUPPLIER -->
+        <div>
+
+          <label
+            class="mb-1.5 block text-xs
+                   font-medium text-gray-600"
+          >
+            Supplier
+          </label>
+
+          <input
+            type="text"
+            name="supplier"
+            [(ngModel)]="formData.supplier"
+            placeholder="Enter supplier name"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   bg-white px-3 py-2.5
+                   text-sm text-gray-900
+                   outline-none
+                   placeholder:text-gray-400
+                   focus:border-gray-400
+                   focus:ring-2 focus:ring-gray-100"
+          />
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- RECEIVING DETAILS -->
+    <section
+      class="border-t border-gray-200 pt-6"
+    >
+
+      <div class="mb-4">
+
+        <h3 class="text-sm font-semibold text-gray-900">
+          Receiving Details
+        </h3>
+
+        <p class="mt-1 text-xs text-gray-500">
+          Record invoice, receiving date and material condition.
+        </p>
+
+      </div>
+
+
+      <div class="grid grid-cols-1 gap-4 md:grid-cols-2">
+
+
+        <!-- INVOICE NUMBER -->
+        <div>
+
+          <label
+            class="mb-1.5 block text-xs
+                   font-medium text-gray-600"
+          >
+            Invoice Number
+          </label>
+
+          <input
+            type="text"
+            name="invoiceNumber"
+            [(ngModel)]="formData.invoiceNumber"
+            placeholder="e.g. INV-10245"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   bg-white px-3 py-2.5
+                   text-sm text-gray-900
+                   outline-none
+                   placeholder:text-gray-400
+                   focus:border-gray-400
+                   focus:ring-2 focus:ring-gray-100"
+          />
+
+        </div>
+
+
+        <!-- INVOICE DATE -->
+        <div>
+
+          <label
+            class="mb-1.5 block text-xs
+                   font-medium text-gray-600"
+          >
+            Invoice Date
+          </label>
+
+          <input
+            type="date"
+            name="invoiceDate"
+            [(ngModel)]="formData.invoiceDate"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   bg-white px-3 py-2.5
+                   text-sm text-gray-900
+                   outline-none
+                   focus:border-gray-400
+                   focus:ring-2 focus:ring-gray-100"
+          />
+
+        </div>
+
+
+        <!-- RECEIVED DATE -->
+        <div>
+
+          <label
+            class="mb-1.5 block text-xs
+                   font-medium text-gray-600"
+          >
+            Received Date *
+          </label>
+
+          <input
+            type="date"
+            name="receivedDate"
+            [(ngModel)]="formData.receivedDate"
+            required
+            class="w-full rounded-lg
+                   border border-gray-200
+                   bg-white px-3 py-2.5
+                   text-sm text-gray-900
+                   outline-none
+                   focus:border-gray-400
+                   focus:ring-2 focus:ring-gray-100"
+          />
+
+        </div>
+
+
+        <!-- WAREHOUSE LOCATION -->
+        <div>
+
+          <label
+            class="mb-1.5 block text-xs
+                   font-medium text-gray-600"
+          >
+            Warehouse Location
+          </label>
+
+          <input
+            type="text"
+            name="warehouseLocation"
+            [(ngModel)]="formData.warehouseLocation"
+            placeholder="e.g. Main Warehouse - Rack A1"
+            class="w-full rounded-lg
+                   border border-gray-200
+                   bg-white px-3 py-2.5
+                   text-sm text-gray-900
+                   outline-none
+                   placeholder:text-gray-400
+                   focus:border-gray-400
+                   focus:ring-2 focus:ring-gray-100"
+          />
+
+        </div>
+
+
+        <!-- CONDITION -->
+        <div class="md:col-span-2">
+
+          <label
+            class="mb-1.5 block text-xs
+                   font-medium text-gray-600"
+          >
+            Material Condition *
+          </label>
+
+          <select
+            name="condition"
+            [(ngModel)]="formData.condition"
+            required
+            class="w-full rounded-lg
+                   border border-gray-200
+                   bg-white px-3 py-2.5
+                   text-sm text-gray-700
+                   outline-none
+                   focus:border-gray-400
+                   focus:ring-2 focus:ring-gray-100"
+          >
+
+            <option value="GOOD">
+              Good - No Damage
+            </option>
+
+            <option value="DAMAGED">
+              Damaged
+            </option>
+
+            <option value="PARTIALLY_DAMAGED">
+              Partially Damaged
+            </option>
+
+          </select>
+
+        </div>
+
+
+        <!-- REMARKS -->
+        <div class="md:col-span-2">
+
+          <label
+            class="mb-1.5 block text-xs
+                   font-medium text-gray-600"
+          >
+            Remarks
+          </label>
+
+          <textarea
+            name="remarks"
+            [(ngModel)]="formData.remarks"
+            rows="3"
+            placeholder="Additional notes about the received material..."
+            class="w-full resize-none
+                   rounded-lg border border-gray-200
+                   bg-white px-3 py-2.5
+                   text-sm text-gray-900
+                   outline-none
+                   placeholder:text-gray-400
+                   focus:border-gray-400
+                   focus:ring-2 focus:ring-gray-100"
+          ></textarea>
+
+        </div>
+
+      </div>
+
+    </section>
+
+
+    <!-- FOOTER -->
+    <div
+      class="flex items-center justify-end
+             gap-3 border-t border-gray-200
+             pt-5"
+    >
+
+      <button
+        type="button"
+        (click)="close()"
+        class="rounded-lg border
+               border-gray-200
+               px-5 py-2.5
+               text-sm font-medium
+               text-gray-700
+               transition hover:bg-gray-50"
+      >
+        Cancel
+      </button>
+
+      <button
+        type="submit"
+        [disabled]="stockEntryForm.invalid"
+        class="rounded-lg bg-gray-900
+               px-5 py-2.5
+               text-sm font-medium
+               text-white
+               transition hover:bg-gray-800
+               disabled:cursor-not-allowed
+               disabled:opacity-50"
+      >
+        Create Stock Entry
+      </button>
+
+    </div>
+
+  </form>
+
+</div>
+

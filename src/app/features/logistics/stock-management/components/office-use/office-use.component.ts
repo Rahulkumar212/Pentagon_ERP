@@ -1,9 +1,6 @@
+
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
@@ -13,15 +10,23 @@ import {
   OfficeUseStatus,
 } from '../../utils/office-use.util';
 
+import {
+  OfficeUseFormComponent,
+  OfficeUseFormData,
+} from '../../forms/office-use-form/office-use-form.component';
+
 @Component({
   selector: 'app-office-use',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    OfficeUseFormComponent,
+  ],
   templateUrl: './office-use.component.html',
 })
 export class OfficeUseComponent {
   @Output() viewDetails = new EventEmitter<OfficeUseItem>();
-  @Output() createRequest = new EventEmitter<void>();
 
   officeUseItems: OfficeUseItem[] = OFFICE_USE_DATA;
 
@@ -29,6 +34,9 @@ export class OfficeUseComponent {
   status = 'ALL';
   department = 'ALL';
   purpose = 'ALL';
+
+  // Office Use form modal
+  isOfficeUseFormOpen = false;
 
   get filteredItems(): OfficeUseItem[] {
     const searchTerm = this.search.trim().toLowerCase();
@@ -143,9 +151,7 @@ export class OfficeUseComponent {
     }
   }
 
-  getPurposeLabel(
-    purpose: OfficeUsePurpose
-  ): string {
+  getPurposeLabel(purpose: OfficeUsePurpose): string {
     switch (purpose) {
       case 'IT_USE':
         return 'IT Use';
@@ -176,9 +182,7 @@ export class OfficeUseComponent {
     }
   }
 
-  getPurposeClass(
-    purpose: OfficeUsePurpose
-  ): string {
+  getPurposeClass(purpose: OfficeUsePurpose): string {
     switch (purpose) {
       case 'IT_USE':
         return 'bg-blue-50 text-blue-700';
@@ -213,8 +217,24 @@ export class OfficeUseComponent {
     this.viewDetails.emit(item);
   }
 
+  // Open Office Use form
   onCreateRequest(): void {
-    this.createRequest.emit();
+    this.isOfficeUseFormOpen = true;
+  }
+
+  // Close Office Use form
+  onCancelOfficeUse(): void {
+    this.isOfficeUseFormOpen = false;
+  }
+
+  // Save Office Use form
+  onSaveOfficeUse(data: OfficeUseFormData): void {
+    console.log('New Office Use:', data);
+
+    // TODO:
+    // Yahan baad me API call laga sakte ho.
+
+    this.isOfficeUseFormOpen = false;
   }
 
   clearFilters(): void {
@@ -224,3 +244,4 @@ export class OfficeUseComponent {
     this.purpose = 'ALL';
   }
 }
+

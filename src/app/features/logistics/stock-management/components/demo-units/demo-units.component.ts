@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -11,15 +12,25 @@ import {
   DemoUnitItem,
 } from '../../utils/demo-units.util';
 
+import {
+  DemoUnitFormComponent,
+  DemoUnitFormData,
+} from '../../forms/demo-unit-form/demo-unit-form.component';
+
 @Component({
   selector: 'app-demo-units',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    DemoUnitFormComponent,
+  ],
   templateUrl: './demo-units.component.html',
 })
 export class DemoUnitsComponent {
-  @Output() viewDetails = new EventEmitter<DemoUnitItem>();
-  @Output() issueDemo = new EventEmitter<void>();
+
+  @Output()
+  viewDetails = new EventEmitter<DemoUnitItem>();
 
   demoUnits: DemoUnitItem[] = DEMO_UNITS_DATA;
 
@@ -27,25 +38,47 @@ export class DemoUnitsComponent {
   status = 'ALL';
   demoType = 'ALL';
 
+  isDemoUnitFormOpen = false;
+
   get filteredDemoUnits(): DemoUnitItem[] {
-    const searchTerm = this.search.trim().toLowerCase();
+
+    const searchTerm = this.search
+      .trim()
+      .toLowerCase();
 
     return this.demoUnits.filter((item) => {
+
       const matchesSearch =
         !searchTerm ||
-        item.demoNumber.toLowerCase().includes(searchTerm) ||
-        item.itemName.toLowerCase().includes(searchTerm) ||
-        item.customerName.toLowerCase().includes(searchTerm) ||
-        item.siteName.toLowerCase().includes(searchTerm) ||
-        item.referenceNumber.toLowerCase().includes(searchTerm);
+        item.demoNumber
+          .toLowerCase()
+          .includes(searchTerm) ||
+        item.itemName
+          .toLowerCase()
+          .includes(searchTerm) ||
+        item.customerName
+          .toLowerCase()
+          .includes(searchTerm) ||
+        item.siteName
+          .toLowerCase()
+          .includes(searchTerm) ||
+        item.referenceNumber
+          .toLowerCase()
+          .includes(searchTerm);
 
       const matchesStatus =
-        this.status === 'ALL' || item.status === this.status;
+        this.status === 'ALL' ||
+        item.status === this.status;
 
       const matchesDemoType =
-        this.demoType === 'ALL' || item.demoType === this.demoType;
+        this.demoType === 'ALL' ||
+        item.demoType === this.demoType;
 
-      return matchesSearch && matchesStatus && matchesDemoType;
+      return (
+        matchesSearch &&
+        matchesStatus &&
+        matchesDemoType
+      );
     });
   }
 
@@ -55,25 +88,38 @@ export class DemoUnitsComponent {
 
   get totalDemoUnits(): number {
     return this.demoUnits.reduce(
-      (total, item) => total + item.quantity,
+      (total, item) =>
+        total + item.quantity,
       0
     );
   }
 
   get activeDemos(): number {
     return this.demoUnits.filter(
-      (item) => item.status === 'ISSUED'
+      (item) =>
+        item.status === 'ISSUED'
     ).length;
   }
 
   get availableUnits(): number {
     return this.demoUnits
-      .filter((item) => item.status === 'AVAILABLE')
-      .reduce((total, item) => total + item.quantity, 0);
+      .filter(
+        (item) =>
+          item.status === 'AVAILABLE'
+      )
+      .reduce(
+        (total, item) =>
+          total + item.quantity,
+        0
+      );
   }
 
-  getStatusLabel(status: DemoUnitItem['status']): string {
+  getStatusLabel(
+    status: DemoUnitItem['status']
+  ): string {
+
     switch (status) {
+
       case 'AVAILABLE':
         return 'Available';
 
@@ -100,8 +146,12 @@ export class DemoUnitsComponent {
     }
   }
 
-  getStatusClass(status: DemoUnitItem['status']): string {
+  getStatusClass(
+    status: DemoUnitItem['status']
+  ): string {
+
     switch (status) {
+
       case 'AVAILABLE':
         return 'bg-green-50 text-green-700';
 
@@ -128,8 +178,12 @@ export class DemoUnitsComponent {
     }
   }
 
-  getDemoTypeLabel(type: DemoUnitItem['demoType']): string {
+  getDemoTypeLabel(
+    type: DemoUnitItem['demoType']
+  ): string {
+
     switch (type) {
+
       case 'CUSTOMER_DEMO':
         return 'Customer Demo';
 
@@ -150,8 +204,12 @@ export class DemoUnitsComponent {
     }
   }
 
-  getDemoTypeClass(type: DemoUnitItem['demoType']): string {
+  getDemoTypeClass(
+    type: DemoUnitItem['demoType']
+  ): string {
+
     switch (type) {
+
       case 'CUSTOMER_DEMO':
         return 'bg-blue-50 text-blue-700';
 
@@ -172,12 +230,38 @@ export class DemoUnitsComponent {
     }
   }
 
-  onViewDetails(item: DemoUnitItem): void {
+  onViewDetails(
+    item: DemoUnitItem
+  ): void {
     this.viewDetails.emit(item);
   }
 
   onIssueDemo(): void {
-    this.issueDemo.emit();
+    this.isDemoUnitFormOpen = true;
+  }
+
+  onCancelDemoUnit(): void {
+    this.isDemoUnitFormOpen = false;
+  }
+
+  onSaveDemoUnit(
+    data: DemoUnitFormData
+  ): void {
+
+    console.log(
+      'New Demo Unit:',
+      data
+    );
+
+    // Baad me yahan API call kar sakte ho.
+    //
+    // this.demoUnitService.create(data).subscribe({
+    //   next: () => {
+    //     this.isDemoUnitFormOpen = false;
+    //   }
+    // });
+
+    this.isDemoUnitFormOpen = false;
   }
 
   clearFilters(): void {

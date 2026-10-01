@@ -718,3 +718,112 @@
   </div>
 
 </div>
+
+
+
+
+
+<!-- ================================================= -->
+<!-- DEMO UNIT FORM MODAL                             -->
+<!-- ================================================= -->
+
+@if (isDemoUnitFormOpen) {
+
+  <!-- Modal Backdrop -->
+  <div
+    class="fixed inset-0 z-[100]
+           flex items-center justify-center
+           bg-black/50 p-4
+           backdrop-blur-[2px]"
+    role="dialog"
+    aria-modal="true"
+    aria-labelledby="demo-unit-modal-title"
+  >
+
+    <!-- Modal Container -->
+    <div
+      class="relative flex w-full max-w-4xl
+             max-h-[92vh] flex-col
+             overflow-hidden rounded-2xl
+             bg-white shadow-2xl"
+      (click)="$event.stopPropagation()"
+    >
+
+      <!-- Modal Header -->
+      <div
+        class="flex shrink-0 items-center
+               justify-between
+               border-b border-gray-200
+               bg-white px-5 py-4
+               sm:px-6"
+      >
+
+        <div>
+
+          <p
+            class="text-[11px] font-semibold
+                   uppercase tracking-wider
+                   text-red-800"
+          >
+            Stock Management
+          </p>
+
+          <h2
+            id="demo-unit-modal-title"
+            class="mt-1 text-lg font-semibold
+                   text-gray-900"
+          >
+            Issue Demo Unit
+          </h2>
+
+          <p
+            class="mt-1 text-xs text-gray-500"
+          >
+            Record a demo unit issued to a customer or institution.
+          </p>
+
+        </div>
+
+
+        <!-- Close Button -->
+        <button
+          type="button"
+          (click)="onCancelDemoUnit()"
+          class="flex h-9 w-9 shrink-0
+                 items-center justify-center
+                 rounded-lg text-gray-500
+                 transition
+                 hover:bg-gray-100
+                 hover:text-gray-900"
+          aria-label="Close"
+        >
+
+          <span
+            class="material-symbols-outlined text-[20px]"
+          >
+            close
+          </span>
+
+        </button>
+
+      </div>
+
+
+      <!-- Modal Body -->
+      <div
+        class="min-h-0 flex-1
+               overflow-y-auto"
+      >
+
+        <app-demo-unit-form
+          (save)="onSaveDemoUnit($event)"
+          (cancel)="onCancelDemoUnit()"
+        />
+
+      </div>
+
+    </div>
+
+  </div>
+
+}

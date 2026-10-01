@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -11,21 +12,25 @@ import {
   StockEntryItem,
 } from '../../utils/stock-entry.util';
 
+import {
+  StockEntryFormComponent,
+  StockEntryFormData,
+} from '../../forms/stock-entry-form/stock-entry-form.component';
+
 @Component({
   selector: 'app-stock-entry',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
+    StockEntryFormComponent,
   ],
   templateUrl: './stock-entry.component.html',
 })
 export class StockEntryComponent {
-  @Output()
-  viewDetails = new EventEmitter<StockEntryItem>();
 
   @Output()
-  createEntry = new EventEmitter<void>();
+  viewDetails = new EventEmitter<StockEntryItem>();
 
   entries: StockEntryItem[] = STOCK_ENTRY_DATA;
 
@@ -33,17 +38,35 @@ export class StockEntryComponent {
   status = 'ALL';
   condition = 'ALL';
 
+  /**
+   * Stock Entry Form Modal
+   */
+  isStockEntryFormOpen = false;
+
   get filteredEntries(): StockEntryItem[] {
-    const searchTerm = this.search.trim().toLowerCase();
+    const searchTerm = this.search
+      .trim()
+      .toLowerCase();
 
     return this.entries.filter((entry) => {
+
       const matchesSearch =
         !searchTerm ||
-        entry.entryNumber.toLowerCase().includes(searchTerm) ||
-        entry.itemName.toLowerCase().includes(searchTerm) ||
-        entry.category.toLowerCase().includes(searchTerm) ||
-        entry.referenceNumber.toLowerCase().includes(searchTerm) ||
-        entry.supplier.toLowerCase().includes(searchTerm);
+        entry.entryNumber
+          .toLowerCase()
+          .includes(searchTerm) ||
+        entry.itemName
+          .toLowerCase()
+          .includes(searchTerm) ||
+        entry.category
+          .toLowerCase()
+          .includes(searchTerm) ||
+        entry.referenceNumber
+          .toLowerCase()
+          .includes(searchTerm) ||
+        entry.supplier
+          .toLowerCase()
+          .includes(searchTerm);
 
       const matchesStatus =
         this.status === 'ALL' ||
@@ -67,28 +90,38 @@ export class StockEntryComponent {
 
   get totalUnitsReceived(): number {
     return this.entries.reduce(
-      (total, entry) => total + entry.quantity,
+      (total, entry) =>
+        total + entry.quantity,
       0
     );
   }
 
   get pendingVerification(): number {
     return this.entries.filter(
-      (entry) => entry.status === 'PENDING_VERIFICATION'
+      (entry) =>
+        entry.status === 'PENDING_VERIFICATION'
     ).length;
   }
 
   get faultyUnits(): number {
     return this.entries
-      .filter((entry) => entry.condition === 'FAULTY')
+      .filter(
+        (entry) =>
+          entry.condition === 'FAULTY'
+      )
       .reduce(
-        (total, entry) => total + entry.quantity,
+        (total, entry) =>
+          total + entry.quantity,
         0
       );
   }
 
-  getStatusLabel(status: StockEntryItem['status']): string {
+  getStatusLabel(
+    status: StockEntryItem['status']
+  ): string {
+
     switch (status) {
+
       case 'PENDING_VERIFICATION':
         return 'Pending Verification';
 
@@ -106,8 +139,12 @@ export class StockEntryComponent {
     }
   }
 
-  getStatusClass(status: StockEntryItem['status']): string {
+  getStatusClass(
+    status: StockEntryItem['status']
+  ): string {
+
     switch (status) {
+
       case 'PENDING_VERIFICATION':
         return 'bg-orange-50 text-orange-700';
 
@@ -128,7 +165,9 @@ export class StockEntryComponent {
   getConditionLabel(
     condition: StockEntryItem['condition']
   ): string {
+
     switch (condition) {
+
       case 'NEW':
         return 'New';
 
@@ -152,7 +191,9 @@ export class StockEntryComponent {
   getConditionClass(
     condition: StockEntryItem['condition']
   ): string {
+
     switch (condition) {
+
       case 'NEW':
         return 'bg-green-50 text-green-700';
 
@@ -173,11 +214,49 @@ export class StockEntryComponent {
     }
   }
 
-  onViewDetails(entry: StockEntryItem): void {
+  onViewDetails(
+    entry: StockEntryItem
+  ): void {
     this.viewDetails.emit(entry);
   }
 
+  /**
+   * Open Stock Entry Form Modal
+   */
   onCreateEntry(): void {
-    this.createEntry.emit();
+    this.isStockEntryFormOpen = true;
+  }
+
+  /**
+   * Close Stock Entry Form Modal
+   */
+  onCancelStockEntry(): void {
+    this.isStockEntryFormOpen = false;
+  }
+
+  /**
+   * Save Stock Entry
+   */
+  onSaveStockEntry(
+    data: StockEntryFormData
+  ): void {
+
+    console.log(
+      'New Stock Entry:',
+      data
+    );
+
+    // Yahan baad me API call kar sakte ho.
+    //
+    // Example:
+    //
+    // this.stockEntryService.create(data).subscribe({
+    //   next: () => {
+    //     this.isStockEntryFormOpen = false;
+    //   }
+    // });
+
+    this.isStockEntryFormOpen = false;
   }
 }
+

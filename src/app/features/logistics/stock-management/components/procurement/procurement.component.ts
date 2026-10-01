@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -11,24 +12,34 @@ import {
   ProcurementItem,
 } from '../../utils/procurement.util';
 
+import {
+  ProcurementFormComponent,
+  ProcurementFormData,
+} from '../../forms/procurement-form/procurement-form.component';
+
 @Component({
   selector: 'app-procurement',
   standalone: true,
   imports: [
     CommonModule,
     FormsModule,
+    ProcurementFormComponent,
   ],
   templateUrl: './procurement.component.html',
 })
 export class ProcurementComponent {
+
   @Output()
   viewDetails = new EventEmitter<ProcurementItem>();
 
-  @Output()
-  createRequest = new EventEmitter<void>();
-
   selectedItem: ProcurementItem | null = null;
-isDetailOpen = false;
+
+  isDetailOpen = false;
+
+  /**
+   * Procurement modal state
+   */
+  isProcurementFormOpen = false;
 
   procurementItems: ProcurementItem[] = PROCUREMENT_DATA;
 
@@ -166,19 +177,47 @@ isDetailOpen = false;
   }
 
   onViewDetails(item: ProcurementItem): void {
-  this.selectedItem = item;
-  this.isDetailOpen = true;
+    this.selectedItem = item;
+    this.isDetailOpen = true;
 
-  this.viewDetails.emit(item);
-}
+    this.viewDetails.emit(item);
+  }
 
-onCloseDetails(): void {
-  this.isDetailOpen = false;
-  this.selectedItem = null;
-}
+  onCloseDetails(): void {
+    this.isDetailOpen = false;
+    this.selectedItem = null;
+  }
 
-
+  /**
+   * Open procurement form modal
+   */
   onCreateRequest(): void {
-    this.createRequest.emit();
+    this.isProcurementFormOpen = true;
+  }
+
+  /**
+   * Close procurement form modal
+   */
+  onCancelProcurement(): void {
+    this.isProcurementFormOpen = false;
+  }
+
+  /**
+   * Save procurement request
+   */
+  onSaveProcurement(data: ProcurementFormData): void {
+    console.log('New Procurement Request:', data);
+
+    // Yahan baad me API call kar sakte ho.
+    //
+    // Example:
+    // this.procurementService.create(data).subscribe({
+    //   next: () => {
+    //     this.isProcurementFormOpen = false;
+    //   }
+    // });
+
+    this.isProcurementFormOpen = false;
   }
 }
+

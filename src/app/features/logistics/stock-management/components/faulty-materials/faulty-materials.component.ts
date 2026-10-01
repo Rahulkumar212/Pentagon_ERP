@@ -1,9 +1,6 @@
+
 import { CommonModule } from '@angular/common';
-import {
-  Component,
-  EventEmitter,
-  Output,
-} from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 
 import {
@@ -13,15 +10,23 @@ import {
   FaultyMaterialStatus,
 } from '../../utils/faulty-materials.util';
 
+import {
+  FaultyMaterialFormComponent,
+  FaultyMaterialFormData,
+} from '../../forms/faulty-material-form/faulty-material-form.component';
+
 @Component({
   selector: 'app-faulty-materials',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    FaultyMaterialFormComponent,
+  ],
   templateUrl: './faulty-materials.component.html',
 })
 export class FaultyMaterialsComponent {
   @Output() viewDetails = new EventEmitter<FaultyMaterialItem>();
-  @Output() createFault = new EventEmitter<void>();
 
   materials: FaultyMaterialItem[] = FAULTY_MATERIALS_DATA;
 
@@ -29,6 +34,9 @@ export class FaultyMaterialsComponent {
   status = 'ALL';
   condition = 'ALL';
   source = 'ALL';
+
+  // Faulty Material form modal
+  isFaultyMaterialFormOpen = false;
 
   get filteredMaterials(): FaultyMaterialItem[] {
     const searchTerm = this.search.trim().toLowerCase();
@@ -44,13 +52,16 @@ export class FaultyMaterialsComponent {
         item.issueDescription.toLowerCase().includes(searchTerm);
 
       const matchesStatus =
-        this.status === 'ALL' || item.status === this.status;
+        this.status === 'ALL' ||
+        item.status === this.status;
 
       const matchesCondition =
-        this.condition === 'ALL' || item.condition === this.condition;
+        this.condition === 'ALL' ||
+        item.condition === this.condition;
 
       const matchesSource =
-        this.source === 'ALL' || item.source === this.source;
+        this.source === 'ALL' ||
+        item.source === this.source;
 
       return (
         matchesSearch &&
@@ -91,7 +102,10 @@ export class FaultyMaterialsComponent {
           item.status === 'NON_REPAIRABLE' ||
           item.status === 'SCRAPPED'
       )
-      .reduce((total, item) => total + item.quantity, 0);
+      .reduce(
+        (total, item) => total + item.quantity,
+        0
+      );
   }
 
   getStatusLabel(status: FaultyMaterialStatus): string {
@@ -150,7 +164,9 @@ export class FaultyMaterialsComponent {
     }
   }
 
-  getConditionLabel(condition: FaultyMaterialCondition): string {
+  getConditionLabel(
+    condition: FaultyMaterialCondition
+  ): string {
     switch (condition) {
       case 'DAMAGED':
         return 'Damaged';
@@ -172,7 +188,9 @@ export class FaultyMaterialsComponent {
     }
   }
 
-  getConditionClass(condition: FaultyMaterialCondition): string {
+  getConditionClass(
+    condition: FaultyMaterialCondition
+  ): string {
     switch (condition) {
       case 'DAMAGED':
         return 'bg-orange-50 text-orange-700';
@@ -242,8 +260,26 @@ export class FaultyMaterialsComponent {
     this.viewDetails.emit(item);
   }
 
+  // Open form
   onCreateFault(): void {
-    this.createFault.emit();
+    this.isFaultyMaterialFormOpen = true;
+  }
+
+  // Close form
+  onCancelFaultyMaterial(): void {
+    this.isFaultyMaterialFormOpen = false;
+  }
+
+  // Save form
+  onSaveFaultyMaterial(
+    data: FaultyMaterialFormData
+  ): void {
+    console.log('New Faulty Material:', data);
+
+    // TODO:
+    // Yahan baad me API call laga sakte ho.
+
+    this.isFaultyMaterialFormOpen = false;
   }
 
   clearFilters(): void {

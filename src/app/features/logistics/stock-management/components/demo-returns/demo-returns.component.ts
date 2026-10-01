@@ -1,3 +1,4 @@
+
 import { CommonModule } from '@angular/common';
 import {
   Component,
@@ -11,15 +12,25 @@ import {
   DemoReturnItem,
 } from '../../utils/demo-returns.util';
 
+import {
+  DemoReturnFormComponent,
+  DemoReturnFormData,
+} from '../../forms/demo-return-form/demo-return-form.component';
+
 @Component({
   selector: 'app-demo-returns',
   standalone: true,
-  imports: [CommonModule, FormsModule],
+  imports: [
+    CommonModule,
+    FormsModule,
+    DemoReturnFormComponent,
+  ],
   templateUrl: './demo-returns.component.html',
 })
 export class DemoReturnsComponent {
-  @Output() viewDetails = new EventEmitter<DemoReturnItem>();
-  @Output() createReturn = new EventEmitter<void>();
+
+  @Output()
+  viewDetails = new EventEmitter<DemoReturnItem>();
 
   returns: DemoReturnItem[] = DEMO_RETURNS_DATA;
 
@@ -27,26 +38,50 @@ export class DemoReturnsComponent {
   status = 'ALL';
   condition = 'ALL';
 
+  isDemoReturnFormOpen = false;
+
   get filteredReturns(): DemoReturnItem[] {
-    const searchTerm = this.search.trim().toLowerCase();
+
+    const searchTerm = this.search
+      .trim()
+      .toLowerCase();
 
     return this.returns.filter((item) => {
+
       const matchesSearch =
         !searchTerm ||
-        item.returnNumber.toLowerCase().includes(searchTerm) ||
-        item.itemName.toLowerCase().includes(searchTerm) ||
-        item.customerName.toLowerCase().includes(searchTerm) ||
-        item.siteName.toLowerCase().includes(searchTerm) ||
-        item.demoReference.toLowerCase().includes(searchTerm) ||
-        item.returnedBy.toLowerCase().includes(searchTerm);
+        item.returnNumber
+          .toLowerCase()
+          .includes(searchTerm) ||
+        item.itemName
+          .toLowerCase()
+          .includes(searchTerm) ||
+        item.customerName
+          .toLowerCase()
+          .includes(searchTerm) ||
+        item.siteName
+          .toLowerCase()
+          .includes(searchTerm) ||
+        item.demoReference
+          .toLowerCase()
+          .includes(searchTerm) ||
+        item.returnedBy
+          .toLowerCase()
+          .includes(searchTerm);
 
       const matchesStatus =
-        this.status === 'ALL' || item.status === this.status;
+        this.status === 'ALL' ||
+        item.status === this.status;
 
       const matchesCondition =
-        this.condition === 'ALL' || item.condition === this.condition;
+        this.condition === 'ALL' ||
+        item.condition === this.condition;
 
-      return matchesSearch && matchesStatus && matchesCondition;
+      return (
+        matchesSearch &&
+        matchesStatus &&
+        matchesCondition
+      );
     });
   }
 
@@ -56,25 +91,38 @@ export class DemoReturnsComponent {
 
   get totalUnitsReturned(): number {
     return this.returns.reduce(
-      (total, item) => total + item.quantity,
+      (total, item) =>
+        total + item.quantity,
       0
     );
   }
 
   get pendingInspection(): number {
     return this.returns.filter(
-      (item) => item.status === 'PENDING_INSPECTION'
+      (item) =>
+        item.status === 'PENDING_INSPECTION'
     ).length;
   }
 
   get goodConditionUnits(): number {
     return this.returns
-      .filter((item) => item.condition === 'GOOD')
-      .reduce((total, item) => total + item.quantity, 0);
+      .filter(
+        (item) =>
+          item.condition === 'GOOD'
+      )
+      .reduce(
+        (total, item) =>
+          total + item.quantity,
+        0
+      );
   }
 
-  getStatusLabel(status: DemoReturnItem['status']): string {
+  getStatusLabel(
+    status: DemoReturnItem['status']
+  ): string {
+
     switch (status) {
+
       case 'RETURN_REQUESTED':
         return 'Return Requested';
 
@@ -101,8 +149,12 @@ export class DemoReturnsComponent {
     }
   }
 
-  getStatusClass(status: DemoReturnItem['status']): string {
+  getStatusClass(
+    status: DemoReturnItem['status']
+  ): string {
+
     switch (status) {
+
       case 'RETURN_REQUESTED':
         return 'bg-orange-50 text-orange-700';
 
@@ -132,7 +184,9 @@ export class DemoReturnsComponent {
   getConditionLabel(
     condition: DemoReturnItem['condition']
   ): string {
+
     switch (condition) {
+
       case 'GOOD':
         return 'Good';
 
@@ -156,7 +210,9 @@ export class DemoReturnsComponent {
   getConditionClass(
     condition: DemoReturnItem['condition']
   ): string {
+
     switch (condition) {
+
       case 'GOOD':
         return 'bg-green-50 text-green-700';
 
@@ -177,12 +233,38 @@ export class DemoReturnsComponent {
     }
   }
 
-  onViewDetails(item: DemoReturnItem): void {
+  onViewDetails(
+    item: DemoReturnItem
+  ): void {
     this.viewDetails.emit(item);
   }
 
   onCreateReturn(): void {
-    this.createReturn.emit();
+    this.isDemoReturnFormOpen = true;
+  }
+
+  onCancelDemoReturn(): void {
+    this.isDemoReturnFormOpen = false;
+  }
+
+  onSaveDemoReturn(
+    data: DemoReturnFormData
+  ): void {
+
+    console.log(
+      'New Demo Return:',
+      data
+    );
+
+    // Baad me yahan API call kar sakte ho.
+    //
+    // this.demoReturnService.create(data).subscribe({
+    //   next: () => {
+    //     this.isDemoReturnFormOpen = false;
+    //   }
+    // });
+
+    this.isDemoReturnFormOpen = false;
   }
 
   clearFilters(): void {

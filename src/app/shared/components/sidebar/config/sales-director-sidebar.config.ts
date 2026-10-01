@@ -45,16 +45,16 @@ export const SALES_DIRECTOR_SIDEBAR: SidebarModule = {
     // =====================================================
     // SALES MANAGEMENT
     // =====================================================
-    {
-      heading: 'Sales Management',
+    // {
+    //   heading: 'Sales Management',
 
-      items: [
+    //   items: [
 
-        {
-          label: 'Pipeline',
-          icon: '📈',
-          route: '/sales-director/pipeline',
-        },
+        // {
+        //   label: 'Pipeline',
+        //   icon: '📈',
+        //   route: '/sales-director/pipeline',
+        // },
     //     {
     //       label: 'Opportunities',
     //       icon: '🎯',
@@ -79,8 +79,8 @@ export const SALES_DIRECTOR_SIDEBAR: SidebarModule = {
     //       route: '/sales-director/quotations',
     //     },
 
-      ],
-    },
+    //  ],
+    // },
 
 
     // =====================================================
